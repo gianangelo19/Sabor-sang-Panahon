@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://cbqmlmhm8cmsj"]
+
+[ext_resource type="Texture2D" uid="uid://dsrfqi587r4tk" path="res://characters/1main_character_talking.png" id="1_portrait"]
+[ext_resource type="Script" uid="uid://b0n2eawn401w4" path="res://scripts/dialogue_ui.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cniej"]
+bg_color = Color(0.16078432, 0.12941177, 0.12156863, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.54901963, 0.3647059, 0.25882354, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 6
+shadow_offset = Vector2(-0.615, 2.815)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_78q3s"]
+bg_color = Color(0.54901963, 0.3647059, 0.25882354, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 4
+shadow_offset = Vector2(0.355, 0.935)
+
+[node name="dialogue_ui" type="Control" unique_id=1757765990]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="canvas" type="CanvasLayer" parent="." unique_id=1127671252]
+
+[node name="portrait" type="TextureRect" parent="canvas" unique_id=1498536075]
+offset_left = -144.0
+offset_top = 59.0
+offset_right = 468.0
+offset_bottom = 760.0
+mouse_filter = 2
+texture = ExtResource("1_portrait")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="bg" type="Panel" parent="canvas" unique_id=374399662]
+offset_top = 447.0
+offset_right = 1152.0
+offset_bottom = 645.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cniej")
+
+[node name="speaker_name" type="RichTextLabel" parent="canvas" unique_id=394026181]
+offset_left = 33.0
+offset_top = 475.0
+offset_right = 323.0
+offset_bottom = 530.0
+theme_override_font_sizes/normal_font_size = 25
+text = "Speaker Name"
+
+[node name="dialogue_text" type="RichTextLabel" parent="canvas" unique_id=1147312437]
+offset_left = 33.0
+offset_top = 520.0
+offset_right = 703.0
+offset_bottom = 620.0
+theme_override_font_sizes/normal_font_size = 20
+text = "(Dialogue text here)"
+
+[node name="continue_btn" type="Button" parent="canvas" unique_id=1791232172]
+offset_left = 938.0
+offset_top = 583.0
+offset_right = 1123.0
+offset_bottom = 620.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_78q3s")
+text = "Continue"

@@ -38,6 +38,7 @@
 [ext_resource type="PackedScene" uid="uid://hcyet4myp4w3" path="res://assets/standing_picture_frame_02_4k.gltf/standing_picture_frame_02_4k.gltf" id="37_lqnq0"]
 [ext_resource type="PackedScene" uid="uid://68gcn3yqkegv" path="res://assets/book_encyclopedia_set_01_4k.gltf/book_encyclopedia_set_01_4k.gltf" id="38_fnrjy"]
 [ext_resource type="PackedScene" path="res://ui/game_hud.tscn" id="39_hud"]
+[ext_resource type="Script" uid="uid://bdubpo54wcesl" path="res://scripts/wake_up.gd" id="wakeup_script"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1li5e"]
 sky_top_color = Color(0.94, 0.78, 0.52, 1)
@@ -284,9 +285,10 @@ operation = 2
 size = Vector3(2.9, 0.5, 1.9)
 
 [node name="ProtoController" parent="." unique_id=1032540772 instance=ExtResource("1_yukv5")]
-transform = Transform3D(-4.172325e-08, 0, 0.7, 0, 0.7, 0, -0.7, 0, -4.172325e-08, 1.6182264, 0.17188776, -0.7304163)
+transform = Transform3D(-4.172325e-08, 0, 0.7, 0, 0.7, 0, -0.7, 0, -4.172325e-08, 1.6182264, 0.22657597, -2.4909978)
 base_speed = 3.0
-sprint_speed = 7.0
+sprint_speed = 5.0
+input_jump = "jump"
 
 [node name="plastic_monobloc_chair_01_4k" parent="." unique_id=803669596 instance=ExtResource("11_1ns7y")]
 transform = Transform3D(-0.9848079, 0, -0.17364815, 0, 1, 0, 0.17364815, 0, -0.9848079, -1.8000001, 0, 2.0000002)
@@ -485,3 +487,25 @@ transform = Transform3D(-0.9983119, 0, -0.058081314, 0, 1, 0, 0.058081314, 0, -0
 
 [node name="book_encyclopedia_set_01_4k2" parent="." unique_id=2021900093 instance=ExtResource("38_fnrjy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3184321, 0.6558778, 1.2456919)
+
+[node name="WakeUpEffect" type="CanvasLayer" parent="." unique_id=1590856524]
+layer = 100
+script = ExtResource("wakeup_script")
+
+[node name="TopEyelid" type="ColorRect" parent="WakeUpEffect" unique_id=808736329]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BottomEyelid" type="ColorRect" parent="WakeUpEffect" unique_id=252851511]
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
