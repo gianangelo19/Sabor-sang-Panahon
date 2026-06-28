@@ -1,0 +1,103 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://ch00o3v5akhu8"
+path="res://.godot/imported/Toilets.glb-ca50f7d9731763d076f8d9b88c917cb5.scn"
+
+[deps]
+
+source_file="res://assets/Toilets_Godot/LoafbrrAssets/Toilets/glb/Toilets.glb"
+dest_files=["res://.godot/imported/Toilets.glb-ca50f7d9731763d076f8d9b88c917cb5.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/root_script=null
+mesh_library/use_node_names_as_mesh_names=false
+array_mesh/deduplicate_surfaces=true
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+nodes/use_name_suffixes=true
+nodes/use_node_type_suffixes=true
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path=""
+materials/extract=0
+materials/extract_format=0
+materials/extract_path=""
+_subresources={
+"materials": {
+"Sink_A_Mat": {
+"use_external/enabled": true,
+"use_external/fallback_path": "",
+"use_external/path": "res://Assets/LoafbrrAssets/Toilets/Materials/Sink_A.material"
+},
+"Sink_B_Mat": {
+"use_external/enabled": true,
+"use_external/fallback_path": "",
+"use_external/path": "res://Assets/LoafbrrAssets/Toilets/Materials/Sink_B.material"
+},
+"Sink_C_Mat": {
+"use_external/enabled": true,
+"use_external/fallback_path": "",
+"use_external/path": "res://Assets/LoafbrrAssets/Toilets/Materials/Sink_C.material"
+},
+"Toilet_Elongated_A": {
+"use_external/enabled": true,
+"use_external/fallback_path": "",
+"use_external/path": "res://Assets/LoafbrrAssets/Toilets/Materials/Toilet_Elongated.material"
+},
+"Toilet_Elongated_Seat_Mat": {
+"use_external/enabled": true,
+"use_external/fallback_path": "",
+"use_external/path": "res://Assets/LoafbrrAssets/Toilets/Materials/Toilet_Elongated_Seat.material"
+},
+"Toilet_Flush_Box_Mat": {
+"use_external/enabled": true,
+"use_external/fallback_path": "",
+"use_external/path": "res://Assets/LoafbrrAssets/Toilets/Materials/Toilet_Flush_Box.material"
+},
+"Toilet_Round": {
+"use_external/enabled": true,
+"use_external/fallback_path": "",
+"use_external/path": "res://Assets/LoafbrrAssets/Toilets/Materials/Toilet_Round.material"
+},
+"Toilet_Round_Seat_Mat": {
+"use_external/enabled": true,
+"use_external/fallback_path": "",
+"use_external/path": "res://Assets/LoafbrrAssets/Toilets/Materials/Toilet_Round_Seat.material"
+},
+"Toilet_pipes_flush_Mat": {
+"use_external/enabled": true,
+"use_external/fallback_path": "",
+"use_external/path": "res://Assets/LoafbrrAssets/Toilets/Materials/Toilet_Pipes_Flush.material"
+},
+"Urinal_A_Mat": {
+"use_external/enabled": true,
+"use_external/fallback_path": "",
+"use_external/path": "res://Assets/LoafbrrAssets/Toilets/Materials/Urinal_A.material"
+},
+"Urinal_B_Mat": {
+"use_external/enabled": true,
+"use_external/fallback_path": "",
+"use_external/path": "res://Assets/LoafbrrAssets/Toilets/Materials/Urinal_B.material"
+}
+}
+}
+gltf/naming_version=1
+gltf/embedded_image_handling=1
+gltf/texture_map_mode=0

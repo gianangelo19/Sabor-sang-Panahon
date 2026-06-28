@@ -1,0 +1,233 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://ui/game_hud.gd" id="1_hud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.055, 0.043, 0.031, 0.82)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.93, 0.62, 0.25, 0.85)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+bg_color = Color(0.16, 0.105, 0.055, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.98, 0.68, 0.28, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="GameHUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="HUDRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopLeftPanel" type="PanelContainer" parent="HUDRoot"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 378.0
+offset_bottom = 166.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="InfoStack" type="VBoxContainer" parent="HUDRoot/TopLeftPanel"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="ObjectiveTitle" type="Label" parent="HUDRoot/TopLeftPanel/InfoStack"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.69, 0.32, 1)
+theme_override_font_sizes/font_size = 16
+text = "OBJECTIVE"
+
+[node name="ObjectiveValue" type="Label" parent="HUDRoot/TopLeftPanel/InfoStack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
+theme_override_font_sizes/font_size = 19
+text = "Find something to eat."
+autowrap_mode = 3
+
+[node name="Divider" type="HSeparator" parent="HUDRoot/TopLeftPanel/InfoStack"]
+layout_mode = 2
+
+[node name="StatsGrid" type="GridContainer" parent="HUDRoot/TopLeftPanel/InfoStack"]
+layout_mode = 2
+columns = 2
+
+[node name="ClueTitle" type="Label" parent="HUDRoot/TopLeftPanel/InfoStack/StatsGrid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.69, 0.32, 1)
+text = "Clues"
+
+[node name="ClueValue" type="Label" parent="HUDRoot/TopLeftPanel/InfoStack/StatsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
+text = "0 recorded"
+horizontal_alignment = 2
+
+[node name="IngredientTitle" type="Label" parent="HUDRoot/TopLeftPanel/InfoStack/StatsGrid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.69, 0.32, 1)
+text = "Ingredients"
+
+[node name="IngredientValue" type="Label" parent="HUDRoot/TopLeftPanel/InfoStack/StatsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
+text = "0/7 found"
+horizontal_alignment = 2
+
+[node name="AMBotPanel" type="PanelContainer" parent="HUDRoot"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -318.0
+offset_top = 18.0
+offset_right = -18.0
+offset_bottom = 92.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="AMBotStack" type="VBoxContainer" parent="HUDRoot/AMBotPanel"]
+layout_mode = 2
+
+[node name="AMBotTitle" type="Label" parent="HUDRoot/AMBotPanel/AMBotStack"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.69, 0.32, 1)
+theme_override_font_sizes/font_size = 16
+text = "AMBOT"
+
+[node name="AMBotValue" type="Label" parent="HUDRoot/AMBotPanel/AMBotStack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
+text = "Offline"
+autowrap_mode = 3
+
+[node name="HintBar" type="PanelContainer" parent="HUDRoot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -255.0
+offset_top = -46.0
+offset_right = 255.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="HintText" type="Label" parent="HUDRoot/HintBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
+text = "WASD move   Mouse look   E interact   Esc pause"
+horizontal_alignment = 1
+
+[node name="PauseMenu" type="Control" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.015, 0.01, 0.68)
+
+[node name="MenuPanel" type="PanelContainer" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -150.0
+offset_right = 180.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="MenuStack" type="VBoxContainer" parent="PauseMenu/MenuPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PausedTitle" type="Label" parent="PauseMenu/MenuPanel/MenuStack"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.69, 0.32, 1)
+theme_override_font_sizes/font_size = 30
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="PauseMenu/MenuPanel/MenuStack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
+text = "Resume"
+
+[node name="RestartButton" type="Button" parent="PauseMenu/MenuPanel/MenuStack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
+text = "Restart Apartment"
+
+[node name="MainMenuButton" type="Button" parent="PauseMenu/MenuPanel/MenuStack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
+text = "Main Menu"
+
+[node name="QuitButton" type="Button" parent="PauseMenu/MenuPanel/MenuStack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
+text = "Quit"
+
+[connection signal="pressed" from="PauseMenu/MenuPanel/MenuStack/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PauseMenu/MenuPanel/MenuStack/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PauseMenu/MenuPanel/MenuStack/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="PauseMenu/MenuPanel/MenuStack/QuitButton" to="." method="_on_quit_button_pressed"]

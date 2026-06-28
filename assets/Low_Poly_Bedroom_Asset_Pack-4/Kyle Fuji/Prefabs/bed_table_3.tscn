@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://mtxyebc7nirr"]
+
+[ext_resource type="PackedScene" uid="uid://ckggr6xsi0tdx" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Models/bed_table.fbx" id="1_n0mmg"]
+[ext_resource type="Material" uid="uid://gtp5a1vgn7y4" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Materials/M_wood.tres" id="2_hng0m"]
+[ext_resource type="PackedScene" uid="uid://dreg8kdiedb58" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/small_drawer.tscn" id="3_6gypx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vsmcy"]
+size = Vector3(0.44093323, 0.62042236, 0.3842163)
+
+[node name="bed_table_3" instance=ExtResource("1_n0mmg")]
+
+[node name="Bed Table" parent="." index="0"]
+material_override = ExtResource("2_hng0m")
+
+[node name="top_drawer" parent="." index="1" instance=ExtResource("3_6gypx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3218434, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0002975464, 0.31015015, 3.0517578e-05)
+shape = SubResource("BoxShape3D_vsmcy")

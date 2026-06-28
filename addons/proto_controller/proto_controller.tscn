@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://bs72ogkvdd7d6"]
+
+[ext_resource type="Script" uid="uid://bu51hnjr4m8bu" path="res://addons/proto_controller/proto_controller.gd" id="1_ucva2"]
+[ext_resource type="Shader" uid="uid://wnky1h2vbj86" path="res://addons/proto_controller/overlay.gdshader" id="2_wr06p"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
+albedo_color = Color(0.91806, 0.575202, 0.222449, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ucva2"]
+radius = 0.4
+height = 1.85
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iof21"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_78q3s"]
+render_priority = 0
+shader = ExtResource("2_wr06p")
+shader_parameter/pixel_size = 3.0
+shader_parameter/color_levels = 28.0
+shader_parameter/scanline_strength = 0.07
+shader_parameter/vignette_strength = 0.08
+shader_parameter/warp_strength = 0.004
+shader_parameter/noise_strength = 0.006
+shader_parameter/edge_strength = 0.16
+shader_parameter/brightness = 1.12
+shader_parameter/saturation = 1.08
+shader_parameter/warm_tint = Vector3(1.07, 1.02, 0.92)
+
+[sub_resource type="QuadMesh" id="QuadMesh_cniej"]
+material = SubResource("ShaderMaterial_78q3s")
+flip_faces = true
+size = Vector2(2, 2)
+
+[node name="ProtoController" type="CharacterBody3D" unique_id=1102026077]
+script = ExtResource("1_ucva2")
+input_left = "move_left"
+input_right = "move_right"
+input_forward = "move_forward"
+input_back = "move_back"
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=742725449]
+transform = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 0.74916667, 0)
+material_override = SubResource("StandardMaterial3D_iof21")
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_ucva2")
+
+[node name="Collider" type="CollisionShape3D" parent="." unique_id=1379350865]
+transform = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 0.7266666, 0)
+shape = SubResource("CapsuleShape3D_iof21")
+
+[node name="Head" type="Node3D" parent="." unique_id=1294207476]
+transform = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 1.2466667, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=486754939]
+transform = Transform3D(1, 0, 0, 0, 1.1111112, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="InteractRay" type="RayCast3D" parent="Head/Camera3D"]
+target_position = Vector3(0, 0, -2.5)
+collide_with_areas = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head" unique_id=2023067070]
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_cniej")
+
+[node name="InteractionUI" type="CanvasLayer" parent="."]
+
+[node name="Prompt" type="Label" parent="InteractionUI"]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -170.0
+offset_top = -92.0
+offset_right = 170.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 20
+text = "Press E to interact"
+horizontal_alignment = 1
+vertical_alignment = 1

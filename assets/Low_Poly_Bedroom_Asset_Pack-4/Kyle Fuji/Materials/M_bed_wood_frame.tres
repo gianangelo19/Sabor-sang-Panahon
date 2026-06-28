@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://dpmthy1xulrf8"]
+
+[ext_resource type="Shader" uid="uid://bb47rtaow0dsi" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Materials/S_bed_shader.gdshader" id="1_2xwrf"]
+[ext_resource type="Texture2D" uid="uid://devxae1ulahbf" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Maps/Bed Maps/T_bed_AO_512.png" id="2_w56by"]
+[ext_resource type="Texture2D" uid="uid://b8rfxiqnip4yb" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Maps/Bed Maps/T_bed_normals_512.png" id="3_fhuqc"]
+[ext_resource type="Texture2D" uid="uid://43rhk12p8tfl" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Maps/Bed Maps/T_bed_RGB_map_512.png" id="4_001jt"]
+[ext_resource type="Texture2D" uid="uid://4glp6ixl36ee" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Maps/Wood Map/T_wood_diffuse.png" id="5_uoul4"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_2xwrf")
+shader_parameter/rgb_texture_map = ExtResource("4_001jt")
+shader_parameter/normal_map = ExtResource("3_fhuqc")
+shader_parameter/ao_map = ExtResource("2_w56by")
+shader_parameter/wood_texture = ExtResource("5_uoul4")
+shader_parameter/wood_bed_frame = true
+shader_parameter/bed_frame_color = Color(0.8830395, 0.7285021, 0.668847, 1)
+shader_parameter/blanket_color = Color(0.19263428, 0.4278531, 0.5589643, 1)
+shader_parameter/sheet_color = Color(0.9, 0.9, 0.9, 1)
+shader_parameter/bed_frame_roughness = 0.0
+shader_parameter/blanket_roughness = 1.0
+shader_parameter/sheet_roughness = 1.0
+shader_parameter/bed_frame_metallic = 0.0

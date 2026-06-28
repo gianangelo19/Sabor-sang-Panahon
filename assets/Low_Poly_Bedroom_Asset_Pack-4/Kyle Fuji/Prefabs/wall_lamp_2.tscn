@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://cbctnjei8cuqj"]
+
+[ext_resource type="PackedScene" uid="uid://bsxjqk7ftwy4q" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Models/wall_fixture.fbx" id="1_3mwjr"]
+[ext_resource type="Material" uid="uid://ca6yxs8hout86" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Materials/M_gold.tres" id="2_qc7ny"]
+[ext_resource type="PackedScene" uid="uid://d4cfytkv6fwda" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/bulb_2.tscn" id="3_mi635"]
+[ext_resource type="PackedScene" uid="uid://ceeskevqura7s" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/lamp_light.tscn" id="4_l5c27"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ui64m"]
+size = Vector3(0.51907057, 0.62320834, 0.35329247)
+
+[node name="wall_lamp_2" instance=ExtResource("1_3mwjr")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Wall Fixture" parent="." index="0"]
+material_override = ExtResource("2_qc7ny")
+
+[node name="lamp_2" parent="." index="1" instance=ExtResource("3_mi635")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3652832, 0.1477775, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25960684, 0.13608482, -0.0005941391)
+shape = SubResource("BoxShape3D_ui64m")
+
+[node name="lamp_light" parent="." index="3" instance=ExtResource("4_l5c27")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3672589, 0.28748572, 0)

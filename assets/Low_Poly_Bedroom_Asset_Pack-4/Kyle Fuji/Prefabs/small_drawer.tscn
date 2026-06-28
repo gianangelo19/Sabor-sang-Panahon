@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://dreg8kdiedb58"]
+
+[ext_resource type="PackedScene" uid="uid://doyk8qquv1qxm" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Models/small_drawer.fbx" id="1_wxjg1"]
+[ext_resource type="Material" uid="uid://gtp5a1vgn7y4" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Materials/M_wood.tres" id="2_xdal2"]
+[ext_resource type="Material" uid="uid://ca6yxs8hout86" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Materials/M_gold.tres" id="3_7x52g"]
+
+[node name="small_drawer" instance=ExtResource("1_wxjg1")]
+
+[node name="Small Drawer Frame" parent="Small Drawer" index="0"]
+material_override = ExtResource("2_xdal2")
+
+[node name="Small Drawer Handle" parent="Small Drawer" index="1"]
+material_override = ExtResource("3_7x52g")

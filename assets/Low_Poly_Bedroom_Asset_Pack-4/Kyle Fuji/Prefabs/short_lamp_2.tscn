@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://ljrurvv0ja5e"]
+
+[ext_resource type="PackedScene" uid="uid://40ywbvvkx1bm" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Models/pole_2.fbx" id="1_xa2wa"]
+[ext_resource type="Material" uid="uid://ca6yxs8hout86" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Materials/M_gold.tres" id="2_ucdoc"]
+[ext_resource type="PackedScene" uid="uid://d4cfytkv6fwda" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/bulb_2.tscn" id="3_xqe3o"]
+[ext_resource type="PackedScene" uid="uid://ceeskevqura7s" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/lamp_light.tscn" id="4_sw7ac"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_15wvm"]
+size = Vector3(0.35298038, 0.6402943, 0.35329247)
+
+[node name="short_lamp_2" instance=ExtResource("1_xa2wa")]
+
+[node name="Pole2" parent="." index="0"]
+material_override = ExtResource("2_ucdoc")
+
+[node name="lamp_2" parent="." index="1" instance=ExtResource("3_xqe3o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.34016603, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00020948052, 0.32008612, -0.0005941391)
+shape = SubResource("BoxShape3D_15wvm")
+
+[node name="lamp_light" parent="." index="3" instance=ExtResource("4_sw7ac")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.47865248, 0)

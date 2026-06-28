@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://ctcfsxmott3xf"]
+
+[ext_resource type="PackedScene" uid="uid://c5maqyp6d7vmu" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Models/dresser2.fbx" id="1_11npx"]
+[ext_resource type="Material" uid="uid://gtp5a1vgn7y4" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Materials/M_wood.tres" id="2_jybyj"]
+[ext_resource type="PackedScene" uid="uid://dreg8kdiedb58" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/small_drawer.tscn" id="3_sbqfb"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f6qlm"]
+size = Vector3(0.8555622, 1.2188263, 0.3842163)
+
+[node name="dresser_2" instance=ExtResource("1_11npx")]
+
+[node name="Dresser2" parent="." index="0"]
+material_override = ExtResource("2_jybyj")
+
+[node name="small_drawer" parent="." index="1" instance=ExtResource("3_sbqfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20659705, 0.9208076, 0)
+
+[node name="small_drawer2" parent="." index="2" instance=ExtResource("3_sbqfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20668137, 0.9208076, 0)
+
+[node name="small_drawer3" parent="." index="3" instance=ExtResource("3_sbqfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20659705, 0.6194892, 0)
+
+[node name="small_drawer4" parent="." index="4" instance=ExtResource("3_sbqfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20668137, 0.6194892, 0)
+
+[node name="small_drawer5" parent="." index="5" instance=ExtResource("3_sbqfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20659705, 0.32301527, 0)
+
+[node name="small_drawer6" parent="." index="6" instance=ExtResource("3_sbqfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20668137, 0.32301527, 0)
+
+[node name="small_drawer7" parent="." index="7" instance=ExtResource("3_sbqfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20659705, 0.021451123, 0)
+
+[node name="small_drawer8" parent="." index="8" instance=ExtResource("3_sbqfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20668137, 0.021451123, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="9"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00067424774, 0.6093521, 3.0517578e-05)
+shape = SubResource("BoxShape3D_f6qlm")

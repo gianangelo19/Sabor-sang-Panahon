@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://kif2k3l5kegm"]
+
+[ext_resource type="PackedScene" uid="uid://rfm3i4ft87r3" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Models/bed.fbx" id="1_c32mu"]
+[ext_resource type="Material" uid="uid://cawv114dgvx7v" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Materials/M_bed.tres" id="2_ae2oc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ae2oc"]
+size = Vector3(1.9873047, 0.616951, 2.1019897)
+
+[node name="bed" instance=ExtResource("1_c32mu")]
+
+[node name="Bed" parent="." index="0"]
+transform = Transform3D(100, 0, 0, 0, -4.3711384e-06, 99.99999, 0, -99.99999, -4.3711384e-06, 0, 0, 0)
+material_override = ExtResource("2_ae2oc")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
+transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 3.5527137e-15, 0, -3.5527137e-15, 1.0000001, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 3.5527137e-15, 0, -3.5527137e-15, 1.0000001, -0.0024414065, 0.30882648, 0.0013425351)
+shape = SubResource("BoxShape3D_ae2oc")

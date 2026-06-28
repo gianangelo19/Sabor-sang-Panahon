@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgg2x0cp26i0l"]
+
+[ext_resource type="PackedScene" uid="uid://clv838ho5wwmh" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Models/dresser3.fbx" id="1_1tfmc"]
+[ext_resource type="Material" uid="uid://gtp5a1vgn7y4" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Materials/M_wood.tres" id="2_uw41l"]
+[ext_resource type="PackedScene" uid="uid://d0g1qju4kyx51" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/large_drawer.tscn" id="3_odrj0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vmoq3"]
+size = Vector3(0.99898577, 1.2642403, 0.3842163)
+
+[node name="dresser_3" instance=ExtResource("1_1tfmc")]
+
+[node name="Dresser3" parent="." index="0"]
+material_override = ExtResource("2_uw41l")
+
+[node name="large_drawer" parent="." index="1" instance=ExtResource("3_odrj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.94310725, 0)
+
+[node name="large_drawer2" parent="." index="2" instance=ExtResource("3_odrj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64142996, 0)
+
+[node name="large_drawer3" parent="." index="3" instance=ExtResource("3_odrj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3441182, 0)
+
+[node name="large_drawer4" parent="." index="4" instance=ExtResource("3_odrj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.043016896, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="5"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.273125e-05, 0.6320591, 3.0517578e-05)
+shape = SubResource("BoxShape3D_vmoq3")

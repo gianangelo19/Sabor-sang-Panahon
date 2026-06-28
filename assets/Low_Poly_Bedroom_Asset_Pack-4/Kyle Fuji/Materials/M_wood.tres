@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://gtp5a1vgn7y4"]
+
+[ext_resource type="Texture2D" uid="uid://4glp6ixl36ee" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Maps/Wood Map/T_wood_diffuse.png" id="1_5x6jr"]
+
+[resource]
+albedo_texture = ExtResource("1_5x6jr")
+roughness = 0.52
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 16.0
+clearcoat_roughness = 0.0

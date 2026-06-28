@@ -1,0 +1,152 @@
+[gd_scene load_steps=15 format=3 uid="uid://bhuh8dp2bbfn5"]
+
+[ext_resource type="PackedScene" uid="uid://kif2k3l5kegm" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/bed.tscn" id="1_yoyqs"]
+[ext_resource type="Material" uid="uid://ecxvg40big71" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Materials/M_wall.tres" id="2_kdhv2"]
+[ext_resource type="PackedScene" uid="uid://c7y3yemn8oa0t" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/dresser_1.tscn" id="2_yvy25"]
+[ext_resource type="PackedScene" uid="uid://bgg2x0cp26i0l" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/dresser_3.tscn" id="4_vmx12"]
+[ext_resource type="PackedScene" uid="uid://3ki6hkgot7se" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/dresser_4.tscn" id="5_0fafv"]
+[ext_resource type="PackedScene" uid="uid://ckkvwfxlql2a5" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/bed_table_2.tscn" id="7_5dt2o"]
+[ext_resource type="PackedScene" uid="uid://ljrurvv0ja5e" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/short_lamp_2.tscn" id="10_vjhn0"]
+[ext_resource type="PackedScene" uid="uid://cbm0x1hyxkhp8" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/wall_lamp_1.tscn" id="11_71npr"]
+[ext_resource type="PackedScene" uid="uid://bwte0fuka6ds2" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Prefabs/tall_lamp_1.tscn" id="11_df1p0"]
+[ext_resource type="Material" uid="uid://gtp5a1vgn7y4" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Materials/M_wood.tres" id="13_0tiw8"]
+
+[sub_resource type="Sky" id="Sky_lpehx"]
+
+[sub_resource type="Environment" id="Environment_lpehx"]
+background_mode = 2
+background_energy_multiplier = 0.0
+sky = SubResource("Sky_lpehx")
+ambient_light_sky_contribution = 0.0
+ambient_light_energy = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_utn8k"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7newm"]
+size = Vector3(1.2344666, 0.7916565, 1)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lpehx")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.8581456, -0.26382455, 0.44043478, 0, 0.85786766, 0.5138708, -0.51340646, -0.4409759, 0.73617536, 2.9879675, 4.1994624, -0.8651618)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.9370872, 0.12636077, 0.32542372, -0.34909546, 0.33919394, 0.8735444, 0, -0.9321912, 0.36196628, 0, 6.988697, 0)
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.57919574, -0.29507083, -0.7599116, 0.5509012, -0.54542744, 0.63167787, -0.6008663, -0.78450125, -0.15335438, 0, 6.988697, 0)
+
+[node name="solid_cube" type="Node3D" parent="."]
+transform = Transform3D(0.11465633, 0, 0, 0, 7.1632423, 0, 0, 0, 14.639581, -2.5149016, 2.0665994, 1.4270008)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="solid_cube"]
+transform = Transform3D(1.2366599, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 7.2698917, 0, 0)
+material_override = ExtResource("2_kdhv2")
+mesh = SubResource("BoxMesh_utn8k")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="solid_cube"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="solid_cube/StaticBody3D"]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.9999996, 0, 0, 0, 0.9999995, 7.273638, 0.1024656, 0)
+shape = SubResource("BoxShape3D_7newm")
+
+[node name="solid_cube2" type="Node3D" parent="."]
+transform = Transform3D(0.11465633, 0, 0, 0, 7.1632423, 0, 0, 0, 14.639581, 4.7156906, 2.0665994, 1.4270008)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="solid_cube2"]
+transform = Transform3D(1.2366599, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, -5.4767456, 0, 0)
+material_override = ExtResource("2_kdhv2")
+mesh = SubResource("BoxMesh_utn8k")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="solid_cube2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="solid_cube2/StaticBody3D"]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.9999996, 0, 0, 0, 0.9999995, -5.4814415, 0.10123187, 0)
+shape = SubResource("BoxShape3D_7newm")
+
+[node name="solid_cube3" type="Node3D" parent="."]
+transform = Transform3D(-5.011787e-09, 0, -14.63958, 0, 7.1632414, 0, 0.114656314, 0, -6.399163e-07, 0.6691332, 2.0665994, -4.780839)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="solid_cube3"]
+transform = Transform3D(1.23666, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+material_override = ExtResource("13_0tiw8")
+mesh = SubResource("BoxMesh_utn8k")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="solid_cube3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="solid_cube3/StaticBody3D"]
+transform = Transform3D(0.99999523, 0, 3.1832315e-12, 0, 0.9999926, 0, 1.9428903e-16, 0, 1, 0, 0.105148256, 0)
+shape = SubResource("BoxShape3D_7newm")
+
+[node name="solid_cube4" type="Node3D" parent="."]
+transform = Transform3D(-5.011787e-09, 0, -14.63958, 0, 7.1632414, 0, 0.114656314, 0, -6.399163e-07, 0.6691332, 2.0665994, 6.936625)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="solid_cube4"]
+transform = Transform3D(1.23666, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+material_override = ExtResource("2_kdhv2")
+mesh = SubResource("BoxMesh_utn8k")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="solid_cube4"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="solid_cube4/StaticBody3D"]
+transform = Transform3D(0.9999997, 0, 1.364242e-12, 0, 0.9999996, 0, 2.7755576e-17, 0, 1, 0.010417938, 0.10485384, 3.7252903e-09)
+shape = SubResource("BoxShape3D_7newm")
+
+[node name="solid_cube5" type="Node3D" parent="."]
+transform = Transform3D(-5.0117848e-09, -11.125891, 6.399163e-07, 0.1146563, -4.8632813e-07, -6.3991627e-07, 5.011787e-09, 4.8632813e-07, 14.63958, 1.0965898, 2.0665994, 1.1450033)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="solid_cube5"]
+transform = Transform3D(1.2366601, -1.196846e-13, -4.5474735e-13, 2.4350205e-17, 0.5808254, 0, -2.7755576e-17, -1.7763568e-15, 0.99999994, 0, 0, 0)
+material_override = ExtResource("13_0tiw8")
+mesh = SubResource("BoxMesh_utn8k")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="solid_cube5"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="solid_cube5/StaticBody3D"]
+transform = Transform3D(1, -7.0905512e-12, -7.275958e-12, -8.065276e-18, 0.9999986, -7.1054274e-15, 0, -2.4868996e-14, 0.99999875, 0.004962921, 0, 0)
+shape = SubResource("BoxShape3D_7newm")
+
+[node name="bed" parent="." instance=ExtResource("1_yoyqs")]
+transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1, 1.2218896, 2.1379383, -3.5898569)
+
+[node name="bed_table_2" parent="." instance=ExtResource("7_5dt2o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.084200144, 2.1379383, -4.3430333)
+
+[node name="dresser_3" parent="." instance=ExtResource("4_vmx12")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.3525294, 2.1379383, -2.933404)
+
+[node name="dresser_1" parent="." instance=ExtResource("2_yvy25")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.7611504, 2.1379383, -2.8253229)
+
+[node name="dresser_4" parent="." instance=ExtResource("5_0fafv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1041049, 2.1379383, -1.3959191)
+
+[node name="bed_table_3" parent="." instance=ExtResource("7_5dt2o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5284388, 2.1379383, -4.3430333)
+
+[node name="tall_lamp_1" parent="." instance=ExtResource("11_df1p0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1000376, 2.1379383, -4.060207)
+
+[node name="tall_lamp_2" parent="." instance=ExtResource("11_df1p0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6263225, 2.1379383, -4.2570896)
+
+[node name="short_lamp_3" parent="." instance=ExtResource("10_vjhn0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.36485958, 2.7985418, -1.3918345)
+
+[node name="wall_lamp_1" parent="." instance=ExtResource("11_71npr")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -0.047123253, 4.0938916, -4.7100697)
+
+[node name="wall_lamp_2" parent="." instance=ExtResource("11_71npr")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 2.5276294, 4.0938916, -4.7100697)
+
+[node name="WorldEnvironment2" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lpehx")

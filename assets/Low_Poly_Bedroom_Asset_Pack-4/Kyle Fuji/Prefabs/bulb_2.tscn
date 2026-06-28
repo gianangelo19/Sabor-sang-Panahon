@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4cfytkv6fwda"]
+
+[ext_resource type="PackedScene" uid="uid://dk2bl73tm4p4n" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Models/bulb_2.fbx" id="1_jwdbw"]
+[ext_resource type="Material" uid="uid://cq20fhvoqxmwe" path="res://Low Poly Bedroom Asset Pack/Kyle Fuji/Materials/M_emission.tres" id="2_mxq84"]
+
+[node name="bulb_2" instance=ExtResource("1_jwdbw")]
+
+[node name="Lamp2" parent="." index="0"]
+material_override = ExtResource("2_mxq84")
