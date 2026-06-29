@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://o0olko8440e"]
+
+[ext_resource type="PackedScene" uid="uid://bf58t3k7j2lt2" path="res://models/abandoned_car__vehicle_multicab_3d_scan/scene.gltf" id="1_rfnee"]
+
+[node name="Sketchfab_Scene" unique_id=483274588 instance=ExtResource("1_rfnee")]
+
+[node name="Object_4" parent="Sketchfab_model/root/GLTF_SceneRootNode/Multicab 1_0" parent_id_path=PackedInt32Array(366096165) index="0" unique_id=436736936]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.031493, 0.90121746, -8.391104)

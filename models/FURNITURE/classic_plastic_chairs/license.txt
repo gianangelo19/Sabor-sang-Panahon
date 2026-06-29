@@ -1,0 +1,11 @@
+Model Information:
+* title:	Classic Plastic Chairs
+* source:	https://sketchfab.com/3d-models/classic-plastic-chairs-6d139742099d48f195e6774514ccb7ef
+* author:	Francesco Coldesina (https://sketchfab.com/topfrank2013)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Classic Plastic Chairs" (https://sketchfab.com/3d-models/classic-plastic-chairs-6d139742099d48f195e6774514ccb7ef) by Francesco Coldesina (https://sketchfab.com/topfrank2013) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Crates and boxes at the back of an Asian store
+* source:	https://sketchfab.com/3d-models/crates-and-boxes-at-the-back-of-an-asian-store-26f01d69ac8c49b2a4c34e21b68c656f
+* author:	Alben Tan (https://sketchfab.com/albentan2012)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Crates and boxes at the back of an Asian store" (https://sketchfab.com/3d-models/crates-and-boxes-at-the-back-of-an-asian-store-26f01d69ac8c49b2a4c34e21b68c656f) by Alben Tan (https://sketchfab.com/albentan2012) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

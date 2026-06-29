@@ -1,0 +1,11 @@
+Model Information:
+* title:	Electric Meters And Panels 1
+* source:	https://sketchfab.com/3d-models/electric-meters-and-panels-1-ec17e89b49a5436b8b329b5c05e905c4
+* author:	Alben Tan (https://sketchfab.com/albentan2012)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Electric Meters And Panels 1" (https://sketchfab.com/3d-models/electric-meters-and-panels-1-ec17e89b49a5436b8b329b5c05e905c4) by Alben Tan (https://sketchfab.com/albentan2012) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

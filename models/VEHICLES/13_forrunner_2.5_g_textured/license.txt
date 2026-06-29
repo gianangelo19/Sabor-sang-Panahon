@@ -1,0 +1,11 @@
+Model Information:
+* title:	'13 Forrunner 2.5 G [Textured]
+* source:	https://sketchfab.com/3d-models/13-forrunner-25-g-textured-82e30441125d4321ba1d661fe7c361a0
+* author:	sakit.jawa (https://sketchfab.com/sakit.jawa)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "'13 Forrunner 2.5 G [Textured]" (https://sketchfab.com/3d-models/13-forrunner-25-g-textured-82e30441125d4321ba1d661fe7c361a0) by sakit.jawa (https://sketchfab.com/sakit.jawa) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

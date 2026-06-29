@@ -16,6 +16,14 @@ extends CharacterBody3D
 ## Can we press to enter freefly mode (noclip)?
 @export var can_freefly : bool = false
 
+@export_group("Head Bobbing")
+## Can the head bob when walking?
+@export var can_head_bob : bool = true
+## Frequency of the head bob.
+@export var head_bob_frequency : float = 2.0
+## Amount of the head bob.
+@export var head_bob_amount : float = 0.05
+
 @export_group("Speeds")
 ## Look around rotation speed.
 @export var look_speed : float = 0.002
@@ -54,6 +62,8 @@ var look_rotation : Vector2
 var move_speed : float = 0.0
 var freeflying : bool = false
 var current_interactable : Node = null
+var head_bob_time : float = 0.0
+var initial_head_pos : float = 0.0
 
 ## IMPORTANT REFERENCES
 @onready var head: Node3D = $Head
@@ -66,6 +76,7 @@ func _ready() -> void:
 	check_input_mappings()
 	look_rotation.y = rotation.y
 	look_rotation.x = head.rotation.x
+	initial_head_pos = head.position.y
 	interact_ray.target_position = Vector3(0, 0, -interact_distance)
 	interact_ray.enabled = true
 	interact_prompt.visible = false
@@ -91,8 +102,17 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed(input_interact):
 		try_interact()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	update_interaction_prompt()
+	
+	if can_head_bob:
+		var flat_vel = Vector2(velocity.x, velocity.z).length()
+		if is_on_floor() and flat_vel > 0.1:
+			head_bob_time += delta * flat_vel * head_bob_frequency
+			var bob_offset = sin(head_bob_time) * head_bob_amount
+			head.position.y = lerp(head.position.y, initial_head_pos + bob_offset, delta * 10.0)
+		else:
+			head.position.y = lerp(head.position.y, initial_head_pos, delta * 10.0)
 
 func _physics_process(delta: float) -> void:
 	# If freeflying, handle freefly and nothing else

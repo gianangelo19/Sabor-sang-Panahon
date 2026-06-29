@@ -12,21 +12,21 @@ height = 1.85
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iof21"]
 radius = 0.4
-height = 1.8
+height = 1.62
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_78q3s"]
 render_priority = 0
 shader = ExtResource("2_wr06p")
-shader_parameter/pixel_size = 3.0
-shader_parameter/color_levels = 28.0
-shader_parameter/scanline_strength = 0.07
+shader_parameter/pixel_size = 2.0
+shader_parameter/color_levels = 48.0
+shader_parameter/scanline_strength = 0.03
 shader_parameter/vignette_strength = 0.08
 shader_parameter/warp_strength = 0.004
 shader_parameter/noise_strength = 0.006
 shader_parameter/edge_strength = 0.16
-shader_parameter/brightness = 1.12
-shader_parameter/saturation = 1.08
-shader_parameter/warm_tint = Vector3(1.07, 1.02, 0.92)
+shader_parameter/brightness = 1.15
+shader_parameter/saturation = 1.15
+shader_parameter/warm_tint = Vector3(1.15, 0.95, 0.8)
 
 [sub_resource type="QuadMesh" id="QuadMesh_cniej"]
 material = SubResource("ShaderMaterial_78q3s")
@@ -47,7 +47,7 @@ cast_shadow = 0
 mesh = SubResource("CapsuleMesh_ucva2")
 
 [node name="Collider" type="CollisionShape3D" parent="." unique_id=1379350865]
-transform = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 0.7266666, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7266666, 0)
 shape = SubResource("CapsuleShape3D_iof21")
 
 [node name="Head" type="Node3D" parent="." unique_id=1294207476]

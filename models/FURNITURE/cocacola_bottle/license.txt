@@ -1,0 +1,11 @@
+Model Information:
+* title:	CocaCola Bottle
+* source:	https://sketchfab.com/3d-models/cocacola-bottle-af2601ae4d22455a829d4172fa18e83c
+* author:	AverageMan (https://sketchfab.com/QWER123468078)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "CocaCola Bottle" (https://sketchfab.com/3d-models/cocacola-bottle-af2601ae4d22455a829d4172fa18e83c) by AverageMan (https://sketchfab.com/QWER123468078) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

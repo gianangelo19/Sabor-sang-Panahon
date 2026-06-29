@@ -1,0 +1,11 @@
+Model Information:
+* title:	Car Covered With Gray Cloth 2
+* source:	https://sketchfab.com/3d-models/car-covered-with-gray-cloth-2-a6663b2e7d264f6898738706901914cc
+* author:	Alben Tan (https://sketchfab.com/albentan2012)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Car Covered With Gray Cloth 2" (https://sketchfab.com/3d-models/car-covered-with-gray-cloth-2-a6663b2e7d264f6898738706901914cc) by Alben Tan (https://sketchfab.com/albentan2012) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

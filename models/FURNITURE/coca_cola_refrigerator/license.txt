@@ -1,0 +1,11 @@
+Model Information:
+* title:	Coca Cola Refrigerator
+* source:	https://sketchfab.com/3d-models/coca-cola-refrigerator-eb505434e36c4416b8bdc3d87e9a6cc3
+* author:	tonielpro520 (https://sketchfab.com/tonielpro520)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Coca Cola Refrigerator" (https://sketchfab.com/3d-models/coca-cola-refrigerator-eb505434e36c4416b8bdc3d87e9a6cc3) by tonielpro520 (https://sketchfab.com/tonielpro520) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

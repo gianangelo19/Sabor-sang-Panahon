@@ -1,0 +1,11 @@
+Model Information:
+* title:	Abandoned car / vehicle (Multicab) 3D Scan
+* source:	https://sketchfab.com/3d-models/abandoned-car-vehicle-multicab-3d-scan-5ed2b4a8b5564c6d98efa76ce62df505
+* author:	Alben Tan (https://sketchfab.com/albentan2012)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Abandoned car / vehicle (Multicab) 3D Scan" (https://sketchfab.com/3d-models/abandoned-car-vehicle-multicab-3d-scan-5ed2b4a8b5564c6d98efa76ce62df505) by Alben Tan (https://sketchfab.com/albentan2012) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

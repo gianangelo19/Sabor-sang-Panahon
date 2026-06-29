@@ -1,0 +1,11 @@
+Model Information:
+* title:	Old table Fan
+* source:	https://sketchfab.com/3d-models/old-table-fan-0815782d15ae4ecab62469100311956b
+* author:	Chamod (https://sketchfab.com/Chamodp)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Old table Fan" (https://sketchfab.com/3d-models/old-table-fan-0815782d15ae4ecab62469100311956b) by Chamod (https://sketchfab.com/Chamodp) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

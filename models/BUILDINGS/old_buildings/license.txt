@@ -1,0 +1,11 @@
+Model Information:
+* title:	old buildings
+* source:	https://sketchfab.com/3d-models/old-buildings-f3775d0c3d9844fd8b1e95f430e3c890
+* author:	daftvid (https://sketchfab.com/daftvid)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "old buildings" (https://sketchfab.com/3d-models/old-buildings-f3775d0c3d9844fd8b1e95f430e3c890) by daftvid (https://sketchfab.com/daftvid) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

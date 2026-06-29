@@ -46,12 +46,14 @@ void fragment() {
 	vec2 pixel_count = screen_size / pixel_size;
 	vec2 pixelated_uv = (floor(uv * pixel_count) + 0.5) / pixel_count;
 	vec3 color = texture(screen_texture, pixelated_uv).rgb;
+	// Clamp HDR blowout values that cause blue/red blobs!
+	color = clamp(color, 0.0, 1.0);
 	vec2 texel = (pixel_size * outline_width) / screen_size;
 
 	float center_luma = luma(color);
 	float right_luma = luma(texture(screen_texture, pixelated_uv + vec2(texel.x, 0.0)).rgb);
-	float up_luma = luma(texture(screen_texture, pixelated_uv + vec2(0.0, texel.y)).rgb);
 	float left_luma = luma(texture(screen_texture, pixelated_uv - vec2(texel.x, 0.0)).rgb);
+	float up_luma = luma(texture(screen_texture, pixelated_uv + vec2(0.0, texel.y)).rgb);
 	float down_luma = luma(texture(screen_texture, pixelated_uv - vec2(0.0, texel.y)).rgb);
 	float luma_edge_value = abs(center_luma - right_luma) + abs(center_luma - left_luma) + abs(center_luma - up_luma) + abs(center_luma - down_luma);
 	float luma_edge = smoothstep(edge_threshold, edge_threshold * 3.0, luma_edge_value);
@@ -65,10 +67,24 @@ void fragment() {
 	float depth_edge = smoothstep(depth_edge_threshold, depth_edge_threshold * 8.0, depth_edge_value);
 	float edge = clamp(max(luma_edge, depth_edge * depth_edge_strength), 0.0, 1.0);
 
-	// Limited palette look.
-	color = floor(color * color_levels) / color_levels;
+	// Apply warm tint before posterizing
 	color *= warm_tint * brightness;
 	color = mix(vec3(luma(color)), color, saturation);
+
+	// Bayer dithering for nostalgic, soft PS1 retro feel
+	int dx = int(mod(uv.x * screen_size.x / pixel_size, 4.0));
+	int dy = int(mod(uv.y * screen_size.y / pixel_size, 4.0));
+	float dither_matrix[16] = float[](
+		0.0, 8.0, 2.0, 10.0,
+		12.0, 4.0, 14.0, 6.0,
+		3.0, 11.0, 1.0, 9.0,
+		15.0, 7.0, 13.0, 5.0
+	);
+	float dither_val = (dither_matrix[dx + dy * 4] / 16.0) - 0.5;
+	color += dither_val * (2.0 / color_levels);
+
+	// Limited palette look.
+	color = clamp(floor(color * color_levels) / color_levels, 0.0, 1.0);
 
 	float shaded_luma = luma(color);
 	float banded_luma = (floor(shaded_luma * toon_steps) + 0.5) / toon_steps;
