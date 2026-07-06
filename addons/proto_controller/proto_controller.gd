@@ -64,6 +64,7 @@ var freeflying : bool = false
 var current_interactable : Node = null
 var head_bob_time : float = 0.0
 var initial_head_pos : float = 0.0
+var audio_walk : AudioStreamPlayer
 
 ## IMPORTANT REFERENCES
 @onready var head: Node3D = $Head
@@ -80,6 +81,12 @@ func _ready() -> void:
 	interact_ray.target_position = Vector3(0, 0, -interact_distance)
 	interact_ray.enabled = true
 	interact_prompt.visible = false
+	
+	audio_walk = AudioStreamPlayer.new()
+	audio_walk.stream = load("res://audio/walking sound effect.mp3")
+	audio_walk.bus = "SFX"
+	audio_walk.finished.connect(func(): if is_on_floor() and Vector2(velocity.x, velocity.z).length() > 0.1: audio_walk.play())
+	add_child(audio_walk)
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Mouse capturing
@@ -105,14 +112,23 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	update_interaction_prompt()
 	
+	var flat_vel = Vector2(velocity.x, velocity.z).length()
+	var is_moving = is_on_floor() and flat_vel > 0.1
+	
 	if can_head_bob:
-		var flat_vel = Vector2(velocity.x, velocity.z).length()
-		if is_on_floor() and flat_vel > 0.1:
+		if is_moving:
 			head_bob_time += delta * flat_vel * head_bob_frequency
 			var bob_offset = sin(head_bob_time) * head_bob_amount
 			head.position.y = lerp(head.position.y, initial_head_pos + bob_offset, delta * 10.0)
 		else:
 			head.position.y = lerp(head.position.y, initial_head_pos, delta * 10.0)
+			
+	if is_moving:
+		if not audio_walk.playing:
+			audio_walk.play()
+	else:
+		if audio_walk.playing:
+			audio_walk.stop()
 
 func _physics_process(delta: float) -> void:
 	# If freeflying, handle freefly and nothing else

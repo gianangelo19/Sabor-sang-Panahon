@@ -30,13 +30,17 @@
 [ext_resource type="PackedScene" uid="uid://cv3nsrhn4c7i2" path="res://models/FURNITURE/petron_gas/scene.gltf" id="24_qiepf"]
 [ext_resource type="PackedScene" uid="uid://d17xel85kk47y" path="res://models/FURNITURE/boysen_paint_bucket/scene.gltf" id="25_qiepf"]
 [ext_resource type="PackedScene" uid="uid://do68ohtl6hs6" path="res://assets/power_box_01_4k.gltf/power_box_01_4k.gltf" id="29_5m1ps"]
-[ext_resource type="PackedScene" uid="uid://das4078qh5enc" path="res://assets/Shelf_01_4k.gltf/Shelf_01_4k.gltf" id="30_fi80g"]
 [ext_resource type="PackedScene" uid="uid://b1ev70kxwlo3t" path="res://assets/steel_frame_shelves_02_4k.gltf/steel_frame_shelves_02_4k.gltf" id="31_4mb3p"]
 [ext_resource type="PackedScene" uid="uid://72yhg4igmhqv" path="res://assets/wall_clock_4k.gltf/wall_clock_4k.gltf" id="32_7003k"]
 [ext_resource type="PackedScene" uid="uid://hcyet4myp4w3" path="res://assets/standing_picture_frame_02_4k.gltf/standing_picture_frame_02_4k.gltf" id="33_6ngls"]
 [ext_resource type="PackedScene" uid="uid://dnm57p3u6adgh" path="res://assets/plastic_thermos_4k.gltf/plastic_thermos_4k.gltf" id="34_bpsv4"]
 [ext_resource type="PackedScene" uid="uid://kif2k3l5kegm" path="res://assets/Low_Poly_Bedroom_Asset_Pack-4/Kyle Fuji/Prefabs/bed.tscn" id="35_7oy06"]
 [ext_resource type="PackedScene" uid="uid://bu3b41mso8vkb" path="res://models/FURNITURE/old_table_fan/scene.gltf" id="36_cqxqb"]
+[ext_resource type="PackedScene" uid="uid://br0ohdvxfkebs" path="res://models/FURNITURE/table_fancy_1/scene.gltf" id="38_mbtj0"]
+[ext_resource type="PackedScene" uid="uid://smrg3x4vwf1b" path="res://models/FURNITURE/fridge_low_poly/scene.gltf" id="39_fi80g"]
+[ext_resource type="PackedScene" uid="uid://bjb8e7a65hfws" path="res://models/FURNITURE/kitchen_oven_and_sink_set_low_poly/scene.gltf" id="40_4mb3p"]
+[ext_resource type="PackedScene" uid="uid://cdxpm10tiya4u" path="res://models/FURNITURE/fancy_shelf/scene.gltf" id="40_fi80g"]
+[ext_resource type="PackedScene" uid="uid://c2ar8ad6sf3pt" path="res://models/FURNITURE/fan_blades/scene.gltf" id="41_4mb3p"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3l527"]
 albedo_color = Color(0.88453114, 0.88453114, 0.884531, 1)
@@ -121,7 +125,7 @@ operation = 2
 size = Vector3(2.7405243, 3.165039, 14.2)
 
 [node name="sungka_board_02_4k" parent="walls/CSGBox3D" unique_id=1164583449 instance=ExtResource("4_2ojwb")]
-transform = Transform3D(1.6676105, 0, 0, 0, 0.3887204, 0, 0, 0, 1.6676105, -1.2054143, -0.84039366, -6.2495213)
+transform = Transform3D(-0.039141532, 0, -1.6671511, 0, 0.3887204, 0, 1.6671511, 0, -0.039141532, -0.48252487, -0.7078378, -5.4469337)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="walls" unique_id=1700331937]
 transform = Transform3D(1, 0, 0, 0, 4.29, 0, 0, 0, 1, -6.460332, 4.6122336, -4.3500004)
@@ -141,9 +145,9 @@ operation = 2
 size = Vector3(2.7405243, 3.165039, 14.2)
 
 [node name="CSGBox3D15" type="CSGBox3D" parent="walls" unique_id=1728927028]
-transform = Transform3D(1, 0, 0, 0, 4.29, 0, 0, 0, 1, -4.6603317, 0.6802335, -0.10000038)
+transform = Transform3D(1, 0, 0, 0, 4.29, 0, 0, 0, 1, -4.6603317, 0.6802335, 0.18398404)
 use_collision = true
-size = Vector3(0.10058594, 0.5, 4.8)
+size = Vector3(0.10058594, 0.5, 4.2320313)
 material = SubResource("StandardMaterial3D_shh0d")
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="walls" unique_id=171028461]
@@ -874,7 +878,7 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, 5.033964
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0510073, 4.0166245, -1.4276447)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = true
+shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k4" parent="light sources" unique_id=41013499 instance=ExtResource("20_jpb2w")]
@@ -887,7 +891,7 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, -3.19152
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1744773, 4.0166245, -1.4276447)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = true
+shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k5" parent="light sources" unique_id=953685648 instance=ExtResource("20_jpb2w")]
@@ -900,7 +904,7 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, -11.5542
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.537199, 4.0166245, -1.4276447)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = true
+shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k6" parent="light sources" unique_id=1735778492 instance=ExtResource("20_jpb2w")]
@@ -913,7 +917,8 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, -4.27368
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.537199, 4.0166245, -1.4276447)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = true
+visible = false
+shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k9" parent="light sources" unique_id=893649110 instance=ExtResource("20_jpb2w")]
@@ -926,7 +931,7 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, -4.27368
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.256645, 4.0166245, -7.5874987)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = true
+shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k10" parent="light sources" unique_id=443088672 instance=ExtResource("20_jpb2w")]
@@ -939,7 +944,7 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, -11.8996
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.882614, 4.7292876, -9.387143)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = true
+shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k7" parent="light sources" unique_id=1417923817 instance=ExtResource("20_jpb2w")]
@@ -952,7 +957,7 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, 2.837799
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8548415, 4.0166245, -7.5874987)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = true
+shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k8" parent="light sources" unique_id=742899470 instance=ExtResource("20_jpb2w")]
@@ -979,7 +984,7 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, -10.1428
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.12579, 4.0166245, 6.168991)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = true
+shadow_enabled = false
 omni_range = 12.969943
 
 [node name="Sketchfab_Scene20" parent="." unique_id=85751376 instance=ExtResource("23_ep5mn")]
@@ -1003,9 +1008,6 @@ transform = Transform3D(-0.30522823, 0, -0.20029818, 0, 0.36508036, 0, 0.2002981
 [node name="power_box_01_4k" parent="." unique_id=125533454 instance=ExtResource("29_5m1ps")]
 transform = Transform3D(1.6718016, 0, 0, 0, 1.6718016, 0, 0, 0, 1.6718016, -6.1658697, 3.248184, 2.347773)
 
-[node name="Shelf_01_4k" parent="." unique_id=1554945851 instance=ExtResource("30_fi80g")]
-transform = Transform3D(1.9332796, 0, 0, 0, 1.9332796, 0, 0, 0, 1.9332796, 6.533168, 0.2691443, -10.870271)
-
 [node name="steel_frame_shelves_02_4k" parent="." unique_id=737676896 instance=ExtResource("31_4mb3p")]
 transform = Transform3D(1.4128919, 0, 0, 0, 1.4128919, 0, 0, 0, 1.4128919, -2.6365447, 0.25106844, -4.6244116)
 
@@ -1023,3 +1025,18 @@ transform = Transform3D(-0.013719742, 0, 1.6594132, 0, 1.4838765, 0, -1.3745787,
 
 [node name="Sketchfab_Scene28" parent="." unique_id=1586021996 instance=ExtResource("36_cqxqb")]
 transform = Transform3D(-2.2358508, 0, 0.28682443, 0, 2.2541733, 0, -0.28682443, 0, -2.2358508, 2.8993487, 0.33699661, -9.560424)
+
+[node name="Sketchfab_Scene30" parent="." unique_id=808007675 instance=ExtResource("38_mbtj0")]
+transform = Transform3D(-1.6209761, 0, 0.0394575, 0, 1.6214563, 0, -0.0394575, 0, -1.6209761, 3.0460687, 0.30459958, -5.8361425)
+
+[node name="Sketchfab_Scene31" parent="." unique_id=263362313 instance=ExtResource("39_fi80g")]
+transform = Transform3D(0.062747605, 0, 1.8292323, 0, 1.8303082, 0, -1.8292323, 0, 0.062747605, -15.998462, 0.2672665, -4.2965355)
+
+[node name="Sketchfab_Scene32" parent="." unique_id=187067123 instance=ExtResource("40_4mb3p")]
+transform = Transform3D(0.01131521, 0, 1.3711687, 0, 1.3712153, 0, -1.3711687, 0, 0.01131521, -16.1823, 0.2658937, -1.4079876)
+
+[node name="Sketchfab_Scene33" parent="." unique_id=981915375 instance=ExtResource("40_fi80g")]
+transform = Transform3D(0.004776649, 0, -1.57095, 0, 1.5709575, 0, 1.57095, 0, 0.004776649, 7.378071, 0.25387275, -9.825211)
+
+[node name="Sketchfab_Scene34" parent="." unique_id=982450772 instance=ExtResource("41_4mb3p")]
+transform = Transform3D(1.7018104, 0, 0, 0, 1.7018104, 0, 0, 0, 1.7018104, 0.48275542, 5.4470873, -1.1194243)

@@ -3,27 +3,36 @@
 [ext_resource type="Texture2D" uid="uid://cb52kdtbklc12" path="res://textures/clean_asphalt_2k.gltf/textures/clean_asphalt_diff_2k.jpg" id="1_o08ei"]
 [ext_resource type="Texture2D" uid="uid://cyn7lm4xs1o0b" path="res://textures/polystyrene_4k.gltf/textures/polystyrene_diff_4k.jpg" id="2_u1lvq"]
 [ext_resource type="PackedScene" uid="uid://d2owu13f5yncp" path="res://models/low_poly_roof_tile_game_ready.glb" id="3_dy838"]
+[ext_resource type="PackedScene" uid="uid://818rht44uctn" path="res://lapaz_public_market_sign.tscn" id="4_dy838"]
+[ext_resource type="PackedScene" uid="uid://d2xutfhluu5ru" path="res://models/FURNITURE/industrial_pipe.glb" id="5_xb1wt"]
+[ext_resource type="PackedScene" uid="uid://cv3nsrhn4c7i2" path="res://models/FURNITURE/petron_gas/scene.gltf" id="6_gfj23"]
+[ext_resource type="PackedScene" uid="uid://c2qyd4b66sx37" path="res://corrugated_metal_sheet_fencing.tscn" id="7_gfj23"]
+[ext_resource type="PackedScene" uid="uid://5m5kyou4hebd" path="res://models/BUILDINGS/mesh_grill_03/scene.gltf" id="8_m1i5l"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x74mo"]
 albedo_color = Color(0.88453114, 0.88453114, 0.884531, 1)
 albedo_texture = ExtResource("1_o08ei")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cniej"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4kgx"]
+albedo_color = Color(0.99607843, 1, 0.9098039, 1)
+albedo_texture = ExtResource("2_u1lvq")
+uv1_scale = Vector3(2, 2, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bihg4"]
 albedo_texture = ExtResource("2_u1lvq")
 uv1_scale = Vector3(9, 9, 9)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_78q3s"]
+albedo_texture = ExtResource("1_o08ei")
 
 [node name="lapaz_public_market" type="Node3D" unique_id=707524680]
 
 [node name="ground" type="Node3D" parent="." unique_id=737836676]
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="ground" unique_id=1181641125]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.3529997, 0, 2.4149323)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.3529997, 0, 3.5698643)
 use_collision = true
-size = Vector3(35.5, 0.5, 29.690136)
+size = Vector3(35.5, 0.5, 32)
 material = SubResource("StandardMaterial3D_x74mo")
 
 [node name="walls" type="Node3D" parent="." unique_id=626775958]
@@ -32,7 +41,7 @@ material = SubResource("StandardMaterial3D_x74mo")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.099999, 3.1006675, 17)
 use_collision = true
 size = Vector3(26.4, 5.8, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="walls/CSGBox3D" unique_id=1241353772]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.1, 2.2000003, 0)
@@ -62,7 +71,7 @@ size = Vector3(4.8, 1, 1)
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -17.399998, 3.1006675, 11.599999)
 use_collision = true
 size = Vector3(11, 5.8, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="walls/CSGBox3D5" unique_id=590654265]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05000019, 2.1, 0)
@@ -74,7 +83,7 @@ size = Vector3(9.900001, 1, 1)
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 9.000002, 3.1006675, 11.799999)
 use_collision = true
 size = Vector3(10.6, 5.8, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="walls/CSGBox3D6" unique_id=569803923]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1863904, 0)
@@ -86,7 +95,7 @@ size = Vector3(10, 1, 1)
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3.700002, 3.1006675, 11.9)
 use_collision = true
 size = Vector3(10.400001, 5.8, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="walls/CSGBox3D7" unique_id=886331612]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.049999237, 2.171547, 0)
@@ -98,7 +107,7 @@ size = Vector3(9.6, 1, 1)
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.5999978, 3.1006675, 11.75)
 use_collision = true
 size = Vector3(10.7, 5.8, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="walls/CSGBox3D8" unique_id=1787853011]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1584225, 0)
@@ -110,7 +119,7 @@ size = Vector3(9.900001, 1, 1)
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -10.799998, 3.1006675, 11.85)
 use_collision = true
 size = Vector3(10.5, 5.8, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="walls/CSGBox3D9" unique_id=1398963419]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.050001144, 2.1458998, 0)
@@ -122,43 +131,43 @@ size = Vector3(9.7, 1, 1)
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 9.516668, 3.1006675, -6.7000017)
 use_collision = true
 size = Vector3(11, 5.8, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D16" type="CSGBox3D" parent="walls" unique_id=1410614660]
 transform = Transform3D(-1, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -1, 10.816668, 3.1006675, -1.3000019)
 use_collision = true
 size = Vector3(2.8, 5.8, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D12" type="CSGBox3D" parent="walls" unique_id=919227639]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, -18.183332, 3.1006675, -6.899999)
 use_collision = true
 size = Vector3(10.6, 5.8, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D13" type="CSGBox3D" parent="walls" unique_id=1451496306]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, -12.1833315, 3.1006675, -7)
 use_collision = true
 size = Vector3(10.400001, 5.8, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="walls" unique_id=163855782]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, -4.883332, 3.1006675, -6.8500013)
 use_collision = true
 size = Vector3(10.7, 5.8, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D15" type="CSGBox3D" parent="walls" unique_id=1061430872]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 2.5166683, 3.1006675, -6.950002)
 use_collision = true
 size = Vector3(10.5, 5.8, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="walls" unique_id=1488386200]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2000012, 3.1006675, -12.099999)
 use_collision = true
 size = Vector3(35, 5.8, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="walls/CSGBox3D3" unique_id=746350441]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.300001, 2.1000004, 0)
@@ -194,7 +203,7 @@ size = Vector3(6.5, 1, 1)
 transform = Transform3D(-4.4703484e-08, 0, 1, 0, 1, 0, -1, 0, -4.4703484e-08, -22.7, 5.2506676, 2.5)
 use_collision = true
 size = Vector3(29.4, 10.1, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="walls/CSGBox3D2" unique_id=1079347896]
 transform = Transform3D(0.9773095, -0.21181658, -1.0143495e-09, 0.21181658, 0.9773095, 9.468934e-09, -1.0143424e-09, -9.468939e-09, 1, -6.3027515, 5.1584387, -0.022750854)
@@ -210,7 +219,7 @@ size = Vector3(12.1, 4.18645, 1)
 transform = Transform3D(-4.4703484e-08, 0, 1, 0, 1, 0, -1, 0, -4.4703484e-08, 12.2, 5.2506676, 2.5)
 use_collision = true
 size = Vector3(29.4, 10.1, 0.2)
-material = SubResource("StandardMaterial3D_cniej")
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="walls/CSGBox3D4" unique_id=1165364179]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4000003, 0)
@@ -230,6 +239,7 @@ size = Vector3(12.1, 4.18645, 1)
 [node name="CSGBox3D10" type="CSGBox3D" parent="walls" unique_id=1303618377]
 transform = Transform3D(1, 0, 0, 0, 0.9848077, 0.17364818, 0, -0.17364818, 0.9848077, -5.200001, 9.49324, -0.55)
 size = Vector3(34.9, 1.4, 0.3)
+material = SubResource("StandardMaterial3D_t4kgx")
 
 [node name="fences" type="Node3D" parent="." unique_id=566032161]
 
@@ -572,4 +582,139 @@ radius = 0.081
 height = 1.5
 material = SubResource("StandardMaterial3D_78q3s")
 
+[node name="CSGCylinder3D9" type="CSGCylinder3D" parent="signage/poles" unique_id=1831541197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.000001, 9.825, 9.500001)
+radius = 0.081
+height = 3.45
+material = SubResource("StandardMaterial3D_78q3s")
+
+[node name="CSGCylinder3D10" type="CSGCylinder3D" parent="signage/poles" unique_id=228547348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.000001, 9.825, -3.6999989)
+radius = 0.081
+height = 3.45
+material = SubResource("StandardMaterial3D_78q3s")
+
 [node name="sign board" type="Node3D" parent="signage" unique_id=1804705659]
+
+[node name="Sign" parent="." unique_id=2085551311 instance=ExtResource("4_dy838")]
+transform = Transform3D(3.2200003, 0, 0, 0, 2.2080002, 0, 0, 0, 2.3000002, -5.2000012, 8.8, 17.500002)
+
+[node name="Sign2" parent="." unique_id=209417618 instance=ExtResource("4_dy838")]
+transform = Transform3D(-8.1360334e-08, 0, 1.8199999, 0, 1.8199999, 0, -1.8199999, 0, -8.1360334e-08, 12.300001, 12.4, 2.3)
+
+[node name="Sketchfab_Scene" parent="." unique_id=376979830 instance=ExtResource("5_xb1wt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3000002, 0.9, 17.9)
+
+[node name="Sketchfab_Scene2" parent="." unique_id=274662650 instance=ExtResource("5_xb1wt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.9, 0.9, 17.9)
+
+[node name="Sketchfab_Scene3" parent="." unique_id=410692986 instance=ExtResource("5_xb1wt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.200001, 0.9, 17.9)
+
+[node name="Sketchfab_Scene4" parent="." unique_id=764729183 instance=ExtResource("6_gfj23")]
+transform = Transform3D(0.2925, 0, 0, 0, 0.2925, 0, 0, 0, 0.2925, 8, -4.1, 17.6)
+
+[node name="Sketchfab_Scene5" parent="." unique_id=2002605625 instance=ExtResource("6_gfj23")]
+transform = Transform3D(0.18801537, 0, 0.22406799, 0, 0.29250002, 0, -0.22406799, 0, 0.18801537, 6.8, -4.1, 18)
+
+[node name="corrugated metal sheet fencing" parent="." unique_id=1594563130 instance=ExtResource("7_gfj23")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -15.1, 0.7, 17.1)
+
+[node name="corrugated metal sheet fencing6" parent="." unique_id=254867935 instance=ExtResource("7_gfj23")]
+transform = Transform3D(4.4703484e-08, 0, -1.2, 0, 1.1999999, 0, 1.2, 0, 4.4703484e-08, -17.6, 0.7, 13.8)
+
+[node name="corrugated metal sheet fencing19" parent="." unique_id=1385998975 instance=ExtResource("7_gfj23")]
+transform = Transform3D(4.4703484e-08, 0, -1.2, 0, 1.4399999, 0, 1.2, 0, 4.4703484e-08, -22.6, 0.90000004, 13.8)
+
+[node name="corrugated metal sheet fencing20" parent="." unique_id=1662139742 instance=ExtResource("7_gfj23")]
+transform = Transform3D(4.4703484e-08, 0, -1.2, 0, 1.4399999, 0, 1.2, 0, 4.4703484e-08, -22.6, 0.90000004, 8.1)
+
+[node name="corrugated metal sheet fencing21" parent="." unique_id=419902721 instance=ExtResource("7_gfj23")]
+transform = Transform3D(4.4703484e-08, 0, -1.2, 0, 1.4399999, 0, 1.2, 0, 4.4703484e-08, -22.6, 0.90000004, 2.4)
+
+[node name="corrugated metal sheet fencing22" parent="." unique_id=872867939 instance=ExtResource("7_gfj23")]
+transform = Transform3D(4.4703484e-08, 0, -1.2, 0, 1.4399999, 0, 1.2, 0, 4.4703484e-08, -22.6, 0.90000004, -3.3000002)
+
+[node name="corrugated metal sheet fencing16" parent="." unique_id=898209434 instance=ExtResource("7_gfj23")]
+transform = Transform3D(4.4703484e-08, 0, -1.2, 0, 1.1999999, 0, 1.2, 0, 4.4703484e-08, -22.800001, 0.7, 13.900001)
+
+[node name="corrugated metal sheet fencing9" parent="." unique_id=508540391 instance=ExtResource("7_gfj23")]
+transform = Transform3D(4.0233132e-08, 0, -1.2, 0, 1.1999999, 0, 1.08, 0, 4.4703484e-08, -17.6, 0.7, 8.3)
+
+[node name="corrugated metal sheet fencing17" parent="." unique_id=1591057003 instance=ExtResource("7_gfj23")]
+transform = Transform3D(0.9719999, 0, 9.715714e-08, 0, 1.5599997, 0, -7.8697276e-08, 0, 1.1999999, -20.800001, 0.7, -1.5943623)
+
+[node name="corrugated metal sheet fencing18" parent="." unique_id=437722686 instance=ExtResource("7_gfj23")]
+transform = Transform3D(0.9719999, 0, 9.715714e-08, 0, 1.5599997, 0, -7.8697276e-08, 0, 1.1999999, -20.800001, 0.7, -1.5943623)
+
+[node name="corrugated metal sheet fencing2" parent="." unique_id=638290815 instance=ExtResource("7_gfj23")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -9.4, 0.7, 17.1)
+
+[node name="corrugated metal sheet fencing3" parent="." unique_id=637834294 instance=ExtResource("7_gfj23")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -3.6999993, 0.7, 17.1)
+
+[node name="corrugated metal sheet fencing4" parent="." unique_id=314743442 instance=ExtResource("7_gfj23")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -15.1, 0.7, 17.1)
+
+[node name="corrugated metal sheet fencing5" parent="." unique_id=2095041504 instance=ExtResource("7_gfj23")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -3.6999993, 0.7, 17.1)
+
+[node name="corrugated metal sheet fencing7" parent="." unique_id=1123094678 instance=ExtResource("7_gfj23")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 2.0000005, 0.7, 17.1)
+
+[node name="corrugated metal sheet fencing10" parent="." unique_id=893927313 instance=ExtResource("7_gfj23")]
+transform = Transform3D(-5.2453665e-08, 0, 1.1999999, 0, 1.5599998, 0, -1.1999999, 0, -5.2453665e-08, 12.300001, 0.7, 14.8)
+
+[node name="corrugated metal sheet fencing11" parent="." unique_id=1294504682 instance=ExtResource("7_gfj23")]
+transform = Transform3D(-5.2453665e-08, 0, 1.1999999, 0, 1.5599998, 0, -1.1999999, 0, -5.2453665e-08, 12.300001, 0.7, 9.099999)
+
+[node name="corrugated metal sheet fencing12" parent="." unique_id=1827964903 instance=ExtResource("7_gfj23")]
+transform = Transform3D(-5.2453665e-08, 0, 1.1999999, 0, 1.5599998, 0, -1.1999999, 0, -5.2453665e-08, 12.300001, 0.7, -3.4000006)
+
+[node name="corrugated metal sheet fencing13" parent="." unique_id=2135926662 instance=ExtResource("7_gfj23")]
+transform = Transform3D(-5.2453665e-08, 0, 1.1999999, 0, 1.5599998, 0, -1.1999999, 0, -5.2453665e-08, 12.300001, 0.7, -8.9)
+
+[node name="corrugated metal sheet fencing8" parent="." unique_id=1841435647 instance=ExtResource("7_gfj23")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 5.8, 0.7, 17.1)
+
+[node name="corrugated metal sheet fencing14" parent="." unique_id=24555759 instance=ExtResource("7_gfj23")]
+transform = Transform3D(4.4703484e-08, 0, 1.2, 0, 1.1999999, 0, -1.2, 0, 4.4703484e-08, 9.1, 0.7, 14.7)
+
+[node name="corrugated metal sheet fencing15" parent="." unique_id=48584506 instance=ExtResource("7_gfj23")]
+transform = Transform3D(4.4703484e-08, 0, 1.2, 0, 1.1999999, 0, -1.2, 0, 4.4703484e-08, 9.1, 0.7, 9.8)
+
+[node name="Sketchfab_Scene6" parent="." unique_id=222403597 instance=ExtResource("8_m1i5l")]
+transform = Transform3D(0.02479351, 0, 0, 0, 0.011999999, 0, 0, 0, 0.011999999, -16.005657, 5.2999954, 17)
+
+[node name="Sketchfab_Scene7" parent="." unique_id=700139766 instance=ExtResource("8_m1i5l")]
+transform = Transform3D(0.02479351, 0, 0, 0, 0.011999999, 0, 0, 0, 0.011999999, -13.5292845, 5.2999954, 17)
+
+[node name="Sketchfab_Scene8" parent="." unique_id=1136705424 instance=ExtResource("8_m1i5l")]
+transform = Transform3D(0.02479351, 0, 0, 0, 0.011999999, 0, 0, 0, 0.011999999, -11.0769, 5.2999954, 17)
+
+[node name="Sketchfab_Scene9" parent="." unique_id=830067863 instance=ExtResource("8_m1i5l")]
+transform = Transform3D(0.02479351, 0, 0, 0, 0.011999999, 0, 0, 0, 0.011999999, -8.596146, 5.2999954, 17)
+
+[node name="Sketchfab_Scene10" parent="." unique_id=1531346181 instance=ExtResource("8_m1i5l")]
+transform = Transform3D(0.02479351, 0, 0, 0, 0.011999999, 0, 0, 0, 0.011999999, -6.141158, 5.2999954, 17)
+
+[node name="Sketchfab_Scene11" parent="." unique_id=298321115 instance=ExtResource("8_m1i5l")]
+transform = Transform3D(0.02479351, 0, 0, 0, 0.011999999, 0, 0, 0, 0.011999999, -3.6610384, 5.2999954, 17)
+
+[node name="Sketchfab_Scene12" parent="." unique_id=1439394258 instance=ExtResource("8_m1i5l")]
+transform = Transform3D(0.02479351, 0, 0, 0, 0.011999999, 0, 0, 0, 0.011999999, -1.1903224, 5.2999954, 17)
+
+[node name="Sketchfab_Scene13" parent="." unique_id=1912819879 instance=ExtResource("8_m1i5l")]
+transform = Transform3D(0.02479351, 0, 0, 0, 0.011999999, 0, 0, 0, 0.011999999, 1.2877711, 5.2999954, 17)
+
+[node name="Sketchfab_Scene14" parent="." unique_id=358831479 instance=ExtResource("8_m1i5l")]
+transform = Transform3D(0.02479351, 0, 0, 0, 0.011999999, 0, 0, 0, 0.011999999, 3.7680302, 5.2999954, 17)
+
+[node name="Sketchfab_Scene15" parent="." unique_id=193282685 instance=ExtResource("8_m1i5l")]
+transform = Transform3D(0.02479351, 0, 0, 0, 0.011999999, 0, 0, 0, 0.011999999, 3.7680302, 5.2999954, 17)
+
+[node name="Sketchfab_Scene16" parent="." unique_id=455961358 instance=ExtResource("8_m1i5l")]
+transform = Transform3D(0.02479351, 0, 0, 0, 0.011999999, 0, 0, 0, 0.011999999, 6.2245708, 5.2999954, 17)
+
+[node name="Sketchfab_Scene17" parent="." unique_id=1082270804 instance=ExtResource("8_m1i5l")]
+transform = Transform3D(0.014745386, 0, 0, 0, 0.011999999, 0, 0, 0, 0.011999999, 8.201795, 5.2999954, 17)

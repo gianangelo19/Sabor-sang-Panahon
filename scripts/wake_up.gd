@@ -7,7 +7,7 @@ var dialogue_scene = preload("res://dialogue_ui.tscn")
 var waking_up_tex = preload("res://characters/1main_character_waking_up.png")
 
 func _ready():
-	var player = get_node("../ProtoController")
+	var player = get_tree().root.find_child("ProtoController", true, false)
 	if player:
 		# Disable player movement during wake up and dialogue
 		player.can_move = false
@@ -45,7 +45,7 @@ func start_dialogue():
 	ui.dialogue_finished.connect(_on_dialogue_finished)
 
 func _on_dialogue_finished():
-	var player = get_node("../ProtoController")
+	var player = get_tree().root.find_child("ProtoController", true, false)
 	if player:
 		player.can_move = true
 		player.set_process_unhandled_input(true)

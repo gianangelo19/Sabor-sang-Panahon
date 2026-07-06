@@ -1,0 +1,266 @@
+{
+  "accessors": [
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 1008,
+      "max": [
+        50.0,
+        -0.0,
+        47.325401306152344
+      ],
+      "min": [
+        -50.0,
+        -1.3464000225067139,
+        -47.325401306152344
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 12096,
+      "componentType": 5126,
+      "count": 1008,
+      "max": [
+        1.0,
+        0.0005999999702908099,
+        0.0005999999702908099
+      ],
+      "min": [
+        -1.0,
+        -0.00019999999494757503,
+        -0.0005999999702908099
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 1920,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 24192,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        50.0,
+        -0.0,
+        50.29999923706055
+      ],
+      "min": [
+        -50.0,
+        -1.3464000225067139,
+        -47.174800872802734
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 810576,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.8787992596626282,
+        0.9815691113471985,
+        0.9735913872718811
+      ],
+      "min": [
+        -0.8787992596626282,
+        -0.9800994992256165,
+        -0.9735913872718811
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 7680,
+      "componentType": 5125,
+      "count": 390036,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 1596960,
+      "componentType": 5126,
+      "count": 34151,
+      "max": [
+        50.0,
+        -0.0,
+        47.16680145263672
+      ],
+      "min": [
+        -50.0,
+        -1.3464000225067139,
+        -50.29999923706055
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 2006772,
+      "componentType": 5126,
+      "count": 34151,
+      "max": [
+        0.8787992596626282,
+        0.9815691113471985,
+        0.9735913872718811
+      ],
+      "min": [
+        -0.8787992596626282,
+        -0.9800994992256165,
+        -0.9735913872718811
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 1567824,
+      "componentType": 5125,
+      "count": 202092,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "romullus (https://sketchfab.com/romullus)",
+      "license": "CC-BY-SA-4.0 (http://creativecommons.org/licenses/by-sa/4.0/)",
+      "source": "https://sketchfab.com/3d-models/mesh-grill-03-b01080604d1b4552bcfd0faa4a6b00ee",
+      "title": "Mesh Grill 03"
+    },
+    "generator": "Sketchfab-12.65.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 2376192,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 2416584,
+      "byteOffset": 2376192,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 4792776,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "material_0",
+      "pbrMetallicRoughness": {
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.6
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0
+          },
+          "indices": 2,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_1",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 4,
+            "POSITION": 3
+          },
+          "indices": 5,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_2",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 7,
+            "POSITION": 6
+          },
+          "indices": 8,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2,
+        3,
+        4
+      ],
+      "name": "grill_03.obj.cleaner.materialmerger.gles"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_2"
+    },
+    {
+      "mesh": 1,
+      "name": "Object_3"
+    },
+    {
+      "mesh": 2,
+      "name": "Object_4"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Wooden Door and Frame
+* source:	https://sketchfab.com/3d-models/wooden-door-and-frame-4b2791977bbc4c23bcb7fb7c0cd61d54
+* author:	GameDevMoot (https://sketchfab.com/GameDevMoot)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Wooden Door and Frame" (https://sketchfab.com/3d-models/wooden-door-and-frame-4b2791977bbc4c23bcb7fb7c0cd61d54) by GameDevMoot (https://sketchfab.com/GameDevMoot) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,6 +1,6 @@
 extends Control
 
-const APARTMENT_SCENE := "res://apartment.tscn"
+const APARTMENT_SCENE := "res://la_paz.tscn"
 
 @onready var start_button: Button = %StartButton
 
@@ -11,6 +11,9 @@ func _ready() -> void:
 func _on_start_button_pressed() -> void:
 	GameState.reset()
 	get_tree().change_scene_to_file(APARTMENT_SCENE)
+
+func _on_settings_button_pressed() -> void:
+	SettingsManager.show_settings_menu(self)
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()

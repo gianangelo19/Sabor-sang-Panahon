@@ -1,0 +1,11 @@
+Model Information:
+* title:	Kitchen Oven and Sink Set Low Poly
+* source:	https://sketchfab.com/3d-models/kitchen-oven-and-sink-set-low-poly-4907f6a11e874b4daa90b8bef4fc83c0
+* author:	GameDevMoot (https://sketchfab.com/GameDevMoot)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Kitchen Oven and Sink Set Low Poly" (https://sketchfab.com/3d-models/kitchen-oven-and-sink-set-low-poly-4907f6a11e874b4daa90b8bef4fc83c0) by GameDevMoot (https://sketchfab.com/GameDevMoot) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

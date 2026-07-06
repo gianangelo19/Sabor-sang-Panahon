@@ -108,6 +108,14 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_button")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
 text = "Start"
 
+[node name="SettingsButton" type="Button" parent="CenterPanel/MenuStack"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
+text = "Settings"
+
 [node name="QuitButton" type="Button" parent="CenterPanel/MenuStack"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
@@ -134,4 +142,5 @@ text = "Present-day Iloilo. One forgotten dish. One dinner before Grandma return
 horizontal_alignment = 1
 
 [connection signal="pressed" from="CenterPanel/MenuStack/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="CenterPanel/MenuStack/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="CenterPanel/MenuStack/QuitButton" to="." method="_on_quit_button_pressed"]

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Small Wooden Cabinet Low Poly
+* source:	https://sketchfab.com/3d-models/small-wooden-cabinet-low-poly-bf4e6be63a4647d6a4b7b1158092dcde
+* author:	GameDevMoot (https://sketchfab.com/GameDevMoot)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Small Wooden Cabinet Low Poly" (https://sketchfab.com/3d-models/small-wooden-cabinet-low-poly-bf4e6be63a4647d6a4b7b1158092dcde) by GameDevMoot (https://sketchfab.com/GameDevMoot) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

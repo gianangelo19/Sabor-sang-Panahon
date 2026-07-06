@@ -1,0 +1,336 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 20704,
+      "max": [
+        0.6879013180732727,
+        0.21988382935523987,
+        2.300663948059082
+      ],
+      "min": [
+        -0.687241792678833,
+        -0.25797486305236816,
+        -0.0038724818732589483
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 248448,
+      "componentType": 5126,
+      "count": 20704,
+      "max": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 20704,
+      "max": [
+        0.9459415674209595,
+        1.3367242813110352
+      ],
+      "min": [
+        0.05403563380241394,
+        -0.15606170892715454
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 74172,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 496896,
+      "componentType": 5126,
+      "count": 512,
+      "max": [
+        0.0790921002626419,
+        -0.17193734645843506,
+        0.5299253463745117
+      ],
+      "min": [
+        -0.0790921002626419,
+        -0.19753089547157288,
+        0.48493969440460205
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 503040,
+      "componentType": 5126,
+      "count": 512,
+      "max": [
+        0.9848078489303589,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -0.9848078489303589,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 165632,
+      "componentType": 5126,
+      "count": 512,
+      "max": [
+        0.5491483211517334,
+        0.3816673159599304
+      ],
+      "min": [
+        0.41806021332740784,
+        0.16293209791183472
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 296688,
+      "componentType": 5125,
+      "count": 2376,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "GameDevMoot (https://sketchfab.com/GameDevMoot)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/fancy-shelf-39a8ac4cd178481897cb8a6bba627797",
+      "title": "Fancy Shelf"
+    },
+    "generator": "Sketchfab-15.53.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 306192,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 169728,
+      "byteOffset": 306192,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 509184,
+      "byteOffset": 475920,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 985104,
+      "uri": "scene.bin"
+    }
+  ],
+  "extensionsUsed": [
+    "KHR_materials_specular"
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_specular": {
+          "specularColorFactor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "specularFactor": 0.1
+        }
+      },
+      "name": "Wood",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.03433980680868217,
+          0.012983032342173007,
+          0.005605391624202719,
+          1.0
+        ],
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.45904597042581463
+      }
+    },
+    {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_specular": {
+          "specularColorFactor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "specularFactor": 0.1
+        }
+      },
+      "name": "Metal",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.043265861743718964,
+          0.043265861743718964,
+          0.043265861743718964,
+          1.0
+        ],
+        "metallicFactor": 0.77,
+        "roughnessFactor": 0.2883787836305788
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Shelf_Fancy_Wood_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Shelf_Fancy_Metal_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 5,
+            "POSITION": 4,
+            "TEXCOORD_0": 6
+          },
+          "indices": 7,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        -0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "072ed5c30c8743b49a09d9846981681f.fbx"
+    },
+    {
+      "children": [
+        3
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4,
+        5
+      ],
+      "matrix": [
+        100.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.629206793918314e-05,
+        -99.99999999999868,
+        0.0,
+        0.0,
+        99.99999999999868,
+        -1.629206793918314e-05,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Shelf_Fancy"
+    },
+    {
+      "mesh": 0,
+      "name": "Shelf_Fancy_Wood_0"
+    },
+    {
+      "mesh": 1,
+      "name": "Shelf_Fancy_Metal_0"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}

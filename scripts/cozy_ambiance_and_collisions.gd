@@ -1,9 +1,18 @@
 extends Node3D
 
+var bg_music: AudioStreamPlayer
+
 func _ready():
 	_apply_cozy_ambiance()
 	# Defer so all instanced PackedScene children (GLTFs) are fully loaded before we scan them
 	call_deferred("_generate_collisions", self)
+	
+	bg_music = AudioStreamPlayer.new()
+	bg_music.stream = load("res://audio/in game sound.mp3")
+	bg_music.bus = "Music"
+	bg_music.autoplay = true
+	bg_music.finished.connect(func(): bg_music.play())
+	add_child(bg_music)
 
 func _apply_cozy_ambiance():
 	var we = WorldEnvironment.new()

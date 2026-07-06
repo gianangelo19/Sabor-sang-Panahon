@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://br633ah53wtim"]
+
+[ext_resource type="Texture2D" uid="uid://cp8kfufswmmmc" path="res://pinjoint-ropephysics/textures/kenney_prototype_textures/Orange/texture_09.png" id="1_sc217"]
+
+[resource]
+albedo_color = Color(0.06469653, 0.06469653, 0.06469653, 1)
+albedo_texture = ExtResource("1_sc217")
+roughness = 0.32
+uv1_scale = Vector3(2, 2, 2)
+uv1_triplanar_sharpness = 150.0

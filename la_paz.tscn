@@ -1,19 +1,32 @@
 [gd_scene format=3 uid="uid://budvpj5bgbp3m"]
 
+[ext_resource type="PackedScene" uid="uid://b71agcqtytyk6" path="res://tindahan.tscn" id="1_5fghb"]
 [ext_resource type="Texture2D" uid="uid://dd6etm7kpce86" path="res://textures/asphalt_02_4k.gltf/textures/asphalt_02_diff_4k.jpg" id="1_473u4"]
 [ext_resource type="Texture2D" uid="uid://c6t64edstevcc" path="res://models/citrus_orchard_road_puresky_4k.hdr" id="1_cmw23"]
-[ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_7hepo"]
+[ext_resource type="PackedScene" uid="uid://c34mo0co504t1" path="res://blue_borders.tscn" id="1_p22k2"]
 [ext_resource type="PackedScene" uid="uid://pynnsd7sxmka" path="res://lapaz_home.tscn" id="3_7hepo"]
 [ext_resource type="PackedScene" uid="uid://cvsap3ygjadcf" path="res://models/BUILDINGS/game_ready_building_5/scene.gltf" id="4_ccmpj"]
-[ext_resource type="PackedScene" uid="uid://ccdjpnarmyjco" path="res://models/VEHICLES/13_forrunner_2.5_g_textured/scene.gltf" id="5_evurx"]
 [ext_resource type="PackedScene" uid="uid://rjmvxpqlaydv" path="res://models/lake_pinatubo_philippines/scene.gltf" id="5_y5vev"]
 [ext_resource type="PackedScene" uid="uid://bgjewlr4hg77s" path="res://models/VEHICLES/1984_suzuki_kei_truck/scene.gltf" id="8_ytphx"]
 [ext_resource type="PackedScene" uid="uid://5xvcspr3137c" path="res://models/VEHICLES/honda_supra_x_125/scene.gltf" id="9_abovg"]
+[ext_resource type="Texture2D" uid="uid://bnwu2ojp3qu1j" path="res://textures/herringbone_brick_03_1k.gltf/textures/herringbone_brick_03_diff_1k.jpg" id="9_uatrr"]
 [ext_resource type="PackedScene" uid="uid://bw88cgytuisdc" path="res://models/FURNITURE/french_coke_can/scene.gltf" id="10_8qvf0"]
-[ext_resource type="PackedScene" uid="uid://d3pkss07jymc5" path="res://models/FURNITURE/mechanical_door_garage_door-_20mb/scene.gltf" id="11_aiuxd"]
+[ext_resource type="Texture2D" uid="uid://ccwth7ooyhbtk" path="res://textures/ground_grey_4k.gltf/textures/ground_grey_diff_4k.jpg" id="10_uatrr"]
 [ext_resource type="PackedScene" uid="uid://ykmm6ovnqxan" path="res://models/BUILDINGS/game_ready_mid_poly_building/scene.gltf" id="12_o2dhb"]
 [ext_resource type="PackedScene" uid="uid://bvoyh863f0atn" path="res://models/BUILDINGS/old_indonesian_simple_house/scene.gltf" id="13_e5bc8"]
+[ext_resource type="PackedScene" uid="uid://b1hej2fj434ru" path="res://electrical_pole.tscn" id="14_3p7g8"]
 [ext_resource type="PackedScene" uid="uid://cffbygnjafknx" path="res://lapaz_public_market.tscn" id="14_e5bc8"]
+[ext_resource type="Texture2D" uid="uid://cyn7lm4xs1o0b" path="res://textures/polystyrene_4k.gltf/textures/polystyrene_diff_4k.jpg" id="14_p22k2"]
+[ext_resource type="PackedScene" uid="uid://l43cfl3je41g" path="res://models/BUILDINGS/worned_out_traffic_light.glb" id="15_3p7g8"]
+[ext_resource type="PackedScene" uid="uid://bcuhecxvx5g2c" path="res://jeepney.tscn" id="20_3vwpy"]
+[ext_resource type="PackedScene" uid="uid://d3atve3bkjke" path="res://apartment.tscn" id="20_noq4k"]
+[ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="21_3vwpy"]
+[ext_resource type="PackedScene" uid="uid://b2ne7eaq36m3o" path="res://models/FURNITURE/realistic_tree.glb" id="22_vx42f"]
+[ext_resource type="PackedScene" uid="uid://b6qefu5kjynbt" path="res://models/FURNITURE/mango_tree.glb" id="23_0ih5w"]
+[ext_resource type="PackedScene" uid="uid://c2qyd4b66sx37" path="res://corrugated_metal_sheet_fencing.tscn" id="24_0ih5w"]
+[ext_resource type="PackedScene" uid="uid://d1hl1h4yfxckb" path="res://models/BUILDINGS/empty_mall.glb" id="25_3gmll"]
+[ext_resource type="PackedScene" path="res://ui/game_hud.tscn" id="hud_phone"]
+[ext_resource type="Script" uid="uid://bdubpo54wcesl" path="res://scripts/wake_up.gd" id="wakeup_script"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_y5vev"]
 panorama = ExtResource("1_cmw23")
@@ -26,7 +39,6 @@ sky_material = SubResource("PanoramaSkyMaterial_y5vev")
 background_mode = 2
 background_energy_multiplier = 1.53
 sky = SubResource("Sky_s3k5f")
-glow_enabled = true
 fog_mode = 1
 fog_light_color = Color(0.700359, 0.613651, 0.40811548, 1)
 fog_density = 0.2951
@@ -35,106 +47,1228 @@ fog_density = 0.2951
 albedo_texture = ExtResource("1_473u4")
 uv1_scale = Vector3(10, 10, 10)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_78q3s"]
+albedo_texture = ExtResource("9_uatrr")
+uv1_scale = Vector3(10, 10, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ffwg2"]
+albedo_texture = ExtResource("10_uatrr")
+uv1_scale = Vector3(9, 9, 9)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_78q3s"]
+material = SubResource("StandardMaterial3D_ffwg2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4dl3w"]
+albedo_texture = ExtResource("10_uatrr")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_noq4k"]
+albedo_texture = ExtResource("10_uatrr")
+uv1_scale = Vector3(4, 4, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_temmm"]
+transparency = 3
+alpha_hash_scale = 2.0
+alpha_antialiasing_mode = 0
+blend_mode = 1
+albedo_color = Color(1.0039686, 0.6693813, 0.30330354, 0.75686276)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_cniej"]
+material = SubResource("StandardMaterial3D_temmm")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o2dhb"]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+albedo_color = Color(1, 1, 1, 0.7921569)
+albedo_texture = ExtResource("14_p22k2")
+uv1_scale = Vector3(3, 3, 3)
+
+[sub_resource type="Animation" id="Animation_noq4k"]
+length = 20.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/Path3D/PathFollow3D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 20),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [0.0075, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_u0xaq"]
+resource_name = "exit jeep cutscene"
+length = 21.133333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/Path3D/PathFollow3D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.0264266, 8.06087, 17.99668, 21.031376),
+"transitions": PackedFloat32Array(-2, -2, -1.5, -1.5, -1.5),
+"update": 0,
+"values": [0.3311, 0.3311, 0.4802, 0.8809999, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_3vwpy"]
+resource_name = "jeepney_cutscene"
+length = 15.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/Path3D/PathFollow3D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 14.866667),
+"transitions": PackedFloat32Array(-1.5, -1.5),
+"update": 0,
+"values": [0.0, 0.3311]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u0xaq"]
+_data = {
+&"RESET": SubResource("Animation_noq4k"),
+&"exit jeep cutscene": SubResource("Animation_u0xaq"),
+&"jeepney_cutscene": SubResource("Animation_3vwpy")
+}
+
+[sub_resource type="Curve3D" id="Curve3D_vx42f"]
+bake_interval = 10.97
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0.13520241, 0.099999964, 117.97951, 0, 0, 0, 0, 0, 0, 0.7994938, 0.099999994, 160.22914, 0, 0, 0, 0, 0, 0, -45.08264, 0.099999994, 159.30768, 0, 0, 0, 0, 0, 0, -47.768867, 0.099999994, 48.853935, 0, 0, 0, 0, 0, 0, -47.86129, 0.5, 1.0904312),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 6
+
 [node name="la_paz" type="Node3D" unique_id=1930261077]
+
+[node name="GameHUD" parent="." unique_id=356334471 instance=ExtResource("hud_phone")]
+
+[node name="tindahan" parent="." unique_id=695717090 instance=ExtResource("1_5fghb")]
+transform = Transform3D(-4.885962e-08, 0, 1.1177781, 0, 1.1177781, 0, -1.1177781, 0, -4.885962e-08, -27.53286, 0.5098752, -26.2)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1752929690]
 environment = SubResource("Environment_e42m6")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1580595109]
-transform = Transform3D(0.04750681, 0.8096839, -0.5849401, -0.1156248, 0.5861223, 0.80192983, 0.99215627, 0.029536515, 0.12146436, -31.391506, 39.306488, 46.392616)
+transform = Transform3D(-0.91607356, 0.24917296, -0.3142005, -0.11562483, 0.5861224, 0.80192983, 0.38397917, 0.7709561, -0.5081206, -31.991507, 8.106487, 46.392616)
 shadow_enabled = true
 
 [node name="ground" type="Node3D" parent="." unique_id=1400869878]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="ground" unique_id=151236237]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.950003, 0, -29.200005)
 use_collision = true
-size = Vector3(100, 1, 100)
+size = Vector3(123.9, 1, 182.2)
 material = SubResource("StandardMaterial3D_cniej")
-
-[node name="ProtoController" parent="." unique_id=1102026077 instance=ExtResource("2_7hepo")]
-transform = Transform3D(-0.6735312, 0, -0.7391588, 0, 1, 0, 0.7391588, 0, -0.6735312, 47.846626, 0.6225457, 29.979055)
-can_sprint = true
-base_speed = 3.0
-sprint_speed = 5.0
 
 [node name="home" type="Node3D" parent="." unique_id=203282948]
 
 [node name="lapaz_home" parent="home" unique_id=1425629456 instance=ExtResource("3_7hepo")]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 41.174473, 0.3230517, 36.830753)
 
-[node name="Sketchfab_Scene" parent="home" unique_id=453997032 instance=ExtResource("5_evurx")]
-transform = Transform3D(0.0220198, 0, -0.03504531, 0, 0.041388948, 0, 0.03504531, 0, 0.0220198, 42.51583, 1.6360829, 23.053738)
-
 [node name="buildings" type="Node3D" parent="." unique_id=38930239]
 
+[node name="Sketchfab_Scene2" parent="buildings" unique_id=335521482 instance=ExtResource("15_3p7g8")]
+transform = Transform3D(2.64, 0, 0, 0, 2.64, 0, 0, 0, 2.64, -12.500001, 4.0000005, 15.299997)
+
+[node name="Sketchfab_Scene3" parent="buildings" unique_id=804230172 instance=ExtResource("15_3p7g8")]
+transform = Transform3D(8.940697e-08, 0, -2.6399999, 0, 2.6399999, 0, 2.6399999, 0, 8.940697e-08, -8.700001, 4.0000005, 44.3)
+
+[node name="Sketchfab_Scene4" parent="buildings" unique_id=1394556219 instance=ExtResource("15_3p7g8")]
+transform = Transform3D(-2.6399999, 0, 2.5991092e-08, 0, 2.6399999, 0, -2.5991092e-08, 0, -2.6399999, -20.400002, 4.0000005, 47.7)
+
+[node name="Electrical Poles" type="Node3D" parent="buildings" unique_id=1172577373]
+
+[node name="Electrical Pole" parent="buildings/Electrical Poles" unique_id=1884957584 instance=ExtResource("14_3p7g8")]
+transform = Transform3D(-0.0053408933, 0, 0.84063685, -0.047575288, 0.8393065, -0.00030226435, -0.8392895, -0.04757625, -0.005332333, -31.58706, 0.21134722, 42.169388)
+
+[node name="Electrical Pole3" parent="buildings/Electrical Poles" unique_id=484304391 instance=ExtResource("14_3p7g8")]
+transform = Transform3D(0.839789, 0.037747275, 0.00533547, -0.03799463, 0.8383626, 0.04902436, -0.003119623, -0.049215067, 0.83920616, -23.672358, 0.20789647, 20.528841)
+
+[node name="Electrical Pole4" parent="buildings/Electrical Poles" unique_id=935043364 instance=ExtResource("14_3p7g8")]
+transform = Transform3D(0.84043515, 0.01870393, 0.0042210794, -0.018918835, 0.8390035, 0.04913285, -0.0031196233, -0.04921506, 0.8392061, -23.672358, 0.20789647, -6.4946356)
+
+[node name="Electrical Pole5" parent="buildings/Electrical Poles" unique_id=501256688 instance=ExtResource("14_3p7g8")]
+transform = Transform3D(0.839789, 0.03774727, 0.0053354707, -0.03754046, 0.83930886, -0.0291562, -0.006636115, 0.02888792, 0.8401311, -23.672358, 0.20789647, -28.494635)
+
+[node name="Electrical Pole6" parent="buildings/Electrical Poles" unique_id=367596296 instance=ExtResource("14_3p7g8")]
+transform = Transform3D(0.839789, 0.037747275, 0.0053354707, -0.037581123, 0.8394727, -0.023915723, -0.0064018453, 0.02365259, 0.8402966, -23.672358, 0.20789647, -54.694637)
+
+[node name="Electrical Pole7" parent="buildings/Electrical Poles" unique_id=644913634 instance=ExtResource("14_3p7g8")]
+transform = Transform3D(0.839789, 0.037747275, 0.0053354707, -0.037581123, 0.8394727, -0.023915723, -0.0064018453, 0.02365259, 0.8402966, -23.672358, 0.20789647, -81.99464)
+
+[node name="Electrical Pole2" parent="buildings/Electrical Poles" unique_id=1828078417 instance=ExtResource("14_3p7g8")]
+transform = Transform3D(-0.006230979, 0.019311793, 0.84040886, -0.03863307, 0.8395373, -0.0195782, -0.8397425, -0.03876694, -0.0053352113, -47.252636, 0.4576609, 42.30094)
+
 [node name="Sketchfab_Scene" parent="buildings" unique_id=521530763 instance=ExtResource("4_ccmpj")]
-transform = Transform3D(125, 0, 0, 0, 125, 0, 0, 0, 125, -138.24048, 5.343277, -100.332245)
+transform = Transform3D(8.403297, 0, -124.71721, 0, 124.99999, 0, 124.71721, 0, 8.403297, 13.625019, 5.143277, -161.2163)
 
-[node name="mountain ranges" parent="." unique_id=1764746801 instance=ExtResource("5_y5vev")]
-transform = Transform3D(0.76, 0, 0, 0, 0.76, 0, 0, 0, 0.76, 7.214615, -573.8605, 204.50156)
+[node name="Sketchfab_Scene14" parent="buildings" unique_id=262357069 instance=ExtResource("12_o2dhb")]
+transform = Transform3D(185.94785, 0, 0, 0, 185.94785, 0, 0, 0, 185.94785, 100.85544, 2.8508105, 25.770454)
 
-[node name="Sketchfab_Scene" parent="." unique_id=1836896697 instance=ExtResource("8_ytphx")]
-transform = Transform3D(-0.09527415, 0, -1.3888323, 0, 1.3920966, 0, 1.3888323, 0, -0.09527415, 36.218655, -1.4156005, 27.187181)
+[node name="sidewalks" type="Node3D" parent="buildings" unique_id=1843425435]
 
-[node name="Sketchfab_Scene2" parent="." unique_id=1661743717 instance=ExtResource("9_abovg")]
-transform = Transform3D(1.0080189, 0.1271619, 0.29202437, -0.13426378, 1.0485593, 0.0068610786, -0.28882805, -0.0436312, 1.0159848, 30.220907, 0.99524707, 31.93253)
+[node name="CSGBox3D" type="CSGBox3D" parent="buildings/sidewalks" unique_id=1585084492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.928047, 0.099211976, 4.7499986)
+use_collision = true
+size = Vector3(41.100002, 1, 40.9)
+material = SubResource("StandardMaterial3D_78q3s")
 
-[node name="Sketchfab_Scene3" parent="." unique_id=573750606 instance=ExtResource("10_8qvf0")]
-transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 45.65952, 2.2395678, 47.76418)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="buildings/sidewalks" unique_id=1796428225]
+transform = Transform3D(18.706009, 0, 0, 0, 1, 0, 0, 0, 17.965878, -44.47934, 0.6007223, 4.723488)
+mesh = SubResource("PlaneMesh_78q3s")
 
-[node name="Sketchfab_Scene4" parent="." unique_id=185611132 instance=ExtResource("10_8qvf0")]
-transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 45.81107, 2.2395678, 47.76418)
+[node name="CSGBox3D2" type="CSGBox3D" parent="buildings/sidewalks" unique_id=425760860]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.58642, 0.15538204, 4.7174206)
+size = Vector3(0.54003906, 1, 40.9)
+material = SubResource("StandardMaterial3D_4dl3w")
 
-[node name="Sketchfab_Scene5" parent="." unique_id=553975087 instance=ExtResource("10_8qvf0")]
-transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 45.94364, 2.2395678, 47.76418)
+[node name="CSGBox3D3" type="CSGBox3D" parent="buildings/sidewalks" unique_id=1728272706]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -37.11024, 0.15538204, 24.964663)
+size = Vector3(0.54003906, 1, 27.6)
+material = SubResource("StandardMaterial3D_noq4k")
 
-[node name="Sketchfab_Scene6" parent="." unique_id=290905108 instance=ExtResource("10_8qvf0")]
-transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 46.093544, 2.2395678, 47.76418)
+[node name="CSGBox3D4" type="CSGBox3D" parent="buildings/sidewalks" unique_id=1246239591]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -37.11024, 0.15538204, -15.535339)
+size = Vector3(0.54003906, 1, 27.6)
+material = SubResource("StandardMaterial3D_noq4k")
 
-[node name="Sketchfab_Scene7" parent="." unique_id=713825266 instance=ExtResource("10_8qvf0")]
-transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 46.24811, 2.2395678, 47.76418)
+[node name="CSGBox3D5" type="CSGBox3D" parent="buildings/sidewalks" unique_id=174643696]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.58642, 0.15538204, 4.7174206)
+size = Vector3(0.54003906, 1, 40.9)
+material = SubResource("StandardMaterial3D_4dl3w")
 
-[node name="Sketchfab_Scene8" parent="." unique_id=134250295 instance=ExtResource("10_8qvf0")]
-transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 46.176483, 2.2395678, 47.945034)
+[node name="CSGBox3D6" type="CSGBox3D" parent="buildings/sidewalks" unique_id=676504299]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -37.11024, 0.15538204, 24.964663)
+size = Vector3(0.54003906, 1, 27.6)
+material = SubResource("StandardMaterial3D_noq4k")
 
-[node name="Sketchfab_Scene10" parent="." unique_id=993887086 instance=ExtResource("10_8qvf0")]
-transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 45.958504, 2.2395678, 47.945034)
+[node name="CSGBox3D7" type="CSGBox3D" parent="buildings/sidewalks" unique_id=1116060452]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -43.91024, 0.15538204, -15.535339)
+size = Vector3(0.54003906, 1, 41.2)
+material = SubResource("StandardMaterial3D_noq4k")
 
-[node name="Sketchfab_Scene11" parent="." unique_id=1991039381 instance=ExtResource("10_8qvf0")]
-transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 45.78831, 2.2395678, 47.945034)
+[node name="CSGBox3D8" type="CSGBox3D" parent="buildings/sidewalks" unique_id=360826205]
+transform = Transform3D(1.512, 0, 0, 0, 1, 0, 0, 0, 1.4552999, -43.7111, 0.099211976, -53.543373)
+use_collision = true
+size = Vector3(26.800001, 1, 40.9)
+material = SubResource("StandardMaterial3D_78q3s")
 
-[node name="Sketchfab_Scene12" parent="." unique_id=937973531 instance=ExtResource("10_8qvf0")]
-transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 44.199863, 1.4686854, 42.5705)
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="buildings/sidewalks" unique_id=1354200514]
+transform = Transform3D(18.699823, 0, 0, 0, 1, 0, 0, 0, 26.409838, -43.879337, 0.6007223, -52.577297)
+mesh = SubResource("PlaneMesh_78q3s")
 
-[node name="Sketchfab_Scene9" parent="." unique_id=530677305 instance=ExtResource("10_8qvf0")]
-transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 46.24811, 1.9281902, 48.030308)
+[node name="CSGBox3D9" type="CSGBox3D" parent="buildings/sidewalks" unique_id=1033067806]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.4552999, -23.58642, 0.15538204, -53.59078)
+size = Vector3(0.54003906, 1, 40.9)
+material = SubResource("StandardMaterial3D_4dl3w")
 
-[node name="Sketchfab_Scene13" parent="." unique_id=997502610 instance=ExtResource("11_aiuxd")]
-transform = Transform3D(0.0055249017, 0, -0.99998486, 0, 1, 0, 0.99998486, 0, 0.0055249017, 49.636826, 0.52532744, 37.263023)
+[node name="CSGBox3D10" type="CSGBox3D" parent="buildings/sidewalks" unique_id=519124621]
+transform = Transform3D(-3.059797e-08, 0, -1, 0, 1, 0, 0.7, 0, -4.371139e-08, -37.11024, 0.15538204, -23.608475)
+size = Vector3(0.54003906, 1, 27.6)
+material = SubResource("StandardMaterial3D_noq4k")
 
-[node name="Sketchfab_Scene14" parent="." unique_id=262357069 instance=ExtResource("12_o2dhb")]
-transform = Transform3D(185.94785, 0, 0, 0, 185.94785, 0, 0, 0, 185.94785, 101.94519, 1.6070497, 23.176178)
+[node name="CSGBox3D11" type="CSGBox3D" parent="buildings/sidewalks" unique_id=2083829023]
+transform = Transform3D(-4.4529223e-08, 0, -1, 0, 1, 0, 1.0187099, 0, -4.371139e-08, -43.61024, 0.15538204, -83.06461)
+size = Vector3(0.54003906, 1, 40.600002)
+material = SubResource("StandardMaterial3D_noq4k")
 
-[node name="Sketchfab_Scene15" parent="." unique_id=1764359566 instance=ExtResource("13_e5bc8")]
-transform = Transform3D(0.042598717, 0, 1.3300062, 0, 1.3306881, 0, -1.3300062, 0, 0.042598717, 20.76977, 1.8175004, 34.48093)
+[node name="CSGBox3D14" type="CSGBox3D" parent="buildings/sidewalks" unique_id=1941102716]
+transform = Transform3D(1.9655999, 0, 0, 0, 1, 0, 0, 0, 2.5613277, 18.94176, 0.099211976, -26.05798)
+use_collision = true
+size = Vector3(27.5, 1, 39.100002)
+material = SubResource("StandardMaterial3D_78q3s")
 
-[node name="Sketchfab_Scene23" parent="." unique_id=562300970 instance=ExtResource("13_e5bc8")]
-transform = Transform3D(1.3147329, -0.20438157, 0.020883748, 0.20435564, 1.3148986, 0.0032460683, -0.021134512, 1.5507529e-09, 1.3305202, 52.506023, 3.3238115, 32.29124)
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="buildings/sidewalks" unique_id=1700102980]
+transform = Transform3D(24.309769, 0, 0, 0, 1, 0, 0, 0, 46.481316, 19.144772, 0.6007223, -24.538342)
+mesh = SubResource("PlaneMesh_78q3s")
 
-[node name="Sketchfab_Scene24" parent="." unique_id=1646253686 instance=ExtResource("13_e5bc8")]
-transform = Transform3D(1.3147329, -0.20438157, 0.020883748, 0.20435564, 1.3148986, 0.0032460683, -0.021134512, 1.5507529e-09, 1.3305202, 52.506023, 3.3238115, 40.53409)
+[node name="CSGBox3D15" type="CSGBox3D" parent="buildings/sidewalks" unique_id=1765382141]
+transform = Transform3D(1.3, 0, 0, 0, 1, 0, 0, 0, 2.5613277, 45.78556, 0.15538204, -26.141407)
+size = Vector3(0.54003906, 1, 39.5)
+material = SubResource("StandardMaterial3D_4dl3w")
 
-[node name="Sketchfab_Scene25" parent="." unique_id=1670161692 instance=ExtResource("13_e5bc8")]
-transform = Transform3D(1.3147329, -0.20438157, 0.020883748, 0.20435564, 1.3148986, 0.0032460683, -0.021134512, 1.5507529e-09, 1.3305202, 52.506023, 3.3238115, 48.79398)
+[node name="CSGBox3D18" type="CSGBox3D" parent="buildings/sidewalks" unique_id=432924708]
+transform = Transform3D(1.3, 0, 0, 0, 1, 0, 0, 0, 2.5613277, -7.774437, 0.15538204, -26.141407)
+size = Vector3(0.54003906, 1, 39.5)
+material = SubResource("StandardMaterial3D_4dl3w")
 
-[node name="Sketchfab_Scene21" parent="." unique_id=2066275734 instance=ExtResource("13_e5bc8")]
-transform = Transform3D(-0.012301399, 3.4167535e-10, -1.330631, 0.5615675, 1.2063767, -0.0051915715, 1.2063253, -0.5615916, -0.01115222, 49.767693, 4.336532, 52.042156)
+[node name="CSGBox3D16" type="CSGBox3D" parent="buildings/sidewalks" unique_id=198787526]
+transform = Transform3D(-5.385243e-08, 0, -1.3, 0, 1, 0, 1.232, 0, -5.6824803e-08, 19.039597, 0.15538204, 24.290781)
+size = Vector3(0.54003906, 1, 41.7)
+material = SubResource("StandardMaterial3D_noq4k")
 
-[node name="Sketchfab_Scene16" parent="." unique_id=1377059225 instance=ExtResource("13_e5bc8")]
-transform = Transform3D(-1.3305985, 0, -0.015476543, 0, 1.3306882, 0, 0.015476543, 0, -1.3305985, 22.64558, 2.897275, 38.7168)
+[node name="CSGBox3D17" type="CSGBox3D" parent="buildings/sidewalks" unique_id=577486607]
+transform = Transform3D(-7.8371436e-08, 0, -1.3, 0, 1, 0, 1.7929295, 0, -5.6824803e-08, 19.104595, 0.15538204, -76.304016)
+size = Vector3(0.54003906, 1, 41.4)
+material = SubResource("StandardMaterial3D_noq4k")
 
-[node name="Sketchfab_Scene17" parent="." unique_id=1816578399 instance=ExtResource("13_e5bc8")]
-transform = Transform3D(-0.022241741, 0, -1.3305025, 0, 1.3306882, 0, 1.3305025, 0, -0.022241741, 24.769636, 3.008566, 46.31203)
+[node name="CSGBox3D12" type="CSGBox3D" parent="buildings/sidewalks" unique_id=57962469]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.7, -23.58642, 0.15538204, -37.781544)
+size = Vector3(0.54003906, 1, 40.9)
+material = SubResource("StandardMaterial3D_4dl3w")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="buildings/sidewalks" unique_id=239392229]
+transform = Transform3D(-3.059797e-08, 0, -1, 0, 1, 0, 0.7, 0, -4.371139e-08, -43.66024, 0.15538204, -23.608475)
+size = Vector3(0.54003906, 1, 40.7)
+material = SubResource("StandardMaterial3D_noq4k")
 
 [node name="lapaz_public_market" parent="." unique_id=707524680 instance=ExtResource("14_e5bc8")]
-transform = Transform3D(-0.6137408, 0, 4.7928395e-08, 0, 0.61374086, 0, -4.7928395e-08, 0, -0.6137408, 2.4645686, 0.32093, 40.126385)
+transform = Transform3D(-0.567775, 0, 4.4338822e-08, 0, 0.5677751, 0, -4.4338822e-08, 0, -0.567775, 3.3024158, 0.32093, 37.627686)
+
+[node name="background" type="Node3D" parent="." unique_id=459838869]
+
+[node name="mountain ranges" parent="background" unique_id=1764746801 instance=ExtResource("5_y5vev")]
+transform = Transform3D(0.76, 0, 0, 0, 0.76, 0, 0, 0, 0.76, 32.427475, -512.8832, 221.62317)
+
+[node name="mountain ranges2" parent="background" unique_id=34336088 instance=ExtResource("5_y5vev")]
+transform = Transform3D(0.76, 0, 0, 0, 0.76, 0, 0, 0, 0.76, -229.47253, -512.7832, 209.12317)
+
+[node name="mountain ranges3" parent="background" unique_id=263359664 instance=ExtResource("5_y5vev")]
+transform = Transform3D(0.76, 0, 0, 0, 0.76, 0, 0, 0, 0.76, 89.82747, -512.7832, 209.12317)
+
+[node name="Sketchfab_Scene" parent="background" unique_id=1836896697 instance=ExtResource("8_ytphx")]
+transform = Transform3D(-0.09527415, 0, -1.3888323, 0, 1.3920966, 0, 1.3888323, 0, -0.09527415, 36.218655, -1.4156005, 27.187181)
+
+[node name="Sketchfab_Scene2" parent="background" unique_id=1661743717 instance=ExtResource("9_abovg")]
+transform = Transform3D(1.0080189, 0.1271619, 0.29202437, -0.13426378, 1.0485593, 0.0068610786, -0.28882805, -0.0436312, 1.0159848, 30.220907, 0.99524707, 31.93253)
+
+[node name="Sketchfab_Scene3" parent="background" unique_id=573750606 instance=ExtResource("10_8qvf0")]
+transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 45.65952, 2.2395678, 47.76418)
+
+[node name="Sketchfab_Scene4" parent="background" unique_id=185611132 instance=ExtResource("10_8qvf0")]
+transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 45.81107, 2.2395678, 47.76418)
+
+[node name="Sketchfab_Scene5" parent="background" unique_id=553975087 instance=ExtResource("10_8qvf0")]
+transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 45.94364, 2.2395678, 47.76418)
+
+[node name="Sketchfab_Scene6" parent="background" unique_id=290905108 instance=ExtResource("10_8qvf0")]
+transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 46.093544, 2.2395678, 47.76418)
+
+[node name="Sketchfab_Scene7" parent="background" unique_id=713825266 instance=ExtResource("10_8qvf0")]
+transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 46.24811, 2.2395678, 47.76418)
+
+[node name="Sketchfab_Scene8" parent="background" unique_id=134250295 instance=ExtResource("10_8qvf0")]
+transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 46.176483, 2.2395678, 47.945034)
+
+[node name="Sketchfab_Scene10" parent="background" unique_id=993887086 instance=ExtResource("10_8qvf0")]
+transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 45.958504, 2.2395678, 47.945034)
+
+[node name="Sketchfab_Scene11" parent="background" unique_id=1991039381 instance=ExtResource("10_8qvf0")]
+transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 45.78831, 2.2395678, 47.945034)
+
+[node name="Sketchfab_Scene12" parent="background" unique_id=937973531 instance=ExtResource("10_8qvf0")]
+transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 44.199863, 1.4686854, 42.5705)
+
+[node name="Sketchfab_Scene9" parent="background" unique_id=530677305 instance=ExtResource("10_8qvf0")]
+transform = Transform3D(0.072447196, 0, 0, 0, 0.072447196, 0, 0, 0, 0.072447196, 46.24811, 1.9281902, 48.030308)
+
+[node name="Sketchfab_Scene15" parent="background" unique_id=1764359566 instance=ExtResource("13_e5bc8")]
+transform = Transform3D(0.042598717, 0, 1.3300062, 0, 1.3306881, 0, -1.3300062, 0, 0.042598717, 20.76977, 1.8175004, 34.48093)
+
+[node name="Sketchfab_Scene18" parent="background" unique_id=506830011 instance=ExtResource("13_e5bc8")]
+transform = Transform3D(-0.041405786, 0, -1.2927661, 0, 1.2934289, 0, 1.2927661, 0, -0.041405786, -42.06938, 2.0175004, -29.216896)
+
+[node name="Sketchfab_Scene20" parent="background" unique_id=969502751 instance=ExtResource("13_e5bc8")]
+transform = Transform3D(-1.2927659, 0, 0.041405886, 0, 1.2934288, 0, -0.041405886, 0, -1.2927659, -3.2693815, 2.0175004, -111.9169)
+
+[node name="Sketchfab_Scene22" parent="background" unique_id=283750193 instance=ExtResource("13_e5bc8")]
+transform = Transform3D(-1.292766, 0, 0.0414059, 0, 1.2934285, 0, -0.0414059, 0, -1.292766, -3.269381, 1.9175004, -101.7169)
+
+[node name="Sketchfab_Scene23" parent="background" unique_id=562300970 instance=ExtResource("13_e5bc8")]
+transform = Transform3D(1.3147329, -0.20438157, 0.020883748, 0.20435564, 1.3148986, 0.0032460683, -0.021134512, 1.5507529e-09, 1.3305202, 52.506023, 3.4238114, 32.29124)
+
+[node name="Sketchfab_Scene24" parent="background" unique_id=1646253686 instance=ExtResource("13_e5bc8")]
+transform = Transform3D(1.3147329, -0.20438157, 0.020883748, 0.20435564, 1.3148986, 0.0032460683, -0.021134512, 1.5507529e-09, 1.3305202, 52.506023, 3.3238115, 40.53409)
+
+[node name="Sketchfab_Scene25" parent="background" unique_id=1670161692 instance=ExtResource("13_e5bc8")]
+transform = Transform3D(1.3147329, -0.20438157, 0.020883748, 0.20435564, 1.3148986, 0.0032460683, -0.021134512, 1.5507529e-09, 1.3305202, 52.506023, 3.3238115, 48.79398)
+
+[node name="Sketchfab_Scene21" parent="background" unique_id=2066275734 instance=ExtResource("13_e5bc8")]
+transform = Transform3D(-0.012301399, 3.4167535e-10, -1.330631, 0.5615675, 1.2063767, -0.0051915715, 1.2063253, -0.5615916, -0.01115222, 49.767693, 4.336532, 52.042156)
+
+[node name="Sketchfab_Scene16" parent="background" unique_id=1377059225 instance=ExtResource("13_e5bc8")]
+transform = Transform3D(-1.3305985, 0, -0.015476543, 0, 1.3306882, 0, 0.015476543, 0, -1.3305985, 22.64558, 2.897275, 38.7168)
+
+[node name="Sketchfab_Scene17" parent="background" unique_id=1816578399 instance=ExtResource("13_e5bc8")]
+transform = Transform3D(-0.022241741, 0, -1.3305025, 0, 1.3306882, 0, 1.3305025, 0, -0.022241741, 24.769636, 3.008566, 46.31203)
+
+[node name="road signs" type="Node3D" parent="." unique_id=815428474]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="road signs" unique_id=493803846]
+transform = Transform3D(0.13675599, 0, 0, 0, 1, 0, 0, 0, 9.2686825, -9.26396, 0.5011482, 31.267525)
+mesh = SubResource("PlaneMesh_cniej")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="road signs" unique_id=1084071292]
+transform = Transform3D(0.11792976, 0, 6.393006, 0, 0.9999999, 0, -0.0820644, 0, 9.186997, -15.895578, 0.5011482, 31.181938)
+mesh = SubResource("PlaneMesh_cniej")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="road signs" unique_id=1647207362]
+transform = Transform3D(0.118258044, 0, -6.3560925, 0, 0.9999999, 0, 0.08159058, 0, 9.212572, -15.895578, 0.5011482, 31.181938)
+mesh = SubResource("PlaneMesh_cniej")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="road signs" unique_id=711782746]
+transform = Transform3D(0.13675599, 0, 0, 0, 1, 0, 0, 0, 9.2686825, -22.363958, 0.5011482, 31.267525)
+mesh = SubResource("PlaneMesh_cniej")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="road signs" unique_id=86166169]
+transform = Transform3D(-5.977794e-09, 0, -6.706998, 0, 1, 0, 0.13675599, 0, -2.931722e-07, -15.825942, 0.5011482, 21.962639)
+mesh = SubResource("PlaneMesh_cniej")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="road signs" unique_id=1113294537]
+transform = Transform3D(-5.977794e-09, 0, -6.706998, 0, 1, 0, 0.13675599, 0, -2.931722e-07, -15.825942, 0.5011482, 40.46181)
+mesh = SubResource("PlaneMesh_cniej")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="road signs" unique_id=1868127118]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -9.4161625, 0.5011482, 43.11677)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="road signs" unique_id=1380832621]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -9.997816, 0.5011482, 45.98099)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="road signs" unique_id=875788309]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -10.57933, 0.5011482, 43.11677)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="road signs" unique_id=50164948]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -11.160984, 0.5011482, 45.98099)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="road signs" unique_id=1939860296]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -11.736322, 0.5011482, 43.11677)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D12" type="MeshInstance3D" parent="road signs" unique_id=1875866324]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -12.317976, 0.5011482, 45.98099)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D13" type="MeshInstance3D" parent="road signs" unique_id=1983112354]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -11.736322, 0.5011482, 43.11677)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D14" type="MeshInstance3D" parent="road signs" unique_id=553200028]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -12.317976, 0.5011482, 45.98099)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D15" type="MeshInstance3D" parent="road signs" unique_id=1383664794]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -12.973253, 0.5011482, 43.11677)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D16" type="MeshInstance3D" parent="road signs" unique_id=1698591491]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -13.554907, 0.5011482, 45.98099)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D17" type="MeshInstance3D" parent="road signs" unique_id=746008624]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -14.139994, 0.5011482, 43.11677)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D18" type="MeshInstance3D" parent="road signs" unique_id=760724313]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -14.721647, 0.5011482, 45.98099)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D19" type="MeshInstance3D" parent="road signs" unique_id=1445941131]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -15.303162, 0.5011482, 43.11677)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D20" type="MeshInstance3D" parent="road signs" unique_id=603332116]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -15.884815, 0.5011482, 45.98099)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D21" type="MeshInstance3D" parent="road signs" unique_id=2023229818]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -16.460154, 0.5011482, 43.11677)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D22" type="MeshInstance3D" parent="road signs" unique_id=1292899666]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -17.041807, 0.5011482, 45.98099)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D23" type="MeshInstance3D" parent="road signs" unique_id=1579664287]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -17.697084, 0.5011482, 43.11677)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D24" type="MeshInstance3D" parent="road signs" unique_id=56539582]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -18.278738, 0.5011482, 45.98099)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D25" type="MeshInstance3D" parent="road signs" unique_id=736420153]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -18.940676, 0.5011482, 43.11677)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D26" type="MeshInstance3D" parent="road signs" unique_id=1491088885]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -19.52233, 0.5011482, 45.98099)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D27" type="MeshInstance3D" parent="road signs" unique_id=29879497]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -20.103844, 0.5011482, 43.11677)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D28" type="MeshInstance3D" parent="road signs" unique_id=168290874]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -20.685497, 0.5011482, 45.98099)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D29" type="MeshInstance3D" parent="road signs" unique_id=1318923543]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -21.260836, 0.5011482, 43.11677)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D30" type="MeshInstance3D" parent="road signs" unique_id=1609725627]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -21.84249, 0.5011482, 45.98099)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D31" type="MeshInstance3D" parent="road signs" unique_id=839708978]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -22.497766, 0.5011482, 43.11677)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D32" type="MeshInstance3D" parent="road signs" unique_id=672102242]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -9.4161625, 0.5011482, 16.39541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D81" type="MeshInstance3D" parent="road signs" unique_id=1971892177]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -25.945377, 0.5011482, 38.822063)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D82" type="MeshInstance3D" parent="road signs" unique_id=96260539]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -28.867085, 0.5011482, 38.746613)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D83" type="MeshInstance3D" parent="road signs" unique_id=526878696]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -26.147358, 0.5011482, 37.676567)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D84" type="MeshInstance3D" parent="road signs" unique_id=317986238]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -29.069069, 0.5011482, 37.601116)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D85" type="MeshInstance3D" parent="road signs" unique_id=2147335536]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -26.348269, 0.5011482, 36.53715)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D86" type="MeshInstance3D" parent="road signs" unique_id=525964383]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -29.269978, 0.5011482, 36.4617)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D87" type="MeshInstance3D" parent="road signs" unique_id=563879313]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -26.348269, 0.5011482, 36.53715)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D88" type="MeshInstance3D" parent="road signs" unique_id=1437883107]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -29.269978, 0.5011482, 36.4617)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D89" type="MeshInstance3D" parent="road signs" unique_id=2000133643]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -26.563059, 0.5011482, 35.31901)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D90" type="MeshInstance3D" parent="road signs" unique_id=462100108]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -29.484768, 0.5011482, 35.24356)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D91" type="MeshInstance3D" parent="road signs" unique_id=851754503]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -26.765661, 0.5011482, 34.17)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D92" type="MeshInstance3D" parent="road signs" unique_id=1822951076]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -29.687372, 0.5011482, 34.094547)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D93" type="MeshInstance3D" parent="road signs" unique_id=186218904]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -26.967644, 0.5011482, 33.0245)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D94" type="MeshInstance3D" parent="road signs" unique_id=1292719780]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -29.889353, 0.5011482, 32.94905)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D95" type="MeshInstance3D" parent="road signs" unique_id=682563666]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -27.168554, 0.5011482, 31.885088)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D96" type="MeshInstance3D" parent="road signs" unique_id=136434202]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -30.090265, 0.5011482, 31.809637)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D97" type="MeshInstance3D" parent="road signs" unique_id=1231713043]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -27.383345, 0.5011482, 30.666946)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D98" type="MeshInstance3D" parent="road signs" unique_id=1371025257]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -30.305056, 0.5011482, 30.591496)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D99" type="MeshInstance3D" parent="road signs" unique_id=1403023109]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -27.59929, 0.5011482, 29.44225)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D100" type="MeshInstance3D" parent="road signs" unique_id=1209362387]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -30.521002, 0.5011482, 29.366798)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D101" type="MeshInstance3D" parent="road signs" unique_id=1085216467]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -27.801273, 0.5011482, 28.296755)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D102" type="MeshInstance3D" parent="road signs" unique_id=1756228637]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -30.722986, 0.5011482, 28.2213)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D103" type="MeshInstance3D" parent="road signs" unique_id=1965749215]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -28.002182, 0.5011482, 27.15734)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D104" type="MeshInstance3D" parent="road signs" unique_id=1711886581]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -30.923895, 0.5011482, 27.081888)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D105" type="MeshInstance3D" parent="road signs" unique_id=1243284899]
+transform = Transform3D(-1.4064056, 0, -0.051044177, 0, 1, 0, 0.24798726, 0, -0.2894859, -28.216972, 0.5011482, 25.9392)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D57" type="MeshInstance3D" parent="road signs" unique_id=1434234388]
+transform = Transform3D(7.037685, 0, -1.4210855e-15, 0, 1, 0, 0, 0, 0.23516135, -15.816163, 0.53747827, 13.706731)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D58" type="MeshInstance3D" parent="road signs" unique_id=2081647336]
+transform = Transform3D(-2.9285013e-06, 0, 0.23516138, 0, 1, 0, -66.99631, 0, -1.0279228e-08, -15.816163, 0.54564077, -53.07104)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D75" type="MeshInstance3D" parent="road signs" unique_id=1757989442]
+transform = Transform3D(-2.9285013e-06, 0, 0.16461296, 0, 1, 0, -66.99631, 0, -7.19546e-09, -22.716164, 0.5091942, -53.07104)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D76" type="MeshInstance3D" parent="road signs" unique_id=1393391884]
+transform = Transform3D(-2.9285013e-06, 0, 0.16461296, 0, 1, 0, -66.99631, 0, -7.19546e-09, -8.916163, 0.5017317, -53.07104)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D33" type="MeshInstance3D" parent="road signs" unique_id=1534698683]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -9.997816, 0.5011482, 19.25963)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D34" type="MeshInstance3D" parent="road signs" unique_id=1352300166]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -10.57933, 0.5011482, 16.39541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D35" type="MeshInstance3D" parent="road signs" unique_id=170459709]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -11.160984, 0.5011482, 19.25963)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D36" type="MeshInstance3D" parent="road signs" unique_id=2117178105]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -11.736322, 0.5011482, 16.39541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D37" type="MeshInstance3D" parent="road signs" unique_id=1505849750]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -12.317976, 0.5011482, 19.25963)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D38" type="MeshInstance3D" parent="road signs" unique_id=1658831682]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -11.736322, 0.5011482, 16.39541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D59" type="MeshInstance3D" parent="road signs" unique_id=420030131]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, 10.06541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D60" type="MeshInstance3D" parent="road signs" unique_id=186695978]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, 10.06541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D61" type="MeshInstance3D" parent="road signs" unique_id=571758334]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, 4.42541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D62" type="MeshInstance3D" parent="road signs" unique_id=1208816199]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, 4.42541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D63" type="MeshInstance3D" parent="road signs" unique_id=1091590919]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, -0.93459034)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D64" type="MeshInstance3D" parent="road signs" unique_id=546972482]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, -0.93459034)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D65" type="MeshInstance3D" parent="road signs" unique_id=1816639259]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, -6.57459)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D66" type="MeshInstance3D" parent="road signs" unique_id=52929361]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, -6.57459)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D67" type="MeshInstance3D" parent="road signs" unique_id=783098775]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, -12.334591)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D68" type="MeshInstance3D" parent="road signs" unique_id=66677552]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, -12.334591)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D69" type="MeshInstance3D" parent="road signs" unique_id=800914235]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, -17.97459)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D70" type="MeshInstance3D" parent="road signs" unique_id=619791417]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, -17.97459)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D71" type="MeshInstance3D" parent="road signs" unique_id=1171633995]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, -24.33459)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D72" type="MeshInstance3D" parent="road signs" unique_id=1259722182]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, -24.33459)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D73" type="MeshInstance3D" parent="road signs" unique_id=1601838198]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, -29.97459)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D74" type="MeshInstance3D" parent="road signs" unique_id=1301196343]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, -29.97459)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D77" type="MeshInstance3D" parent="road signs" unique_id=508890783]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.036322, 0.60114825, -36.83459)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D78" type="MeshInstance3D" parent="road signs" unique_id=50053400]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.536322, 0.60114825, -36.83459)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D79" type="MeshInstance3D" parent="road signs" unique_id=727979240]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.036322, 0.60114825, -42.47459)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D107" type="MeshInstance3D" parent="road signs" unique_id=2096546587]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, -48.59213)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D108" type="MeshInstance3D" parent="road signs" unique_id=1443284640]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, -54.23213)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D109" type="MeshInstance3D" parent="road signs" unique_id=436504372]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.036322, 0.60114825, -61.09213)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D110" type="MeshInstance3D" parent="road signs" unique_id=359156668]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.036322, 0.60114825, -66.73213)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D111" type="MeshInstance3D" parent="road signs" unique_id=864483022]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, -72.58003)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D112" type="MeshInstance3D" parent="road signs" unique_id=837427974]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, -78.22003)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D113" type="MeshInstance3D" parent="road signs" unique_id=1459664256]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.036322, 0.60114825, -85.08003)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D114" type="MeshInstance3D" parent="road signs" unique_id=1950361259]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.036322, 0.60114825, -90.72004)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D115" type="MeshInstance3D" parent="road signs" unique_id=1959870245]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, -96.45453)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D116" type="MeshInstance3D" parent="road signs" unique_id=1949015363]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.136322, 0.5011482, -102.09453)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D117" type="MeshInstance3D" parent="road signs" unique_id=1443783905]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.036322, 0.60114825, -108.95453)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D118" type="MeshInstance3D" parent="road signs" unique_id=1737049995]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -12.036322, 0.60114825, -114.594536)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D80" type="MeshInstance3D" parent="road signs" unique_id=955583929]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.536322, 0.60114825, -42.47459)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D119" type="MeshInstance3D" parent="road signs" unique_id=2129964681]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, -48.72028)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D120" type="MeshInstance3D" parent="road signs" unique_id=704802035]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, -54.36028)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D121" type="MeshInstance3D" parent="road signs" unique_id=68384736]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.536322, 0.60114825, -61.22028)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D122" type="MeshInstance3D" parent="road signs" unique_id=997917360]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.536322, 0.60114825, -66.860275)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D123" type="MeshInstance3D" parent="road signs" unique_id=113213799]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, -73.33655)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D124" type="MeshInstance3D" parent="road signs" unique_id=1478354349]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, -78.97655)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D125" type="MeshInstance3D" parent="road signs" unique_id=1414143757]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.536322, 0.60114825, -85.83655)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D126" type="MeshInstance3D" parent="road signs" unique_id=537845499]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.536322, 0.60114825, -91.47654)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D127" type="MeshInstance3D" parent="road signs" unique_id=1560402663]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, -98.388695)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D128" type="MeshInstance3D" parent="road signs" unique_id=108096348]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.636322, 0.5011482, -104.028694)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D129" type="MeshInstance3D" parent="road signs" unique_id=1567797428]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.536322, 0.60114825, -110.888695)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D130" type="MeshInstance3D" parent="road signs" unique_id=1547659910]
+transform = Transform3D(-7.490917e-08, 0, -0.17637102, 0, 1, 0, 1.7137221, 0, -7.709422e-09, -19.536322, 0.60114825, -116.52869)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D39" type="MeshInstance3D" parent="road signs" unique_id=1477572538]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -12.317976, 0.5011482, 19.25963)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D40" type="MeshInstance3D" parent="road signs" unique_id=877455968]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -12.973253, 0.5011482, 16.39541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D41" type="MeshInstance3D" parent="road signs" unique_id=675803453]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -13.554907, 0.5011482, 19.25963)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D42" type="MeshInstance3D" parent="road signs" unique_id=1727136432]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -14.139994, 0.5011482, 16.39541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D43" type="MeshInstance3D" parent="road signs" unique_id=1426652256]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -14.721647, 0.5011482, 19.25963)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D44" type="MeshInstance3D" parent="road signs" unique_id=2122292800]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -15.303162, 0.5011482, 16.39541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D45" type="MeshInstance3D" parent="road signs" unique_id=1166913682]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -15.884815, 0.5011482, 19.25963)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D46" type="MeshInstance3D" parent="road signs" unique_id=507666669]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -16.460154, 0.5011482, 16.39541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D47" type="MeshInstance3D" parent="road signs" unique_id=2080232492]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -17.041807, 0.5011482, 19.25963)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D48" type="MeshInstance3D" parent="road signs" unique_id=1603120303]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -17.697084, 0.5011482, 16.39541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D49" type="MeshInstance3D" parent="road signs" unique_id=60255932]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -18.278738, 0.5011482, 19.25963)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D50" type="MeshInstance3D" parent="road signs" unique_id=1578650841]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -18.940676, 0.5011482, 16.39541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D51" type="MeshInstance3D" parent="road signs" unique_id=1974474478]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -19.52233, 0.5011482, 19.25963)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D52" type="MeshInstance3D" parent="road signs" unique_id=952770609]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -20.103844, 0.5011482, 16.39541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D53" type="MeshInstance3D" parent="road signs" unique_id=1962649512]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -20.685497, 0.5011482, 19.25963)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D54" type="MeshInstance3D" parent="road signs" unique_id=842432333]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -21.260836, 0.5011482, 16.39541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D55" type="MeshInstance3D" parent="road signs" unique_id=542582678]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -21.84249, 0.5011482, 19.25963)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="MeshInstance3D56" type="MeshInstance3D" parent="road signs" unique_id=1962847814]
+transform = Transform3D(-6.2424306e-08, 0, -0.2939517, 0, 1, 0, 1.4281017, 0, -1.2849037e-08, -22.497766, 0.5011482, 16.39541)
+mesh = SubResource("PlaneMesh_cniej")
+surface_material_override/0 = SubResource("StandardMaterial3D_o2dhb")
+
+[node name="borders" type="Node3D" parent="." unique_id=502738730]
+
+[node name="Node3D" parent="borders" unique_id=621880637 instance=ExtResource("1_p22k2")]
+transform = Transform3D(1, 0, 0, 0, 1.2220576, 0, 0, 0, 1.246592, -3.546265, -0.5749533, 47.420692)
+
+[node name="Node3D2" parent="borders" unique_id=1026584723 instance=ExtResource("1_p22k2")]
+transform = Transform3D(5.9604645e-08, 0, -1.2465922, 0, 1.2220576, 0, 0.99999994, 0, 7.4505806e-08, -6.6462646, 0.82504666, 50.02069)
+
+[node name="Node3D5" parent="borders" unique_id=386891076 instance=ExtResource("1_p22k2")]
+transform = Transform3D(5.9604645e-08, 0, -1.1219329, 0, 1.2220576, 0, 0.99999994, 0, 6.7055225e-08, -24.646267, 0.82504666, 50.02069)
+
+[node name="Node3D6" parent="borders" unique_id=1995828173 instance=ExtResource("1_p22k2")]
+transform = Transform3D(5.9604645e-08, 0, -1.2465922, 0, 1.2220576, 0, 0.99999994, 0, 7.4505806e-08, -30.246265, 0.82504666, 50.02069)
+
+[node name="Node3D7" parent="borders" unique_id=1453427649 instance=ExtResource("1_p22k2")]
+transform = Transform3D(5.9604645e-08, 0, -1.2465922, 0, 1.2220576, 0, 0.99999994, 0, 7.4505806e-08, -36.146267, 0.82504666, 50.02069)
+
+[node name="Node3D8" parent="borders" unique_id=745455043 instance=ExtResource("1_p22k2")]
+transform = Transform3D(5.9604645e-08, 0, -1.2465922, 0, 1.2220576, 0, 0.99999994, 0, 7.4505806e-08, -42.04627, 0.82504666, 50.02069)
+
+[node name="Node3D9" parent="borders" unique_id=183646536 instance=ExtResource("1_p22k2")]
+transform = Transform3D(5.9604645e-08, 0, -1.2465922, 0, 1.2220576, 0, 0.99999994, 0, 7.4505806e-08, -47.946266, 0.82504666, 50.02069)
+
+[node name="Node3D10" parent="borders" unique_id=1928604431 instance=ExtResource("1_p22k2")]
+transform = Transform3D(-1, 0, -1.3411045e-07, 0, 1.2220575, 0, 1.0430813e-07, 0, -1.2465923, -50.046265, 0.82504666, 46.920692)
+
+[node name="Node3D11" parent="borders" unique_id=1073669028 instance=ExtResource("1_p22k2")]
+transform = Transform3D(-1, 0, -1.3411045e-07, 0, 1.2220575, 0, 1.0430813e-07, 0, -1.2465923, -50.046265, 0.82504666, 41.02069)
+
+[node name="Node3D12" parent="borders" unique_id=1280348097 instance=ExtResource("1_p22k2")]
+transform = Transform3D(-1, 0, -1.3411045e-07, 0, 1.2220575, 0, 1.0430813e-07, 0, -1.2465923, -50.046265, 0.82504666, 35.12069)
+
+[node name="Node3D13" parent="borders" unique_id=2040912931 instance=ExtResource("1_p22k2")]
+transform = Transform3D(-1, 0, -1.3411045e-07, 0, 1.2220575, 0, 1.0430813e-07, 0, -1.2465923, -50.046265, 0.82504666, 29.22069)
+
+[node name="Apartment" parent="." unique_id=986595706 instance=ExtResource("20_noq4k")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -34.500004, 0.59999996, -112.879486)
+
+[node name="Apartment3" parent="." unique_id=375347860 instance=ExtResource("20_noq4k")]
+transform = Transform3D(-0.99999994, 0, -1.4901161e-08, 0, 1, 0, 1.4901161e-08, 0, -0.99999994, -39.800003, 0.59999996, -112.879486)
+
+[node name="Apartment6" parent="." unique_id=554207650 instance=ExtResource("20_noq4k")]
+transform = Transform3D(-0.99999994, 0, -1.4901161e-08, 0, 1, 0, 1.4901161e-08, 0, -0.99999994, -45, 0.59999996, -112.879486)
+
+[node name="Apartment4" parent="." unique_id=162366186 instance=ExtResource("20_noq4k")]
+transform = Transform3D(0.99999994, 0, -8.940697e-08, 0, 1, 0, 8.940697e-08, 0, 0.99999994, -34.800003, 0.59999996, -95.979485)
+
+[node name="Apartment5" parent="." unique_id=2144853885 instance=ExtResource("20_noq4k")]
+transform = Transform3D(0.99999994, 0, -8.940697e-08, 0, 1, 0, 8.940697e-08, 0, 0.99999994, -40.200005, 0.59999996, -95.979485)
+
+[node name="Apartment7" parent="." unique_id=720619044 instance=ExtResource("20_noq4k")]
+transform = Transform3D(0.99999994, 0, -8.940697e-08, 0, 1, 0, 8.940697e-08, 0, 0.99999994, -45.500004, 0.59999996, -95.979485)
+
+[node name="jeepney cutscene" type="Node3D" parent="." unique_id=56483008]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="jeepney cutscene" unique_id=2136075593]
+libraries/ = SubResource("AnimationLibrary_u0xaq")
+
+[node name="Path3D" type="Path3D" parent="jeepney cutscene/AnimationPlayer" unique_id=1539128584]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0, -106.50009)
+curve = SubResource("Curve3D_vx42f")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="jeepney cutscene/AnimationPlayer/Path3D" unique_id=329714488]
+transform = Transform3D(-0.99989855, 9.711788e-07, 0.0011458745, 0, 0.99982774, -0.0008475183, -0.001145875, -0.0008474575, -0.9998982, -0.0027417624, -0.08797214, 2.3925006)
+progress = 2.7328694
+v_offset = -0.09
+loop = false
+
+[node name="Jeepney" parent="jeepney cutscene/AnimationPlayer/Path3D/PathFollow3D" unique_id=693282901 instance=ExtResource("20_3vwpy")]
+transform = Transform3D(-0.0034235828, -4.5474735e-10, 0.585261, -0.0024803332, 0.5852672, -1.4509171e-05, -0.58525705, -0.0024803746, -0.0034235688, 0.22867966, 1.4749078, 5.643692)
+
+[node name="ProtoController" parent="." unique_id=1102026077 instance=ExtResource("21_3vwpy")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -35.899994, 1, -110.40001)
+base_speed = 5.0
+sprint_speed = 7.0
+
+[node name="Sketchfab_Scene" parent="." unique_id=1308765919 instance=ExtResource("22_vx42f")]
+transform = Transform3D(0.38567257, 0, -0.45962664, 0, 0.59999996, 0, 0.45962664, 0, 0.38567257, -53.299995, 0.3, -118.700005)
+
+[node name="Sketchfab_Scene11" parent="." unique_id=1214666177 instance=ExtResource("22_vx42f")]
+transform = Transform3D(0.38567257, 0, -0.45962664, 0, 0.59999996, 0, 0.45962664, 0, 0.38567257, -24.099995, 0.3, -118.5)
+
+[node name="Sketchfab_Scene3" parent="." unique_id=1593509510 instance=ExtResource("22_vx42f")]
+transform = Transform3D(0.65999997, 0, 0, 0, 0.6499731, -0.114607796, 0, 0.114607796, 0.6499731, -51.8, 0.20000002, -110.200005)
+
+[node name="Sketchfab_Scene6" parent="." unique_id=2090893841 instance=ExtResource("22_vx42f")]
+transform = Transform3D(-2.8849515e-08, -0.114607796, -0.6499731, 0, 0.6499731, -0.114607796, 0.65999997, -5.009666e-09, -2.8411227e-08, -56.1, 0.20000002, -114.1)
+
+[node name="Sketchfab_Scene4" parent="." unique_id=831285626 instance=ExtResource("22_vx42f")]
+transform = Transform3D(0.2257333, -7.0012556e-09, 0.6201971, 0, 0.65999997, 7.450581e-09, -0.6201971, -2.5482487e-09, 0.2257333, -43.1, 0.20000002, -88.399994)
+
+[node name="Sketchfab_Scene7" parent="." unique_id=1406615901 instance=ExtResource("22_vx42f")]
+transform = Transform3D(0.4242398, 5.707476e-09, -0.5055893, 0, 0.65999997, 7.450581e-09, 0.5055893, -4.789141e-09, 0.4242398, -29.899998, 0.20000002, -31.300003)
+
+[node name="Sketchfab_Scene16" parent="." unique_id=206395809 instance=ExtResource("22_vx42f")]
+transform = Transform3D(0.6363597, 8.561214e-09, -0.758384, 0, 0.98999995, 1.1175871e-08, 0.758384, -7.1837114e-09, 0.6363597, -68.59999, 0.20000002, -19.600002)
+
+[node name="corrugated metal sheet fencing" parent="." unique_id=1594563130 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-3.179649e-08, 0, -0.7274189, 0, 0.7274189, 0, 0.7274189, 0, -3.179649e-08, -25.63663, 0.8009457, -92.79786)
+
+[node name="Sketchfab_Scene12" parent="." unique_id=614915845 instance=ExtResource("22_vx42f")]
+transform = Transform3D(0.4242398, 5.707476e-09, -0.5055893, 0, 0.65999997, 7.450581e-09, 0.5055893, -4.789141e-09, 0.4242398, -26.599998, 0.20000002, -76.5)
+
+[node name="Sketchfab_Scene8" parent="." unique_id=1044910797 instance=ExtResource("22_vx42f")]
+transform = Transform3D(0.5055893, 4.7891406e-09, -0.42423978, 0, 0.65999997, 7.450581e-09, 0.42423978, -5.707476e-09, 0.5055893, -57.8, 0.20000002, -94.600006)
+
+[node name="Sketchfab_Scene9" parent="." unique_id=1373847121 instance=ExtResource("22_vx42f")]
+transform = Transform3D(0.5515117, 7.4197173e-09, -0.657266, 4.5422138e-23, 0.85799986, 9.685753e-09, 0.657266, -6.225882e-09, 0.5515117, -57.8, 0.20000002, -86.100006)
+
+[node name="Sketchfab_Scene10" parent="." unique_id=1116101898 instance=ExtResource("22_vx42f")]
+transform = Transform3D(0.4289999, 8.388108e-09, -0.74304974, 4.5422138e-23, 0.85799986, 9.685753e-09, 0.74304974, -4.8428763e-09, 0.4289999, -50.899998, 0.20000002, -86.9)
+
+[node name="Sketchfab_Scene2" parent="." unique_id=556919743 instance=ExtResource("23_0ih5w")]
+transform = Transform3D(1.6899998, 0, 0, 0, 1.6899998, 0, 0, 0, 1.6899998, -57.600002, 0.6, -105)
+
+[node name="Sketchfab_Scene5" parent="." unique_id=1994508290 instance=ExtResource("23_0ih5w")]
+transform = Transform3D(1.0863109, 0, 1.2946149, 0, 1.6899997, 0, -1.2946149, 0, 1.0863109, -67.700005, 0.6, -86.700005)
+
+[node name="Sketchfab_Scene14" parent="." unique_id=55600008 instance=ExtResource("23_0ih5w")]
+transform = Transform3D(1.0863109, 0, 1.2946149, 0, 1.6899997, 0, -1.2946149, 0, 1.0863109, -73.4, 0.6, -37.500004)
+
+[node name="Sketchfab_Scene15" parent="." unique_id=1538351679 instance=ExtResource("23_0ih5w")]
+transform = Transform3D(1.5208352, 0, 1.8124609, 0, 2.3659995, 0, -1.8124609, 0, 1.5208352, -85.4, -1.7000005, -25.500004)
+
+[node name="corrugated metal sheet fencing4" parent="." unique_id=846786945 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-3.179649e-08, 0, -0.7274189, 0, 0.7274189, 0, 0.7274189, 0, -3.179649e-08, -25.63663, 0.8009457, -96.29786)
+
+[node name="corrugated metal sheet fencing5" parent="." unique_id=377873505 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-3.179649e-08, 0, -0.7274189, 0, 0.7274189, 0, 0.7274189, 0, -3.179649e-08, -25.63663, 0.8009457, -99.69786)
+
+[node name="corrugated metal sheet fencing16" parent="." unique_id=1119642147 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-3.179649e-08, 0, -0.7274189, 0, 0.7274189, 0, 0.7274189, 0, -3.179649e-08, -49.93663, 0.8009457, -92.79786)
+
+[node name="corrugated metal sheet fencing17" parent="." unique_id=178087405 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-3.179649e-08, 0, -0.7274189, 0, 0.7274189, 0, 0.7274189, 0, -3.179649e-08, -49.93663, 0.8009457, -96.29786)
+
+[node name="corrugated metal sheet fencing18" parent="." unique_id=1816466474 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-3.179649e-08, 0, -0.7274189, 0, 0.7274189, 0, 0.7274189, 0, -3.179649e-08, -49.93663, 0.8009457, -99.69786)
+
+[node name="corrugated metal sheet fencing19" parent="." unique_id=409684957 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-3.179649e-08, 0, -0.7274189, 0, 0.7274189, 0, 0.7274189, 0, -3.179649e-08, -49.93663, 0.8009457, -103.19786)
+
+[node name="Sketchfab_Scene17" parent="." unique_id=806519747 instance=ExtResource("22_vx42f")]
+transform = Transform3D(0.44545177, 5.9928498e-09, -0.53086877, 0, 0.69299996, 7.823109e-09, 0.53086877, -5.028598e-09, 0.44545177, -74.399994, 0.20000002, -11.4000025)
+
+[node name="corrugated metal sheet fencing20" parent="." unique_id=1154052410 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-3.179649e-08, 0, -0.7274189, 0, 0.7274189, 0, 0.7274189, 0, -3.179649e-08, -49.93663, 0.8009457, -106.69786)
+
+[node name="corrugated metal sheet fencing21" parent="." unique_id=480818069 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-3.179649e-08, 0, -0.7274189, 0, 0.7274189, 0, 0.7274189, 0, -3.179649e-08, -49.93663, 0.8009457, -110.09786)
+
+[node name="corrugated metal sheet fencing22" parent="." unique_id=2114892114 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-3.179649e-08, 0, -0.7274189, 0, 0.7274189, 0, 0.7274189, 0, -3.179649e-08, -49.93663, 0.8009457, -113.39786)
+
+[node name="corrugated metal sheet fencing23" parent="." unique_id=1303178148 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-3.179649e-08, 0, -0.7274189, 0, 0.7274189, 0, 0.7274189, 0, -3.179649e-08, -49.93663, 0.8009457, -116.89786)
+
+[node name="corrugated metal sheet fencing8" parent="." unique_id=2023439674 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-3.179649e-08, 0, -0.7274189, 0, 0.7274189, 0, 0.7274189, 0, -3.179649e-08, -25.63663, 0.8009457, -113.397865)
+
+[node name="corrugated metal sheet fencing9" parent="." unique_id=174889158 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-3.179649e-08, 0, -0.7274189, 0, 0.7274189, 0, 0.7274189, 0, -3.179649e-08, -25.63663, 0.8009457, -116.79787)
+
+[node name="corrugated metal sheet fencing2" parent="." unique_id=1282008223 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -27.13663, 0.8009457, -90.79786)
+
+[node name="corrugated metal sheet fencing3" parent="." unique_id=1814463899 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -27.13663, 0.8009457, -90.79786)
+
+[node name="corrugated metal sheet fencing10" parent="." unique_id=199851145 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -30.63663, 0.8009457, -90.79786)
+
+[node name="corrugated metal sheet fencing11" parent="." unique_id=1384614815 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -34.136627, 0.8009457, -90.79786)
+
+[node name="corrugated metal sheet fencing12" parent="." unique_id=1450489876 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -37.636627, 0.8009457, -90.79786)
+
+[node name="corrugated metal sheet fencing13" parent="." unique_id=725045649 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -41.136627, 0.8009457, -90.79786)
+
+[node name="corrugated metal sheet fencing14" parent="." unique_id=265321625 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -44.53663, 0.8009457, -90.79786)
+
+[node name="corrugated metal sheet fencing15" parent="." unique_id=1708514686 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -47.836628, 0.8009457, -90.79786)
+
+[node name="corrugated metal sheet fencing24" parent="." unique_id=537131066 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -27.13663, 0.8009457, -118.29786)
+
+[node name="corrugated metal sheet fencing25" parent="." unique_id=1448611630 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -30.63663, 0.8009457, -118.29786)
+
+[node name="corrugated metal sheet fencing26" parent="." unique_id=476292000 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -34.136627, 0.8009457, -118.29786)
+
+[node name="corrugated metal sheet fencing27" parent="." unique_id=594938326 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -37.636627, 0.8009457, -118.29786)
+
+[node name="corrugated metal sheet fencing28" parent="." unique_id=1427857311 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -41.136627, 0.8009457, -118.29786)
+
+[node name="corrugated metal sheet fencing29" parent="." unique_id=603715818 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -44.53663, 0.8009457, -118.29786)
+
+[node name="corrugated metal sheet fencing30" parent="." unique_id=1541953473 instance=ExtResource("24_0ih5w")]
+transform = Transform3D(-0.7274189, 0, 6.359298e-08, 0, 0.7274189, 0, -6.359298e-08, 0, -0.7274189, -47.836628, 0.8009457, -118.29786)
+
+[node name="Sketchfab_Scene13" parent="." unique_id=1316782016 instance=ExtResource("25_3gmll")]
+transform = Transform3D(5.447448e-08, 0, -0.4607999, 0, 0.4607999, 0, 0.4607999, 0, 5.447448e-08, -37, 1.4901161e-08, -57.775803)
+
+[node name="WakeUpEffect" type="CanvasLayer" parent="." unique_id=152807578]
+layer = 100
+script = ExtResource("wakeup_script")
+
+[node name="TopEyelid" type="ColorRect" parent="WakeUpEffect" unique_id=836323467]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BottomEyelid" type="ColorRect" parent="WakeUpEffect" unique_id=974259426]
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
