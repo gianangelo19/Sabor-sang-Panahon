@@ -7,6 +7,11 @@ var dialogue_scene = preload("res://dialogue_ui.tscn")
 var waking_up_tex = preload("res://characters/1main_character_waking_up.png")
 
 func _ready():
+	if not GameState.consume_wake_up_intro():
+		visible = false
+		queue_free()
+		return
+
 	var player = get_tree().root.find_child("ProtoController", true, false)
 	if player:
 		# Disable player movement during wake up and dialogue

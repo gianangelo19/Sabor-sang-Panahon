@@ -1,6 +1,11 @@
 extends Control
 
 const PHONE_SIZE := Vector2(360, 620)
+const MAP_VIEW_SCRIPT := preload("res://ui/map_view.gd")
+const OPEN_CLOSE_PHONE_SOUND := preload("res://audio/open_close_phone.mp3")
+const SELECT_APP_SOUND := preload("res://audio/select_app_sound.mp3")
+const NOTIFICATION_SOUND := preload("res://audio/notification sound.mp3")
+const CLOCK_SOUND := preload("res://audio/clock_sound.mp3")
 const AMBOT_CONVERSATIONS := {
 	"casual": {
 		"opening": "Hello. I have no new clues or objective updates to analyze right now.",
@@ -20,6 +25,15 @@ const AMBOT_CONVERSATIONS := {
 		],
 		"closing": "Evidence file created: Unknown La Paz Dish."
 	},
+	"arrival_maps": {
+		"opening": "Arrival confirmed. Grandma's old house has been added to Maps and selected as your destination.",
+		"questions": [
+			{"text": "How do I find the house?", "answer": "Open Maps on your phone. Your position is blue, and the selected destination is marked in amber."},
+			{"text": "What is the diamond on screen?", "answer": "It is a subtle destination beacon. It fades when you reach the entrance."},
+			{"text": "Will Maps reveal everyone?", "answer": "No. New people and places appear only after evidence makes them relevant."},
+		],
+		"closing": "Current destination: Grandma's Old House."
+	},
 	"grandma_clues": {
 		"opening": "Grandma's testimony has been recorded: hot broth, soft noodles, garlic, and a crisp topping.",
 		"questions": [
@@ -28,6 +42,30 @@ const AMBOT_CONVERSATIONS := {
 			{"text": "What is my next step?", "answer": "Speak with a market vendor. Search area added to Maps."},
 		],
 		"closing": "Search area unlocked: La Paz Market."
+	},
+	"market_vendor_1_clues": {
+		"opening": "Fresh miki acquired. The vendor recognizes the ingredient, but shows the same unexplained memory gap around the dish.",
+		"questions": [
+			{"text": "Why can nobody name it?", "answer": "The shared pattern is statistically unusual. Multiple local memories appear incomplete in the same place."},
+			{"text": "What should I do next?", "answer": "Test the remaining ingredient memories with the second market vendor."},
+		],
+		"closing": "Next testimony marked: Market Vendor 2."
+	},
+	"market_vendor_2_clues": {
+		"opening": "Pork and liver acquired. The second vendor's hands remember preparing them together, but their conscious memory does not.",
+		"questions": [
+			{"text": "Could everyone forget at once?", "answer": "Ordinary forgetting would not produce matching gaps across unrelated witnesses. More evidence is required."},
+			{"text": "Who should I ask next?", "answer": "The chicharon vendor may recognize the final texture and has been marked in Maps."},
+		],
+		"closing": "Next testimony marked: Chicharon Vendor."
+	},
+	"chicharon_clues": {
+		"opening": "Crushed chicharon acquired. All three vendors recognize fragments of the bowl, yet none remembers the dish itself.",
+		"questions": [
+			{"text": "What clues do we have now?", "answer": "Fresh miki, pork and liver, garlic, hot broth, and crushed chicharon."},
+			{"text": "Why is the name still missing?", "answer": "The identity appears absent from Iloilo's collective memory. Family and physical evidence may restore it."},
+		],
+		"closing": "Collective memory anomaly recorded. Food clue profile ready for review."
 	},
 	"market_evidence": {
 		"opening": "New ingredients recorded: fresh miki, pork broth, pork meat, and liver.",
@@ -74,17 +112,22 @@ var title_label: Label
 var time_label: Label
 var notification_toast: Button
 var notification_banner: Button
+var open_close_player: AudioStreamPlayer
+var select_app_player: AudioStreamPlayer
+var notification_player: AudioStreamPlayer
+var clock_player: AudioStreamPlayer
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_build_interface()
+	_build_audio_players()
 	visible = true
 	phone_frame.visible = false
 	dim.visible = false
 	GameState.phone_notification_received.connect(_on_notification_received)
 	GameState.ambot_availability_changed.connect(_on_ambot_availability_changed)
 	if GameState.has_ambot_notification():
-		_on_notification_received(GameState.pending_ambot_notification)
+		_on_notification_received(GameState.pending_ambot_notification, false)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("phone"):
@@ -182,6 +225,26 @@ func _build_interface() -> void:
 	shell.add_child(hint)
 	show_home()
 
+func _build_audio_players() -> void:
+	open_close_player = _create_sfx_player(OPEN_CLOSE_PHONE_SOUND)
+	select_app_player = _create_sfx_player(SELECT_APP_SOUND)
+	notification_player = _create_sfx_player(NOTIFICATION_SOUND)
+	clock_player = _create_sfx_player(CLOCK_SOUND)
+	clock_player.finished.connect(_on_clock_sound_finished)
+
+func _create_sfx_player(stream: AudioStream) -> AudioStreamPlayer:
+	var player := AudioStreamPlayer.new()
+	player.stream = stream
+	player.bus = "SFX"
+	add_child(player)
+	return player
+
+func _play_sfx(player: AudioStreamPlayer) -> void:
+	if player == null:
+		return
+	player.stop()
+	player.play()
+
 func _style(fill: Color, border: Color, border_width: int, radius: int) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = fill
@@ -197,6 +260,9 @@ func _style(fill: Color, border: Color, border_width: int, radius: int) -> Style
 func open_phone() -> void:
 	if get_tree().paused:
 		return
+	if phone_open:
+		return
+	_play_sfx(open_close_player)
 	phone_open = true
 	dim.visible = true
 	phone_frame.visible = true
@@ -207,6 +273,10 @@ func open_phone() -> void:
 		show_home()
 
 func close_phone() -> void:
+	if not phone_open:
+		return
+	_play_sfx(open_close_player)
+	_stop_clock_sound()
 	phone_open = false
 	dim.visible = false
 	phone_frame.visible = false
@@ -223,8 +293,19 @@ func _set_player_input(enabled: bool) -> void:
 	player.set_process_unhandled_input(enabled)
 
 func _clear_screen() -> void:
+	_stop_clock_sound()
 	for child in screen_stack.get_children():
 		child.queue_free()
+
+
+func _stop_clock_sound() -> void:
+	if clock_player and clock_player.playing:
+		clock_player.stop()
+
+
+func _on_clock_sound_finished() -> void:
+	if current_app == "clock" and phone_open:
+		clock_player.play()
 
 func show_home() -> void:
 	current_app = "home"
@@ -248,11 +329,27 @@ func show_home() -> void:
 	screen_stack.add_child(grid)
 	var ambot_label := "AMBot\nNew information" if GameState.has_ambot_notification() else "AMBot"
 	_add_app_button(grid, ambot_label, _open_ambot)
+	_add_app_button(grid, "Maps", show_maps)
 	_add_app_button(grid, "Calculator", show_calculator)
 	_add_app_button(grid, "Calendar", show_calendar)
 	_add_app_button(grid, "Clock", show_clock)
 	_add_app_button(grid, "Notes", show_notes)
 	_add_app_button(grid, "Photos", show_photos)
+
+func show_maps() -> void:
+	current_app = "maps"
+	title_label.text = "Maps"
+	_clear_screen()
+	var map_view := MAP_VIEW_SCRIPT.new()
+	map_view.name = "MapView"
+	map_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	screen_stack.add_child(map_view)
+	var hint := Label.new()
+	hint.text = "Select a discovered destination to guide the beacon."
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.modulate = Color(0.78, 0.84, 0.82)
+	screen_stack.add_child(hint)
 
 func _add_app_button(parent: Control, label_text: String, callback: Callable, enabled := true) -> void:
 	var button := Button.new()
@@ -261,7 +358,10 @@ func _add_app_button(parent: Control, label_text: String, callback: Callable, en
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.disabled = not enabled
 	button.tooltip_text = "Open " + label_text
-	button.pressed.connect(callback)
+	button.pressed.connect(func():
+		_play_sfx(select_app_player)
+		callback.call()
+	)
 	parent.add_child(button)
 
 func show_calculator() -> void:
@@ -354,6 +454,7 @@ func show_clock() -> void:
 	current_app = "clock"
 	title_label.text = "Clock"
 	_clear_screen()
+	_play_sfx(clock_player)
 	var center := VBoxContainer.new()
 	center.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	center.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -462,11 +563,13 @@ func _add_chat_bubble(speaker: String, message: String, from_player: bool) -> vo
 	panel.add_child(label)
 	screen_stack.add_child(panel)
 
-func _on_notification_received(notification: Dictionary) -> void:
+func _on_notification_received(notification: Dictionary, play_sound := true) -> void:
 	notification_toast.text = "AMBot - %s\n%s" % [notification.get("title", "New message"), notification.get("preview", "Tap to open")]
 	notification_toast.visible = true
 	notification_banner.text = notification_toast.text
 	notification_banner.visible = true
+	if play_sound:
+		_play_sfx(notification_player)
 
 func _on_ambot_availability_changed(_available: bool) -> void:
 	if current_app == "home" and phone_open:

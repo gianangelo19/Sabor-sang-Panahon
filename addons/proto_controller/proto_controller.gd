@@ -81,6 +81,8 @@ func _ready() -> void:
 	interact_ray.target_position = Vector3(0, 0, -interact_distance)
 	interact_ray.enabled = true
 	interact_prompt.visible = false
+	if GameState.has_method("apply_saved_player_transform"):
+		GameState.call_deferred("apply_saved_player_transform", self)
 	
 	audio_walk = AudioStreamPlayer.new()
 	audio_walk.stream = load("res://audio/walking sound effect.mp3")
@@ -175,6 +177,9 @@ func _physics_process(delta: float) -> void:
 
 func update_interaction_prompt() -> void:
 	current_interactable = null
+	if not can_move or not is_processing_unhandled_input():
+		interact_prompt.visible = false
+		return
 
 	if interact_ray.is_colliding():
 		current_interactable = find_interactable(interact_ray.get_collider())

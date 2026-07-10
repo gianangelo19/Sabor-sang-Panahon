@@ -5,6 +5,10 @@ var current_state: int = State.IDLE
 
 var interaction_label: String = "ride Jeepney"
 
+const DIALOGUE_SCENE := preload("res://dialogue_ui.tscn")
+const PLAYER_PORTRAIT := preload("res://characters/2main_character_asking.png")
+const DRIVER_PORTRAIT := preload("res://characters/npc_driver/npc_driver_front.png")
+
 var phantom_cam_host_script = preload("res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd")
 var phantom_cam_script = preload("res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd")
 
@@ -15,6 +19,7 @@ var player_node: CharacterBody3D = null
 
 var audio_idle: AudioStreamPlayer3D
 var audio_cruising: AudioStreamPlayer3D
+var ride_dialogue: Control = null
 
 func _ready() -> void:
 	jeep_phantom_cam = phantom_cam_script.new()
@@ -113,7 +118,40 @@ func start_ride() -> void:
 		# Wait 1.0 second for the camera to smoothly transition before moving the jeep
 		await get_tree().create_timer(1.0).timeout
 		if current_state == State.RIDING:
+			_start_ride_dialogue()
 			animation_player.play("jeepney_cutscene")
+
+func _start_ride_dialogue() -> void:
+	if ride_dialogue != null and is_instance_valid(ride_dialogue):
+		ride_dialogue.queue_free()
+
+	ride_dialogue = DIALOGUE_SCENE.instantiate()
+	get_tree().root.add_child(ride_dialogue)
+	ride_dialogue.start_timed_conversation(
+		[
+			{
+				"speaker": "Driver",
+				"text": "[i]Diin ka manaog, gha?[/i]\n[font_size=17]English: Where are you getting off?[/font_size]",
+				"portrait": DRIVER_PORTRAIT,
+			},
+			{
+				"speaker": "You",
+				"text": "[i]Sa may Lapaz Public Market lang, nong.[/i]\n[font_size=17]English: Just near La Paz Public Market, uncle.[/font_size]",
+				"portrait": PLAYER_PORTRAIT,
+			},
+			{
+				"speaker": "You",
+				"text": "[i]Lugar lang sa ibabaw nong, ari bayad ko.[/i]\n[font_size=17]English: Please stop up ahead, uncle. Here is my fare.[/font_size]",
+				"portrait": PLAYER_PORTRAIT,
+				"delay_before": 2.0,
+			},
+		],
+		[5.0, 5.0, 3.0]
+	)
+	ride_dialogue.dialogue_finished.connect(_on_ride_dialogue_finished)
+
+func _on_ride_dialogue_finished() -> void:
+	ride_dialogue = null
 
 func get_off() -> void:
 	current_state = State.EXITING
@@ -139,11 +177,25 @@ func get_off() -> void:
 		var mesh = player_node.get_node_or_null("Mesh")
 		if mesh:
 			mesh.visible = true
+
+	_unlock_arrival_destination()
 			
 	jeep_phantom_cam.priority = 0
 	
 	if animation_player:
 		animation_player.play("exit jeep cutscene")
+
+func _unlock_arrival_destination() -> void:
+	if not GameState.unlock_destination("grandma_house"):
+		return
+	GameState.select_destination("grandma_house")
+	GameState.set_objective("Visit Grandma at her old house.")
+	GameState.set_ambot_status("Grandma's house marked in Maps")
+	GameState.push_ambot_notification(
+		"arrival_maps",
+		"Destination added",
+		"Grandma's Old House is now available in Maps."
+	)
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "jeepney_cutscene":

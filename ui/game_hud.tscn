@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://ui/game_hud.gd" id="1_hud"]
 [ext_resource type="PackedScene" path="res://ui/phone_ui.tscn" id="2_phone"]
+[ext_resource type="Script" path="res://ui/navigation_beacon.gd" id="3_beacon"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 bg_color = Color(0.055, 0.043, 0.031, 0.82)
@@ -153,6 +154,16 @@ theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
 text = "Press WASD to move"
 horizontal_alignment = 1
 
+[node name="NavigationBeacon" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_beacon")
+
 [node name="PauseMenu" type="Control" parent="."]
 unique_name_in_owner = true
 process_mode = 3
@@ -209,14 +220,6 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_button")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
 text = "Resume"
 
-[node name="RestartButton" type="Button" parent="PauseMenu/MenuPanel/MenuStack"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_button")
-theme_override_styles/hover = SubResource("StyleBoxFlat_button")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
-text = "Restart Apartment"
-
 [node name="MainMenuButton" type="Button" parent="PauseMenu/MenuPanel/MenuStack"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -241,7 +244,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
 text = "Quit"
 
 [connection signal="pressed" from="PauseMenu/MenuPanel/MenuStack/ResumeButton" to="." method="_on_resume_button_pressed"]
-[connection signal="pressed" from="PauseMenu/MenuPanel/MenuStack/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="PauseMenu/MenuPanel/MenuStack/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
 [connection signal="pressed" from="PauseMenu/MenuPanel/MenuStack/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="PauseMenu/MenuPanel/MenuStack/QuitButton" to="." method="_on_quit_button_pressed"]

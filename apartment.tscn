@@ -36,10 +36,11 @@
 [ext_resource type="PackedScene" uid="uid://hcyet4myp4w3" path="res://assets/standing_picture_frame_02_4k.gltf/standing_picture_frame_02_4k.gltf" id="37_lqnq0"]
 [ext_resource type="PackedScene" uid="uid://68gcn3yqkegv" path="res://assets/book_encyclopedia_set_01_4k.gltf/book_encyclopedia_set_01_4k.gltf" id="38_fnrjy"]
 [ext_resource type="PackedScene" uid="uid://c2qyd4b66sx37" path="res://corrugated_metal_sheet_fencing.tscn" id="41_fnrjy"]
-[ext_resource type="PackedScene" uid="uid://d17xel85kk47y" path="res://models/FURNITURE/boysen_paint_bucket/scene.gltf" id="41_lqnq0"]
-[ext_resource type="PackedScene" uid="uid://smrg3x4vwf1b" path="res://models/FURNITURE/fridge_low_poly/scene.gltf" id="42_fnrjy"]
-[ext_resource type="PackedScene" uid="uid://vxv5l7pngwi4" path="res://models/FURNITURE/small_wooden_cabinet_low_poly/scene.gltf" id="43_rpopx"]
-[ext_resource type="Script" uid="uid://bdubpo54wcesl" path="res://scripts/wake_up.gd" id="wakeup_script"]
+[ext_resource type="PackedScene" uid="uid://d17xel85kk47y" path="res://assets/FURNITURE/boysen_paint_bucket/scene.gltf" id="41_lqnq0"]
+[ext_resource type="PackedScene" uid="uid://smrg3x4vwf1b" path="res://assets/FURNITURE/fridge_low_poly/scene.gltf" id="42_fnrjy"]
+[ext_resource type="PackedScene" uid="uid://vxv5l7pngwi4" path="res://assets/FURNITURE/small_wooden_cabinet_low_poly/scene.gltf" id="43_rpopx"]
+[ext_resource type="Script" uid="uid://bug0s0e0dlxyf" path="res://scripts/door_interactable.gd" id="44_door"]
+[ext_resource type="Script" path="res://scripts/looping_audio_player_3d.gd" id="45_loop_audio_3d"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c1tnr"]
 albedo_texture = ExtResource("1_hq0fg")
@@ -125,10 +126,15 @@ size = Vector3(0.55, 0.08, 0.4)
 albedo_color = Color(0.92, 0.78, 0.58, 1)
 albedo_texture = ExtResource("3_i41os")
 
-[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_cniej"]
-size = Vector3(5.4, 3.4, 7)
-
 [node name="Apartment" type="Node3D" unique_id=986595706]
+
+[node name="ApartmentAmbience" type="AudioStreamPlayer3D" parent="."]
+unit_size = 3.0
+max_distance = 12.0
+bus = &"Music"
+volume_db = -10.0
+script = ExtResource("45_loop_audio_3d")
+audio_path = "res://audio/apartment_ambiance.mp3"
 
 [node name="AfternoonWindowFill" type="OmniLight3D" parent="." unique_id=2056610638]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 1.45, -2.85)
@@ -286,7 +292,6 @@ transform = Transform3D(1.5793768, 0, 0, 0, -1.5793772, -1.44828e-07, 0, 1.44828
 transform = Transform3D(0.51282054, 0, 0, 0, 0.5128204, -1.7763568e-14, 0, 1.7763568e-14, 0.5128204, 0, 0.3407842, -5.9604645e-08)
 light_color = Color(0.9999998, 0.88903815, 0.7663421, 1)
 light_energy = 0.645
-shadow_enabled = false
 shadow_opacity = 0.28
 omni_range = 4.5
 
@@ -312,7 +317,6 @@ transform = Transform3D(1.9499999, 0, 0, 0, -1.9500003, -1.7881393e-07, 0, 1.788
 transform = Transform3D(0.51282054, 0, 0, 0, 0.5128204, 0, 0, 0, 0.5128204, 0, 0.31515312, 0)
 light_color = Color(1, 0.76, 0.48, 1)
 light_energy = 1.2
-shadow_enabled = false
 shadow_opacity = 0.25
 omni_range = 4.0
 
@@ -326,7 +330,6 @@ transform = Transform3D(1.5793768, 0, 0, 0, -1.5793772, -1.44828e-07, 0, 1.44828
 transform = Transform3D(0.51282054, 0, 0, 0, 0.5128204, -1.7763568e-14, 0, 1.7763568e-14, 0.5128204, 0, 0.3407842, -5.9604645e-08)
 light_color = Color(0.9999997, 0.8447973, 0.670474, 1)
 light_energy = 1.35
-shadow_enabled = false
 shadow_opacity = 0.28
 omni_range = 4.5
 
@@ -422,7 +425,7 @@ script = ExtResource("30_interact")
 interaction_label = "inspect newspaper"
 interaction_message = "The newspaper is damaged. Only a few words are readable: broth, noodles, market, oldtimer, La Paz."
 clue_to_add = "Damaged newspaper"
-next_objective = "Find the jeepney route map."
+next_objective = "Ride the jeepney to La Paz."
 ambot_status_after_interaction = "Document scan incomplete. Dish identity unknown."
 ambot_situation_id = "newspaper_scan"
 ambot_notification_title = "Damaged article detected"
@@ -431,12 +434,19 @@ ambot_notification_preview = "I can scan the surviving text."
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NewspaperInteractable" unique_id=1441426393]
 shape = SubResource("BoxShape3D_newspaper")
 
-[node name="aptDoor" type="CSGBox3D" parent="." unique_id=534594328]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1009145, 0.9715874, -3.4962084)
+[node name="ApartmentDoor" type="Node3D" parent="." unique_id=1865987038]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6009145, 0.9715874, -3.4962084)
+script = ExtResource("44_door")
+interaction_label_open = "open apartment door"
+interaction_label_close = "close apartment door"
+
+[node name="aptDoor" type="CSGBox3D" parent="ApartmentDoor" unique_id=534594328]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+use_collision = true
 size = Vector3(1, 1.8900146, 0.12011719)
 material = SubResource("StandardMaterial3D_cniej")
 
-[node name="aptDoorKnob" type="CSGSphere3D" parent="aptDoor" unique_id=1734221274]
+[node name="aptDoorKnob" type="CSGSphere3D" parent="ApartmentDoor/aptDoor" unique_id=1734221274]
 transform = Transform3D(0.09549828, 0, 0, 0, 0.09549828, 0, 0, 0, 0.22777405, 0.39851725, 0, 0.00278759)
 
 [node name="bathroomDoor" type="CSGBox3D" parent="." unique_id=380545063]
@@ -499,7 +509,3 @@ transform = Transform3D(-7.565863e-08, 0.8, -4.7931884e-08, 0.15259932, -3.44378
 
 [node name="corrugated metal sheet fencing4" parent="." unique_id=448985917 instance=ExtResource("41_fnrjy")]
 transform = Transform3D(-7.565863e-08, 0.8, -4.7931884e-08, 0.15259932, -3.4437853e-08, -0.80152696, -0.8654339, -7.601054e-08, -0.14133081, -0.071336746, 3.2999997, 2.5932744)
-
-[node name="OccluderInstance3D" type="OccluderInstance3D" parent="." unique_id=890429416]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-occluder = SubResource("BoxOccluder3D_cniej")

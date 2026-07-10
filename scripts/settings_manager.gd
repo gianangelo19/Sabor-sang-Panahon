@@ -8,6 +8,7 @@ var music_bus_index: int
 var sfx_bus_index: int
 
 func _ready():
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	master_bus_index = AudioServer.get_bus_index("Master")
 	music_bus_index = AudioServer.get_bus_index("Music")
 	sfx_bus_index = AudioServer.get_bus_index("SFX")
@@ -81,6 +82,7 @@ func apply_graphics_settings() -> void:
 func show_settings_menu(parent: Node):
 	var popup = Window.new()
 	popup.title = "Settings"
+	popup.process_mode = Node.PROCESS_MODE_ALWAYS
 	popup.initial_position = Window.WINDOW_INITIAL_POSITION_CENTER_PRIMARY_SCREEN
 	popup.size = Vector2(420, 560)
 	popup.exclusive = true
@@ -88,6 +90,12 @@ func show_settings_menu(parent: Node):
 	
 	var panel = PanelContainer.new()
 	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color("241d19")
+	panel_style.border_color = Color("8c5d42")
+	panel_style.set_border_width_all(6)
+	panel_style.set_corner_radius_all(10)
+	panel.add_theme_stylebox_override("panel", panel_style)
 	popup.add_child(panel)
 	
 	var vbox = VBoxContainer.new()
@@ -105,10 +113,17 @@ func show_settings_menu(parent: Node):
 	panel.add_child(margin)
 	
 	var title = Label.new()
-	title.text = "Audio Settings"
+	title.text = "Settings"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 24)
+	title.add_theme_color_override("font_color", Color("ffd58a"))
+	title.add_theme_font_size_override("font_size", 30)
 	vbox.add_child(title)
+
+	var audio_title = Label.new()
+	audio_title.text = "AUDIO"
+	audio_title.add_theme_color_override("font_color", Color("f9b05b"))
+	audio_title.add_theme_font_size_override("font_size", 18)
+	vbox.add_child(audio_title)
 	
 	# Master Slider
 	var master_hbox = VBoxContainer.new()
@@ -150,9 +165,9 @@ func show_settings_menu(parent: Node):
 	vbox.add_child(sfx_hbox)
 
 	var graphics_title = Label.new()
-	graphics_title.text = "Graphics Settings"
-	graphics_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	graphics_title.add_theme_font_size_override("font_size", 24)
+	graphics_title.text = "GRAPHICS"
+	graphics_title.add_theme_color_override("font_color", Color("f9b05b"))
+	graphics_title.add_theme_font_size_override("font_size", 18)
 	vbox.add_child(graphics_title)
 
 	var quality_box = VBoxContainer.new()
@@ -197,6 +212,12 @@ func show_settings_menu(parent: Node):
 	
 	var close_btn = Button.new()
 	close_btn.text = "Close"
+	var button_style := StyleBoxFlat.new()
+	button_style.bg_color = Color("8c5d42")
+	button_style.set_corner_radius_all(7)
+	button_style.content_margin_top = 9
+	button_style.content_margin_bottom = 9
+	close_btn.add_theme_stylebox_override("normal", button_style)
 	close_btn.pressed.connect(popup.queue_free)
 	vbox.add_child(close_btn)
 	

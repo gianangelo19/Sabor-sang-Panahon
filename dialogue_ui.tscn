@@ -48,6 +48,17 @@ texture = ExtResource("1_portrait")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="npc_portrait" type="TextureRect" parent="canvas"]
+offset_left = 728.0
+offset_top = 59.0
+offset_right = 1340.0
+offset_bottom = 760.0
+mouse_filter = 2
+texture = ExtResource("1_portrait")
+expand_mode = 1
+stretch_mode = 5
+flip_h = true
+
 [node name="bg" type="Panel" parent="canvas" unique_id=374399662]
 offset_top = 447.0
 offset_right = 1152.0
@@ -69,6 +80,7 @@ offset_top = 520.0
 offset_right = 703.0
 offset_bottom = 620.0
 theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
 text = "(Dialogue text here)"
 
 [node name="continue_btn" type="Button" parent="canvas" unique_id=1791232172]

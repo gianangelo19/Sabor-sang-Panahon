@@ -1,16 +1,19 @@
 [gd_scene format=3 uid="uid://b71agcqtytyk6"]
 
+[ext_resource type="PackedScene" uid="uid://d4bpiaxd1lgnl" path="res://npc_chicharon_vendor.tscn" id="1_q8mm3"]
 [ext_resource type="Texture2D" uid="uid://cyn7lm4xs1o0b" path="res://textures/polystyrene_4k.gltf/textures/polystyrene_diff_4k.jpg" id="1_sfc0l"]
 [ext_resource type="Texture2D" uid="uid://we1jj5fiwpe8" path="res://textures/wood_table_worn_4k.gltf/textures/wood_table_worn_diff_4k.jpg" id="2_vo4jy"]
-[ext_resource type="PackedScene" uid="uid://d2owu13f5yncp" path="res://models/low_poly_roof_tile_game_ready.glb" id="3_4o4j3"]
-[ext_resource type="PackedScene" uid="uid://1lji7hwxqjnp" path="res://models/FURNITURE/single_sandbag/scene.gltf" id="3_38lrd"]
+[ext_resource type="PackedScene" uid="uid://d2owu13f5yncp" path="res://assets/low_poly_roof_tile_game_ready.glb" id="3_4o4j3"]
+[ext_resource type="PackedScene" uid="uid://1lji7hwxqjnp" path="res://assets/FURNITURE/single_sandbag/scene.gltf" id="3_38lrd"]
 [ext_resource type="Texture2D" uid="uid://cicayf7jycft" path="res://textures/weathered_planks_1k.gltf/textures/weathered_planks_diff_1k.jpg" id="3_tshlw"]
 [ext_resource type="Texture2D" uid="uid://c61uo81jkft8x" path="res://images/Screenshot 2026-07-01 213915.png" id="6_doc4g"]
 [ext_resource type="Texture2D" uid="uid://dgpu7rm0ix61u" path="res://images/Signages (Calendar).png" id="7_im7do"]
 [ext_resource type="Texture2D" uid="uid://b2cq7nlrhbk7f" path="res://images/Screenshot 2026-07-01 214354.png" id="8_sipf5"]
 [ext_resource type="Texture2D" uid="uid://cbrpts1feiryw" path="res://images/Screenshot 2026-07-01 215628.png" id="9_fkdll"]
-[ext_resource type="PackedScene" uid="uid://c6yn0sc00b6x1" path="res://models/FURNITURE/wooden_door_and_frame/scene.gltf" id="9_sipf5"]
+[ext_resource type="PackedScene" uid="uid://c6yn0sc00b6x1" path="res://assets/FURNITURE/wooden_door_and_frame/scene.gltf" id="9_sipf5"]
 [ext_resource type="PackedScene" uid="uid://c2qyd4b66sx37" path="res://corrugated_metal_sheet_fencing.tscn" id="10_yauc7"]
+[ext_resource type="Script" uid="uid://bbfmecv10icnm" path="res://scripts/navigation_destination.gd" id="11_navigation"]
+[ext_resource type="PackedScene" uid="uid://c1hmk7vw2hxlb" path="res://npc_tindero.tscn" id="14_eie47"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b6oao"]
 albedo_color = Color(0.99999934, 0.9971686, 0.8093635, 1)
@@ -107,6 +110,18 @@ material = SubResource("StandardMaterial3D_k4ov7")
 
 [node name="tindahan" type="Node3D" unique_id=695717090]
 
+[node name="npc_chicharon_vendor" parent="." unique_id=1207727301 instance=ExtResource("1_q8mm3")]
+transform = Transform3D(-8.742277e-09, 0, 0.19999999, 0, 0.19999999, 0, -0.19999999, 0, -8.742277e-09, -0.29999998, 0, -2.5)
+
+[node name="ChicharonVendorDestination" type="Marker3D" parent="." unique_id=567665414]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.29999998, 0, -4.8)
+script = ExtResource("11_navigation")
+destination_id = "chicharon_vendor"
+display_name = "Chicharon Vendor"
+icon_category = "person"
+arrival_radius = 5.0
+near_objective = "Talk to the chicharon vendor."
+
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=839518600]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1579895, 0, -5.4190917)
 size = Vector3(5.315979, 0.1, 15.3)
@@ -115,32 +130,38 @@ material = SubResource("StandardMaterial3D_b6oao")
 [node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=935007322]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3500001, 0)
 material_override = SubResource("StandardMaterial3D_cniej")
+use_collision = true
 size = Vector3(3.3, 0.2, 3.2)
 material = SubResource("StandardMaterial3D_b6oao")
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="." unique_id=1893587702]
 transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 1.3000001, 1.1, 1.3)
+use_collision = true
 radius = 0.081
 material = SubResource("StandardMaterial3D_b6oao")
 
 [node name="CSGCylinder3D2" type="CSGCylinder3D" parent="." unique_id=964670894]
 transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 1.3000001, 1.1, -1.3)
+use_collision = true
 radius = 0.081
 material = SubResource("StandardMaterial3D_b6oao")
 
 [node name="CSGCylinder3D3" type="CSGCylinder3D" parent="." unique_id=1046011724]
 transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, -1.3000001, 1.1, 1.3)
+use_collision = true
 radius = 0.081
 material = SubResource("StandardMaterial3D_b6oao")
 
 [node name="CSGCylinder3D4" type="CSGCylinder3D" parent="." unique_id=799620212]
 transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, -1.3000001, 1.1, -1.3)
+use_collision = true
 radius = 0.081
 material = SubResource("StandardMaterial3D_b6oao")
 
 [node name="CSGCylinder3D5" type="CSGCylinder3D" parent="." unique_id=391993709]
 transform = Transform3D(1, 0, 0, 0, 1.5513177, 0, 0, 0, 1, -1.3644195, 0.9049012, -1.7827362)
 material_override = SubResource("StandardMaterial3D_sfc0l")
+use_collision = true
 radius = 0.021
 height = 1.2052002
 material = SubResource("StandardMaterial3D_b6oao")
@@ -148,6 +169,7 @@ material = SubResource("StandardMaterial3D_b6oao")
 [node name="CSGCylinder3D6" type="CSGCylinder3D" parent="." unique_id=1111247391]
 transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, -1.3644195, 0.89483595, -3.4929187)
 material_override = SubResource("StandardMaterial3D_sfc0l")
+use_collision = true
 radius = 0.021
 height = 1.5901489
 material = SubResource("StandardMaterial3D_b6oao")
@@ -162,6 +184,7 @@ material = SubResource("StandardMaterial3D_b6oao")
 [node name="CSGCylinder3D7" type="CSGCylinder3D" parent="." unique_id=851704923]
 transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, -0.63784826, 1.4568232, -3.4929187)
 material_override = SubResource("StandardMaterial3D_sfc0l")
+use_collision = true
 radius = 0.021
 height = 1.0332642
 material = SubResource("StandardMaterial3D_b6oao")
@@ -176,6 +199,7 @@ material = SubResource("StandardMaterial3D_b6oao")
 [node name="CSGCylinder3D8" type="CSGCylinder3D" parent="." unique_id=534157213]
 transform = Transform3D(1, 0, 0, 0, 1.5513177, 0, 0, 0, 1, -0.63784826, 1.4096665, -1.7524424)
 material_override = SubResource("StandardMaterial3D_sfc0l")
+use_collision = true
 radius = 0.021
 height = 0.90356445
 material = SubResource("StandardMaterial3D_b6oao")
@@ -950,6 +974,7 @@ material = SubResource("StandardMaterial3D_38lrd")
 [node name="CSGBox3D4" type="CSGBox3D" parent="walls" unique_id=892288336]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1.0172689, 0.8779181, -2.628426)
 material_override = SubResource("StandardMaterial3D_im7do")
+use_collision = true
 size = Vector3(0.077697754, 0.84039307, 1.8710938)
 material = SubResource("StandardMaterial3D_38lrd")
 
@@ -1031,26 +1056,31 @@ size = Vector3(1, 1, 3.9325562)
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="walls" unique_id=1040166645]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 2.0038066, 1.3534083, -7.8175416)
+use_collision = true
 size = Vector3(0.08203125, 2.6914063, 3.1117554)
 material = SubResource("StandardMaterial3D_38lrd")
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="walls" unique_id=1489811]
 transform = Transform3D(-0.18859376, 0.9820552, 1.6487386e-08, 0.9820552, 0.18859376, -8.585398e-08, -8.7422784e-08, -1.2338448e-15, -1, 0.3161402, 2.3521845, -7.8175416)
+use_collision = true
 size = Vector3(0.08203125, 3.6000001, 3.1117554)
 material = SubResource("StandardMaterial3D_38lrd")
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="walls" unique_id=951749867]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -1.1534915, 0.4240306, -7.8175416)
+use_collision = true
 size = Vector3(0.08203125, 0.8326509, 3.1117554)
 material = SubResource("StandardMaterial3D_38lrd")
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="walls" unique_id=1147813388]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -1.1534915, 1.9404511, -7.8175416)
+use_collision = true
 size = Vector3(0.08203125, 0.30606312, 3.1117554)
 material = SubResource("StandardMaterial3D_38lrd")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="walls" unique_id=1611229070]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.30380666, 1.3333278, -9.332322)
+use_collision = true
 size = Vector3(0.08203125, 2.651245, 3.3289795)
 material = SubResource("StandardMaterial3D_38lrd")
 
@@ -1657,3 +1687,15 @@ transform = Transform3D(-3.1947383e-08, 0, 0.73087096, 0, 0.73087096, 0, -0.7308
 
 [node name="Sketchfab_Scene4" parent="." unique_id=6452826 instance=ExtResource("9_sipf5")]
 transform = Transform3D(-3.038702e-08, 0, 0.69517404, 0, 0.69517404, 0, -0.69517404, 0, -3.038702e-08, 0.82710266, 0, -6.272724)
+
+[node name="npc_tindero" parent="." unique_id=662015978 instance=ExtResource("14_eie47")]
+transform = Transform3D(-9.44166e-09, 0, 0.21599999, 0, 0.21599999, 0, -0.21599999, 0, -9.44166e-09, -0.4, 0, -7.8)
+
+[node name="TinderoDestination" type="Marker3D" parent="." unique_id=1329713806]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0, -7.8)
+script = ExtResource("11_navigation")
+destination_id = "tindero"
+display_name = "Tindero"
+icon_category = "person"
+arrival_radius = 5.0
+near_objective = "Talk to the tindero for the egg."

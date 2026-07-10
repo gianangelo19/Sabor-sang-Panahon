@@ -10,6 +10,7 @@ func _run() -> void:
 	game_state.reset()
 	_check(InputMap.has_action("phone"), "Phone input action exists")
 	_check(not game_state.has_ambot_notification(), "AMBot starts without new information")
+	_check(game_state.collected_ingredients.is_empty(), "Ingredient inventory starts empty")
 
 	var phone_scene := load("res://ui/phone_ui.tscn") as PackedScene
 	_check(phone_scene != null, "Phone scene loads")
@@ -57,6 +58,10 @@ func _run() -> void:
 	phone._calculator_key("3", calculator_display)
 	phone._calculator_key("=", calculator_display)
 	_check(calculator_display.text == "5.0", "Calculator performs arithmetic")
+	phone.show_maps()
+	await process_frame
+	_check(phone.current_app == "maps", "Maps app opens")
+	_check(phone.screen_stack.find_child("MapView", true, false) != null, "Maps app creates the La Paz map view")
 	phone.show_calendar()
 	_check(phone.current_app == "calendar", "Calendar app opens")
 	phone.show_clock()

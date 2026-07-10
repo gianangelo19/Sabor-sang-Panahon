@@ -87,14 +87,9 @@ func _on_resume_button_pressed() -> void:
 	if get_tree().paused:
 		_toggle_pause()
 
-func _on_restart_button_pressed() -> void:
-	get_tree().paused = false
-	GameState.reset()
-	get_tree().reload_current_scene()
-
 func _on_main_menu_button_pressed() -> void:
 	get_tree().paused = false
-	GameState.reset()
+	GameState.save_game()
 	get_tree().change_scene_to_file("res://menus/main_menu.tscn")
 
 func _on_settings_button_pressed() -> void:
@@ -111,6 +106,10 @@ func _on_clue_added(_clue: String) -> void:
 
 func _on_ingredients_changed(found: int, total: int) -> void:
 	ingredient_label.text = "%d/%d found" % [found, total]
+	ingredient_label.visible = found > 0
+	var ingredient_title := ingredient_label.get_node_or_null("../IngredientTitle") as Label
+	if ingredient_title:
+		ingredient_title.visible = found > 0
 
 func _on_ambot_status_changed(status: String) -> void:
 	ambot_label.text = status

@@ -1,0 +1,11 @@
+Model Information:
+* title:	NYC Bronx Buildings
+* source:	https://sketchfab.com/3d-models/nyc-bronx-buildings-9092600d1d9b46b7881746d44d8bfc58
+* author:	99.Miles (https://sketchfab.com/Mazen220)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "NYC Bronx Buildings" (https://sketchfab.com/3d-models/nyc-bronx-buildings-9092600d1d9b46b7881746d44d8bfc58) by 99.Miles (https://sketchfab.com/Mazen220) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

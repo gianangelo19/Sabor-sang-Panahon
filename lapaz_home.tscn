@@ -8,39 +8,44 @@
 [ext_resource type="Texture2D" uid="uid://b1b7lxxq6dguq" path="res://textures/painted_concrete_02_4k.gltf/textures/painted_concrete_02_diff_4k.jpg" id="3_xdwvo"]
 [ext_resource type="PackedScene" uid="uid://cyykqwnqjtsw8" path="res://assets/sungka_board_02_4k.gltf/sungka_board_02_4k.gltf" id="4_2ojwb"]
 [ext_resource type="Texture2D" uid="uid://3571g5e5u8pq" path="res://textures/old_linoleum_flooring_01_4k.blend/textures/old_linoleum_flooring_01_diff_4k.jpg" id="5_lyowp"]
-[ext_resource type="PackedScene" uid="uid://dkplahcn0w2dx" path="res://models/BUILDINGS/old_buildings/scene.gltf" id="6_yb42b"]
-[ext_resource type="PackedScene" uid="uid://cuftmkg3au4tc" path="res://models/FURNITURE/commercial_front_with_garage_door_philippines/scene.gltf" id="7_stu0b"]
+[ext_resource type="PackedScene" uid="uid://dkplahcn0w2dx" path="res://assets/BUILDINGS/old_buildings/scene.gltf" id="6_yb42b"]
+[ext_resource type="PackedScene" uid="uid://cuftmkg3au4tc" path="res://assets/FURNITURE/commercial_front_with_garage_door_philippines/scene.gltf" id="7_stu0b"]
 [ext_resource type="Texture2D" uid="uid://we1jj5fiwpe8" path="res://textures/wood_table_worn_4k.gltf/textures/wood_table_worn_diff_4k.jpg" id="8_xowa8"]
-[ext_resource type="PackedScene" uid="uid://c2xxglangryki" path="res://models/VEHICLES/car_covered_with_gray_cloth_2/scene.gltf" id="9_xowa8"]
-[ext_resource type="PackedScene" uid="uid://difnjmnw7yq" path="res://models/FURNITURE/garbage_disposal_bin_-_3d_scan/scene.gltf" id="10_14lrp"]
+[ext_resource type="PackedScene" uid="uid://c2xxglangryki" path="res://assets/VEHICLES/car_covered_with_gray_cloth_2/scene.gltf" id="9_xowa8"]
+[ext_resource type="PackedScene" uid="uid://difnjmnw7yq" path="res://assets/FURNITURE/garbage_disposal_bin_-_3d_scan/scene.gltf" id="10_14lrp"]
 [ext_resource type="PackedScene" uid="uid://dmyy8jnayyjx7" path="res://assets/metal_stool_02_4k.gltf/metal_stool_02_4k.gltf" id="10_yb42b"]
 [ext_resource type="PackedScene" uid="uid://do6nhia11fdu5" path="res://assets/plastic_monobloc_chair_01_4k.gltf/plastic_monobloc_chair_01_4k.gltf" id="11_mbtj0"]
-[ext_resource type="PackedScene" uid="uid://bx5e7qx238nrb" path="res://models/FURNITURE/crates_and_boxes_at_the_back_of_an_asian_store/scene.gltf" id="11_ocwd8"]
-[ext_resource type="PackedScene" uid="uid://kphmgx8gpdfd" path="res://models/FURNITURE/electric_meters_and_panels_1/scene.gltf" id="12_ki1sm"]
-[ext_resource type="PackedScene" uid="uid://clcitcmueigqt" path="res://models/FURNITURE/old_table/scene.gltf" id="13_s1lky"]
-[ext_resource type="PackedScene" uid="uid://b13ptv25vryge" path="res://models/FURNITURE/plastic_chair/scene.gltf" id="14_h8jij"]
-[ext_resource type="PackedScene" uid="uid://b8r83iicoqgqb" path="res://models/FURNITURE/coca_cola_refrigerator/scene.gltf" id="15_oq2wh"]
-[ext_resource type="PackedScene" uid="uid://dw68n6q5y74tr" path="res://models/FURNITURE/classic_plastic_chairs/scene.gltf" id="16_0ead5"]
-[ext_resource type="PackedScene" uid="uid://daib8v7g2m64i" path="res://models/FURNITURE/stylized_plastic_chair/scene.gltf" id="17_h8jij"]
+[ext_resource type="PackedScene" uid="uid://bx5e7qx238nrb" path="res://assets/FURNITURE/crates_and_boxes_at_the_back_of_an_asian_store/scene.gltf" id="11_ocwd8"]
+[ext_resource type="PackedScene" uid="uid://kphmgx8gpdfd" path="res://assets/FURNITURE/electric_meters_and_panels_1/scene.gltf" id="12_ki1sm"]
+[ext_resource type="PackedScene" uid="uid://clcitcmueigqt" path="res://assets/FURNITURE/old_table/scene.gltf" id="13_s1lky"]
+[ext_resource type="PackedScene" uid="uid://b13ptv25vryge" path="res://assets/FURNITURE/plastic_chair/scene.gltf" id="14_h8jij"]
+[ext_resource type="PackedScene" uid="uid://b8r83iicoqgqb" path="res://assets/FURNITURE/coca_cola_refrigerator/scene.gltf" id="15_oq2wh"]
+[ext_resource type="PackedScene" uid="uid://dw68n6q5y74tr" path="res://assets/FURNITURE/classic_plastic_chairs/scene.gltf" id="16_0ead5"]
+[ext_resource type="PackedScene" uid="uid://daib8v7g2m64i" path="res://assets/FURNITURE/stylized_plastic_chair/scene.gltf" id="17_h8jij"]
 [ext_resource type="PackedScene" uid="uid://ufcke1sx7h6w" path="res://assets/Toilets_Godot/LoafbrrAssets/Toilets/Scenes/Objects/toilet_elongated_a.tscn" id="18_oq2wh"]
-[ext_resource type="PackedScene" uid="uid://d2owu13f5yncp" path="res://models/low_poly_roof_tile_game_ready.glb" id="19_0ead5"]
+[ext_resource type="PackedScene" uid="uid://d2owu13f5yncp" path="res://assets/low_poly_roof_tile_game_ready.glb" id="19_0ead5"]
 [ext_resource type="PackedScene" uid="uid://cw1ndyq25mteb" path="res://assets/lightbulb_led_4k.gltf/lightbulb_led_4k.gltf" id="20_jpb2w"]
 [ext_resource type="PackedScene" uid="uid://dwfdjug2m64wi" path="res://assets/pull_chain_light_socket_4k.gltf/pull_chain_light_socket_4k.gltf" id="21_2p7ve"]
-[ext_resource type="PackedScene" uid="uid://cvcrq6y5ylnks" path="res://models/FURNITURE/giant_filipino_banana_polycam_ipad_pro_lidar/scene.gltf" id="23_ep5mn"]
-[ext_resource type="PackedScene" uid="uid://cv3nsrhn4c7i2" path="res://models/FURNITURE/petron_gas/scene.gltf" id="24_qiepf"]
-[ext_resource type="PackedScene" uid="uid://d17xel85kk47y" path="res://models/FURNITURE/boysen_paint_bucket/scene.gltf" id="25_qiepf"]
+[ext_resource type="PackedScene" uid="uid://cvcrq6y5ylnks" path="res://assets/FURNITURE/giant_filipino_banana_polycam_ipad_pro_lidar/scene.gltf" id="23_ep5mn"]
+[ext_resource type="PackedScene" uid="uid://cv3nsrhn4c7i2" path="res://assets/FURNITURE/petron_gas/scene.gltf" id="24_qiepf"]
+[ext_resource type="PackedScene" uid="uid://d17xel85kk47y" path="res://assets/FURNITURE/boysen_paint_bucket/scene.gltf" id="25_qiepf"]
 [ext_resource type="PackedScene" uid="uid://do68ohtl6hs6" path="res://assets/power_box_01_4k.gltf/power_box_01_4k.gltf" id="29_5m1ps"]
 [ext_resource type="PackedScene" uid="uid://b1ev70kxwlo3t" path="res://assets/steel_frame_shelves_02_4k.gltf/steel_frame_shelves_02_4k.gltf" id="31_4mb3p"]
 [ext_resource type="PackedScene" uid="uid://72yhg4igmhqv" path="res://assets/wall_clock_4k.gltf/wall_clock_4k.gltf" id="32_7003k"]
 [ext_resource type="PackedScene" uid="uid://hcyet4myp4w3" path="res://assets/standing_picture_frame_02_4k.gltf/standing_picture_frame_02_4k.gltf" id="33_6ngls"]
 [ext_resource type="PackedScene" uid="uid://dnm57p3u6adgh" path="res://assets/plastic_thermos_4k.gltf/plastic_thermos_4k.gltf" id="34_bpsv4"]
 [ext_resource type="PackedScene" uid="uid://kif2k3l5kegm" path="res://assets/Low_Poly_Bedroom_Asset_Pack-4/Kyle Fuji/Prefabs/bed.tscn" id="35_7oy06"]
-[ext_resource type="PackedScene" uid="uid://bu3b41mso8vkb" path="res://models/FURNITURE/old_table_fan/scene.gltf" id="36_cqxqb"]
-[ext_resource type="PackedScene" uid="uid://br0ohdvxfkebs" path="res://models/FURNITURE/table_fancy_1/scene.gltf" id="38_mbtj0"]
-[ext_resource type="PackedScene" uid="uid://smrg3x4vwf1b" path="res://models/FURNITURE/fridge_low_poly/scene.gltf" id="39_fi80g"]
-[ext_resource type="PackedScene" uid="uid://bjb8e7a65hfws" path="res://models/FURNITURE/kitchen_oven_and_sink_set_low_poly/scene.gltf" id="40_4mb3p"]
-[ext_resource type="PackedScene" uid="uid://cdxpm10tiya4u" path="res://models/FURNITURE/fancy_shelf/scene.gltf" id="40_fi80g"]
-[ext_resource type="PackedScene" uid="uid://c2ar8ad6sf3pt" path="res://models/FURNITURE/fan_blades/scene.gltf" id="41_4mb3p"]
+[ext_resource type="PackedScene" uid="uid://bu3b41mso8vkb" path="res://assets/FURNITURE/old_table_fan/scene.gltf" id="36_cqxqb"]
+[ext_resource type="PackedScene" uid="uid://br0ohdvxfkebs" path="res://assets/FURNITURE/table_fancy_1/scene.gltf" id="38_mbtj0"]
+[ext_resource type="PackedScene" uid="uid://smrg3x4vwf1b" path="res://assets/FURNITURE/fridge_low_poly/scene.gltf" id="39_fi80g"]
+[ext_resource type="PackedScene" uid="uid://bjb8e7a65hfws" path="res://assets/FURNITURE/kitchen_oven_and_sink_set_low_poly/scene.gltf" id="40_4mb3p"]
+[ext_resource type="PackedScene" uid="uid://cdxpm10tiya4u" path="res://assets/FURNITURE/fancy_shelf/scene.gltf" id="40_fi80g"]
+[ext_resource type="PackedScene" uid="uid://c2ar8ad6sf3pt" path="res://assets/FURNITURE/fan_blades/scene.gltf" id="41_4mb3p"]
+[ext_resource type="PackedScene" uid="uid://tf0atiod3iqa" path="res://npc_grandma.tscn" id="42_7003k"]
+[ext_resource type="Script" uid="uid://bbfmecv10icnm" path="res://scripts/navigation_destination.gd" id="43_navigation"]
+[ext_resource type="PackedScene" uid="uid://betdo02wuc5mt" path="res://tebs_sign.tscn" id="44_bpsv4"]
+[ext_resource type="Script" uid="uid://bug0s0e0dlxyf" path="res://scripts/door_interactable.gd" id="45_door"]
+[ext_resource type="Script" path="res://scripts/looping_audio_player_3d.gd" id="46_loop_audio_3d"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3l527"]
 albedo_color = Color(0.88453114, 0.88453114, 0.884531, 1)
@@ -94,8 +99,19 @@ uv1_scale = Vector3(9, 9, 9)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqypp"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qbg6i"]
+albedo_texture = ExtResource("8_xowa8")
+
 [node name="lapaz_home" type="Node3D" unique_id=1425629456]
 script = ExtResource("1_script")
+
+[node name="LapazHomeAmbience" type="AudioStreamPlayer3D" parent="."]
+unit_size = 4.0
+max_distance = 28.0
+bus = &"Music"
+volume_db = -8.0
+script = ExtResource("46_loop_audio_3d")
+audio_path = "res://audio/lapaz_home_ambiance.mp3"
 
 [node name="ground" type="Node3D" parent="." unique_id=1956383407]
 
@@ -878,7 +894,6 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, 5.033964
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0510073, 4.0166245, -1.4276447)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k4" parent="light sources" unique_id=41013499 instance=ExtResource("20_jpb2w")]
@@ -891,7 +906,6 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, -3.19152
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1744773, 4.0166245, -1.4276447)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k5" parent="light sources" unique_id=953685648 instance=ExtResource("20_jpb2w")]
@@ -904,7 +918,6 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, -11.5542
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.537199, 4.0166245, -1.4276447)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k6" parent="light sources" unique_id=1735778492 instance=ExtResource("20_jpb2w")]
@@ -915,10 +928,9 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, -4.27368
 
 [node name="OmniLight3D9" type="OmniLight3D" parent="light sources" unique_id=1413863225]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.537199, 4.0166245, -1.4276447)
+visible = false
 light_energy = 1.752
 light_indirect_energy = 2.02
-visible = false
-shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k9" parent="light sources" unique_id=893649110 instance=ExtResource("20_jpb2w")]
@@ -931,7 +943,6 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, -4.27368
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.256645, 4.0166245, -7.5874987)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k10" parent="light sources" unique_id=443088672 instance=ExtResource("20_jpb2w")]
@@ -944,7 +955,6 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, -11.8996
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.882614, 4.7292876, -9.387143)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k7" parent="light sources" unique_id=1417923817 instance=ExtResource("20_jpb2w")]
@@ -957,7 +967,6 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, 2.837799
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8548415, 4.0166245, -7.5874987)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = false
 omni_range = 7.599535
 
 [node name="lightbulb_led_4k8" parent="light sources" unique_id=742899470 instance=ExtResource("20_jpb2w")]
@@ -984,7 +993,6 @@ transform = Transform3D(3.194737, 0, 0, 0, 3.194737, 0, 0, 0, 3.194737, -10.1428
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.12579, 4.0166245, 6.168991)
 light_energy = 1.752
 light_indirect_energy = 2.02
-shadow_enabled = false
 omni_range = 12.969943
 
 [node name="Sketchfab_Scene20" parent="." unique_id=85751376 instance=ExtResource("23_ep5mn")]
@@ -1040,3 +1048,66 @@ transform = Transform3D(0.004776649, 0, -1.57095, 0, 1.5709575, 0, 1.57095, 0, 0
 
 [node name="Sketchfab_Scene34" parent="." unique_id=982450772 instance=ExtResource("41_4mb3p")]
 transform = Transform3D(1.7018104, 0, 0, 0, 1.7018104, 0, 0, 0, 1.7018104, 0.48275542, 5.4470873, -1.1194243)
+
+[node name="npc_grandma" parent="." unique_id=2063685625 instance=ExtResource("42_7003k")]
+transform = Transform3D(-0.31734088, 0, -2.774282e-08, 0, 0.31734088, 0, 2.774282e-08, 0, -0.31734088, -0.20628083, 1.6499506, -1.8875823)
+
+[node name="GrandmaHouseDestination" type="Marker3D" parent="." unique_id=24580390]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20628083, 1.6499506, -1.8875823)
+script = ExtResource("43_navigation")
+destination_id = "grandma_house"
+display_name = "Grandma's Old House"
+icon_category = "home"
+arrival_radius = 7.0
+near_objective = "Talk to Grandma."
+
+[node name="Tebs Sign" parent="." unique_id=2142696194 instance=ExtResource("44_bpsv4")]
+transform = Transform3D(0.77, 0, 0, 0, 0.42000002, 0, 0, 0, 1, 0, 4.6460004, 2.6)
+
+[node name="Doors" type="Node3D" parent="." unique_id=982765327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2.25)
+script = ExtResource("45_door")
+interaction_label_open = "open door"
+interaction_label_close = "close door"
+
+[node name="Door" type="CSGBox3D" parent="Doors" unique_id=1349717446]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.79999995, 2.0000002, 0)
+use_collision = true
+size = Vector3(1.6, 3.5, 0.2)
+material = SubResource("StandardMaterial3D_qbg6i")
+
+[node name="Door Knob" type="CSGCylinder3D" parent="Doors" unique_id=995091938]
+transform = Transform3D(0.19200002, 0, 0, 0, -8.392587e-09, -0.19200002, 0, 0.19200002, -8.392587e-09, 1.452, 2.0879998, -0.001999855)
+height = 1.8000001
+
+[node name="Doors3" type="Node3D" parent="." unique_id=441630187]
+transform = Transform3D(1.0556448, 0, 0, 0, 1, 0, 0, 0, 1, -9.013098, 0, 2.25)
+script = ExtResource("45_door")
+interaction_label_open = "open door"
+interaction_label_close = "close door"
+
+[node name="Door" type="CSGBox3D" parent="Doors3" unique_id=41107070]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.79999995, 2.0000002, 0)
+use_collision = true
+size = Vector3(1.6, 3.5, 0.2)
+material = SubResource("StandardMaterial3D_qbg6i")
+
+[node name="Door Knob" type="CSGCylinder3D" parent="Doors3" unique_id=575825719]
+transform = Transform3D(0.19200002, 0, 0, 0, -8.392587e-09, -0.19200002, 0, 0.19200002, -8.392587e-09, 1.452, 2.0879998, -0.001999855)
+height = 1.8000001
+
+[node name="Doors2" type="Node3D" parent="." unique_id=970819125]
+transform = Transform3D(1.354145, 0, 0, 0, 1.1, 0, 0, 0, 0.043639157, 4.9419127, 0, -5.1286473)
+script = ExtResource("45_door")
+interaction_label_open = "open door"
+interaction_label_close = "close door"
+
+[node name="Door" type="CSGBox3D" parent="Doors2" unique_id=1352335776]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.79999995, 2.0000002, 0)
+use_collision = true
+size = Vector3(1.6, 3.5, 0.2)
+material = SubResource("StandardMaterial3D_qbg6i")
+
+[node name="Door Knob" type="CSGCylinder3D" parent="Doors2" unique_id=397763771]
+transform = Transform3D(0.19200002, 0, 0, 0, -1.0820216e-07, -0.19200002, 0, 2.4753768, -8.392587e-09, 1.452, 2.0879998, -0.001999855)
+height = 1.8000001
