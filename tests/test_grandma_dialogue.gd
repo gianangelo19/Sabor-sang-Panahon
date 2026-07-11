@@ -66,11 +66,20 @@ func _run() -> void:
 		await process_frame
 
 	_check(player.can_move and player.mouse_captured, "Player controls restore after dialogue")
-	_check(game_state.clues.has("Grandma remembers hot broth, soft noodles, garlic, and a crisp topping."), "Grandma's testimony is recorded as a clue")
+	_check(game_state.clues.has("Grandma remembers soft noodles, tender meat, a salty taste, and a crisp topping."), "Grandma's four-part testimony is recorded as a clue")
 	_check(game_state.current_objective == "Ask the people of La Paz about Grandma's memories.", "Objective advances after Grandma's testimony")
 	_check(game_state.is_destination_completed("grandma_house"), "Talking to Grandma completes her destination")
 	_check(game_state.is_destination_unlocked("market_vendor_1"), "Grandma unlocks the first market vendor")
 	_check(game_state.active_destination == "market_vendor_1", "The first market vendor becomes the active destination")
+
+	game_state.set_grandma_left_for_medicine(true)
+	await process_frame
+	_check(not grandma.visible, "Grandma disappears after the first vendor conversation begins")
+	var grandma_collision := grandma.get_node("CharacterBody3D/CollisionShape3D") as CollisionShape3D
+	_check(grandma_collision.disabled, "Grandma's collision is disabled while she buys medicine")
+	game_state.set_grandma_left_for_medicine(false)
+	await process_frame
+	_check(grandma.visible, "Grandma can return for the final dinner sequence")
 
 	grandma.queue_free()
 	player.queue_free()

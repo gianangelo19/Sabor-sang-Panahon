@@ -95,7 +95,7 @@ func _run() -> void:
 	_check(game_state.has_seen_active_destination_in_maps(), "Open Maps arms newly selected destinations")
 	_check(map_view.marker_buttons.has("market_vendor_1"), "Map reveals the first market vendor after story unlock")
 	_check(not map_view.marker_buttons.has("market_vendor_2"), "Map keeps the second vendor hidden")
-	_check(not map_view.marker_buttons.has("tindero"), "Map keeps the tindero hidden until the egg step")
+	_check(not map_view.marker_buttons.has("tindero"), "Map keeps the tindero hidden until the noodle step")
 	_check(game_state.active_destination == "market_vendor_1", "Unlocked market vendor can be selected")
 	var marker_button_count := _count_marker_buttons(map_view.marker_layer)
 	map_view._rebuild_markers()

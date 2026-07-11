@@ -21,8 +21,8 @@ func _run() -> void:
 	var no_save_menu := menu_scene.instantiate()
 	root.add_child(no_save_menu)
 	await process_frame
-	var no_save_buttons := _visible_button_texts(no_save_menu.get_node("CenterPanel/MenuStack"))
-	_check(no_save_buttons == ["New Game", "Settings", "Quit"], "Main Menu hides Continue when no save exists")
+	var no_save_buttons := _visible_button_texts(no_save_menu.get_node("MenuColumn"))
+	_check(no_save_buttons == ["NEW GAME", "SETTINGS", "QUIT"], "Main Menu hides Continue when no save exists")
 	no_save_menu.queue_free()
 	await process_frame
 
@@ -33,6 +33,8 @@ func _run() -> void:
 	game_state.collect_ingredient("test_ingredient", "Test Ingredient")
 	game_state.unlock_destination("grandma_house")
 	game_state.select_destination("grandma_house")
+	game_state.set_grandma_left_for_medicine(true)
+	game_state.record_final_hunt_placement("procedural", "KitchenCorner", "Test procedural placement audit")
 	_check(game_state.save_game("res://la_paz.tscn"), "Game state saves successfully")
 	_check(game_state.has_save_game(), "Saved game is detected")
 
@@ -42,12 +44,16 @@ func _run() -> void:
 	_check(game_state.current_objective == "Test saved objective", "Continue restores the objective")
 	_check(game_state.has_ingredient("test_ingredient"), "Continue restores collected ingredients")
 	_check(game_state.active_destination == "grandma_house", "Continue restores the active beacon")
+	_check(game_state.grandma_left_for_medicine, "Continue remembers that Grandma left to buy medicine")
+	_check(game_state.final_hunt_placement_source == "procedural", "Continue restores the placement source")
+	_check(game_state.final_hunt_placement_spot == "KitchenCorner", "Continue restores the placement audit marker")
+	_check(game_state.final_hunt_used_placement_spots.has("KitchenCorner"), "Continue restores the no-repeat placement history")
 
 	var menu := menu_scene.instantiate()
 	root.add_child(menu)
 	await process_frame
-	var menu_buttons := _visible_button_texts(menu.get_node("CenterPanel/MenuStack"))
-	_check(menu_buttons == ["New Game", "Continue", "Settings", "Quit"], "Main Menu has the required four actions")
+	var menu_buttons := _visible_button_texts(menu.get_node("MenuColumn"))
+	_check(menu_buttons == ["NEW GAME", "CONTINUE", "SETTINGS", "QUIT"], "Main Menu has the required four actions")
 	_check(not menu.continue_button.disabled, "Continue is enabled when a save exists")
 	game_state.request_wake_up_intro()
 	game_state.load_game()

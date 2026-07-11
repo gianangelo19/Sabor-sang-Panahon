@@ -35,7 +35,7 @@ func _ready() -> void:
 		animation_player.animation_finished.connect(_on_animation_finished)
 		
 	audio_idle = AudioStreamPlayer3D.new()
-	audio_idle.stream = load("res://audio/idle jeepney sound.mp3")
+	audio_idle.stream = load("res://audio/retro_filipino_pack/jeepney_idle_loop.wav")
 	audio_idle.bus = "SFX"
 	audio_idle.unit_size = 5.0
 	audio_idle.max_distance = 30.0
@@ -44,8 +44,9 @@ func _ready() -> void:
 	add_child(audio_idle)
 	
 	audio_cruising = AudioStreamPlayer3D.new()
-	audio_cruising.stream = load("res://audio/cruising jeepney sound.mp3")
+	audio_cruising.stream = load("res://audio/retro_filipino_pack/jeepney_cruising_loop.wav")
 	audio_cruising.bus = "SFX"
+	audio_cruising.volume_db = -6.0
 	audio_cruising.unit_size = 5.0
 	audio_cruising.max_distance = 30.0
 	audio_cruising.finished.connect(func(): audio_cruising.play())

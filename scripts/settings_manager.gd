@@ -1,21 +1,45 @@
 extends Node
 
 const SETTINGS_FILE_PATH = "user://settings.cfg"
+const UI_BUTTON_SOUND := preload("res://audio/retro_filipino_pack/menu_button_press.wav")
+const DIALOGUE_CONTINUE_SOUND := preload("res://audio/retro_filipino_pack/dialogue_continue.wav")
 var config = ConfigFile.new()
 
 var master_bus_index: int
 var music_bus_index: int
 var sfx_bus_index: int
+var _ui_button_player: AudioStreamPlayer
+var _dialogue_continue_player: AudioStreamPlayer
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	master_bus_index = AudioServer.get_bus_index("Master")
 	music_bus_index = AudioServer.get_bus_index("Music")
 	sfx_bus_index = AudioServer.get_bus_index("SFX")
+	_ui_button_player = AudioStreamPlayer.new()
+	_ui_button_player.stream = UI_BUTTON_SOUND
+	_ui_button_player.bus = "SFX"
+	add_child(_ui_button_player)
+	_dialogue_continue_player = AudioStreamPlayer.new()
+	_dialogue_continue_player.stream = DIALOGUE_CONTINUE_SOUND
+	_dialogue_continue_player.bus = "SFX"
+	add_child(_dialogue_continue_player)
 	
 	load_settings()
 	# Reapply after the root viewport finishes loading project defaults.
 	call_deferred("apply_graphics_settings")
+
+func play_ui_button_sound() -> void:
+	if _ui_button_player == null:
+		return
+	_ui_button_player.stop()
+	_ui_button_player.play()
+
+func play_dialogue_continue_sound() -> void:
+	if _dialogue_continue_player == null:
+		return
+	_dialogue_continue_player.stop()
+	_dialogue_continue_player.play()
 
 func load_settings():
 	if config.load(SETTINGS_FILE_PATH) != OK:
@@ -134,6 +158,7 @@ func show_settings_menu(parent: Node):
 	master_slider.step = 0.05
 	master_slider.value = get_bus_volume(master_bus_index)
 	master_slider.value_changed.connect(func(value): set_bus_volume(master_bus_index, value))
+	master_slider.drag_started.connect(play_ui_button_sound)
 	master_hbox.add_child(master_label)
 	master_hbox.add_child(master_slider)
 	vbox.add_child(master_hbox)
@@ -147,6 +172,7 @@ func show_settings_menu(parent: Node):
 	music_slider.step = 0.05
 	music_slider.value = get_bus_volume(music_bus_index)
 	music_slider.value_changed.connect(func(value): set_bus_volume(music_bus_index, value))
+	music_slider.drag_started.connect(play_ui_button_sound)
 	music_hbox.add_child(music_label)
 	music_hbox.add_child(music_slider)
 	vbox.add_child(music_hbox)
@@ -160,6 +186,7 @@ func show_settings_menu(parent: Node):
 	sfx_slider.step = 0.05
 	sfx_slider.value = get_bus_volume(sfx_bus_index)
 	sfx_slider.value_changed.connect(func(value): set_bus_volume(sfx_bus_index, value))
+	sfx_slider.drag_started.connect(play_ui_button_sound)
 	sfx_hbox.add_child(sfx_label)
 	sfx_hbox.add_child(sfx_slider)
 	vbox.add_child(sfx_hbox)
@@ -184,7 +211,10 @@ func show_settings_menu(parent: Node):
 			selected_quality_index = index
 			break
 	quality_picker.select(selected_quality_index)
-	quality_picker.item_selected.connect(func(index): set_graphics_quality(quality_picker.get_item_text(index)))
+	quality_picker.item_selected.connect(func(index):
+		play_ui_button_sound()
+		set_graphics_quality(quality_picker.get_item_text(index))
+	)
 	quality_box.add_child(quality_label)
 	quality_box.add_child(quality_picker)
 	vbox.add_child(quality_box)
@@ -201,7 +231,10 @@ func show_settings_menu(parent: Node):
 		if fps_picker.get_item_id(index) == current_fps:
 			fps_picker.select(index)
 			break
-	fps_picker.item_selected.connect(func(index): set_fps_limit(fps_picker.get_item_id(index)))
+	fps_picker.item_selected.connect(func(index):
+		play_ui_button_sound()
+		set_fps_limit(fps_picker.get_item_id(index))
+	)
 	fps_box.add_child(fps_label)
 	fps_box.add_child(fps_picker)
 	vbox.add_child(fps_box)
@@ -218,7 +251,10 @@ func show_settings_menu(parent: Node):
 	button_style.content_margin_top = 9
 	button_style.content_margin_bottom = 9
 	close_btn.add_theme_stylebox_override("normal", button_style)
-	close_btn.pressed.connect(popup.queue_free)
+	close_btn.pressed.connect(func():
+		play_ui_button_sound()
+		popup.queue_free()
+	)
 	vbox.add_child(close_btn)
 	
 	parent.add_child(popup)

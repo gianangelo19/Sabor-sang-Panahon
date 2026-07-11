@@ -894,19 +894,19 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -2.75, -0.20000002, 10.
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.099999, 0, -5.1)
 script = ExtResource("13_navigation")
 destination_id = "market_vendor_1"
-display_name = "Market Vendor"
+display_name = "Meat Vendor"
 icon_category = "person"
 arrival_radius = 5.0
-near_objective = "Talk to the market vendor."
+near_objective = "Talk to the meat vendor for pork and liver."
 
 [node name="MarketVendor2Destination" type="Marker3D" parent="." unique_id=1727526908]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20000002, 9.3)
 script = ExtResource("13_navigation")
 destination_id = "market_vendor_2"
-display_name = "Market Vendor 2"
+display_name = "Ginamos Vendor"
 icon_category = "person"
 arrival_radius = 5.0
-near_objective = "Talk to the second market vendor."
+near_objective = "Talk to the ginamos vendor for shrimp paste."
 
 [node name="foods" type="Node3D" parent="." unique_id=219098171]
 
@@ -936,6 +936,7 @@ material = SubResource("StandardMaterial3D_cniej")
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="foods" unique_id=978980967]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -12.540749, 0, 5.3999987)
+use_collision = true
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="foods/CSGCombiner3D" unique_id=1663166758]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.250001, 0.75000006, -2.4)
@@ -959,6 +960,7 @@ mesh = SubResource("PlaneMesh_cniej")
 
 [node name="CSGCombiner3D5" type="CSGCombiner3D" parent="foods" unique_id=613196429]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -7.340749, 0, 5.399999)
+use_collision = true
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="foods/CSGCombiner3D5" unique_id=450282649]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.250001, 0.75000006, -2.4)
@@ -974,6 +976,7 @@ material = SubResource("StandardMaterial3D_cniej")
 
 [node name="CSGCombiner3D2" type="CSGCombiner3D" parent="foods" unique_id=1278680662]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -17.840748, 0, 5.199998)
+use_collision = true
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="foods/CSGCombiner3D2" unique_id=563451596]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.250001, 0.75000006, -2.4)
@@ -994,6 +997,7 @@ mesh = SubResource("PlaneMesh_cniej")
 
 [node name="CSGCombiner3D3" type="CSGCombiner3D" parent="foods" unique_id=555545472]
 transform = Transform3D(0.99999994, 0, 2.9802322e-08, 0, 1, 0, -2.9802322e-08, 0, 0.99999994, 7.3007607, 0, -0.025574695)
+use_collision = true
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="foods/CSGCombiner3D3" unique_id=688151783]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.250001, 0.75000006, -2.4)
@@ -1014,6 +1018,7 @@ mesh = SubResource("PlaneMesh_cniej")
 
 [node name="CSGCombiner3D4" type="CSGCombiner3D" parent="foods" unique_id=378229339]
 transform = Transform3D(0.99999994, 0, 2.9802322e-08, 0, 1, 0, -2.9802322e-08, 0, 0.99999994, 12.70076, 0, -0.025574856)
+use_collision = true
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="foods/CSGCombiner3D4" unique_id=587200633]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.250001, 0.75000006, -2.4)

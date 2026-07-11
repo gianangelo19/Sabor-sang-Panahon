@@ -2,6 +2,15 @@ extends Node
 
 const SAVE_VERSION := 1
 const DEFAULT_GAME_SCENE := "res://la_paz.tscn"
+const STORY_INGREDIENT_IDS := [
+	"pork_and_liver",
+	"ginamos",
+	"crushed_chicharon",
+	"fresh_miki",
+]
+const STORY_INGREDIENT_TOTAL := 4
+const PHYSICAL_EVIDENCE_OBJECTIVE := "Search around the La Paz house for physical evidence."
+const SIGN_REVEALED_CLUE := "Teb's Old La Paz Batchoyan signage revealed."
 
 signal objective_changed(objective: String)
 signal clue_added(clue: String)
@@ -14,12 +23,17 @@ signal destination_unlocked(destination_id: String)
 signal destination_selected(destination_id: String)
 signal destination_completed(destination_id: String)
 signal navigation_changed
+signal final_hunt_started(duration: float)
+signal final_hunt_time_changed(seconds_remaining: float)
+signal final_hunt_finished(success: bool)
+signal final_hunt_placement_decided(source: String, spot_id: String)
+signal grandma_presence_changed(present: bool)
 
 var current_objective := "Find something to eat."
 var ambot_status := "Offline"
 var clues: Array[String] = []
 var ingredients_found := 0
-var ingredients_total := 7
+var ingredients_total := STORY_INGREDIENT_TOTAL
 var collected_ingredients: Dictionary = {}
 var pending_ambot_notification: Dictionary = {}
 var completed_ambot_conversations: Array[String] = []
@@ -33,6 +47,14 @@ var autosave_enabled := false
 var pending_player_transform: Dictionary = {}
 var _wake_up_intro_requested := false
 var _autosave_queued := false
+var final_hunt_active := false
+var final_hunt_time_remaining := 0.0
+var final_hunt_succeeded := false
+var final_hunt_placement_source := ""
+var final_hunt_placement_spot := ""
+var final_hunt_placement_reason := ""
+var final_hunt_used_placement_spots: Array[String] = []
+var grandma_left_for_medicine := false
 
 func reset() -> void:
 	_wake_up_intro_requested = false
@@ -40,7 +62,7 @@ func reset() -> void:
 	ambot_status = "Offline"
 	clues.clear()
 	ingredients_found = 0
-	ingredients_total = 7
+	ingredients_total = STORY_INGREDIENT_TOTAL
 	collected_ingredients.clear()
 	pending_ambot_notification.clear()
 	completed_ambot_conversations.clear()
@@ -50,12 +72,54 @@ func reset() -> void:
 	active_destination = ""
 	map_viewed_destination = ""
 	pending_player_transform.clear()
+	final_hunt_active = false
+	final_hunt_time_remaining = 0.0
+	final_hunt_succeeded = false
+	final_hunt_placement_source = ""
+	final_hunt_placement_spot = ""
+	final_hunt_placement_reason = ""
+	final_hunt_used_placement_spots.clear()
+	grandma_left_for_medicine = false
 	objective_changed.emit(current_objective)
 	ambot_status_changed.emit(ambot_status)
 	ingredients_changed.emit(ingredients_found, ingredients_total)
 	ambot_availability_changed.emit(false)
 	tutorial_step_changed.emit(tutorial_step)
 	navigation_changed.emit()
+
+func begin_final_hunt(duration: float = 30.0) -> void:
+	final_hunt_active = true
+	final_hunt_succeeded = false
+	final_hunt_time_remaining = maxf(duration, 0.0)
+	final_hunt_started.emit(final_hunt_time_remaining)
+	final_hunt_time_changed.emit(final_hunt_time_remaining)
+	_request_autosave()
+
+func update_final_hunt_time(seconds_remaining: float) -> void:
+	final_hunt_time_remaining = maxf(seconds_remaining, 0.0)
+	final_hunt_time_changed.emit(final_hunt_time_remaining)
+
+func complete_final_hunt(success: bool) -> void:
+	final_hunt_active = false
+	final_hunt_succeeded = success
+	final_hunt_finished.emit(success)
+	_request_autosave()
+
+func record_final_hunt_placement(source: String, spot_id: String, reason: String = "") -> void:
+	final_hunt_placement_source = source
+	final_hunt_placement_spot = spot_id
+	final_hunt_placement_reason = reason
+	if not spot_id.is_empty() and source != "unavailable" and not final_hunt_used_placement_spots.has(spot_id):
+		final_hunt_used_placement_spots.append(spot_id)
+	final_hunt_placement_decided.emit(source, spot_id)
+	_request_autosave()
+
+func set_grandma_left_for_medicine(left: bool) -> void:
+	if grandma_left_for_medicine == left:
+		return
+	grandma_left_for_medicine = left
+	grandma_presence_changed.emit(not left)
+	_request_autosave()
 
 func set_objective(objective: String) -> void:
 	current_objective = objective
@@ -74,9 +138,9 @@ func add_clue(clue: String) -> void:
 	clue_added.emit(clue)
 	_request_autosave()
 
-func set_ingredients(found: int, total: int = ingredients_total) -> void:
-	ingredients_found = clampi(found, 0, total)
-	ingredients_total = max(total, 1)
+func set_ingredients(found: int, _total: int = STORY_INGREDIENT_TOTAL) -> void:
+	ingredients_total = STORY_INGREDIENT_TOTAL
+	ingredients_found = clampi(found, 0, ingredients_total)
 	ingredients_changed.emit(ingredients_found, ingredients_total)
 	_request_autosave()
 
@@ -84,13 +148,32 @@ func collect_ingredient(ingredient_id: String, display_name: String) -> bool:
 	if ingredient_id.is_empty() or collected_ingredients.has(ingredient_id):
 		return false
 	collected_ingredients[ingredient_id] = display_name
-	ingredients_found = collected_ingredients.size()
+	ingredients_found = _count_story_ingredients()
 	ingredients_changed.emit(ingredients_found, ingredients_total)
 	_request_autosave()
 	return true
 
 func has_ingredient(ingredient_id: String) -> bool:
 	return collected_ingredients.has(ingredient_id)
+
+func has_all_story_ingredients() -> bool:
+	for ingredient_id in STORY_INGREDIENT_IDS:
+		if not has_ingredient(ingredient_id):
+			return false
+	return true
+
+func begin_physical_evidence_search() -> void:
+	if not has_all_story_ingredients() or clues.has(SIGN_REVEALED_CLUE):
+		return
+	set_objective(PHYSICAL_EVIDENCE_OBJECTIVE)
+	set_ambot_status("4/4 ingredients collected - search the La Paz house")
+
+func _count_story_ingredients() -> int:
+	var count := 0
+	for ingredient_id in STORY_INGREDIENT_IDS:
+		if collected_ingredients.has(ingredient_id):
+			count += 1
+	return count
 
 func push_ambot_notification(situation_id: String, title: String, preview: String) -> void:
 	pending_ambot_notification = {
@@ -227,6 +310,14 @@ func save_game(scene_path: String = "") -> bool:
 		"completed_destinations": completed_destinations,
 		"active_destination": active_destination,
 		"map_viewed_destination": map_viewed_destination,
+		"final_hunt_active": final_hunt_active,
+		"final_hunt_time_remaining": final_hunt_time_remaining,
+		"final_hunt_succeeded": final_hunt_succeeded,
+		"final_hunt_placement_source": final_hunt_placement_source,
+		"final_hunt_placement_spot": final_hunt_placement_spot,
+		"final_hunt_placement_reason": final_hunt_placement_reason,
+		"final_hunt_used_placement_spots": final_hunt_used_placement_spots,
+		"grandma_left_for_medicine": grandma_left_for_medicine,
 		"player": player_data,
 	}
 	var file := FileAccess.open(save_file_path, FileAccess.WRITE)
@@ -252,8 +343,8 @@ func load_game() -> String:
 	ambot_status = str(parsed.get("ambot_status", "Offline"))
 	clues.assign(parsed.get("clues", []))
 	collected_ingredients = parsed.get("ingredients", {}).duplicate(true)
-	ingredients_found = collected_ingredients.size()
-	ingredients_total = int(parsed.get("ingredients_total", 7))
+	ingredients_found = _count_story_ingredients()
+	ingredients_total = STORY_INGREDIENT_TOTAL
 	pending_ambot_notification = parsed.get("pending_notification", {}).duplicate(true)
 	completed_ambot_conversations.assign(parsed.get("completed_ambot_conversations", []))
 	tutorial_step = int(parsed.get("tutorial_step", 0))
@@ -261,6 +352,22 @@ func load_game() -> String:
 	completed_destinations.assign(parsed.get("completed_destinations", []))
 	active_destination = str(parsed.get("active_destination", ""))
 	map_viewed_destination = str(parsed.get("map_viewed_destination", ""))
+	final_hunt_active = bool(parsed.get("final_hunt_active", false))
+	final_hunt_time_remaining = float(parsed.get("final_hunt_time_remaining", 0.0))
+	final_hunt_succeeded = bool(parsed.get("final_hunt_succeeded", false))
+	final_hunt_placement_source = str(parsed.get("final_hunt_placement_source", ""))
+	final_hunt_placement_spot = str(parsed.get("final_hunt_placement_spot", ""))
+	final_hunt_placement_reason = str(parsed.get("final_hunt_placement_reason", ""))
+	final_hunt_used_placement_spots.assign(parsed.get("final_hunt_used_placement_spots", []))
+	var legacy_grandma_left := (
+		completed_destinations.has("market_vendor_1")
+		and not clues.has("Batchoy Bowl artifact recovered.")
+		and not clues.has("La Paz Batchoy served to Grandma.")
+	)
+	grandma_left_for_medicine = bool(parsed.get("grandma_left_for_medicine", legacy_grandma_left))
+	if has_all_story_ingredients() and not clues.has(SIGN_REVEALED_CLUE):
+		current_objective = PHYSICAL_EVIDENCE_OBJECTIVE
+		ambot_status = "4/4 ingredients collected - search the La Paz house"
 	pending_player_transform = parsed.get("player", {}).duplicate(true)
 	autosave_enabled = true
 	_emit_loaded_state()
@@ -295,3 +402,11 @@ func _emit_loaded_state() -> void:
 	ambot_availability_changed.emit(not pending_ambot_notification.is_empty())
 	tutorial_step_changed.emit(tutorial_step)
 	navigation_changed.emit()
+	if not final_hunt_placement_source.is_empty():
+		final_hunt_placement_decided.emit(final_hunt_placement_source, final_hunt_placement_spot)
+	grandma_presence_changed.emit(not grandma_left_for_medicine)
+	if final_hunt_active:
+		final_hunt_started.emit(final_hunt_time_remaining)
+		final_hunt_time_changed.emit(final_hunt_time_remaining)
+	elif final_hunt_succeeded:
+		final_hunt_finished.emit(true)

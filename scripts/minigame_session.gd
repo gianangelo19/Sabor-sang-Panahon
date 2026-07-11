@@ -1,0 +1,99 @@
+extends CanvasLayer
+
+signal minigame_won
+signal dismissed
+
+const GAMEPLAY_LAYER := 80
+const GLOBAL_MUSIC_BUS := &"Music"
+
+var _minigame_scene: PackedScene
+var _minigame: Node
+var _global_music_bus_index := -1
+var _global_music_was_muted := false
+var _has_muted_global_music := false
+
+
+func start(scene: PackedScene) -> void:
+	_minigame_scene = scene
+	layer = GAMEPLAY_LAYER
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	_mute_global_music()
+	_start_fresh_instance()
+
+
+func _exit_tree() -> void:
+	_restore_global_music()
+
+
+func get_minigame() -> Node:
+	return _minigame
+
+
+func _mute_global_music() -> void:
+	if _has_muted_global_music:
+		return
+	_global_music_bus_index = AudioServer.get_bus_index(GLOBAL_MUSIC_BUS)
+	if _global_music_bus_index < 0:
+		return
+	_global_music_was_muted = AudioServer.is_bus_mute(_global_music_bus_index)
+	AudioServer.set_bus_mute(_global_music_bus_index, true)
+	_has_muted_global_music = true
+
+
+func _restore_global_music() -> void:
+	if not _has_muted_global_music or _global_music_bus_index < 0:
+		return
+	AudioServer.set_bus_mute(
+		_global_music_bus_index,
+		_global_music_was_muted
+	)
+	_has_muted_global_music = false
+
+
+func _start_fresh_instance() -> void:
+	if _minigame != null and is_instance_valid(_minigame):
+		remove_child(_minigame)
+		_minigame.queue_free()
+		_minigame = null
+
+	if _minigame_scene == null:
+		push_error("Cannot start a minigame session without a scene.")
+		dismissed.emit()
+		queue_free()
+		return
+
+	_minigame = _minigame_scene.instantiate()
+	add_child(_minigame)
+	_connect_first_available(
+		[&"minigame_finished", &"minigame_completed"],
+		_on_minigame_completed
+	)
+	_connect_first_available(
+		[&"minigame_failed"],
+		_on_minigame_failed
+	)
+	_connect_first_available(
+		[&"minigame_retry_requested"],
+		_on_minigame_retry_requested
+	)
+
+
+func _connect_first_available(signal_names: Array[StringName], callback: Callable) -> void:
+	for signal_name in signal_names:
+		if _minigame.has_signal(signal_name):
+			_minigame.connect(signal_name, callback)
+			return
+
+
+func _on_minigame_completed(_score: Variant = null) -> void:
+	minigame_won.emit()
+	queue_free()
+
+
+func _on_minigame_failed(_score: Variant = null) -> void:
+	dismissed.emit()
+	queue_free()
+
+
+func _on_minigame_retry_requested() -> void:
+	call_deferred("_start_fresh_instance")

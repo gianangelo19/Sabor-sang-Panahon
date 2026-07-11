@@ -101,7 +101,7 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
-text = "0/7 found"
+text = "0/4 collected"
 horizontal_alignment = 2
 
 [node name="AMBotPanel" type="PanelContainer" parent="HUDRoot"]
@@ -152,6 +152,46 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
 text = "Press WASD to move"
+horizontal_alignment = 1
+
+[node name="FinalHuntPanel" type="PanelContainer" parent="HUDRoot"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -175.0
+offset_top = 18.0
+offset_right = 175.0
+offset_bottom = 112.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="FinalHuntStack" type="VBoxContainer" parent="HUDRoot/FinalHuntPanel"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="FinalHuntTitle" type="Label" parent="HUDRoot/FinalHuntPanel/FinalHuntStack"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.69, 0.32, 1)
+theme_override_font_sizes/font_size = 14
+text = "GRANDMA RETURNS IN"
+horizontal_alignment = 1
+
+[node name="FinalHuntTimer" type="Label" parent="HUDRoot/FinalHuntPanel/FinalHuntStack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
+theme_override_font_sizes/font_size = 28
+text = "1:00"
+horizontal_alignment = 1
+
+[node name="FinalHuntPlacementStatus" type="Label" parent="HUDRoot/FinalHuntPanel/FinalHuntStack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.46, 0.9, 0.64, 1)
+theme_override_font_sizes/font_size = 11
+text = "ARTIFACT SEARCH"
 horizontal_alignment = 1
 
 [node name="NavigationBeacon" type="Control" parent="."]
@@ -243,7 +283,76 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_button")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
 text = "Quit"
 
+[node name="FinalHuntResult" type="Control" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="FinalHuntResult"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.015, 0.01, 0.82)
+
+[node name="Panel" type="PanelContainer" parent="FinalHuntResult"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = -130.0
+offset_right = 275.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Stack" type="VBoxContainer" parent="FinalHuntResult/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="FinalHuntResultTitle" type="Label" parent="FinalHuntResult/Panel/Stack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.45, 0.34, 1)
+theme_override_font_sizes/font_size = 30
+text = "GRANDMA IS HOME"
+horizontal_alignment = 1
+
+[node name="FinalHuntResultMessage" type="Label" parent="FinalHuntResult/Panel/Stack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
+theme_override_font_sizes/font_size = 17
+text = "The cultural echoes faded before you found the Batchoy Bowl."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Spacer" type="Control" parent="FinalHuntResult/Panel/Stack"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="FinalHuntRetryButton" type="Button" parent="FinalHuntResult/Panel/Stack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
+text = "Follow the Echoes Again"
+
 [connection signal="pressed" from="PauseMenu/MenuPanel/MenuStack/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="PauseMenu/MenuPanel/MenuStack/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
 [connection signal="pressed" from="PauseMenu/MenuPanel/MenuStack/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="PauseMenu/MenuPanel/MenuStack/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="FinalHuntResult/Panel/Stack/FinalHuntRetryButton" to="." method="_on_final_hunt_retry_pressed"]

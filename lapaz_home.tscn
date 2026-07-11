@@ -46,6 +46,7 @@
 [ext_resource type="PackedScene" uid="uid://betdo02wuc5mt" path="res://tebs_sign.tscn" id="44_bpsv4"]
 [ext_resource type="Script" uid="uid://bug0s0e0dlxyf" path="res://scripts/door_interactable.gd" id="45_door"]
 [ext_resource type="Script" path="res://scripts/looping_audio_player_3d.gd" id="46_loop_audio_3d"]
+[ext_resource type="Script" path="res://scripts/final_artifact_hunt.gd" id="47_artifact_hunt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3l527"]
 albedo_color = Color(0.88453114, 0.88453114, 0.884531, 1)
@@ -1111,3 +1112,30 @@ material = SubResource("StandardMaterial3D_qbg6i")
 [node name="Door Knob" type="CSGCylinder3D" parent="Doors2" unique_id=397763771]
 transform = Transform3D(0.19200002, 0, 0, 0, -1.0820216e-07, -0.19200002, 0, 2.4753768, -8.392587e-09, 1.452, 2.0879998, -0.001999855)
 height = 1.8000001
+
+[node name="FinalArtifactHunt" type="Node3D" parent="."]
+script = ExtResource("47_artifact_hunt")
+
+[node name="KitchenCorner" type="Marker3D" parent="FinalArtifactHunt"]
+position = Vector3(-4.8, 1.0, -6.4)
+
+[node name="BackRoomShelf" type="Marker3D" parent="FinalArtifactHunt"]
+position = Vector3(4.4, 1.0, -5.8)
+
+[node name="DiningRoom" type="Marker3D" parent="FinalArtifactHunt"]
+position = Vector3(-4.2, 1.0, 0.6)
+
+[node name="SideRoom" type="Marker3D" parent="FinalArtifactHunt"]
+position = Vector3(5.2, 1.0, 2.8)
+
+[node name="RearYard" type="Marker3D" parent="FinalArtifactHunt"]
+position = Vector3(-10.5, 1.0, 9.0)
+
+[node name="FrontYard" type="Marker3D" parent="FinalArtifactHunt"]
+position = Vector3(3.0, 1.0, 11.5)
+
+[node name="WestSide" type="Marker3D" parent="FinalArtifactHunt"]
+position = Vector3(-15.0, 1.0, 3.5)
+
+[node name="EastSide" type="Marker3D" parent="FinalArtifactHunt"]
+position = Vector3(9.0, 1.0, 8.5)

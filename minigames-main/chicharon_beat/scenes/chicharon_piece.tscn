@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://vsy0v0jy4w6w"]
+
+[ext_resource type="Script" uid="uid://bis2ck8p26ci4" path="res://minigames-main/chicharon_beat/scripts/chicharon_piece.gd" id="1_ilj4g"]
+[ext_resource type="Texture2D" uid="uid://bqxtmy5ntmwmk" path="res://minigames-main/chicharon_beat/assets/sprites/chicharon/chicharon_raw.png" id="2_gswns"]
+[ext_resource type="Texture2D" uid="uid://ce67s1rmbwsp1" path="res://minigames-main/chicharon_beat/assets/sprites/chicharon/chicharon_slightly_cooked.png" id="3_omldn"]
+[ext_resource type="Texture2D" uid="uid://ddbklwl1wxe4u" path="res://minigames-main/chicharon_beat/assets/sprites/chicharon/chicharon_perfect.png" id="4_1lsxx"]
+[ext_resource type="Texture2D" uid="uid://cl4bvhww5npk0" path="res://minigames-main/chicharon_beat/assets/sprites/chicharon/chicharon_burnt.png" id="5_y02oy"]
+
+[node name="ChicharonPiece" type="Node2D" unique_id=1283678127]
+scale = Vector2(1.5, 1.5)
+script = ExtResource("1_ilj4g")
+raw_texture = ExtResource("2_gswns")
+slightly_cooked_texture = ExtResource("3_omldn")
+perfect_texture = ExtResource("4_1lsxx")
+burnt_texture = ExtResource("5_y02oy")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1112180317]

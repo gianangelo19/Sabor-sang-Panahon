@@ -27,7 +27,7 @@
 [ext_resource type="PackedScene" uid="uid://cyykqwnqjtsw8" path="res://assets/sungka_board_02_4k.gltf/sungka_board_02_4k.gltf" id="26_1ndrq"]
 [ext_resource type="PackedScene" uid="uid://kif2k3l5kegm" path="res://assets/Low_Poly_Bedroom_Asset_Pack-4/Kyle Fuji/Prefabs/bed.tscn" id="27_6p0kr"]
 [ext_resource type="PackedScene" uid="uid://ctj6qiu1utwd5" path="res://assets/Toilets_fbx_gltf_blend/fbx_unreal/Toilet_Elongated_C.fbx" id="29_084ft"]
-[ext_resource type="Script" uid="uid://pd052jd5jyl0" path="res://scripts/interactable_object.gd" id="30_interact"]
+[ext_resource type="Script" uid="uid://6318hfwu3xhi" path="res://scripts/box_minigame_interactable.gd" id="30_box_interact"]
 [ext_resource type="PackedScene" uid="uid://bix24yv6hhlk" path="res://assets/kenney_retro-urban-kit/Models/FBX format/window-wide-type-c.fbx" id="32_vaqox"]
 [ext_resource type="PackedScene" uid="uid://crb5iurrkbq53" path="res://assets/kenney_retro-urban-kit/Models/FBX format/window-wide-type-b.fbx" id="33_ipyym"]
 [ext_resource type="PackedScene" uid="uid://bn1e5ca0agqxk" path="res://assets/cardboard_box_01_4k.gltf/cardboard_box_01_4k.gltf" id="34_eqfp6"]
@@ -40,7 +40,7 @@
 [ext_resource type="PackedScene" uid="uid://smrg3x4vwf1b" path="res://assets/FURNITURE/fridge_low_poly/scene.gltf" id="42_fnrjy"]
 [ext_resource type="PackedScene" uid="uid://vxv5l7pngwi4" path="res://assets/FURNITURE/small_wooden_cabinet_low_poly/scene.gltf" id="43_rpopx"]
 [ext_resource type="Script" uid="uid://bug0s0e0dlxyf" path="res://scripts/door_interactable.gd" id="44_door"]
-[ext_resource type="Script" path="res://scripts/looping_audio_player_3d.gd" id="45_loop_audio_3d"]
+[ext_resource type="Script" uid="uid://w5mpgj8s68om" path="res://scripts/looping_audio_player_3d.gd" id="45_loop_audio_3d"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c1tnr"]
 albedo_texture = ExtResource("1_hq0fg")
@@ -119,20 +119,20 @@ size = Vector3(3.1, 0.9, 0.7)
 [sub_resource type="BoxShape3D" id="BoxShape3D_power_box"]
 size = Vector3(0.55, 0.75, 0.25)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_newspaper"]
-size = Vector3(0.55, 0.08, 0.4)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cniej"]
 albedo_color = Color(0.92, 0.78, 0.58, 1)
 albedo_texture = ExtResource("3_i41os")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_box_minigame"]
+size = Vector3(0.42, 0.36, 0.55)
+
 [node name="Apartment" type="Node3D" unique_id=986595706]
 
-[node name="ApartmentAmbience" type="AudioStreamPlayer3D" parent="."]
+[node name="ApartmentAmbience" type="AudioStreamPlayer3D" parent="." unique_id=1819333155]
+volume_db = -10.0
 unit_size = 3.0
 max_distance = 12.0
 bus = &"Music"
-volume_db = -10.0
 script = ExtResource("45_loop_audio_3d")
 audio_path = "res://audio/apartment_ambiance.mp3"
 
@@ -291,7 +291,7 @@ transform = Transform3D(1.5793768, 0, 0, 0, -1.5793772, -1.44828e-07, 0, 1.44828
 [node name="OmniLight3D" type="OmniLight3D" parent="pull_chain_light_socket_4k/lightbulb_led_4k" unique_id=1541806992]
 transform = Transform3D(0.51282054, 0, 0, 0, 0.5128204, -1.7763568e-14, 0, 1.7763568e-14, 0.5128204, 0, 0.3407842, -5.9604645e-08)
 light_color = Color(0.9999998, 0.88903815, 0.7663421, 1)
-light_energy = 0.645
+light_energy = 0.3
 shadow_opacity = 0.28
 omni_range = 4.5
 
@@ -316,7 +316,7 @@ transform = Transform3D(1.9499999, 0, 0, 0, -1.9500003, -1.7881393e-07, 0, 1.788
 [node name="OmniLight3D" type="OmniLight3D" parent="lightbulb_led_4k3" unique_id=1155517577]
 transform = Transform3D(0.51282054, 0, 0, 0, 0.5128204, 0, 0, 0, 0.5128204, 0, 0.31515312, 0)
 light_color = Color(1, 0.76, 0.48, 1)
-light_energy = 1.2
+light_energy = 0.5
 shadow_opacity = 0.25
 omni_range = 4.0
 
@@ -329,7 +329,7 @@ transform = Transform3D(1.5793768, 0, 0, 0, -1.5793772, -1.44828e-07, 0, 1.44828
 [node name="OmniLight3D" type="OmniLight3D" parent="pull_chain_light_socket_4k2/lightbulb_led_4k" unique_id=1838658849]
 transform = Transform3D(0.51282054, 0, 0, 0, 0.5128204, -1.7763568e-14, 0, 1.7763568e-14, 0.5128204, 0, 0.3407842, -5.9604645e-08)
 light_color = Color(0.9999997, 0.8447973, 0.670474, 1)
-light_energy = 1.35
+light_energy = 0.3
 shadow_opacity = 0.28
 omni_range = 4.5
 
@@ -419,26 +419,14 @@ transform = Transform3D(-0.009884819, 0, -0.9999511, 0, 1, 0, 0.9999511, 0, -0.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PropCollisions/PowerBoxCollision" unique_id=1088042611]
 shape = SubResource("BoxShape3D_power_box")
 
-[node name="NewspaperInteractable" type="StaticBody3D" parent="." unique_id=1580395411]
-transform = Transform3D(0.7600919, 0, 0.64981556, 0, 1, 0, -0.64981556, 0, 0.7600919, -2.036737, 0.86, -0.91932505)
-script = ExtResource("30_interact")
-interaction_label = "inspect newspaper"
-interaction_message = "The newspaper is damaged. Only a few words are readable: broth, noodles, market, oldtimer, La Paz."
-clue_to_add = "Damaged newspaper"
-next_objective = "Ride the jeepney to La Paz."
-ambot_status_after_interaction = "Document scan incomplete. Dish identity unknown."
-ambot_situation_id = "newspaper_scan"
-ambot_notification_title = "Damaged article detected"
-ambot_notification_preview = "I can scan the surviving text."
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NewspaperInteractable" unique_id=1441426393]
-shape = SubResource("BoxShape3D_newspaper")
-
 [node name="ApartmentDoor" type="Node3D" parent="." unique_id=1865987038]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6009145, 0.9715874, -3.4962084)
 script = ExtResource("44_door")
 interaction_label_open = "open apartment door"
 interaction_label_close = "close apartment door"
+required_clue = "Damaged newspaper"
+locked_interaction_label = "open the box before leaving"
+locked_message = "I should open that box on the table before I leave."
 
 [node name="aptDoor" type="CSGBox3D" parent="ApartmentDoor" unique_id=534594328]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
@@ -463,8 +451,15 @@ transform = Transform3D(1.0005323, 0, 0, 0, 0.9126929, 0, 0, 0, 0.9126929, 1.707
 [node name="window-wide-type-b" parent="." unique_id=632821975 instance=ExtResource("33_ipyym")]
 transform = Transform3D(-3.9543805, 0, 1.0852307e-07, 0, 2.165563, 0, -3.4570292e-07, 0, -1.2413592, 0.9965353, 0.6510241, -3.4125593)
 
-[node name="cardboard_box_01_4k" parent="." unique_id=2147407125 instance=ExtResource("34_eqfp6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.022660911, 0.008329734, -3.22007)
+[node name="box_minigame" type="StaticBody3D" parent="." unique_id=2147407125]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0391383, 0.802776, -1.52007)
+script = ExtResource("30_box_interact")
+
+[node name="BoxModel" parent="box_minigame" unique_id=1526917799 instance=ExtResource("34_eqfp6")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="box_minigame" unique_id=27535404]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17, 0.03)
+shape = SubResource("BoxShape3D_box_minigame")
 
 [node name="plastic_container_4k" parent="." unique_id=720487609 instance=ExtResource("35_fimg6")]
 transform = Transform3D(0.084324926, 0, -0.99643826, 0, 1, 0, 0.99643826, 0, 0.084324926, 2.0368319, 0.0015739211, 0.5619807)

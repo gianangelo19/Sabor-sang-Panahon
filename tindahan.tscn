@@ -6,13 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://d2owu13f5yncp" path="res://assets/low_poly_roof_tile_game_ready.glb" id="3_4o4j3"]
 [ext_resource type="PackedScene" uid="uid://1lji7hwxqjnp" path="res://assets/FURNITURE/single_sandbag/scene.gltf" id="3_38lrd"]
 [ext_resource type="Texture2D" uid="uid://cicayf7jycft" path="res://textures/weathered_planks_1k.gltf/textures/weathered_planks_diff_1k.jpg" id="3_tshlw"]
-[ext_resource type="Texture2D" uid="uid://c61uo81jkft8x" path="res://images/Screenshot 2026-07-01 213915.png" id="6_doc4g"]
-[ext_resource type="Texture2D" uid="uid://dgpu7rm0ix61u" path="res://images/Signages (Calendar).png" id="7_im7do"]
-[ext_resource type="Texture2D" uid="uid://b2cq7nlrhbk7f" path="res://images/Screenshot 2026-07-01 214354.png" id="8_sipf5"]
-[ext_resource type="Texture2D" uid="uid://cbrpts1feiryw" path="res://images/Screenshot 2026-07-01 215628.png" id="9_fkdll"]
+[ext_resource type="Texture2D" uid="uid://c8eapldcvrw2i" path="res://images/cash-services-paylink.png" id="8_eie47"]
 [ext_resource type="PackedScene" uid="uid://c6yn0sc00b6x1" path="res://assets/FURNITURE/wooden_door_and_frame/scene.gltf" id="9_sipf5"]
+[ext_resource type="Texture2D" uid="uid://mhvx2s3a85w5" path="res://images/tindahan_store.png" id="9_xwbog"]
+[ext_resource type="Texture2D" uid="uid://d327w1u0y0cqa" path="res://images/ice-cool-drinks-frozen-bites.png" id="10_47rkq"]
 [ext_resource type="PackedScene" uid="uid://c2qyd4b66sx37" path="res://corrugated_metal_sheet_fencing.tscn" id="10_yauc7"]
 [ext_resource type="Script" uid="uid://bbfmecv10icnm" path="res://scripts/navigation_destination.gd" id="11_navigation"]
+[ext_resource type="Texture2D" uid="uid://dus80vgclkh5j" path="res://images/chicharon-4-sale.png" id="11_xwbog"]
+[ext_resource type="Texture2D" uid="uid://dh5e8ma7275a6" path="res://images/mobile-load-sungo.png" id="12_eie47"]
+[ext_resource type="Texture2D" uid="uid://c2wxodhtobxvp" path="res://images/tindahan_background.png" id="14_47rkq"]
 [ext_resource type="PackedScene" uid="uid://c1hmk7vw2hxlb" path="res://npc_tindero.tscn" id="14_eie47"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b6oao"]
@@ -84,29 +86,38 @@ albedo_color = Color(0.7713174, 0.10343797, 1.0973811e-05, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sipf5"]
 albedo_color = Color(0.6283328, 0.07602186, 6.545782e-06, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_78q3s"]
-albedo_texture = ExtResource("6_doc4g")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ngkbt"]
+albedo_texture = ExtResource("8_eie47")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_cniej"]
-material = SubResource("StandardMaterial3D_78q3s")
+material = SubResource("StandardMaterial3D_ngkbt")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4dl3w"]
-albedo_texture = ExtResource("7_im7do")
+albedo_texture = ExtResource("9_xwbog")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ffwg2"]
-albedo_texture = ExtResource("8_sipf5")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0deb5"]
+albedo_texture = ExtResource("10_47rkq")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_78q3s"]
-material = SubResource("StandardMaterial3D_ffwg2")
+material = SubResource("StandardMaterial3D_0deb5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xwbog"]
+albedo_texture = ExtResource("11_xwbog")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q8mm3"]
 albedo_texture = ExtResource("2_vo4jy")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k4ov7"]
-albedo_texture = ExtResource("9_fkdll")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_temmm"]
+albedo_texture = ExtResource("12_eie47")
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_ffwg2"]
-material = SubResource("StandardMaterial3D_k4ov7")
+[sub_resource type="PlaneMesh" id="PlaneMesh_4dl3w"]
+material = SubResource("StandardMaterial3D_temmm")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqypp"]
+albedo_texture = ExtResource("14_47rkq")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_temmm"]
+material = SubResource("StandardMaterial3D_aqypp")
 
 [node name="tindahan" type="Node3D" unique_id=695717090]
 
@@ -1660,18 +1671,15 @@ mesh = SubResource("PlaneMesh_cniej")
 transform = Transform3D(-1.3714222e-08, -0.21885434, 1.1114379e-08, 0, -1.1114379e-08, -0.21885434, 0.31374484, -9.566428e-09, 4.858249e-16, -1.4182671, 0.52123606, -3.9751716)
 mesh = SubResource("PlaneMesh_78q3s")
 
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="signages" unique_id=680392877]
+transform = Transform3D(-1.3714222e-08, -0.21885434, 2.002289e-08, 0, -1.1114379e-08, -0.39427274, 0.31374484, -9.566428e-09, 8.752283e-16, -1.4393922, 0.50607365, -2.5891156)
+material_override = SubResource("StandardMaterial3D_xwbog")
+mesh = SubResource("PlaneMesh_78q3s")
+
 [node name="CSGBox3D" type="CSGBox3D" parent="signages" unique_id=1157336290]
 transform = Transform3D(1.3052155, 0, 0, 0, 1.3052155, 0, 0, 0, 1.3052155, -1.1768808, 2.6782773, -7.774615)
 size = Vector3(0.044921875, 0.7714844, 1.9598083)
 material = SubResource("StandardMaterial3D_q8mm3")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="signages" unique_id=235495666]
-transform = Transform3D(0.37994307, 0, 0, 5.9002896e-23, -1.1507582e-08, -0.2632628, -1.7763568e-15, 0.2632628, -1.15075816e-08, 1.2677523, 2.1846838, 1.6003833)
-mesh = SubResource("PlaneMesh_ffwg2")
-
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="signages" unique_id=1810220437]
-transform = Transform3D(0.37775466, 1.2333176e-09, 0.028215019, 0.04072015, -1.14413e-08, -0.26174647, -1.7763567e-15, 0.26326278, -1.1507581e-08, 1.2677523, 2.1846838, -6.2640524)
-mesh = SubResource("PlaneMesh_ffwg2")
 
 [node name="corrugated metal sheet fencing" parent="signages" unique_id=1594563130 instance=ExtResource("10_yauc7")]
 transform = Transform3D(-3.1947383e-08, 0, 0.73087096, 0, 0.73087096, 0, -0.73087096, 0, -3.1947383e-08, 2.6266572, 0, -11.013535)
@@ -1685,8 +1693,20 @@ transform = Transform3D(-3.1947383e-08, 0, 0.73087096, 0, 0.73087096, 0, -0.7308
 [node name="corrugated metal sheet fencing4" parent="signages" unique_id=170790868 instance=ExtResource("10_yauc7")]
 transform = Transform3D(-3.1947383e-08, 0, 0.73087096, 0, 0.73087096, 0, -0.73087096, 0, -3.1947383e-08, 2.6266572, 0, -0.5419849)
 
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="signages" unique_id=672868911]
+transform = Transform3D(0.46115378, -2.9802322e-08, -1.411037e-08, -2.0157671e-08, 1.932593e-16, -0.32280764, 2.9802322e-08, 0.46115378, -6.661338e-16, 1.0489085, 2.106972, 1.6040548)
+mesh = SubResource("PlaneMesh_4dl3w")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="signages" unique_id=551147975]
+transform = Transform3D(0.30734935, -1.9862624e-08, 0.07517047, 0.107386395, -6.939906e-09, -0.21514457, 2.1040107e-08, 0.32556945, -4.7028307e-16, -0.31797165, 1.6677942, -6.265474)
+mesh = SubResource("PlaneMesh_4dl3w")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="signages" unique_id=869299250]
+transform = Transform3D(-6.6878414e-08, -0.9999999, 0, -6.687842e-08, 1.910685e-15, -1.0897373, 1.5299999, -4.3711378e-08, -4.7633932e-08, 0.1587676, 1.1104552, -7.7791343)
+mesh = SubResource("PlaneMesh_temmm")
+
 [node name="Sketchfab_Scene4" parent="." unique_id=6452826 instance=ExtResource("9_sipf5")]
-transform = Transform3D(-3.038702e-08, 0, 0.69517404, 0, 0.69517404, 0, -0.69517404, 0, -3.038702e-08, 0.82710266, 0, -6.272724)
+transform = Transform3D(-3.720999e-08, 0, 0.8512654, 0, 0.8512654, 0, -0.8512654, 0, -3.720999e-08, 0.82710266, 0, -6.272724)
 
 [node name="npc_tindero" parent="." unique_id=662015978 instance=ExtResource("14_eie47")]
 transform = Transform3D(-9.44166e-09, 0, 0.21599999, 0, 0.21599999, 0, -0.21599999, 0, -9.44166e-09, -0.4, 0, -7.8)
@@ -1698,4 +1718,12 @@ destination_id = "tindero"
 display_name = "Tindero"
 icon_category = "person"
 arrival_radius = 5.0
-near_objective = "Talk to the tindero for the egg."
+near_objective = "Talk to the tindero for fresh miki noodles."
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=471590215]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 1.9000001, -7.8)
+omni_range = 2.445
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=1464091196]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1.7, -2.5000002)
+omni_range = 2.445

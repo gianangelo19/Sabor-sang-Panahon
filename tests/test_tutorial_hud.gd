@@ -18,6 +18,12 @@ func _run() -> void:
 	root.add_child(hud)
 	await process_frame
 	_check(hud.hint_text.text == "Press WASD to move", "Movement instruction appears first")
+	_check(hud.ingredient_label.text == "0/4 collected", "HUD uses the four-ingredient story total")
+	hud._on_ingredients_changed(4, 4)
+	_check(hud.ingredient_label.text == "4/4 collected", "HUD clearly marks all four ingredients collected")
+	var ingredient_title := hud.ingredient_label.get_node("../IngredientTitle") as Label
+	_check(ingredient_title.text == "Ingredients complete", "HUD highlights the completed ingredient set")
+	hud._on_ingredients_changed(0, 4)
 
 	await _send_action(hud, "move_forward")
 	_check(game_state.tutorial_step == 1, "Movement advances the tutorial")

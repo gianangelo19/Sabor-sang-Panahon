@@ -2,7 +2,7 @@ extends Node3D
 
 const DIALOGUE_SCENE := preload("res://dialogue_ui.tscn")
 const PLAYER_PORTRAIT := preload("res://characters/2main_character_asking.png")
-const DEFAULT_MINIGAME_SCENE := preload("res://ui/vendor_minigame_placeholder.tscn")
+const MINIGAME_SESSION_SCRIPT := preload("res://scripts/minigame_session.gd")
 
 var npc_display_name := "NPC"
 var npc_portrait: Texture2D
@@ -13,15 +13,14 @@ var minigame_instructions := "Complete the vendor's challenge."
 var reward_id := "ingredient"
 var reward_name := "Ingredient"
 var destination_id := ""
-## Replace this per vendor with the real minigame scene. The scene must provide
-## start_minigame(title, instructions, reward) and emit minigame_won/dismissed.
-var minigame_scene: PackedScene = DEFAULT_MINIGAME_SCENE
+var minigame_scene: PackedScene
 
 var _dialogue_active := false
 var _conversation_completed := false
 var _minigame_completed := false
 var _player: Node = null
 var _player_was_movable := true
+var _minigame_session: CanvasLayer = null
 
 
 func get_interaction_text() -> String:
@@ -40,6 +39,8 @@ func interact() -> void:
 	if _conversation_completed and not _minigame_completed:
 		_start_minigame()
 		return
+	if not _conversation_completed:
+		_handle_first_conversation_started()
 
 	var dialogue := DIALOGUE_SCENE.instantiate()
 	get_tree().root.add_child(dialogue)
@@ -97,14 +98,20 @@ func _on_dialogue_finished() -> void:
 
 
 func _start_minigame() -> void:
-	var minigame := minigame_scene.instantiate()
-	get_tree().root.add_child(minigame)
-	minigame.start_minigame(minigame_title, minigame_instructions, reward_name)
-	minigame.minigame_won.connect(_on_minigame_won)
-	minigame.dismissed.connect(_on_minigame_dismissed)
+	if minigame_scene == null:
+		push_error(npc_display_name + " has no minigame scene configured.")
+		_restore_player()
+		return
+	_minigame_session = MINIGAME_SESSION_SCRIPT.new()
+	_minigame_session.name = "VendorMinigameSession"
+	get_tree().root.add_child(_minigame_session)
+	_minigame_session.minigame_won.connect(_on_minigame_won)
+	_minigame_session.dismissed.connect(_on_minigame_dismissed)
+	_minigame_session.start(minigame_scene)
 
 
 func _on_minigame_won() -> void:
+	_minigame_session = null
 	_minigame_completed = true
 	GameState.collect_ingredient(reward_id, reward_name)
 	_handle_minigame_won()
@@ -112,6 +119,7 @@ func _on_minigame_won() -> void:
 
 
 func _on_minigame_dismissed() -> void:
+	_minigame_session = null
 	_restore_player()
 
 
@@ -124,4 +132,8 @@ func _restore_player() -> void:
 
 
 func _handle_minigame_won() -> void:
+	pass
+
+
+func _handle_first_conversation_started() -> void:
 	pass

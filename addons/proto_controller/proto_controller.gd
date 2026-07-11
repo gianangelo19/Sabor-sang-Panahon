@@ -85,11 +85,10 @@ func _ready() -> void:
 		GameState.call_deferred("apply_saved_player_transform", self)
 	
 	audio_walk = AudioStreamPlayer.new()
-	audio_walk.stream = load("res://audio/walking sound effect.mp3")
+	audio_walk.stream = load("res://audio/retro_filipino_pack/walking_asphalt_realistic.wav")
 	audio_walk.bus = "SFX"
 	audio_walk.finished.connect(func(): if is_on_floor() and Vector2(velocity.x, velocity.z).length() > 0.1: audio_walk.play())
 	add_child(audio_walk)
-
 func _unhandled_input(event: InputEvent) -> void:
 	# Mouse capturing
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):

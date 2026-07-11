@@ -23,9 +23,32 @@ func _run() -> void:
 	await process_frame
 	_check(phone.current_app == "home", "Phone starts on the app launcher")
 	_check(not phone.phone_frame.visible, "Phone starts put away")
+	_check(phone.phone_frame.find_child("PhoneArtwork", true, false) != null, "Phone uses the illustrated phone artwork")
+	_check(phone.phone_frame.find_child("StatusTime", true, false) != null, "Phone status bar shows the time")
+	var location_label := phone.phone_frame.find_child("StatusLocation", true, false) as Label
+	_check(location_label != null and location_label.text == "LA PAZ", "Phone status bar shows the location")
+	_check(phone.phone_frame.find_child("StatusSignal", true, false) != null, "Phone status bar shows signal strength")
+	_check(phone.phone_frame.find_child("StatusBattery", true, false) != null, "Phone status bar shows the battery")
+	var ambot_app_button := phone.phone_frame.find_child("AMBotAppButton", true, false) as Button
+	_check(ambot_app_button != null and ambot_app_button.icon != null, "Phone launcher uses the supplied app icons")
+	var calculator_app_button := phone.phone_frame.find_child("CalculatorAppButton", true, false) as Button
+	_check(calculator_app_button != null and calculator_app_button.icon != null, "Calculator uses its matching generated icon")
 	phone._open_ambot()
 	_check(phone.current_app == "ambot", "AMBot can open without a notification")
 	_check(phone.current_situation == "casual", "AMBot uses casual dialogue when no clues are new")
+	_check(phone.ambot_typing_active, "AMBot begins its opening message with a typing effect")
+	_check(phone.ambot_typing_players.size() == 2, "AMBot has alternating typing-sound players")
+	var visible_before_tick: int = phone.ambot_typing_label.visible_characters
+	phone._update_ambot_typing(0.2)
+	_check(
+		phone.ambot_typing_label.visible_characters > visible_before_tick,
+		"AMBot reveals additional characters over time"
+	)
+	var typing_sound_playing := false
+	for player in phone.ambot_typing_players:
+		if player.playing:
+			typing_sound_playing = true
+	_check(typing_sound_playing, "AMBot plays text ticks while characters appear")
 	_check(not game_state.has_ambot_notification(), "Casual chat does not create story information")
 	phone.show_home()
 
@@ -44,7 +67,14 @@ func _run() -> void:
 	_check(phone.current_app == "ambot", "Notification opens the AMBot chat")
 	_check(phone.current_situation == "newspaper_scan", "Correct authored situation is selected")
 	_check(not game_state.has_ambot_notification(), "Opening AMBot marks new information as read")
+	_check(phone.ambot_typing_active, "Story dialogue starts typing before questions appear")
 	var question_count := 0
+	for child in phone.screen_stack.get_children():
+		if child is Button:
+			question_count += 1
+	_check(question_count == 0, "Player questions wait for AMBot to finish typing")
+	phone._finish_ambot_typing()
+	question_count = 0
 	for child in phone.screen_stack.get_children():
 		if child is Button:
 			question_count += 1
@@ -86,6 +116,9 @@ func _run() -> void:
 	_check(phone.current_app == "photos", "Photos app opens")
 	phone.close_phone()
 	_check(not phone.phone_open, "Phone can be put away")
+	phone.open_phone()
+	_check(phone.current_app == "home", "Reopening the phone always returns to the home screen")
+	phone.close_phone()
 
 	phone.queue_free()
 	_finish()

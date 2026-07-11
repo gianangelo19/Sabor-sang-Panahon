@@ -8,7 +8,7 @@ func _ready():
 	call_deferred("_generate_collisions", self)
 	
 	bg_music = AudioStreamPlayer.new()
-	bg_music.stream = load("res://audio/in game sound.mp3")
+	bg_music.stream = load("res://audio/retro_filipino_pack/in_game_retro_filipino.ogg")
 	bg_music.bus = "Music"
 	bg_music.autoplay = true
 	bg_music.finished.connect(func(): bg_music.play())

@@ -42,17 +42,13 @@ albedo_color = Color(0.91, 0.71283334, 0, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lal5f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqypp"]
-albedo_color = Color(0.64, 0.10880001, 0.10880001, 1)
-metallic = 0.5
-roughness = 0.5
+albedo_color = Color(0.73, 0.23116668, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31rxf"]
 albedo_color = Color(0.91, 0.71283334, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_temmm"]
-albedo_color = Color(0.64, 0.10880001, 0.10880001, 1)
-metallic = 0.5
-roughness = 0.5
+albedo_color = Color(0.73, 0.23116668, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ksapm"]
 albedo_texture = ExtResource("2_rna6s")
@@ -63,15 +59,17 @@ albedo_color = Color(0.91, 0.71283334, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_23jqr"]
 albedo_color = Color(0.91, 0.71283334, 0, 1)
+metallic = 1.0
+roughness = 0.4
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7wve6"]
 albedo_color = Color(0.91, 0.71283334, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4dl3w"]
-albedo_color = Color(1, 0.17000002, 0.17000002, 1)
+albedo_color = Color(0.73, 0.23116668, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ffwg2"]
-albedo_color = Color(1, 0.17000002, 0.17000002, 1)
+albedo_color = Color(0.73, 0.73, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sy4hc"]
 albedo_color = Color(0.91, 0.71283334, 0, 1)
@@ -91,16 +89,16 @@ albedo_color = Color(0.91, 0.71283334, 0, 1)
 albedo_color = Color(0.91, 0.71283334, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jfmcy"]
-albedo_color = Color(0.64, 0.10880001, 0.10880001, 1)
+albedo_color = Color(0.73, 0.23116668, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wi8ne"]
-albedo_color = Color(0.64, 0.10880001, 0.10880001, 1)
+albedo_color = Color(0.73, 0.23116668, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l2old"]
-albedo_color = Color(0.64, 0.10880001, 0.10880001, 1)
+albedo_color = Color(0.73, 0.23116668, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wkyoa"]
-albedo_color = Color(0.64, 0.10880001, 0.10880001, 1)
+albedo_color = Color(0.73, 0.23116668, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h8s7f"]
 albedo_color = Color(0.8638137, 0.86381376, 0.8638137, 1)
@@ -117,6 +115,9 @@ albedo_color = Color(0.8638137, 0.86381376, 0.8638137, 1)
 metallic = 1.0
 roughness = 0.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f4wmm"]
+albedo_color = Color(0.73, 0.23116668, 0, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aq851"]
 metallic = 0.4
 roughness = 0.0
@@ -127,7 +128,7 @@ emission_energy_multiplier = 11.94
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_627oh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4d36g"]
-albedo_color = Color(0.64, 0.10880001, 0.10880001, 1)
+albedo_color = Color(0.73, 0.23116668, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3f2br"]
 albedo_color = Color(0.91, 0.71283334, 0, 1)
@@ -576,7 +577,7 @@ size = Vector3(0.1171875, 0.6333008, 0.6)
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="." unique_id=1867658819]
 transform = Transform3D(1.2, 0, 0, 0, -5.2453668e-08, -1.2, 0, 1.2, -5.2453668e-08, 9.21143, 0.38616434, 8.7772865e-09)
-material_override = SubResource("StandardMaterial3D_x26pq")
+material_override = SubResource("StandardMaterial3D_f4wmm")
 gi_mode = 2
 size = Vector3(0.1171875, 0.6333008, 1.0687988)
 

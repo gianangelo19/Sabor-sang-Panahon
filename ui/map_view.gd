@@ -1,5 +1,6 @@
 extends Control
 
+const PHONE_TAP_SOUND := preload("res://audio/retro_filipino_pack/phone_tap.wav")
 const WORLD_MIN := Vector2(-75.0, -122.0)
 const WORLD_MAX := Vector2(55.0, 65.0)
 const MAP_CENTER := Vector3(-10.0, 150.0, -28.5)
@@ -11,11 +12,16 @@ var player_pin: Label
 var marker_buttons: Dictionary = {}
 var player: Node3D = null
 var _rebuild_queued := false
+var _tap_player: AudioStreamPlayer
 
 
 func _ready() -> void:
-	custom_minimum_size = Vector2(310, 405)
+	custom_minimum_size = Vector2(230, 330)
 	clip_contents = true
+	_tap_player = AudioStreamPlayer.new()
+	_tap_player.stream = PHONE_TAP_SOUND
+	_tap_player.bus = "SFX"
+	add_child(_tap_player)
 	_build_live_map()
 	GameState.navigation_changed.connect(_queue_rebuild_markers)
 	_queue_rebuild_markers()
@@ -112,6 +118,8 @@ func _rebuild_markers() -> void:
 
 
 func _select_destination_from_map(destination_id: String) -> void:
+	_tap_player.stop()
+	_tap_player.play()
 	if GameState.select_destination(destination_id):
 		GameState.mark_active_destination_seen_in_maps()
 		_queue_rebuild_markers()

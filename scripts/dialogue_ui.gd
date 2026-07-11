@@ -152,5 +152,6 @@ func _run_timed_dialogue() -> void:
 func _on_continue_pressed():
 	if auto_advance:
 		return
+	SettingsManager.play_dialogue_continue_sound()
 	current_line += 1
 	show_current_line()
