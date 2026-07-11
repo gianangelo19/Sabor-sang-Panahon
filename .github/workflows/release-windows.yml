@@ -1,0 +1,97 @@
+name: Release Windows Build
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to publish"
+        required: true
+        default: "v1.0.2"
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    name: Build and publish Windows release
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    env:
+      GODOT_VERSION: "4.7"
+      GODOT_RELEASE: "4.7-stable"
+      GODOT_TEMPLATES_DIR: "/home/runner/.local/share/godot/export_templates/4.7.stable"
+      RELEASE_TAG: ${{ github.event.inputs.tag || github.ref_name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Install system tools
+        run: sudo apt-get update && sudo apt-get install -y unzip
+
+      - name: Download Godot
+        run: |
+          curl -L -o godot.zip "https://github.com/godotengine/godot/releases/download/${GODOT_RELEASE}/Godot_v${GODOT_RELEASE}_linux.x86_64.zip"
+          unzip -q godot.zip -d godot-bin
+          mv "godot-bin/Godot_v${GODOT_RELEASE}_linux.x86_64" godot
+          chmod +x godot
+
+      - name: Install export templates
+        run: |
+          curl -L -o export_templates.tpz "https://github.com/godotengine/godot/releases/download/${GODOT_RELEASE}/Godot_v${GODOT_RELEASE}_export_templates.tpz"
+          unzip -q export_templates.tpz -d export_templates
+          mkdir -p "${GODOT_TEMPLATES_DIR}"
+          cp export_templates/templates/* "${GODOT_TEMPLATES_DIR}/"
+
+      - name: Import project resources
+        run: ./godot --headless --path . --import --quit
+
+      - name: Export Windows executable
+        run: |
+          mkdir -p build/windows
+          ./godot --headless --path . --export-release "Windows Desktop" "build/windows/Sabor sang Panahon.exe"
+
+      - name: Package Windows build
+        run: |
+          mkdir -p "dist/Sabor-sang-Panahon-Windows-x86_64"
+          cp "build/windows/Sabor sang Panahon.exe" "dist/Sabor-sang-Panahon-Windows-x86_64/"
+          cp README.md "dist/Sabor-sang-Panahon-Windows-x86_64/"
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZIP_DEFLATED, ZipFile
+
+          package_dir = Path("dist/Sabor-sang-Panahon-Windows-x86_64")
+          zip_path = Path("dist/Sabor-sang-Panahon-Windows-x86_64.zip")
+          with ZipFile(zip_path, "w", ZIP_DEFLATED, allowZip64=True) as archive:
+              for path in package_dir.rglob("*"):
+                  if path.is_file():
+                      archive.write(path, path.relative_to(package_dir.parent))
+          PY
+
+      - name: Create release notes
+        run: |
+          cat > release-notes.md <<'EOF'
+          Windows playable build for Sabor sang Panahon.
+
+          Download `Sabor-sang-Panahon-Windows-x86_64.zip`, extract it, then run `Sabor sang Panahon.exe`.
+
+          This build fixes the exported game getting stuck at the main menu by packaging the full Godot resource set needed by the game scenes. Players do not need to install Godot or set up the project from source.
+          EOF
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "${RELEASE_TAG}" >/dev/null 2>&1 || \
+            gh release create "${RELEASE_TAG}" \
+              --target "${GITHUB_SHA}" \
+              --title "Sabor sang Panahon ${RELEASE_TAG}" \
+              --notes-file release-notes.md \
+              --latest
+          gh release upload "${RELEASE_TAG}" "dist/Sabor-sang-Panahon-Windows-x86_64.zip" --clobber
