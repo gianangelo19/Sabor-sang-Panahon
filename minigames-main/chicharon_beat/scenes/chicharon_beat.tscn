@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dhks3tgbmc7dk"]
 
 [ext_resource type="Script" uid="uid://ft5bt0usiheh" path="res://minigames-main/chicharon_beat/scripts/chicharon_beat.gd" id="1_fv046"]
-[ext_resource type="PackedScene" uid="uid://vsy0v0jy4w6w" path="res://minigames-main/chicharon_beat/scenes/chicharon_piece.tscn" id="2_121se"]
 [ext_resource type="Texture2D" uid="uid://fhfrhb841ans" path="res://minigames-main/chicharon_beat/assets/background/sky.png" id="3_48efb"]
 [ext_resource type="Texture2D" uid="uid://b82vpw7khmnbb" path="res://minigames-main/chicharon_beat/assets/background/table.png" id="4_gbs35"]
 [ext_resource type="Texture2D" uid="uid://eshit03rgm75" path="res://minigames-main/chicharon_beat/assets/props/pot.png" id="5_vfj3p"]
@@ -30,7 +29,6 @@ animations = [{
 
 [node name="ChicharonBeat" type="Node2D" unique_id=2041760764]
 script = ExtResource("1_fv046")
-chicharon_scene = ExtResource("2_121se")
 
 [node name="Background" type="Node2D" parent="." unique_id=608865677]
 

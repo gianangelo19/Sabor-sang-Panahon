@@ -11,6 +11,23 @@ var _minigame: Node
 var _global_music_bus_index := -1
 var _global_music_was_muted := false
 var _has_muted_global_music := false
+var _owns_pause := false
+
+
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	add_to_group("minigame_session")
+
+
+func _input(event: InputEvent) -> void:
+	if not event.is_action_pressed("pause"):
+		return
+	var hud := get_tree().root.find_child("GameHUD", true, false)
+	if hud == null or not hud.has_method("toggle_pause"):
+		return
+	hud.toggle_pause()
+	_owns_pause = get_tree().paused
+	get_viewport().set_input_as_handled()
 
 
 func start(scene: PackedScene) -> void:
@@ -22,6 +39,12 @@ func start(scene: PackedScene) -> void:
 
 
 func _exit_tree() -> void:
+	if _owns_pause:
+		var hud := get_tree().root.find_child("GameHUD", true, false)
+		if hud != null and hud.has_method("close_pause"):
+			hud.close_pause()
+		elif get_tree().paused:
+			get_tree().paused = false
 	_restore_global_music()
 
 
@@ -63,6 +86,9 @@ func _start_fresh_instance() -> void:
 		return
 
 	_minigame = _minigame_scene.instantiate()
+	# The session must keep processing Escape while the tree is paused, but the
+	# gameplay root must still obey the pause state instead of inheriting ALWAYS.
+	_minigame.process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_child(_minigame)
 	_connect_first_available(
 		[&"minigame_finished", &"minigame_completed"],

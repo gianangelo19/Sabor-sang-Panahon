@@ -900,7 +900,7 @@ arrival_radius = 5.0
 near_objective = "Talk to the meat vendor for pork and liver."
 
 [node name="MarketVendor2Destination" type="Marker3D" parent="." unique_id=1727526908]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20000002, 9.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.75, -0.20000002, 10.05)
 script = ExtResource("13_navigation")
 destination_id = "market_vendor_2"
 display_name = "Ginamos Vendor"

@@ -28,3 +28,7 @@ Thumbs.db
 desktop.ini
 *.tmp
 *.log
+
+# Local Godot exports and packaged releases.
+/build/
+/dist/

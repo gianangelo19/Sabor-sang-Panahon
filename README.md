@@ -1,17 +1,59 @@
-# Sabor-sang-Panahon
-Sabor sang Panahon is a first-person 3D cultural mystery game where a hungry player returns to La Paz, Iloilo to reconstruct a forgotten dish through elder memories, Cultural Echoes, procedural artifact placement, and a timed search for the Memory Bowl before Grandma comes home for dinner.
+# Sabor sang Panahon
 
-## How to Launch the Game
+**Sabor sang Panahon** is a first-person 3D cultural mystery game set in La Paz, Iloilo. Follow Cultural Echoes, recover the ingredients of a forgotten dish through vendor minigames, and find the Batchoy Bowl before Grandma returns.
 
-1. **Download Godot Engine**: This project requires [Godot 4](https://godotengine.org/download) (specifically built with Godot 4.7).
-2. **Import the Project**: 
-   - Open the Godot Project Manager.
-   - Click **Import** and navigate to the folder containing this repository.
-   - Select the `project.godot` file and click **Import & Edit**.
-3. **Play**: Once the editor opens, press the **Play** button (▶) in the top right corner, or press `F5` on your keyboard to start the game!
+## Download and play on Windows
 
-## Procedural Artifact Placement
+The packaged Windows version does not require Godot, an installer, an account, or an internet connection.
 
-The final Batchoy Bowl hunt is handled entirely by Godot. It checks the eight authored hiding markers in `lapaz_home.tscn` with a collision box larger than the bowl, then makes a uniform random choice among the safe, unused locations.
+1. Open the [GitHub Releases page](https://github.com/gianangelo19/Sabor-sang-Panahon/releases).
+2. Download `Sabor-sang-Panahon-Windows-x86_64.zip` from the latest release.
+3. Right-click the downloaded ZIP and select **Extract All**.
+4. Open the extracted folder and run `Sabor sang Panahon.exe`.
 
-The selector saves every used marker and excludes it from later searches until all safe markers have been used. The 30-second countdown starts immediately after a location is selected. No model, local server, API key, or internet connection is required.
+Do not run the executable from inside the ZIP. Extract it first. The release is currently unsigned, so Windows SmartScreen may display a warning. If it does, select **More info**, verify that the file came from this repository, and select **Run anyway**.
+
+### Windows requirements
+
+- 64-bit Windows 10 or Windows 11
+- A Vulkan-compatible graphics card with current drivers
+- Keyboard and mouse
+- Approximately 3 GB of free storage for the download and extracted game
+
+## Controls
+
+| Action | Input |
+| --- | --- |
+| Move | `W`, `A`, `S`, `D` |
+| Look | Mouse |
+| Interact | `E` |
+| Jump | `Space` |
+| Phone | `P` |
+| Pause / Settings | `Esc` |
+
+Individual minigames display their own instructions before they begin.
+
+## Run from source
+
+Developers can run the project directly with Godot:
+
+1. Install [Godot Engine 4.7](https://godotengine.org/download/archive/4.7-stable/).
+2. Clone or download this repository.
+3. In the Godot Project Manager, select **Import** and choose `project.godot`.
+4. Open the project and press `F5` to run it.
+
+## Build the Windows executable
+
+Install the Godot 4.7 export templates, then run this command from the repository root:
+
+```powershell
+godot --headless --path . --export-release "Windows Desktop" "build/windows/Sabor sang Panahon.exe"
+```
+
+The Windows preset embeds the project data into the executable, producing a portable build under `build/windows/`. Local builds and release archives are intentionally excluded from Git.
+
+## Procedural artifact placement
+
+The final Batchoy Bowl hunt runs entirely inside Godot. It checks the authored hiding markers in `lapaz_home.tscn`, filters blocked locations using a bowl-sized collision volume, and uniformly selects among safe locations that have not recently been used.
+
+The 30-second countdown starts after a location is selected. No model, local server, API key, or internet connection is required.

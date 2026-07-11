@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 const FIRST_STORY_CLUE := "Damaged newspaper"
+const MINIGAME_PAUSE_LAYER := 500
 const TUTORIAL_PROMPTS := [
 	"Press WASD to move",
 	"Move the mouse to look around",
@@ -29,9 +30,11 @@ const TUTORIAL_PROMPTS := [
 @onready var final_hunt_retry_button: Button = %FinalHuntRetryButton
 
 var tutorial_transitioning := false
+var _normal_canvas_layer := 0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_normal_canvas_layer = layer
 	pause_menu.visible = false
 	_sync_from_state()
 	GameState.objective_changed.connect(_on_objective_changed)
@@ -96,6 +99,10 @@ func _toggle_pause() -> void:
 	var should_pause := not get_tree().paused
 	get_tree().paused = should_pause
 	pause_menu.visible = should_pause
+	var minigame_active := (
+		get_tree().get_first_node_in_group("minigame_session") != null
+	)
+	layer = MINIGAME_PAUSE_LAYER if should_pause and minigame_active else _normal_canvas_layer
 
 	if should_pause:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -103,12 +110,23 @@ func _toggle_pause() -> void:
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
+
+func toggle_pause() -> void:
+	_toggle_pause()
+
+
+func close_pause() -> void:
+	get_tree().paused = false
+	pause_menu.visible = false
+	layer = _normal_canvas_layer
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
 func _on_resume_button_pressed() -> void:
 	if get_tree().paused:
 		_toggle_pause()
 
 func _on_main_menu_button_pressed() -> void:
-	get_tree().paused = false
+	close_pause()
 	GameState.save_game()
 	get_tree().change_scene_to_file("res://menus/main_menu.tscn")
 

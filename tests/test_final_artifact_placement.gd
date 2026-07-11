@@ -53,12 +53,19 @@ func _run() -> void:
 		_check(recorded_marker != null and artifact.global_position.is_equal_approx(recorded_marker.global_position), "The artifact position matches the selected home marker")
 		_check(artifact.broad_clue_distance >= 90.0, "Broad cultural clue logic reaches across the home area")
 		_check(artifact.close_clue_distance >= 32.0, "Close artifact clue has an expanded search radius")
-		_check(artifact.get_node("BrothCulturalClue").max_distance >= 110.0, "Broth audio player has a large audible radius")
-		_check(artifact.get_node("ArtifactCulturalClue").max_distance >= 55.0, "Artifact audio player has a larger close radius")
+		_check(artifact.get_node("BrothCulturalClue").max_distance >= 55.0, "Broth audio reaches the close search area")
+		_check(artifact.get_node("ArtifactCulturalClue").max_distance >= 110.0, "Artifact echo reaches across the home")
 		artifact.interact()
 		await process_frame
+		var final_ending := root.find_child("FinalEndingScene", true, false)
+		_check(final_ending != null, "Recovering the bowl starts the final ending before the artifact popup")
 		var popup := root.find_child("ArtifactDiscoveryPopup", true, false)
-		_check(popup != null, "Recovering the bowl opens the cultural artifact popup")
+		_check(popup == null, "The cultural artifact popup waits for the final ending")
+		if final_ending:
+			final_ending.ending_finished.emit()
+			await process_frame
+		popup = root.find_child("ArtifactDiscoveryPopup", true, false)
+		_check(popup != null, "Finishing the ending opens the cultural artifact popup")
 		if popup:
 			var fact_text := popup.find_child("FactText", true, false) as Label
 			var bowl_image := popup.find_child("BowlImage", true, false) as TextureRect
@@ -66,8 +73,15 @@ func _run() -> void:
 			_check(bowl_image != null and bowl_image.texture.resource_path.ends_with("batchoy_bowl_artifact.png"), "The popup displays the recovered bowl")
 			popup._dismiss()
 			await process_frame
+			var recovery_choice := root.find_child("PostRecoveryChoice", true, false)
+			_check(recovery_choice != null, "Dismissing the artifact popup asks whether to explore or return to the menu")
+			if recovery_choice:
+				_check(recovery_choice.has_signal("main_menu_requested"), "The recovery choice offers a main-menu route")
+				_check(recovery_choice.has_signal("continue_exploring"), "The recovery choice offers continued exploration")
+				recovery_choice._choose_continue()
+				await process_frame
 			var ending_dialogue := root.find_child("dialogue_ui", true, false)
-			_check(ending_dialogue != null, "Continuing from the popup starts Grandma's ending dialogue")
+			_check(ending_dialogue != null, "Continuing exploration resumes Grandma's ending dialogue")
 			if ending_dialogue:
 				ending_dialogue.queue_free()
 		_check(not game_state.grandma_left_for_medicine, "Grandma returns after the bowl is recovered")

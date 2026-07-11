@@ -76,8 +76,16 @@ func _run() -> void:
 	var hud := hud_scene.instantiate()
 	root.add_child(hud)
 	await process_frame
-	var pause_buttons := _button_texts(hud.get_node("PauseMenu/MenuPanel/MenuStack"))
+	var pause_menu := hud.get_node("PauseMenu") as Control
+	var pause_panel := hud.get_node("PauseMenu/MenuPanel") as PanelContainer
+	var pause_stack := hud.get_node("PauseMenu/MenuPanel/MenuStack") as VBoxContainer
+	var pause_buttons := _button_texts(pause_stack)
 	_check(pause_buttons == ["Resume", "Main Menu", "Settings", "Quit"], "Pause menu has only the required four actions")
+	_check(pause_menu.z_index > 0, "Pause overlay renders above the phone and AMBot UI")
+	_check(pause_panel.size.x >= 400.0 and pause_panel.size.y <= 300.0, "Pause panel is compact and readable at the project viewport")
+	var pause_resume := hud.get_node("PauseMenu/MenuPanel/MenuStack/ResumeButton") as Button
+	_check(pause_resume.custom_minimum_size.y >= 42.0, "Pause actions have comfortable button height")
+	_check(pause_resume.get_theme_stylebox("normal") != pause_resume.get_theme_stylebox("focus"), "Pause keyboard focus has a distinct visual style")
 
 	var controller_scene := load("res://addons/proto_controller/proto_controller.tscn") as PackedScene
 	var controller := controller_scene.instantiate()

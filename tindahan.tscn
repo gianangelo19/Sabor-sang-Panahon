@@ -125,7 +125,7 @@ material = SubResource("StandardMaterial3D_aqypp")
 transform = Transform3D(-8.742277e-09, 0, 0.19999999, 0, 0.19999999, 0, -0.19999999, 0, -8.742277e-09, -0.29999998, 0, -2.5)
 
 [node name="ChicharonVendorDestination" type="Marker3D" parent="." unique_id=567665414]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.29999998, 0, -4.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.29999998, 0, -2.5)
 script = ExtResource("11_navigation")
 destination_id = "chicharon_vendor"
 display_name = "Chicharon Vendor"

@@ -1,7 +1,11 @@
 extends Node3D
 
 const ARTIFACT_SCENE := preload("res://batchoy_bowl_artifact.tscn")
+const FINAL_ENDING_SCENE := preload(
+	"res://minigames-main/final_ending/scenes/final_ending_scene.tscn"
+)
 const ARTIFACT_DISCOVERY_POPUP_SCENE := preload("res://ui/artifact_discovery_popup.tscn")
+const POST_RECOVERY_CHOICE_SCENE := preload("res://ui/post_recovery_choice.tscn")
 const DIALOGUE_SCENE := preload("res://dialogue_ui.tscn")
 const PLAYER_PORTRAIT := preload("res://characters/2main_character_asking.png")
 const GRANDMA_PORTRAIT := preload("res://characters/npc_grandma/npc_grandma_front.png")
@@ -26,6 +30,7 @@ var _player_locked := false
 var _grandma: Node3D
 var _last_spot_id := ""
 var _hunt_clock_player: AudioStreamPlayer
+var _final_ending: Node2D
 
 
 func _ready() -> void:
@@ -183,7 +188,7 @@ func _on_artifact_recovered(_recovered_artifact: Node3D) -> void:
 	GameState.set_grandma_left_for_medicine(false)
 	_set_grandma_present(true)
 	_lock_player()
-	_show_artifact_discovery_popup()
+	_show_final_ending()
 
 
 func _timeout_hunt() -> void:
@@ -198,6 +203,21 @@ func _timeout_hunt() -> void:
 	GameState.set_ambot_status("Cultural Echo search interrupted")
 
 
+func _show_final_ending() -> void:
+	if _final_ending != null and is_instance_valid(_final_ending):
+		return
+	_final_ending = FINAL_ENDING_SCENE.instantiate()
+	get_tree().root.add_child(_final_ending)
+	_final_ending.ending_finished.connect(_on_final_ending_finished)
+
+
+func _on_final_ending_finished() -> void:
+	if _final_ending != null and is_instance_valid(_final_ending):
+		_final_ending.queue_free()
+	_final_ending = null
+	_show_artifact_discovery_popup()
+
+
 func _show_artifact_discovery_popup() -> void:
 	var popup := ARTIFACT_DISCOVERY_POPUP_SCENE.instantiate()
 	get_tree().root.add_child(popup)
@@ -205,7 +225,26 @@ func _show_artifact_discovery_popup() -> void:
 
 
 func _on_artifact_discovery_dismissed() -> void:
+	_show_post_recovery_choice()
+
+
+func _show_post_recovery_choice() -> void:
+	var choice := POST_RECOVERY_CHOICE_SCENE.instantiate()
+	get_tree().root.add_child(choice)
+	choice.continue_exploring.connect(_on_continue_exploring_requested)
+	choice.main_menu_requested.connect(_on_recovery_main_menu_requested)
+
+
+func _on_continue_exploring_requested() -> void:
 	_show_ending_dialogue()
+
+
+func _on_recovery_main_menu_requested() -> void:
+	GameState.save_game()
+	_clear_artifact()
+	get_tree().paused = false
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	get_tree().change_scene_to_file("res://menus/main_menu.tscn")
 
 
 func _show_ending_dialogue() -> void:

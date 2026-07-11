@@ -1,0 +1,154 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://ui/post_recovery_choice.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="Style_panel"]
+bg_color = Color(0.055, 0.043, 0.031, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.98, 0.68, 0.28, 0.95)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="Style_button"]
+bg_color = Color(0.16, 0.105, 0.055, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.98, 0.68, 0.28, 0.85)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="Style_button_hover"]
+bg_color = Color(0.28, 0.17, 0.065, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.78, 0.38, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="Style_button_pressed"]
+bg_color = Color(0.38, 0.22, 0.07, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.9, 0.62, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="Style_button_focus"]
+bg_color = Color(0.22, 0.135, 0.055, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.86, 0.5, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="PostRecoveryChoice" type="CanvasLayer"]
+layer = 45
+process_mode = 3
+script = ExtResource("1_script")
+
+[node name="ChoiceRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="ChoiceRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.015, 0.01, 0.84)
+
+[node name="Center" type="CenterContainer" parent="ChoiceRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="ChoiceRoot/Center"]
+custom_minimum_size = Vector2(520, 270)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="Margin" type="MarginContainer" parent="ChoiceRoot/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 24
+
+[node name="Stack" type="VBoxContainer" parent="ChoiceRoot/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="ChoiceRoot/Center/Panel/Margin/Stack"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.69, 0.32, 1)
+theme_override_font_sizes/font_size = 30
+text = "MEMORY RECOVERED"
+horizontal_alignment = 1
+
+[node name="Message" type="Label" parent="ChoiceRoot/Center/Panel/Margin/Stack"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
+theme_override_font_sizes/font_size = 17
+text = "The Batchoy Bowl has been preserved.\nWhat would you like to do next?"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="ChoiceRoot/Center/Panel/Margin/Stack"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+
+[node name="ContinueButton" type="Button" parent="ChoiceRoot/Center/Panel/Margin/Stack"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.94, 0.82, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_pressed")
+theme_override_styles/focus = SubResource("Style_button_focus")
+text = "CONTINUE EXPLORING"
+
+[node name="MainMenuButton" type="Button" parent="ChoiceRoot/Center/Panel/Margin/Stack"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.94, 0.82, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_pressed")
+theme_override_styles/focus = SubResource("Style_button_focus")
+text = "RETURN TO MAIN MENU"
+
+[connection signal="pressed" from="ChoiceRoot/Center/Panel/Margin/Stack/ContinueButton" to="." method="_choose_continue"]
+[connection signal="pressed" from="ChoiceRoot/Center/Panel/Margin/Stack/MainMenuButton" to="." method="_choose_main_menu"]
