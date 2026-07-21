@@ -8,6 +8,7 @@ var interaction_label: String = "ride Jeepney"
 const DIALOGUE_SCENE := preload("res://dialogue_ui.tscn")
 const PLAYER_PORTRAIT := preload("res://characters/2main_character_asking.png")
 const DRIVER_PORTRAIT := preload("res://characters/npc_driver/npc_driver_front.png")
+const JEEPNEY_CRUISING_SOUND := preload("res://audio/retro_filipino_pack/jeepney_cruising_subtle_loop.ogg")
 
 var phantom_cam_host_script = preload("res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd")
 var phantom_cam_script = preload("res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd")
@@ -18,7 +19,7 @@ var look_rotation: Vector2 = Vector2.ZERO
 var player_node: CharacterBody3D = null
 
 var audio_idle: AudioStreamPlayer3D
-var audio_cruising: AudioStreamPlayer3D
+var audio_cruising: AudioStreamPlayer
 var ride_dialogue: Control = null
 
 func _ready() -> void:
@@ -43,12 +44,15 @@ func _ready() -> void:
 	audio_idle.finished.connect(func(): audio_idle.play())
 	add_child(audio_idle)
 	
-	audio_cruising = AudioStreamPlayer3D.new()
-	audio_cruising.stream = load("res://audio/retro_filipino_pack/jeepney_cruising_loop.wav")
+	# Cruising is heard from inside the jeep, so keep it non-positional. This
+	# prevents camera transitions and 3D attenuation from making it disappear.
+	audio_cruising = AudioStreamPlayer.new()
+	audio_cruising.stream = JEEPNEY_CRUISING_SOUND
+	if audio_cruising.stream is AudioStreamOggVorbis:
+		(audio_cruising.stream as AudioStreamOggVorbis).loop = true
 	audio_cruising.bus = "SFX"
-	audio_cruising.volume_db = -6.0
-	audio_cruising.unit_size = 5.0
-	audio_cruising.max_distance = 30.0
+	# Audible from the ride camera, while remaining well below the old mix.
+	audio_cruising.volume_db = -8.0
 	audio_cruising.finished.connect(func(): audio_cruising.play())
 	add_child(audio_cruising)
 	
@@ -117,7 +121,7 @@ func start_ride() -> void:
 	
 	if animation_player:
 		# Wait 1.0 second for the camera to smoothly transition before moving the jeep
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(1.0, false).timeout
 		if current_state == State.RIDING:
 			_start_ride_dialogue()
 			animation_player.play("jeepney_cutscene")
@@ -219,8 +223,6 @@ func _process(_delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if current_state == State.RIDING or current_state == State.STOPPED:
-		if Input.is_key_pressed(KEY_ESCAPE):
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			

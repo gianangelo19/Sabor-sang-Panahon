@@ -40,6 +40,7 @@ func _run() -> void:
 		_check(sign_dialogue.dialogue_lines.all(func(line): return str(line.get("speaker", "")) == "You"), "The sign discovery is entirely the player's inner monologue")
 		_check(not sign_dialogue.npc_portrait.visible, "AMBot does not appear in the sign discovery")
 		for line_index in range(sign_dialogue.dialogue_lines.size()):
+			sign_dialogue._complete_typewriter()
 			sign_dialogue._on_continue_pressed()
 	await process_frame
 	_check(game_state.final_hunt_active, "The countdown hunt starts after the discovery monologue")

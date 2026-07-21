@@ -141,11 +141,13 @@ func _verify_conversation(npc: Node, npc_name: String, portrait_filename: String
 	_check(dialogue.portrait.texture.resource_path.ends_with("2main_character_asking.png"), npc_name + " uses the player asking portrait")
 	_check(dialogue.npc_portrait.visible, npc_name + " shows the NPC portrait on the right")
 	_check(dialogue.npc_portrait.texture.resource_path.ends_with(portrait_filename), npc_name + " keeps the NPC portrait on the right")
+	dialogue._complete_typewriter()
 	dialogue._on_continue_pressed()
 	_check(dialogue.speaker_name.text == npc_name, npc_name + " speaker name appears")
 	_check(dialogue.portrait.texture.resource_path.ends_with("2main_character_asking.png"), npc_name + " keeps the player portrait on the left")
 	_check(dialogue.npc_portrait.texture.resource_path.ends_with(portrait_filename), npc_name + " uses the correct right-side front portrait")
 	for line_index in range(1, dialogue.dialogue_lines.size()):
+		dialogue._complete_typewriter()
 		dialogue._on_continue_pressed()
 	await process_frame
 	var minigame := root.find_child(minigame_node_name, true, false)

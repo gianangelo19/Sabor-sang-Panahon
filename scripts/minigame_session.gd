@@ -5,6 +5,7 @@ signal dismissed
 
 const GAMEPLAY_LAYER := 80
 const GLOBAL_MUSIC_BUS := &"Music"
+const MINIGAME_AUDIO_REDUCTION_DB := 8.0
 
 var _minigame_scene: PackedScene
 var _minigame: Node
@@ -17,6 +18,8 @@ var _owns_pause := false
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	add_to_group("minigame_session")
+	add_to_group("transient_gameplay_ui")
+	get_tree().node_added.connect(_on_tree_node_added)
 
 
 func _input(event: InputEvent) -> void:
@@ -39,6 +42,8 @@ func start(scene: PackedScene) -> void:
 
 
 func _exit_tree() -> void:
+	if get_tree().node_added.is_connected(_on_tree_node_added):
+		get_tree().node_added.disconnect(_on_tree_node_added)
 	if _owns_pause:
 		var hud := get_tree().root.find_child("GameHUD", true, false)
 		if hud != null and hud.has_method("close_pause"):
@@ -46,6 +51,41 @@ func _exit_tree() -> void:
 		elif get_tree().paused:
 			get_tree().paused = false
 	_restore_global_music()
+
+
+func _on_tree_node_added(node: Node) -> void:
+	if node == self or not is_ancestor_of(node):
+		return
+	_attenuate_minigame_audio(node)
+	call_deferred("_set_minigame_node_pausable", node)
+
+
+func _set_minigame_node_pausable(node: Node) -> void:
+	if not is_instance_valid(node) or not is_ancestor_of(node):
+		return
+	node.process_mode = Node.PROCESS_MODE_PAUSABLE
+
+
+func _attenuate_minigame_audio(node: Node) -> void:
+	if (
+		node is AudioStreamPlayer
+		or node is AudioStreamPlayer2D
+		or node is AudioStreamPlayer3D
+	):
+		node.volume_db -= MINIGAME_AUDIO_REDUCTION_DB
+		return
+
+	for property in node.get_property_list():
+		var property_name := String(property.get("name", ""))
+		if not property_name.ends_with("_volume_db"):
+			continue
+		var property_type := int(property.get("type", TYPE_NIL))
+		if property_type != TYPE_FLOAT and property_type != TYPE_INT:
+			continue
+		node.set(
+			property_name,
+			float(node.get(property_name)) - MINIGAME_AUDIO_REDUCTION_DB
+		)
 
 
 func get_minigame() -> Node:
@@ -90,6 +130,7 @@ func _start_fresh_instance() -> void:
 	# gameplay root must still obey the pause state instead of inheriting ALWAYS.
 	_minigame.process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_child(_minigame)
+	_force_minigame_tree_pausable(_minigame)
 	_connect_first_available(
 		[&"minigame_finished", &"minigame_completed"],
 		_on_minigame_completed
@@ -102,6 +143,12 @@ func _start_fresh_instance() -> void:
 		[&"minigame_retry_requested"],
 		_on_minigame_retry_requested
 	)
+
+
+func _force_minigame_tree_pausable(node: Node) -> void:
+	node.process_mode = Node.PROCESS_MODE_PAUSABLE
+	for child in node.get_children():
+		_force_minigame_tree_pausable(child)
 
 
 func _connect_first_available(signal_names: Array[StringName], callback: Callable) -> void:

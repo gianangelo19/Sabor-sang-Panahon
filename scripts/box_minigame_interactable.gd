@@ -5,6 +5,7 @@ const BOX_MINIGAME_SCENE := preload(
 )
 const MINIGAME_SESSION_SCRIPT := preload("res://scripts/minigame_session.gd")
 const NEWSPAPER_CLUE := "Damaged newspaper"
+const TUTORIAL_INTERACT_STEP := 3
 
 var _session: CanvasLayer
 var _player: Node
@@ -17,6 +18,20 @@ func get_interaction_text() -> String:
 	return "Press E to open the box"
 
 
+func interaction_focus_entered() -> void:
+	var hud := get_tree().root.find_child("GameHUD", true, false)
+	if hud != null and hud.has_method("notify_box_seen"):
+		hud.notify_box_seen()
+
+
+func should_hide_interaction_prompt() -> bool:
+	# The tutorial card already shows the E key and interaction action.
+	return (
+		GameState.tutorial_step == TUTORIAL_INTERACT_STEP
+		and not GameState.clues.has(NEWSPAPER_CLUE)
+	)
+
+
 func interact() -> void:
 	if GameState.clues.has(NEWSPAPER_CLUE):
 		print("The opened box held the damaged newspaper that pointed toward La Paz.")
@@ -24,10 +39,14 @@ func interact() -> void:
 	if _session != null and is_instance_valid(_session):
 		return
 
+	_notify_hud("notify_box_minigame_started")
 	_lock_player()
 	_session = MINIGAME_SESSION_SCRIPT.new()
 	_session.name = "BoxMinigameSession"
-	get_tree().root.add_child(_session)
+	var session_parent: Node = get_tree().current_scene
+	if session_parent == null:
+		session_parent = get_tree().root
+	session_parent.add_child(_session)
 	_session.minigame_won.connect(_on_minigame_won)
 	_session.dismissed.connect(_on_minigame_dismissed)
 	_session.start(BOX_MINIGAME_SCENE)
@@ -56,12 +75,20 @@ func _on_minigame_won() -> void:
 		"Damaged article detected",
 		"I can scan the surviving text."
 	)
+	_notify_hud("notify_box_minigame_completed")
 	_restore_player()
 
 
 func _on_minigame_dismissed() -> void:
 	_session = null
+	_notify_hud("notify_box_minigame_dismissed")
 	_restore_player()
+
+
+func _notify_hud(method_name: StringName) -> void:
+	var hud := get_tree().root.find_child("GameHUD", true, false)
+	if hud != null and hud.has_method(method_name):
+		hud.call(method_name)
 
 
 func _restore_player() -> void:

@@ -25,7 +25,7 @@ func _ready():
 		hud_root.modulate.a = 0.0
 		
 	# Small delay before opening eyes
-	await get_tree().create_timer(1.5).timeout
+	await get_tree().create_timer(1.5, false).timeout
 
 	var tween = create_tween()
 	tween.set_parallel(true)
@@ -55,4 +55,15 @@ func _on_dialogue_finished():
 		player.can_move = true
 		player.set_process_unhandled_input(true)
 		player.capture_mouse()
+
+	var hud = get_tree().root.find_child("GameHUD", true, false)
+	if hud and hud.has_method("begin_apartment_tutorial"):
+		hud.begin_apartment_tutorial()
+
+	var hud_root = get_tree().root.find_child("HUDRoot", true, false)
+	if hud_root:
+		var hud_tween = hud_root.create_tween()
+		hud_tween.set_trans(Tween.TRANS_SINE)
+		hud_tween.set_ease(Tween.EASE_OUT)
+		hud_tween.tween_property(hud_root, "modulate:a", 1.0, 0.35)
 	queue_free()

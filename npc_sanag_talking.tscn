@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://bumtff2r01paq"]
+
+[ext_resource type="Texture2D" uid="uid://vaohngoh41dt" path="res://characters/front_sanag_talking.png" id="1_m6axh"]
+[ext_resource type="Script" uid="uid://ckdxpasqp15r5" path="res://scripts/npc_four_angle_billboard.gd" id="1_rf0uu"]
+[ext_resource type="Texture2D" uid="uid://bfknypslumgjt" path="res://characters/right_sanag_talking.png" id="3_b6efy"]
+[ext_resource type="Texture2D" uid="uid://cy140g3b2o82m" path="res://characters/back_sanag_talking.png" id="4_r1cwv"]
+[ext_resource type="Texture2D" uid="uid://doypluxrummt0" path="res://characters/left_sanag_talking.png" id="5_awvdh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nshqv"]
+radius = 1.35
+height = 8.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mkpi8"]
+radius = 4.0
+height = 9.0
+
+[node name="npc_sanag_talking" type="Node3D" unique_id=1970061675]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1012973699]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D" unique_id=191843247]
+billboard = 1
+alpha_cut = 1
+texture = ExtResource("1_m6axh")
+script = ExtResource("1_rf0uu")
+front_texture = ExtResource("1_m6axh")
+right_texture = ExtResource("3_b6efy")
+back_texture = ExtResource("4_r1cwv")
+left_texture = ExtResource("5_awvdh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=846922497]
+shape = SubResource("CapsuleShape3D_nshqv")
+
+[node name="Area3D" type="Area3D" parent="CharacterBody3D" unique_id=1974800364]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/Area3D" unique_id=2045469382]
+shape = SubResource("CapsuleShape3D_mkpi8")
+
+[node name="Marker3D" type="Marker3D" parent="CharacterBody3D" unique_id=1648087553]

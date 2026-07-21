@@ -45,8 +45,8 @@
 [ext_resource type="Script" uid="uid://bbfmecv10icnm" path="res://scripts/navigation_destination.gd" id="43_navigation"]
 [ext_resource type="PackedScene" uid="uid://betdo02wuc5mt" path="res://tebs_sign.tscn" id="44_bpsv4"]
 [ext_resource type="Script" uid="uid://bug0s0e0dlxyf" path="res://scripts/door_interactable.gd" id="45_door"]
-[ext_resource type="Script" path="res://scripts/looping_audio_player_3d.gd" id="46_loop_audio_3d"]
-[ext_resource type="Script" path="res://scripts/final_artifact_hunt.gd" id="47_artifact_hunt"]
+[ext_resource type="Script" uid="uid://w5mpgj8s68om" path="res://scripts/looping_audio_player_3d.gd" id="46_loop_audio_3d"]
+[ext_resource type="Script" uid="uid://h4iob21jquyw" path="res://scripts/final_artifact_hunt.gd" id="47_artifact_hunt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3l527"]
 albedo_color = Color(0.88453114, 0.88453114, 0.884531, 1)
@@ -106,13 +106,13 @@ albedo_texture = ExtResource("8_xowa8")
 [node name="lapaz_home" type="Node3D" unique_id=1425629456]
 script = ExtResource("1_script")
 
-[node name="LapazHomeAmbience" type="AudioStreamPlayer3D" parent="."]
+[node name="LapazHomeAmbience" type="AudioStreamPlayer3D" parent="." unique_id=2028533552]
+volume_db = -6.0
 unit_size = 4.0
 max_distance = 28.0
 bus = &"Music"
-volume_db = -8.0
 script = ExtResource("46_loop_audio_3d")
-audio_path = "res://audio/lapaz_home_ambiance.mp3"
+audio_path = "res://audio/ambience/grandmas_house_loop.ogg"
 
 [node name="ground" type="Node3D" parent="." unique_id=1956383407]
 
@@ -607,13 +607,13 @@ transform = Transform3D(0.016634647, 0, 0.0045441967, 0, 0.017244164, 0, -0.0045
 transform = Transform3D(0.016995987, 0, 0.002915073, 0, 0.017244164, 0, -0.002915073, 0, 0.016995987, -15.431296, 0.25000146, 8.507474)
 
 [node name="Sketchfab_Scene9" parent="." unique_id=230506629 instance=ExtResource("14_h8jij")]
-transform = Transform3D(0.027389716, 0, 0, 0, 0.027389716, 0, 0, 0, 0.027389716, -0.67599726, -2.7897809, -3.589622)
+transform = Transform3D(0.018694162, 0, 0, 0, 0.018694162, 0, 0, 0, 0.018694162, -1.0705855, -1.6277273, -0.81905746)
 
 [node name="Sketchfab_Scene10" parent="." unique_id=1540815932 instance=ExtResource("14_h8jij")]
-transform = Transform3D(-0.019331435, 0, -0.019403402, 0, 0.027389714, 0, 0.019403402, 0, -0.019331435, -1.1217103, -2.7897809, 9.908557)
+transform = Transform3D(-0.013194185, 0, -0.013243302, 0, 0.01869416, 0, 0.013243302, 0, -0.013194185, -2.370185, -1.6277273, 8.241364)
 
 [node name="Sketchfab_Scene19" parent="." unique_id=1208249572 instance=ExtResource("14_h8jij")]
-transform = Transform3D(-0.026426282, 0, 0.007200555, 0, 0.027389714, 0, -0.007200555, 0, -0.026426282, -20.028788, -2.7897809, 14.313229)
+transform = Transform3D(-0.02083287, 0, 0.0056764786, 0, 0.021592382, 0, -0.0056764786, 0, -0.02083287, -19.535595, -2.119881, 13.332394)
 
 [node name="Sketchfab_Scene11" parent="." unique_id=2008985458 instance=ExtResource("15_oq2wh")]
 transform = Transform3D(-1.2527591, 0, -1.0162947, 0, 1.6131525, 0, 1.0162947, 0, -1.2527591, 11.12504, 0.25436288, 15.236491)
@@ -1051,7 +1051,7 @@ transform = Transform3D(0.004776649, 0, -1.57095, 0, 1.5709575, 0, 1.57095, 0, 0
 transform = Transform3D(1.7018104, 0, 0, 0, 1.7018104, 0, 0, 0, 1.7018104, 0.48275542, 5.4470873, -1.1194243)
 
 [node name="npc_grandma" parent="." unique_id=2063685625 instance=ExtResource("42_7003k")]
-transform = Transform3D(-0.31734088, 0, -2.774282e-08, 0, 0.31734088, 0, 2.774282e-08, 0, -0.31734088, -0.20628083, 1.6499506, -1.8875823)
+transform = Transform3D(-0.30562314, 0, -2.6718421e-08, 0, 0.30562314, 0, 2.6718421e-08, 0, -0.30562314, -0.20628083, 1.5744985, -1.8875823)
 
 [node name="GrandmaHouseDestination" type="Marker3D" parent="." unique_id=24580390]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20628083, 1.6499506, -1.8875823)
@@ -1068,8 +1068,6 @@ transform = Transform3D(0.77, 0, 0, 0, 0.42000002, 0, 0, 0, 1, 0, 4.6460004, 2.6
 [node name="Doors" type="Node3D" parent="." unique_id=982765327]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2.25)
 script = ExtResource("45_door")
-interaction_label_open = "open door"
-interaction_label_close = "close door"
 
 [node name="Door" type="CSGBox3D" parent="Doors" unique_id=1349717446]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.79999995, 2.0000002, 0)
@@ -1084,8 +1082,6 @@ height = 1.8000001
 [node name="Doors3" type="Node3D" parent="." unique_id=441630187]
 transform = Transform3D(1.0556448, 0, 0, 0, 1, 0, 0, 0, 1, -9.013098, 0, 2.25)
 script = ExtResource("45_door")
-interaction_label_open = "open door"
-interaction_label_close = "close door"
 
 [node name="Door" type="CSGBox3D" parent="Doors3" unique_id=41107070]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.79999995, 2.0000002, 0)
@@ -1100,8 +1096,6 @@ height = 1.8000001
 [node name="Doors2" type="Node3D" parent="." unique_id=970819125]
 transform = Transform3D(1.354145, 0, 0, 0, 1.1, 0, 0, 0, 0.043639157, 4.9419127, 0, -5.1286473)
 script = ExtResource("45_door")
-interaction_label_open = "open door"
-interaction_label_close = "close door"
 
 [node name="Door" type="CSGBox3D" parent="Doors2" unique_id=1352335776]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.79999995, 2.0000002, 0)
@@ -1113,29 +1107,29 @@ material = SubResource("StandardMaterial3D_qbg6i")
 transform = Transform3D(0.19200002, 0, 0, 0, -1.0820216e-07, -0.19200002, 0, 2.4753768, -8.392587e-09, 1.452, 2.0879998, -0.001999855)
 height = 1.8000001
 
-[node name="FinalArtifactHunt" type="Node3D" parent="."]
+[node name="FinalArtifactHunt" type="Node3D" parent="." unique_id=1147389172]
 script = ExtResource("47_artifact_hunt")
 
-[node name="KitchenCorner" type="Marker3D" parent="FinalArtifactHunt"]
-position = Vector3(-4.8, 1.0, -6.4)
+[node name="KitchenCorner" type="Marker3D" parent="FinalArtifactHunt" unique_id=112027015]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 1, -6.4)
 
-[node name="BackRoomShelf" type="Marker3D" parent="FinalArtifactHunt"]
-position = Vector3(4.4, 1.0, -5.8)
+[node name="BackRoomShelf" type="Marker3D" parent="FinalArtifactHunt" unique_id=407552973]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.4, 1, -5.8)
 
-[node name="DiningRoom" type="Marker3D" parent="FinalArtifactHunt"]
-position = Vector3(-4.2, 1.0, 0.6)
+[node name="DiningRoom" type="Marker3D" parent="FinalArtifactHunt" unique_id=769443422]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2, 1, 0.6)
 
-[node name="SideRoom" type="Marker3D" parent="FinalArtifactHunt"]
-position = Vector3(5.2, 1.0, 2.8)
+[node name="SideRoom" type="Marker3D" parent="FinalArtifactHunt" unique_id=1898310527]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, 1, 2.8)
 
-[node name="RearYard" type="Marker3D" parent="FinalArtifactHunt"]
-position = Vector3(-10.5, 1.0, 9.0)
+[node name="RearYard" type="Marker3D" parent="FinalArtifactHunt" unique_id=484268759]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 1, 9)
 
-[node name="FrontYard" type="Marker3D" parent="FinalArtifactHunt"]
-position = Vector3(3.0, 1.0, 11.5)
+[node name="FrontYard" type="Marker3D" parent="FinalArtifactHunt" unique_id=802520388]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 11.5)
 
-[node name="WestSide" type="Marker3D" parent="FinalArtifactHunt"]
-position = Vector3(-15.0, 1.0, 3.5)
+[node name="WestSide" type="Marker3D" parent="FinalArtifactHunt" unique_id=1057753089]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1, 3.5)
 
-[node name="EastSide" type="Marker3D" parent="FinalArtifactHunt"]
-position = Vector3(9.0, 1.0, 8.5)
+[node name="EastSide" type="Marker3D" parent="FinalArtifactHunt" unique_id=1601704169]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1, 8.5)

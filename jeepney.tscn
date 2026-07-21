@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://bgn6w883lwsml" path="res://scripts/jeepney_cutscene.gd" id="1_jeep"]
 [ext_resource type="PackedScene" uid="uid://bmak4froxq8ao" path="res://npc_driver.tscn" id="2_23jqr"]
 [ext_resource type="Texture2D" uid="uid://b24jq83ajh07g" path="res://textures/lukky_handpainted_textures_1.3/hand_painted_wood_2.png" id="2_rna6s"]
+[ext_resource type="PackedScene" uid="uid://dccb2xe8plmks" path="res://npc_girl.tscn" id="4_iv6fb"]
+[ext_resource type="PackedScene" uid="uid://bwncihbn58n12" path="res://npc_boy.tscn" id="5_23q0w"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4606k"]
 albedo_color = Color(0.14911404, 0.14911404, 0.14911404, 1)
@@ -385,6 +387,7 @@ size = Vector3(9.384229, 0.057617188, 3.5664063)
 transform = Transform3D(-1.3847767e-07, 3.1679997, 0, -3.1679997, -1.3847767e-07, 0, 0, 0, 3.1679997, 7.340346, -7.581109e-08, 0)
 material_override = SubResource("StandardMaterial3D_rna6s")
 gi_mode = 2
+use_collision = true
 height = 1.1800781
 sides = 15
 material = SubResource("StandardMaterial3D_23jqr")
@@ -407,6 +410,7 @@ size = Vector3(0.3, 1.3896484, 1)
 transform = Transform3D(-5.9719866e-08, 8.024021, 0, -1.3662311, -3.5074115e-07, 0, 0, 0, 3.8310673, 0.77751064, 2.0073228, 0)
 material_override = SubResource("StandardMaterial3D_4dl3w")
 gi_mode = 2
+use_collision = true
 height = 1.1800781
 sides = 15
 material = SubResource("StandardMaterial3D_ffwg2")
@@ -561,18 +565,21 @@ size = Vector3(1, 0.3552246, 2.217041)
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 9.832605, -0.22001953, -0.07303706)
 material_override = SubResource("StandardMaterial3D_82b4r")
 gi_mode = 2
+use_collision = true
 size = Vector3(0.1171875, 0.6333008, 2.4)
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="." unique_id=1336606675]
 transform = Transform3D(1.0392305, 0, -0.59999996, 0, 1.2, 0, 0.59999996, 0, 1.0392305, 9.700836, -0.22001953, 1.6682312)
 material_override = SubResource("StandardMaterial3D_x26pq")
 gi_mode = 2
+use_collision = true
 size = Vector3(0.1171875, 0.6333008, 0.6)
 
 [node name="CSGBox3D12" type="CSGBox3D" parent="." unique_id=1905857586]
 transform = Transform3D(1.0392305, 0, 0.59999996, 0, 1.2, 0, -0.59999996, 0, 1.0392305, 9.720322, -0.22001953, -1.7867972)
 material_override = SubResource("StandardMaterial3D_x26pq")
 gi_mode = 2
+use_collision = true
 size = Vector3(0.1171875, 0.6333008, 0.6)
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="." unique_id=1867658819]
@@ -654,3 +661,9 @@ size = Vector3(7.21875, 0.19824219, 0.78027344)
 
 [node name="npc_driver" parent="." unique_id=1180103473 instance=ExtResource("2_23jqr")]
 transform = Transform3D(-1.3946076e-08, 0, -0.31904903, 0, 0.31904903, 0, 0.31904903, 0, -1.3946076e-08, 4.589999, -0.6866035, -1.0631765)
+
+[node name="npc_girl" parent="." unique_id=1142351024 instance=ExtResource("4_iv6fb")]
+transform = Transform3D(-0.23552331, 0, -2.0590102e-08, 0, 0.23552331, 0, 2.0590102e-08, 0, -0.23552331, -0.8455863, -0.19027525, -0.8888131)
+
+[node name="npc_boy" parent="." unique_id=1275965758 instance=ExtResource("5_23q0w")]
+transform = Transform3D(0.26122177, 0, 0, 0, 0.26122177, 0, 0, 0, 0.26122177, 2.3795877, -0.32972246, 0.9592794)

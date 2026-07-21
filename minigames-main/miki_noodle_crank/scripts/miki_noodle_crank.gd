@@ -1312,7 +1312,7 @@ func _play_flour_puff() -> void:
 		0.12
 	)
 
-	await get_tree().create_timer(0.20).timeout
+	await get_tree().create_timer(0.20, false).timeout
 
 	if flour_puff == null:
 		return
@@ -1365,7 +1365,8 @@ func _play_completion_effects() -> void:
 
 	if noodle_complete_sparkle == null:
 		await get_tree().create_timer(
-			completion_effect_duration
+			completion_effect_duration,
+			false,
 		).timeout
 		return
 
@@ -1408,7 +1409,8 @@ func _play_completion_effects() -> void:
 	)
 
 	await get_tree().create_timer(
-		completion_effect_duration
+		completion_effect_duration,
+		false,
 	).timeout
 
 	if noodle_complete_sparkle == null:

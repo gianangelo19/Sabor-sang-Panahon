@@ -2657,7 +2657,7 @@ func _complete_close_inspection(
 
 
 func _begin_finish_after_delay() -> void:
-	await get_tree().create_timer(0.55).timeout
+	await get_tree().create_timer(0.55, false).timeout
 
 	if _gameplay_has_stopped():
 		return

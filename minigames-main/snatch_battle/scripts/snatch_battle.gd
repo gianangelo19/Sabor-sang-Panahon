@@ -380,7 +380,7 @@ func _remove_piece(piece: Node2D, spawn_replacement: bool) -> void:
 	pieces.erase(piece)
 	piece.queue_free()
 	if spawn_replacement and gameplay_active:
-		var timer := get_tree().create_timer(0.45)
+		var timer := get_tree().create_timer(0.45, false)
 		timer.timeout.connect(func():
 			if gameplay_active:
 				_spawn_piece(_choose_replacement_id())

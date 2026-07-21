@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://ui/game_hud.gd" id="1_hud"]
 [ext_resource type="PackedScene" path="res://ui/phone_ui.tscn" id="2_phone"]
 [ext_resource type="Script" path="res://ui/navigation_beacon.gd" id="3_beacon"]
+[ext_resource type="Texture2D" path="res://images/ui/key_prompts/key_wasd.png" id="4_wasd"]
+[ext_resource type="Texture2D" path="res://images/ui/key_prompts/key_spacebar.png" id="5_space"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 bg_color = Color(0.055, 0.043, 0.031, 0.82)
@@ -186,24 +188,86 @@ text = "Offline"
 autowrap_mode = 3
 
 [node name="HintBar" type="PanelContainer" parent="HUDRoot"]
+visible = false
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -255.0
-offset_top = -46.0
-offset_right = 255.0
-offset_bottom = -18.0
+offset_left = -330.0
+offset_top = -196.0
+offset_right = 330.0
+offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="HintText" type="Label" parent="HUDRoot/HintBar"]
+[node name="TutorialMargin" type="MarginContainer" parent="HUDRoot/HintBar"]
+layout_mode = 2
+
+[node name="TutorialStack" type="VBoxContainer" parent="HUDRoot/HintBar/TutorialMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="HintText" type="Label" parent="HUDRoot/HintBar/TutorialMargin/TutorialStack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.69, 0.32, 1)
+theme_override_font_sizes/font_size = 16
+text = "MOVE AROUND"
+horizontal_alignment = 1
+
+[node name="PromptRow" type="HBoxContainer" parent="HUDRoot/HintBar/TutorialMargin/TutorialStack"]
+layout_mode = 2
+theme_override_constants/separation = 22
+alignment = 1
+
+[node name="PrimaryPrompt" type="VBoxContainer" parent="HUDRoot/HintBar/TutorialMargin/TutorialStack/PromptRow"]
+layout_mode = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="PrimaryKey" type="TextureRect" parent="HUDRoot/HintBar/TutorialMargin/TutorialStack/PromptRow/PrimaryPrompt"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(142, 96)
+layout_mode = 2
+texture_filter = 1
+texture = ExtResource("4_wasd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PrimaryLabel" type="Label" parent="HUDRoot/HintBar/TutorialMargin/TutorialStack/PromptRow/PrimaryPrompt"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
-text = "Press WASD to move"
+theme_override_font_sizes/font_size = 14
+text = "MOVE"
+horizontal_alignment = 1
+
+[node name="SecondaryPrompt" type="VBoxContainer" parent="HUDRoot/HintBar/TutorialMargin/TutorialStack/PromptRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="SecondaryKey" type="TextureRect" parent="HUDRoot/HintBar/TutorialMargin/TutorialStack/PromptRow/SecondaryPrompt"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(241, 96)
+layout_mode = 2
+texture_filter = 1
+texture = ExtResource("5_space")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SecondaryLabel" type="Label" parent="HUDRoot/HintBar/TutorialMargin/TutorialStack/PromptRow/SecondaryPrompt"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
+theme_override_font_sizes/font_size = 14
+text = "JUMP"
 horizontal_alignment = 1
 
 [node name="FinalHuntPanel" type="PanelContainer" parent="HUDRoot"]

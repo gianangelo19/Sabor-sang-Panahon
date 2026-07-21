@@ -8,11 +8,11 @@ albedo_color = Color(0.91806, 0.575202, 0.222449, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ucva2"]
 radius = 0.4
-height = 1.8828125
+height = 1.7536621
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iof21"]
 radius = 0.4
-height = 1.2068751
+height = 1.2443457
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_78q3s"]
 render_priority = 0
@@ -48,20 +48,20 @@ input_forward = "move_forward"
 input_back = "move_back"
 
 [node name="Mesh" type="MeshInstance3D" parent="." unique_id=742725449]
-transform = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 1.1126821, 0)
+transform = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 1.0545645, 0)
 material_override = SubResource("StandardMaterial3D_iof21")
 cast_shadow = 0
 mesh = SubResource("CapsuleMesh_ucva2")
 
 [node name="Collider" type="CollisionShape3D" parent="." unique_id=1379350865]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9332291, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9519643, 0)
 shape = SubResource("CapsuleShape3D_iof21")
 
 [node name="Head" type="Node3D" parent="." unique_id=1294207476]
-transform = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 1.6799965, 0)
+transform = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 1.4770385, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=486754939]
-transform = Transform3D(1, 0, 0, 0, 1.1111112, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1.1111112, 0, 0, 0, 1, 0, 0.20483375, 0)
 
 [node name="InteractRay" type="RayCast3D" parent="Head/Camera3D" unique_id=171521967]
 target_position = Vector3(0, 0, -2.5)

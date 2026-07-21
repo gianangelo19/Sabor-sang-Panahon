@@ -2,6 +2,8 @@ extends Node3D
 
 const WOOD_DOOR_OPEN_SOUND := preload("res://audio/retro_filipino_pack/wood_door_open_realistic.wav")
 const WOOD_DOOR_CLOSE_SOUND := preload("res://audio/retro_filipino_pack/wood_door_close_realistic.wav")
+const DIALOGUE_SCENE := preload("res://dialogue_ui.tscn")
+const PLAYER_PORTRAIT := preload("res://characters/2main_character_asking.png")
 
 @export var interaction_label_open: String = "open door"
 @export var interaction_label_close: String = "close door"
@@ -16,6 +18,9 @@ var _closed_rotation_y: float
 var _is_open := false
 var _tween: Tween
 var _audio: AudioStreamPlayer3D
+var _locked_dialogue_active := false
+var _player: Node
+var _player_was_movable := true
 
 
 func _ready() -> void:
@@ -38,6 +43,7 @@ func get_interaction_text() -> String:
 func interact() -> void:
 	if _is_story_locked():
 		print(locked_message)
+		_start_locked_dialogue()
 		return
 	_is_open = not _is_open
 	if _audio:
@@ -59,3 +65,42 @@ func interact() -> void:
 
 func _is_story_locked() -> bool:
 	return not required_clue.is_empty() and not GameState.clues.has(required_clue)
+
+
+func _start_locked_dialogue() -> void:
+	if _locked_dialogue_active:
+		return
+	_locked_dialogue_active = true
+	_lock_player()
+	var dialogue := DIALOGUE_SCENE.instantiate()
+	get_tree().root.add_child(dialogue)
+	dialogue.start_conversation([
+		{
+			"speaker": "You",
+			"text": locked_message,
+			"portrait": PLAYER_PORTRAIT,
+		},
+	])
+	dialogue.dialogue_finished.connect(_on_locked_dialogue_finished)
+
+
+func _lock_player() -> void:
+	_player = get_tree().root.find_child("ProtoController", true, false)
+	if _player == null:
+		return
+	_player_was_movable = _player.can_move
+	_player.can_move = false
+	_player.set_process_unhandled_input(false)
+	_player.release_mouse()
+	var prompt := _player.get_node_or_null("InteractionUI/Prompt")
+	if prompt:
+		prompt.visible = false
+
+
+func _on_locked_dialogue_finished() -> void:
+	if _player != null and is_instance_valid(_player):
+		_player.can_move = _player_was_movable
+		_player.set_process_unhandled_input(true)
+		_player.capture_mouse()
+	_player = null
+	_locked_dialogue_active = false

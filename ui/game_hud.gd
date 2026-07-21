@@ -1,15 +1,21 @@
 extends CanvasLayer
 
 const FIRST_STORY_CLUE := "Damaged newspaper"
-const MINIGAME_PAUSE_LAYER := 500
-const TUTORIAL_PROMPTS := [
-	"Press WASD to move",
-	"Move the mouse to look around",
-	"Press E to interact",
-	"Press P to open your phone",
-	"Press P again to put your phone away",
-	"Press Esc to pause",
-]
+const PAUSE_OVERLAY_LAYER := 500
+const MAIN_MENU_SCENE := preload("res://menus/main_menu.tscn")
+const TUTORIAL_WAITING_FOR_WAKE_UP := 0
+const TUTORIAL_MOVEMENT := 1
+const TUTORIAL_WAITING_FOR_BOX := 2
+const TUTORIAL_INTERACT := 3
+const TUTORIAL_WAITING_FOR_MINIGAME := 4
+const TUTORIAL_PHONE := 5
+const TUTORIAL_COMPLETE := 6
+const TUTORIAL_FADE_DURATION := 0.28
+
+const KEY_WASD := preload("res://images/ui/key_prompts/key_wasd.png")
+const KEY_SPACEBAR := preload("res://images/ui/key_prompts/key_spacebar.png")
+const KEY_E := preload("res://images/ui/key_prompts/key_e.png")
+const KEY_P := preload("res://images/ui/key_prompts/key_p.png")
 
 @onready var objective_label: Label = %ObjectiveValue
 @onready var objective_panel: PanelContainer = $HUDRoot/TopLeftPanel
@@ -20,7 +26,12 @@ const TUTORIAL_PROMPTS := [
 @onready var resume_button: Button = %ResumeButton
 @onready var phone_ui: Control = $PhoneUI
 @onready var hint_bar: PanelContainer = $HUDRoot/HintBar
-@onready var hint_text: Label = $HUDRoot/HintBar/HintText
+@onready var hint_text: Label = %HintText
+@onready var primary_key: TextureRect = %PrimaryKey
+@onready var primary_label: Label = %PrimaryLabel
+@onready var secondary_prompt: VBoxContainer = %SecondaryPrompt
+@onready var secondary_key: TextureRect = %SecondaryKey
+@onready var secondary_label: Label = %SecondaryLabel
 @onready var final_hunt_panel: PanelContainer = %FinalHuntPanel
 @onready var final_hunt_timer: Label = %FinalHuntTimer
 @onready var final_hunt_placement_status: Label = %FinalHuntPlacementStatus
@@ -30,7 +41,12 @@ const TUTORIAL_PROMPTS := [
 @onready var final_hunt_retry_button: Button = %FinalHuntRetryButton
 
 var tutorial_transitioning := false
+var tutorial_movement_used := false
+var tutorial_jump_used := false
+var _tutorial_tween: Tween
 var _normal_canvas_layer := 0
+var _mouse_mode_before_pause := Input.MOUSE_MODE_CAPTURED
+var _main_menu_transitioning := false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -55,29 +71,28 @@ func _ready() -> void:
 		final_hunt_panel.visible = false
 
 func _input(event: InputEvent) -> void:
-	if tutorial_transitioning or GameState.tutorial_step >= TUTORIAL_PROMPTS.size():
+	if tutorial_transitioning:
 		return
 
-	var completed := false
 	match GameState.tutorial_step:
-		0:
-			completed = (
+		TUTORIAL_MOVEMENT:
+			if (
 				event.is_action_pressed("move_forward")
 				or event.is_action_pressed("move_back")
 				or event.is_action_pressed("move_left")
 				or event.is_action_pressed("move_right")
-			)
-		1:
-			completed = event is InputEventMouseMotion and event.relative.length() >= 2.0
-		2:
-			completed = event.is_action_pressed("interact")
-		3, 4:
-			completed = event.is_action_pressed("phone")
-		5:
-			completed = event.is_action_pressed("pause")
-
-	if completed:
-		_advance_tutorial()
+			):
+				tutorial_movement_used = true
+			if event.is_action_pressed("jump"):
+				tutorial_jump_used = true
+			if tutorial_movement_used and tutorial_jump_used:
+				_hide_tutorial_and_set_step(TUTORIAL_WAITING_FOR_BOX)
+		TUTORIAL_INTERACT:
+			if event.is_action_pressed("interact"):
+				_hide_tutorial_and_set_step(TUTORIAL_WAITING_FOR_MINIGAME)
+		TUTORIAL_PHONE:
+			if event.is_action_pressed("phone"):
+				_hide_tutorial_and_set_step(TUTORIAL_COMPLETE)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
@@ -97,18 +112,18 @@ func _sync_from_state() -> void:
 
 func _toggle_pause() -> void:
 	var should_pause := not get_tree().paused
-	get_tree().paused = should_pause
-	pause_menu.visible = should_pause
-	var minigame_active := (
-		get_tree().get_first_node_in_group("minigame_session") != null
-	)
-	layer = MINIGAME_PAUSE_LAYER if should_pause and minigame_active else _normal_canvas_layer
-
 	if should_pause:
+		_mouse_mode_before_pause = Input.mouse_mode
+		pause_menu.visible = true
+		layer = PAUSE_OVERLAY_LAYER
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		resume_button.grab_focus()
+		get_tree().paused = true
 	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		get_tree().paused = false
+		pause_menu.visible = false
+		layer = _normal_canvas_layer
+		Input.set_mouse_mode(_mouse_mode_before_pause)
 
 
 func toggle_pause() -> void:
@@ -119,16 +134,43 @@ func close_pause() -> void:
 	get_tree().paused = false
 	pause_menu.visible = false
 	layer = _normal_canvas_layer
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	Input.set_mouse_mode(_mouse_mode_before_pause)
 
 func _on_resume_button_pressed() -> void:
 	if get_tree().paused:
 		_toggle_pause()
 
 func _on_main_menu_button_pressed() -> void:
-	close_pause()
+	if _main_menu_transitioning:
+		return
+	_main_menu_transitioning = true
+
+	# Root-level minigames and dialogues survive a normal scene change. Disable
+	# and remove them first so they cannot remain over the Main Menu or keep input.
+	get_tree().paused = false
+	pause_menu.visible = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	GameState.save_game()
-	get_tree().change_scene_to_file("res://menus/main_menu.tscn")
+	for transient_ui in get_tree().get_nodes_in_group("transient_gameplay_ui"):
+		_disable_transient_ui(transient_ui)
+		transient_ui.queue_free()
+	await get_tree().process_frame
+
+	var change_error := get_tree().change_scene_to_packed(MAIN_MENU_SCENE)
+	if change_error != OK:
+		_main_menu_transitioning = false
+		layer = _normal_canvas_layer
+		push_error("Could not return to the Main Menu: %s" % error_string(change_error))
+
+
+func _disable_transient_ui(node: Node) -> void:
+	node.process_mode = Node.PROCESS_MODE_DISABLED
+	if node is CanvasLayer:
+		(node as CanvasLayer).visible = false
+	elif node is CanvasItem:
+		(node as CanvasItem).visible = false
+	for child in node.get_children():
+		_disable_transient_ui(child)
 
 func _on_settings_button_pressed() -> void:
 	SettingsManager.show_settings_menu(self)
@@ -204,27 +246,110 @@ func _update_clue_count() -> void:
 func _update_objective_panel_visibility() -> void:
 	objective_panel.visible = GameState.clues.has(FIRST_STORY_CLUE)
 
-func _advance_tutorial() -> void:
-	tutorial_transitioning = true
-	GameState.set_tutorial_step(GameState.tutorial_step + 1)
-	var tween := create_tween()
-	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	tween.tween_property(hint_bar, "modulate:a", 0.0, 0.16)
-	tween.tween_callback(_show_current_tutorial_step)
+func begin_apartment_tutorial() -> void:
+	if GameState.tutorial_step != TUTORIAL_WAITING_FOR_WAKE_UP:
+		return
+	tutorial_movement_used = false
+	tutorial_jump_used = false
+	_show_tutorial_step(TUTORIAL_MOVEMENT)
+
+
+func notify_box_seen() -> void:
+	if GameState.tutorial_step == TUTORIAL_WAITING_FOR_BOX:
+		_show_tutorial_step(TUTORIAL_INTERACT)
+
+
+func notify_box_minigame_started() -> void:
+	if GameState.tutorial_step == TUTORIAL_INTERACT:
+		_hide_tutorial_and_set_step(TUTORIAL_WAITING_FOR_MINIGAME)
+
+
+func notify_box_minigame_completed() -> void:
+	if GameState.tutorial_step < TUTORIAL_PHONE:
+		_show_tutorial_step(TUTORIAL_PHONE)
+
+
+func notify_box_minigame_dismissed() -> void:
+	if GameState.tutorial_step == TUTORIAL_WAITING_FOR_MINIGAME:
+		_show_tutorial_step(TUTORIAL_INTERACT)
+
 
 func _on_tutorial_step_changed(_step: int) -> void:
 	if not tutorial_transitioning:
-		_show_current_tutorial_step()
+		_restore_tutorial_from_state()
 
-func _show_current_tutorial_step() -> void:
-	if GameState.tutorial_step >= TUTORIAL_PROMPTS.size():
-		hint_bar.visible = false
-		tutorial_transitioning = false
-		return
 
-	hint_text.text = TUTORIAL_PROMPTS[GameState.tutorial_step]
+func _restore_tutorial_from_state() -> void:
+	match GameState.tutorial_step:
+		TUTORIAL_MOVEMENT, TUTORIAL_INTERACT, TUTORIAL_PHONE:
+			_configure_tutorial(GameState.tutorial_step)
+			hint_bar.modulate.a = 1.0
+			hint_bar.visible = true
+		_:
+			hint_bar.visible = false
+			hint_bar.modulate.a = 0.0
+
+
+func _show_tutorial_step(step: int) -> void:
+	_stop_tutorial_tween()
+	tutorial_transitioning = true
+	GameState.set_tutorial_step(step)
+	_configure_tutorial(step)
+	hint_bar.modulate.a = 0.0
 	hint_bar.visible = true
-	var tween := create_tween()
-	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	tween.tween_property(hint_bar, "modulate:a", 1.0, 0.16)
-	tween.finished.connect(func(): tutorial_transitioning = false)
+	_tutorial_tween = create_tween()
+	_tutorial_tween.set_pause_mode(Tween.TWEEN_PAUSE_STOP)
+	_tutorial_tween.set_trans(Tween.TRANS_SINE)
+	_tutorial_tween.set_ease(Tween.EASE_OUT)
+	_tutorial_tween.tween_property(
+		hint_bar, "modulate:a", 1.0, TUTORIAL_FADE_DURATION
+	)
+	_tutorial_tween.finished.connect(_on_tutorial_fade_finished)
+
+
+func _hide_tutorial_and_set_step(step: int) -> void:
+	_stop_tutorial_tween()
+	tutorial_transitioning = true
+	_tutorial_tween = create_tween()
+	_tutorial_tween.set_pause_mode(Tween.TWEEN_PAUSE_STOP)
+	_tutorial_tween.set_trans(Tween.TRANS_SINE)
+	_tutorial_tween.set_ease(Tween.EASE_IN)
+	_tutorial_tween.tween_property(
+		hint_bar, "modulate:a", 0.0, TUTORIAL_FADE_DURATION
+	)
+	_tutorial_tween.tween_callback(func() -> void:
+		hint_bar.visible = false
+		GameState.set_tutorial_step(step)
+	)
+	_tutorial_tween.finished.connect(_on_tutorial_fade_finished)
+
+
+func _configure_tutorial(step: int) -> void:
+	secondary_prompt.visible = false
+	primary_key.custom_minimum_size = Vector2(142, 96)
+	match step:
+		TUTORIAL_MOVEMENT:
+			hint_text.text = "MOVE AROUND"
+			primary_key.texture = KEY_WASD
+			primary_label.text = "MOVE"
+			secondary_prompt.visible = true
+			secondary_key.texture = KEY_SPACEBAR
+			secondary_label.text = "JUMP"
+		TUTORIAL_INTERACT:
+			hint_text.text = "OPEN THE BOX"
+			primary_key.texture = KEY_E
+			primary_label.text = "INTERACT"
+		TUTORIAL_PHONE:
+			hint_text.text = "CHECK YOUR PHONE"
+			primary_key.texture = KEY_P
+			primary_label.text = "OPEN PHONE"
+
+
+func _stop_tutorial_tween() -> void:
+	if _tutorial_tween != null and _tutorial_tween.is_valid():
+		_tutorial_tween.kill()
+	_tutorial_tween = null
+
+
+func _on_tutorial_fade_finished() -> void:
+	tutorial_transitioning = false

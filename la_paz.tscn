@@ -32,6 +32,18 @@
 [ext_resource type="PackedScene" uid="uid://bf58t3k7j2lt2" path="res://assets/VEHICLES/abandoned_car__vehicle_multicab_3d_scan/scene.gltf" id="32_qku1v"]
 [ext_resource type="Script" uid="uid://chl0eca8jw4cb" path="res://scripts/imported_asset_collision.gd" id="33_collision"]
 [ext_resource type="Script" uid="uid://dnj61i1qa72ym" path="res://scripts/looping_audio_player.gd" id="34_loop_audio"]
+[ext_resource type="PackedScene" uid="uid://clewhbb6g8pbj" path="res://npc_milk.tscn" id="35_8p8mx"]
+[ext_resource type="PackedScene" uid="uid://bpv343f1wfs8h" path="res://npc_woman.tscn" id="36_mur58"]
+[ext_resource type="PackedScene" uid="uid://b3pnhtrjbpnr6" path="res://npc_man.tscn" id="37_jt8xu"]
+[ext_resource type="PackedScene" uid="uid://bqhjj5bl7s4cg" path="res://npc_lola.tscn" id="38_l17ji"]
+[ext_resource type="PackedScene" uid="uid://bd25vbbevm3bt" path="res://npc_lolo.tscn" id="41_chiny"]
+[ext_resource type="PackedScene" uid="uid://cvmlik3vweo4t" path="res://npc_student.tscn" id="41_faovn"]
+[ext_resource type="PackedScene" uid="uid://gun61wnjreft" path="res://npc_panda.tscn" id="42_0pe5x"]
+[ext_resource type="PackedScene" uid="uid://bumtff2r01paq" path="res://npc_sanag_talking.tscn" id="42_mur58"]
+[ext_resource type="PackedScene" uid="uid://620tc3gntd0k" path="res://npc_sanag_student.tscn" id="43_8m64p"]
+[ext_resource type="PackedScene" uid="uid://4jkqlfb8y7fh" path="res://npc_ui_student.tscn" id="44_3nnko"]
+[ext_resource type="PackedScene" uid="uid://wlxdmi57o2e7" path="res://npc_cpu_student.tscn" id="45_faovn"]
+[ext_resource type="PackedScene" uid="uid://b5c4lsxaskq66" path="res://npc_cpu_hm_student.tscn" id="46_3nnko"]
 [ext_resource type="PackedScene" path="res://ui/game_hud.tscn" id="hud_phone"]
 [ext_resource type="Script" uid="uid://bdubpo54wcesl" path="res://scripts/wake_up.gd" id="wakeup_script"]
 
@@ -158,7 +170,7 @@ point_count = 6
 volume_db = -8.0
 bus = &"Music"
 script = ExtResource("34_loop_audio")
-audio_path = "res://audio/street_lapaz_ambiance.mp3"
+audio_path = "res://audio/ambience/la_paz_street_loop.ogg"
 
 [node name="GameHUD" parent="." unique_id=356334471 instance=ExtResource("hud_phone")]
 
@@ -389,7 +401,7 @@ transform = Transform3D(0.76, 0, 0, 0, 0.76, 0, 0, 0, 0.76, 89.82747, -512.7832,
 transform = Transform3D(-0.09527415, 0, -1.3888323, 0, 1.3920966, 0, 1.3888323, 0, -0.09527415, 36.218655, -1.4156005, 27.187181)
 
 [node name="Sketchfab_Scene13" parent="background" unique_id=1804326342 instance=ExtResource("8_ytphx")]
-transform = Transform3D(-0.8197399, 0, 1.1251484, 0, 1.3920968, 0, -1.1251484, 0, -0.8197399, -27.681349, -1.3156005, 10.1871805)
+transform = Transform3D(-0.7334797, 0, 1.0067505, 0, 1.2456082, 0, -1.0067505, 0, -0.7334797, -27.434006, -1.1390866, 10.006976)
 
 [node name="Sketchfab_Scene19" parent="background" unique_id=1925843107 instance=ExtResource("8_ytphx")]
 transform = Transform3D(1.5227048, 0, 0.16207561, 0, 1.5313065, 0, -0.16207561, 0, 1.5227048, -48.38135, -1.5156006, -27.81282)
@@ -1220,7 +1232,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0, -106.50009)
 curve = SubResource("Curve3D_vx42f")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="jeepney cutscene/AnimationPlayer/Path3D" unique_id=329714488]
-transform = Transform3D(-0.99989855, 9.711788e-07, 0.0011458745, 0, 0.99982774, -0.0008475183, -0.001145875, -0.0008474575, -0.9998982, -0.0027417624, -0.08797214, 2.3925006)
+transform = Transform3D(-0.9998972, 9.711788e-07, 0.0011458728, 0, 0.9998277, -0.00084751705, -0.0011458733, -0.00084745744, -0.99989665, -0.0027417624, -0.08797214, 2.3925006)
 progress = 2.7328694
 v_offset = -0.09
 loop = false
@@ -1229,7 +1241,7 @@ loop = false
 transform = Transform3D(-0.0037659411, -4.999947e-10, 0.643787, -0.002728366, 0.64379394, -1.5960088e-05, -0.6437828, -0.0027284117, -0.0037659255, 0.22867966, 1.5749248, 5.643593)
 
 [node name="ProtoController" parent="." unique_id=1102026077 instance=ExtResource("21_3vwpy")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -35.899994, 1, -110.40001)
+transform = Transform3D(-3.6717566e-08, 0, -0.84, 0, 0.84, 0, 0.84, 0, -3.6717566e-08, -35.899994, 0.92, -110.40001)
 base_speed = 5.0
 sprint_speed = 7.0
 
@@ -1545,11 +1557,11 @@ transform = Transform3D(-1.0000001, 0, 1.7881393e-07, 0, 1, 0, -1.7881393e-07, 0
 script = ExtResource("33_collision")
 
 [node name="Sketchfab_Scene23" parent="." unique_id=224506931 instance=ExtResource("30_pu1ue")]
-transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -30.4, 0.8, -7.6000047)
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -30.542465, 0.55514, -7.8215127)
 script = ExtResource("33_collision")
 
 [node name="Sketchfab_Scene34" parent="." unique_id=453997032 instance=ExtResource("31_mky0e")]
-transform = Transform3D(0.03971174, 0, -0.033322107, 0, 0.05183999, 0, 0.033322107, 0, 0.03971174, -26.800001, 2.000001, 4.7999997)
+transform = Transform3D(0.033653006, 0, -0.028238226, 0, 0.043930877, 0, 0.028238226, 0, 0.033653006, -26.800001, 1.7884929, 4.7999997)
 script = ExtResource("33_collision")
 
 [node name="Sketchfab_Scene41" parent="." unique_id=1555210539 instance=ExtResource("31_mky0e")]
@@ -1570,3 +1582,39 @@ script = ExtResource("33_collision")
 
 [node name="tindahan" parent="." unique_id=695717090 instance=ExtResource("1_5fghb")]
 transform = Transform3D(-4.885962e-08, 0, 1.1177781, 0, 1.1177781, 0, -1.1177781, 0, -4.885962e-08, -27.53286, 0.5098752, -26.2)
+
+[node name="npc_milk" parent="." unique_id=1142351024 instance=ExtResource("35_8p8mx")]
+transform = Transform3D(-8.792586e-09, 0, 0.20115092, 0, 0.20115092, 0, -0.20115092, 0, -8.792586e-09, -5.149008, 0.0184725, -22.87695)
+
+[node name="npc_woman" parent="." unique_id=1350490822 instance=ExtResource("36_mur58")]
+transform = Transform3D(-8.451159e-09, 0, 0.19333999, 0, 0.19333999, 0, -0.19333999, 0, -8.451159e-09, 0.5886032, 0.50355834, 34.71092)
+
+[node name="npc_man" parent="." unique_id=502174561 instance=ExtResource("37_jt8xu")]
+transform = Transform3D(-9.296276e-09, 0, -0.21267399, 0, 0.21267399, 0, 0.21267399, 0, -9.296276e-09, -0.3717075, 0.48394227, 35.02341)
+
+[node name="npc_lola" parent="." unique_id=947057290 instance=ExtResource("38_l17ji")]
+transform = Transform3D(0.18228959, 0, 0, 0, 0.18228959, 0, 0, 0, 0.18228959, -36.917526, 0.6506541, -23.875332)
+
+[node name="npc_student" parent="." unique_id=919328641 instance=ExtResource("41_faovn")]
+transform = Transform3D(-7.920907e-09, 0, -0.1812092, 0, 0.1812092, 0, 0.1812092, 0, -7.920907e-09, -24.531816, 0.67117125, 18.642645)
+
+[node name="npc_panda" parent="." unique_id=1027138765 instance=ExtResource("42_0pe5x")]
+transform = Transform3D(-0.16780114, 0, -1.46696415e-08, 0, 0.16780114, 0, 1.46696415e-08, 0, -0.16780114, 44.680786, 0.039450783, 30.540611)
+
+[node name="npc_lolo" parent="." unique_id=705307589 instance=ExtResource("41_chiny")]
+transform = Transform3D(0.20522922, 0, 0, 0, 0.20522922, 0, 0, 0, 0.20522922, 42.534966, 0.5792018, 42.820015)
+
+[node name="npc_cpu_hm_student" parent="." unique_id=1970061675 instance=ExtResource("46_3nnko")]
+transform = Transform3D(-7.593905e-09, 0, 0.17372829, 0, 0.17372829, 0, -0.17372829, 0, -7.593905e-09, 28.063475, 0.7599537, 22.387762)
+
+[node name="npc_cpu_student" parent="." unique_id=1895112212 instance=ExtResource("45_faovn")]
+transform = Transform3D(-7.593905e-09, 0, 0.17372829, 0, 0.17372829, 0, -0.17372829, 0, -7.593905e-09, -6.5223036, 0.7137485, 11.002787)
+
+[node name="npc_sanag_student" parent="." unique_id=1798763155 instance=ExtResource("43_8m64p")]
+transform = Transform3D(-7.593905e-09, 0, -0.17372829, 0, 0.17372829, 0, 0.17372829, 0, -7.593905e-09, -24.84869, 0.72969085, 19.862194)
+
+[node name="npc_sanag_talking" parent="." unique_id=1970621911 instance=ExtResource("42_mur58")]
+transform = Transform3D(-6.951007e-09, 0, -0.1590205, 0, 0.1590205, 0, 0.1590205, 0, -6.951007e-09, 27.055922, 0.7204706, 22.628937)
+
+[node name="npc_ui_student" parent="." unique_id=329582298 instance=ExtResource("44_3nnko")]
+transform = Transform3D(-7.593905e-09, 0, 0.17372829, 0, 0.17372829, 0, -0.17372829, 0, -7.593905e-09, -7.0063705, 0.7273312, 9.610024)

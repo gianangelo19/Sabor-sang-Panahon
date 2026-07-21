@@ -2,6 +2,11 @@ extends Control
 
 signal dialogue_finished
 
+const DIALOGUE_TYPE_SOUND := preload("res://audio/retro_filipino_pack/dialogue_type_click.wav")
+const TYPE_SOUND_CHARACTER_INTERVAL := 2
+
+@export_range(0.005, 0.1, 0.005) var type_character_delay := 0.025
+
 @onready var canvas = $canvas
 @onready var portrait = $canvas/portrait
 @onready var npc_portrait = $canvas/npc_portrait
@@ -16,8 +21,18 @@ var timed_line_durations: Array = []
 var _player_portrait: Texture2D = null
 var _npc_portrait: Texture2D = null
 var _two_person_mode := false
+var _typing_audio_player: AudioStreamPlayer
+var _typing_generation := 0
+var _is_typing := false
 
 func _ready():
+	add_to_group("transient_gameplay_ui")
+	_typing_audio_player = AudioStreamPlayer.new()
+	_typing_audio_player.name = "DialogueTypeAudio"
+	_typing_audio_player.stream = DIALOGUE_TYPE_SOUND
+	_typing_audio_player.bus = "SFX"
+	_typing_audio_player.max_polyphony = 2
+	add_child(_typing_audio_player)
 	continue_btn.pressed.connect(_on_continue_pressed)
 	continue_btn.grab_focus()
 
@@ -95,11 +110,12 @@ func show_current_line():
 		var entry = dialogue_lines[current_line]
 		if entry is Dictionary:
 			if bool(entry.get("hide_dialogue", false)):
+				_cancel_typewriter()
 				canvas.visible = false
 				return
 			canvas.visible = true
 			speaker_name.text = str(entry.get("speaker", ""))
-			dialogue_text.text = str(entry.get("text", ""))
+			_start_typewriter(str(entry.get("text", "")))
 			var line_portrait = entry.get("portrait")
 			if _two_person_mode:
 				if str(entry.get("speaker", "")) == "You" and line_portrait is Texture2D:
@@ -113,8 +129,9 @@ func show_current_line():
 				npc_portrait.visible = false
 		else:
 			canvas.visible = true
-			dialogue_text.text = str(entry)
+			_start_typewriter(str(entry))
 	else:
+		_cancel_typewriter()
 		# Fade in HUD smoothly
 		var hud_root = get_tree().root.find_child("HUDRoot", true, false)
 		if hud_root:
@@ -123,6 +140,59 @@ func show_current_line():
 			
 		dialogue_finished.emit()
 		queue_free()
+
+func _start_typewriter(text: String) -> void:
+	_cancel_typewriter()
+	dialogue_text.text = text
+	dialogue_text.visible_characters = 0
+	var total_characters: int = dialogue_text.get_total_character_count()
+	if total_characters == 0:
+		dialogue_text.visible_characters = -1
+		return
+
+	_is_typing = true
+	var generation := _typing_generation
+	_type_current_line(generation, dialogue_text.get_parsed_text(), total_characters)
+
+func _type_current_line(generation: int, parsed_text: String, total_characters: int) -> void:
+	var audible_characters := 0
+	for visible_count in range(1, total_characters + 1):
+		if generation != _typing_generation or not _is_typing:
+			return
+
+		dialogue_text.visible_characters = visible_count
+		var character_index: int = mini(visible_count - 1, parsed_text.length() - 1)
+		if character_index >= 0:
+			var character := parsed_text.substr(character_index, 1)
+			if not character.strip_edges().is_empty():
+				audible_characters += 1
+				if audible_characters % TYPE_SOUND_CHARACTER_INTERVAL == 1:
+					_play_typing_sound()
+
+		if visible_count < total_characters:
+			await get_tree().create_timer(type_character_delay, false).timeout
+
+	if generation != _typing_generation:
+		return
+	dialogue_text.visible_characters = -1
+	_is_typing = false
+
+func _play_typing_sound() -> void:
+	if _typing_audio_player == null:
+		return
+	_typing_audio_player.pitch_scale = randf_range(0.96, 1.04)
+	_typing_audio_player.play()
+
+func _cancel_typewriter(show_full_line := false) -> void:
+	_typing_generation += 1
+	_is_typing = false
+	if show_full_line:
+		dialogue_text.visible_characters = -1
+	if _typing_audio_player != null:
+		_typing_audio_player.stop()
+
+func _complete_typewriter() -> void:
+	_cancel_typewriter(true)
 
 func _update_portrait_focus(speaker: String) -> void:
 	if speaker == "You":
@@ -139,18 +209,21 @@ func _run_timed_dialogue() -> void:
 			var delay_before := float(entry.get("delay_before", 0.0))
 			if delay_before > 0.0:
 				canvas.visible = false
-				await get_tree().create_timer(delay_before).timeout
+				await get_tree().create_timer(delay_before, false).timeout
 		show_current_line()
 		var duration := 2.0
 		if current_line < timed_line_durations.size():
 			duration = timed_line_durations[current_line]
-		await get_tree().create_timer(duration).timeout
+		await get_tree().create_timer(duration, false).timeout
 		current_line += 1
 	auto_advance = false
 	show_current_line()
 
 func _on_continue_pressed():
 	if auto_advance:
+		return
+	if _is_typing:
+		_complete_typewriter()
 		return
 	SettingsManager.play_dialogue_continue_sound()
 	current_line += 1

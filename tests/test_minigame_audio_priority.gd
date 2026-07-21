@@ -33,11 +33,27 @@ func _run() -> void:
 	var miki := MIKI_SCENE.instantiate()
 	root.add_child(miki)
 	await process_frame
+	var original_music_volume: float = miki.music_volume_db
 	_check(
 		miki.music_player != null and miki.music_player.bus == &"Master",
 		"Miki minigame music bypasses the muted global Music bus"
 	)
 	miki.queue_free()
+	await process_frame
+
+	var quiet_session: CanvasLayer = MINIGAME_SESSION_SCRIPT.new()
+	root.add_child(quiet_session)
+	quiet_session.start(MIKI_SCENE)
+	await process_frame
+	var quiet_miki: Node = quiet_session.get_minigame()
+	_check(
+		is_equal_approx(
+			quiet_miki.music_volume_db,
+			original_music_volume - quiet_session.MINIGAME_AUDIO_REDUCTION_DB
+		),
+		"Shared minigame sessions lower authored audio levels"
+	)
+	quiet_session.queue_free()
 	AudioServer.set_bus_mute(music_bus_index, original_mute)
 	await process_frame
 	_finish()

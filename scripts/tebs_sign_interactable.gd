@@ -40,7 +40,7 @@ func get_interaction_text() -> String:
 
 
 func interact() -> void:
-	if _revealing:
+	if _revealing or _dialogue_active:
 		return
 	if _revealed:
 		if not GameState.final_hunt_active and not GameState.final_hunt_succeeded:
@@ -49,7 +49,7 @@ func interact() -> void:
 			print("The sign reads: Teb's Old La Paz Batchoyan.")
 		return
 	if not _has_required_ingredients():
-		print("The sign is still covered. The memory feels incomplete.")
+		_start_incomplete_dialogue()
 		return
 
 	_reveal_sign()
@@ -119,6 +119,23 @@ func _set_material_brightness(brightness: float) -> void:
 func _finish_reveal() -> void:
 	_revealing = false
 	_start_reveal_dialogue()
+
+
+func _start_incomplete_dialogue() -> void:
+	_dialogue_active = true
+	_lock_player()
+	var dialogue := DIALOGUE_SCENE.instantiate()
+	get_tree().root.add_child(dialogue)
+	dialogue.start_conversation([
+		{"speaker": "You", "text": "I don't recognize whatever's hidden under this cloth.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "You", "text": "Still, it feels like this could be useful later. Maybe the ingredients I'm gathering will help me make sense of it.", "portrait": PLAYER_PORTRAIT},
+	])
+	dialogue.dialogue_finished.connect(_on_incomplete_dialogue_finished)
+
+
+func _on_incomplete_dialogue_finished() -> void:
+	_dialogue_active = false
+	_restore_player()
 
 
 func _start_reveal_dialogue() -> void:

@@ -129,12 +129,12 @@ size = Vector3(0.42, 0.36, 0.55)
 [node name="Apartment" type="Node3D" unique_id=986595706]
 
 [node name="ApartmentAmbience" type="AudioStreamPlayer3D" parent="." unique_id=1819333155]
-volume_db = -10.0
+volume_db = -6.0
 unit_size = 3.0
 max_distance = 12.0
 bus = &"Music"
 script = ExtResource("45_loop_audio_3d")
-audio_path = "res://audio/apartment_ambiance.mp3"
+audio_path = "res://audio/ambience/apartment_room_loop.ogg"
 
 [node name="AfternoonWindowFill" type="OmniLight3D" parent="." unique_id=2056610638]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 1.45, -2.85)

@@ -29,7 +29,20 @@ func _run() -> void:
 	_check(door._is_story_locked(), "Apartment door is locked before the first clue")
 	_check(door.get_interaction_text() == "Press E to open the box before leaving", "Locked door points the player toward the box")
 	door.interact()
+	await process_frame
 	_check(not door._is_open, "Trying the locked door cannot open it")
+	var locked_dialogue := root.find_child("dialogue_ui", true, false)
+	_check(locked_dialogue != null, "Trying the locked door opens player dialogue")
+	if locked_dialogue != null:
+		_check(
+			locked_dialogue.dialogue_lines[0].text == door.locked_message,
+			"Locked-door dialogue tells the player to open the box"
+		)
+		locked_dialogue._cancel_typewriter()
+		locked_dialogue.current_line = locked_dialogue.dialogue_lines.size()
+		locked_dialogue.show_current_line()
+		await process_frame
+	_check(not door._locked_dialogue_active, "Finishing locked-door dialogue allows future interactions")
 
 	box.interact()
 	await process_frame

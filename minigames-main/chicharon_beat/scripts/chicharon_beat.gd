@@ -889,7 +889,8 @@ func throw_batch() -> void:
 			)
 
 			await get_tree().create_timer(
-				wait_time
+				wait_time,
+				false,
 			).timeout
 
 			if ending_started:
@@ -901,7 +902,8 @@ func throw_batch() -> void:
 	# Wait until the last chicharon has landed
 	# before input begins.
 	await get_tree().create_timer(
-		throw_duration + post_throw_input_delay
+		throw_duration + post_throw_input_delay,
+		false,
 	).timeout
 
 	if ending_started:
@@ -1171,7 +1173,7 @@ func finish_round() -> void:
 
 	show_feedback("Next batch...")
 
-	await get_tree().create_timer(1.2).timeout
+	await get_tree().create_timer(1.2, false).timeout
 
 	if ending_started:
 		return

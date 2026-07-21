@@ -93,8 +93,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Mouse capturing
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		capture_mouse()
-	if Input.is_key_pressed(KEY_ESCAPE):
-		release_mouse()
 	
 	# Look around
 	if mouse_captured and event is InputEventMouseMotion:
@@ -184,6 +182,14 @@ func update_interaction_prompt() -> void:
 		current_interactable = find_interactable(interact_ray.get_collider())
 
 	if current_interactable:
+		if current_interactable.has_method("interaction_focus_entered"):
+			current_interactable.interaction_focus_entered()
+		if (
+			current_interactable.has_method("should_hide_interaction_prompt")
+			and current_interactable.should_hide_interaction_prompt()
+		):
+			interact_prompt.visible = false
+			return
 		if current_interactable.has_method("get_interaction_text"):
 			interact_prompt.text = current_interactable.get_interaction_text()
 		else:

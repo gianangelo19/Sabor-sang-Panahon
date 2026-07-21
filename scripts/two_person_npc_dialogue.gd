@@ -104,7 +104,10 @@ func _start_minigame() -> void:
 		return
 	_minigame_session = MINIGAME_SESSION_SCRIPT.new()
 	_minigame_session.name = "VendorMinigameSession"
-	get_tree().root.add_child(_minigame_session)
+	var session_parent: Node = get_tree().current_scene
+	if session_parent == null:
+		session_parent = get_tree().root
+	session_parent.add_child(_minigame_session)
 	_minigame_session.minigame_won.connect(_on_minigame_won)
 	_minigame_session.dismissed.connect(_on_minigame_dismissed)
 	_minigame_session.start(minigame_scene)

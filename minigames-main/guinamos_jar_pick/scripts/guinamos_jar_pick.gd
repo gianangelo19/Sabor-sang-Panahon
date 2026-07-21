@@ -1213,7 +1213,7 @@ func _start_success_ending() -> void:
 	print("========================================")
 	print("")
 
-	await get_tree().create_timer(0.45).timeout
+	await get_tree().create_timer(0.45, false).timeout
 
 	if not is_inside_tree():
 		return
