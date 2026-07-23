@@ -70,20 +70,20 @@ theme_override_constants/separation = 14
 [node name="Eyebrow" type="Label" parent="Panel/Stack"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.69, 0.32, 1)
-text = "VENDOR CHALLENGE"
+text = "MINIGAME PLACEHOLDER"
 horizontal_alignment = 1
 
 [node name="TitleLabel" type="Label" parent="Panel/Stack"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
-text = "Minigame Placeholder"
+text = "Challenge Coming Soon"
 horizontal_alignment = 1
 
 [node name="InstructionLabel" type="Label" parent="Panel/Stack"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Replace this screen with the vendor's minigame."
+text = "This challenge is currently being updated."
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -92,13 +92,13 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
 theme_override_font_sizes/font_size = 20
-text = "Reward: Ingredient"
+text = "Story reward: Ingredient"
 horizontal_alignment = 1
 
 [node name="DeveloperNote" type="Label" parent="Panel/Stack"]
 layout_mode = 2
 modulate = Color(0.72, 0.72, 0.68, 1)
-text = "Placeholder: the completion button currently simulates a win."
+text = "The minigame is temporarily unavailable. Continue to skip it and keep playing the main story."
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -106,13 +106,13 @@ autowrap_mode = 3
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 
-[node name="CompleteButton" type="Button" parent="Panel/Stack"]
+[node name="ContinueButton" type="Button" parent="Panel/Stack"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_button")
-text = "Complete Placeholder Challenge"
+text = "Continue Story"
 
-[node name="LaterButton" type="Button" parent="Panel/Stack"]
+[node name="ReturnButton" type="Button" parent="Panel/Stack"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Come Back Later"
+text = "Return to Game"

@@ -46,13 +46,14 @@ func _run() -> void:
 
 	box.interact()
 	await process_frame
-	var minigame := root.find_child("BoxUnboxing", true, false)
-	_check(minigame != null, "Interacting with the table box launches box unboxing")
-	_check(not game_state.clues.has("Damaged newspaper"), "Opening the minigame does not award the clue early")
+	var minigame := root.find_child("VendorMinigamePlaceholder", true, false)
+	_check(minigame != null, "Interacting with the table box launches the temporary placeholder")
+	_check(not game_state.clues.has("Damaged newspaper"), "Opening the placeholder does not award the clue early")
 	if minigame != null:
-		minigame.minigame_finished.emit()
+		_check(minigame.title_label.text == "Open the Keepsake Box", "The box placeholder identifies the skipped challenge")
+		minigame.get_node("Panel/Stack/ContinueButton").pressed.emit()
 	await process_frame
-	_check(game_state.clues.has("Damaged newspaper"), "Completing box unboxing records the newspaper clue")
+	_check(game_state.clues.has("Damaged newspaper"), "Continuing past the placeholder records the newspaper clue")
 	_check(game_state.current_objective == "Ride the jeepney to La Paz.", "The newspaper supplies the first visible objective")
 	_check(objective_panel.visible, "Objective HUD appears when the newspaper is found")
 	_check(not door._is_story_locked(), "Finding the newspaper unlocks the apartment door")

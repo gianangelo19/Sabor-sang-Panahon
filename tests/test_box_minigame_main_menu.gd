@@ -22,7 +22,14 @@ func _run() -> void:
 	var session: CanvasLayer = MINIGAME_SESSION_SCRIPT.new()
 	session.name = "BoxMinigameSession"
 	root.add_child(session)
-	session.start(load("res://minigames-main/box_unboxing/scenes/box_unboxing.tscn"))
+	session.start(
+		load("res://ui/vendor_minigame_placeholder.tscn"),
+		{
+			"title": "Open the Keepsake Box",
+			"instructions": "Unpack the box and examine the damaged newspaper inside.",
+			"reward": "Damaged newspaper clue",
+		}
+	)
 	await process_frame
 	await process_frame
 
@@ -30,8 +37,8 @@ func _run() -> void:
 	pause_event.action = &"pause"
 	pause_event.pressed = true
 	session._input(pause_event)
-	_check(paused, "Escape pauses the real box minigame")
-	_check(hud.pause_menu.visible, "The pause menu is visible over the box minigame")
+	_check(paused, "Escape pauses the box placeholder")
+	_check(hud.pause_menu.visible, "The pause menu is visible over the box placeholder")
 
 	hud.get_node("PauseMenu/MenuPanel/MenuStack/MainMenuButton").pressed.emit()
 	for frame in range(4):
@@ -41,11 +48,11 @@ func _run() -> void:
 	_check(Input.mouse_mode == Input.MOUSE_MODE_VISIBLE, "Main Menu leaves the cursor visible")
 	_check(
 		get_nodes_in_group("minigame_session").is_empty(),
-		"The box minigame session is removed instead of surviving over the menu",
+		"The placeholder session is removed instead of surviving over the menu",
 	)
 	_check(
 		current_scene != null and current_scene.scene_file_path == "res://menus/main_menu.tscn",
-		"Main Menu exits the box minigame and changes scenes",
+		"Main Menu exits the placeholder and changes scenes",
 	)
 
 	_finish()
@@ -62,8 +69,8 @@ func _check(condition: bool, label: String) -> void:
 func _finish() -> void:
 	paused = false
 	if failures.is_empty():
-		print("Box minigame Main Menu verification passed.")
+		print("Box placeholder Main Menu verification passed.")
 		quit(0)
 	else:
-		print("Box minigame Main Menu verification failed: " + ", ".join(failures))
+		print("Box placeholder Main Menu verification failed: " + ", ".join(failures))
 		quit(1)

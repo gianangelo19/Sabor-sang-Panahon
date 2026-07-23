@@ -251,13 +251,13 @@ func _show_ending_dialogue() -> void:
 	var dialogue := DIALOGUE_SCENE.instantiate()
 	get_tree().root.add_child(dialogue)
 	dialogue.start_conversation([
-		{"speaker": "You", "text": "The old bowl... the cultural echoes were leading me to it all along.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "Grandma", "text": "Apo, I'm home. That bowl... I know it. We served countless meals in it.", "portrait": GRANDMA_PORTRAIT},
-		{"speaker": "You", "text": "This house was Teb's Old La Paz Batchoyan. The forgotten dish is La Paz Batchoy.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "Grandma", "text": "La Paz Batchoy... yes! The meat, the miki, the ginamos, and the chicharon. I remember all four.", "portrait": GRANDMA_PORTRAIT},
-		{"speaker": "You", "text": "I found the bowl and prepared the batchoy before you returned. Come, Grandma. Let's eat.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "Grandma", "text": "Thank you, apo. Tonight, La Paz remembers with us.", "portrait": GRANDMA_PORTRAIT},
-	])
+		{"speaker": "You", "text": "There you are... all that noise in my head was an old bowl asking not to be left behind.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "Grandma", "text": "Apo, I'm home— Why are you holding that? That bowl... we served more meals in it than I could ever count.", "portrait": GRANDMA_PORTRAIT},
+		{"speaker": "You", "text": "This house was Teb's Old La Paz Batchoyan. The dish everyone forgot is La Paz Batchoy.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "Grandma", "text": "La Paz Batchoy... Meat, fresh miki, ginamos, crushed chicharon. Ay, apo—I remember the kitchen. I remember all of it.", "portrait": GRANDMA_PORTRAIT},
+		{"speaker": "You", "text": "I found the bowl and made the batchoy before you returned. I wanted home to be waiting for you this time.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "Grandma", "text": "It was always waiting. We only needed to remember the way back. Now sit—the soup is getting cold, and I raised you better than that.", "portrait": GRANDMA_PORTRAIT},
+	], _grandma)
 	dialogue.dialogue_finished.connect(_on_ending_dialogue_finished)
 
 

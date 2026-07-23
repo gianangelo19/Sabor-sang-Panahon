@@ -3,6 +3,7 @@ extends Node3D
 const DIALOGUE_SCENE := preload("res://dialogue_ui.tscn")
 const PLAYER_PORTRAIT := preload("res://characters/2main_character_asking.png")
 const MINIGAME_SESSION_SCRIPT := preload("res://scripts/minigame_session.gd")
+const MINIGAME_PLACEHOLDER_SCENE := preload("res://ui/vendor_minigame_placeholder.tscn")
 
 var npc_display_name := "NPC"
 var npc_portrait: Texture2D
@@ -13,7 +14,7 @@ var minigame_instructions := "Complete the vendor's challenge."
 var reward_id := "ingredient"
 var reward_name := "Ingredient"
 var destination_id := ""
-var minigame_scene: PackedScene
+var minigame_scene: PackedScene = MINIGAME_PLACEHOLDER_SCENE
 
 var _dialogue_active := false
 var _conversation_completed := false
@@ -27,7 +28,7 @@ func get_interaction_text() -> String:
 	if not _is_story_available():
 		return _locked_interaction_text()
 	if _conversation_completed and not _minigame_completed:
-		return "Press E to try " + npc_display_name + "'s challenge"
+		return "Press E to continue " + npc_display_name + "'s story"
 	return "Press E to talk to " + npc_display_name
 
 
@@ -45,7 +46,8 @@ func interact() -> void:
 	var dialogue := DIALOGUE_SCENE.instantiate()
 	get_tree().root.add_child(dialogue)
 	dialogue.start_conversation(
-		repeat_conversation if _conversation_completed else first_conversation
+		repeat_conversation if _conversation_completed else first_conversation,
+		self,
 	)
 	dialogue.dialogue_finished.connect(_on_dialogue_finished)
 
@@ -110,7 +112,14 @@ func _start_minigame() -> void:
 	session_parent.add_child(_minigame_session)
 	_minigame_session.minigame_won.connect(_on_minigame_won)
 	_minigame_session.dismissed.connect(_on_minigame_dismissed)
-	_minigame_session.start(minigame_scene)
+	_minigame_session.start(
+		minigame_scene,
+		{
+			"title": minigame_title,
+			"instructions": minigame_instructions,
+			"reward": reward_name,
+		}
+	)
 
 
 func _on_minigame_won() -> void:

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ctbo8kg4ulosc"
-path.s3tc="res://.godot/imported/Urinal_A_Diffuse_1K.png-5d0a68d9f864c94a168d01536bd14d2a.s3tc.ctex"
+path.s3tc="res://.godot/imported/Urinal_A_Diffuse_1K.png-fbfd59e2fbdc4697c4a2fb77b2e85fdc.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://assets/Toilets_fbx_gltf_blend/textures/Urinal_A_Diffuse_1K.png"
-dest_files=["res://.godot/imported/Urinal_A_Diffuse_1K.png-5d0a68d9f864c94a168d01536bd14d2a.s3tc.ctex"]
+source_file="res://assets/Toilets_fbx_gltf_blend/Textures/Urinal_A_Diffuse_1K.png"
+dest_files=["res://.godot/imported/Urinal_A_Diffuse_1K.png-fbfd59e2fbdc4697c4a2fb77b2e85fdc.s3tc.ctex"]
 
 [params]
 

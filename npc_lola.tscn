@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://v8ipv32hyydt" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/left_grandma.png" id="3_v1mmu"]
 [ext_resource type="Texture2D" uid="uid://um2m5s73sojv" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/back_grandma.png" id="4_6mqv1"]
 [ext_resource type="Texture2D" uid="uid://djyv77sow1ngo" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/right_grandma.png" id="5_xoiv3"]
+[ext_resource type="Script" path="res://scripts/ambient_npc_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7u4qh"]
 radius = 1.35
@@ -15,6 +16,13 @@ radius = 4.0
 height = 9.0
 
 [node name="npc_lola" type="Node3D" unique_id=1142351024]
+script = ExtResource("6_dialogue")
+npc_display_name = "Lola Nena"
+opening_line = "Apo, you have your grandmother's worried eyebrows. Very expressive. Very bad at hiding plans."
+player_reply = "I was hoping they looked mysterious."
+closing_line = "No. Hungry, maybe. Eat something and try again."
+repeat_lines = Array[String](["Your grandma and I used to trade recipes. Mostly we traded complaints about everyone else's recipes.", "Do not rush so much, apo. Even soup needs time before it becomes worth remembering."])
+restored_line = "La Paz Batchoy. Ay, there you are. Some memories return through the tongue before the heart admits it missed them."
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

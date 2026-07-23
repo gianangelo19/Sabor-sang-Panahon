@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://deuvwyaf2q6jf"
-path.s3tc="res://.godot/imported/Toilet_Elongated_Roughness_1K.png-b9907ab5677d92e288fbc5a954d8dd86.s3tc.ctex"
+path.s3tc="res://.godot/imported/Toilet_Elongated_Roughness_1K.png-6d952cbd85b0493ce1183d804ce1ef77.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://assets/Toilets_fbx_gltf_blend/textures/Toilet_Elongated_Roughness_1K.png"
-dest_files=["res://.godot/imported/Toilet_Elongated_Roughness_1K.png-b9907ab5677d92e288fbc5a954d8dd86.s3tc.ctex"]
+source_file="res://assets/Toilets_fbx_gltf_blend/Textures/Toilet_Elongated_Roughness_1K.png"
+dest_files=["res://.godot/imported/Toilet_Elongated_Roughness_1K.png-6d952cbd85b0493ce1183d804ce1ef77.s3tc.ctex"]
 
 [params]
 

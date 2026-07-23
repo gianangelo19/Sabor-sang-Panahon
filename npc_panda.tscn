@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bcojm6wjy24po" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/left_panda.png" id="3_02dho"]
 [ext_resource type="Texture2D" uid="uid://cjnneuutdawu8" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/back_panda.png" id="4_ttg7x"]
 [ext_resource type="Texture2D" uid="uid://bainvn2iockfb" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/right_panda.png" id="5_sanni"]
+[ext_resource type="Script" path="res://scripts/ambient_npc_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7u4qh"]
 radius = 1.35
@@ -15,6 +16,13 @@ radius = 4.0
 height = 9.0
 
 [node name="npc_panda" type="Node3D" unique_id=1142351024]
+script = ExtResource("6_dialogue")
+npc_display_name = "Panda Mascot"
+opening_line = "..."
+player_reply = "Are you not allowed to talk, or is this a very serious mascot oath?"
+closing_line = "[The panda slowly points to a tip jar.]"
+repeat_lines = Array[String](["[The panda offers a solemn thumbs-up.]", "[The panda wipes its forehead, then remembers the costume has no movable forehead.]"])
+restored_line = "[The panda performs a surprisingly emotional dance at the words 'La Paz Batchoy.']"
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

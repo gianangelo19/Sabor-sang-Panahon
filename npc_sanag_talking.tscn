@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bfknypslumgjt" path="res://characters/right_sanag_talking.png" id="3_b6efy"]
 [ext_resource type="Texture2D" uid="uid://cy140g3b2o82m" path="res://characters/back_sanag_talking.png" id="4_r1cwv"]
 [ext_resource type="Texture2D" uid="uid://doypluxrummt0" path="res://characters/left_sanag_talking.png" id="5_awvdh"]
+[ext_resource type="Script" path="res://scripts/ambient_npc_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nshqv"]
 radius = 1.35
@@ -15,6 +16,13 @@ radius = 4.0
 height = 9.0
 
 [node name="npc_sanag_talking" type="Node3D" unique_id=1970061675]
+script = ExtResource("6_dialogue")
+npc_display_name = "Campus Debater"
+opening_line = "We are debating whether batchoy counts as breakfast, lunch, or emotional support."
+player_reply = "What side are you on?"
+closing_line = "Yes."
+repeat_lines = Array[String](["A good debate changes minds. A good meal makes everyone stop talking. Higher success rate.", "My opponent brought citations. I brought an appetite. The judges remain divided."])
+restored_line = "La Paz Batchoy settles the debate: breakfast, lunch, dinner, and emergency morale."
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1012973699]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

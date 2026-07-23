@@ -8,6 +8,7 @@ const GLOBAL_MUSIC_BUS := &"Music"
 const MINIGAME_AUDIO_REDUCTION_DB := 8.0
 
 var _minigame_scene: PackedScene
+var _minigame_context: Dictionary = {}
 var _minigame: Node
 var _global_music_bus_index := -1
 var _global_music_was_muted := false
@@ -33,8 +34,9 @@ func _input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 
 
-func start(scene: PackedScene) -> void:
+func start(scene: PackedScene, context: Dictionary = {}) -> void:
 	_minigame_scene = scene
+	_minigame_context = context
 	layer = GAMEPLAY_LAYER
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	_mute_global_music()
@@ -131,6 +133,8 @@ func _start_fresh_instance() -> void:
 	_minigame.process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_child(_minigame)
 	_force_minigame_tree_pausable(_minigame)
+	if _minigame.has_method("configure_placeholder"):
+		_minigame.call("configure_placeholder", _minigame_context)
 	_connect_first_available(
 		[&"minigame_finished", &"minigame_completed"],
 		_on_minigame_completed

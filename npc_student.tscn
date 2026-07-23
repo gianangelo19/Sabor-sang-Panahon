@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://b5pt56yy8qtc8" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/left_student.png" id="3_xscsd"]
 [ext_resource type="Texture2D" uid="uid://bpl0vs3fna4f3" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/back_student.png" id="4_bsehd"]
 [ext_resource type="Texture2D" uid="uid://b5855rou8mhpd" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/right_student.png" id="5_mfgv5"]
+[ext_resource type="Script" path="res://scripts/ambient_npc_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7u4qh"]
 radius = 1.35
@@ -15,6 +16,13 @@ radius = 4.0
 height = 9.0
 
 [node name="npc_student" type="Node3D" unique_id=1142351024]
+script = ExtResource("6_dialogue")
+npc_display_name = "College Student"
+opening_line = "If my professor asks, I am conducting field research."
+player_reply = "Into what?"
+closing_line = "How long a student can avoid opening one PDF. Results are promising."
+repeat_lines = Array[String](["The deadline is tomorrow, which is technically not today. I see no emergency.", "I bought coffee to study. Now I am too caffeinated to read and too responsible to sleep."])
+restored_line = "So it was La Paz Batchoy. Finally, local history I can study with a spoon."
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

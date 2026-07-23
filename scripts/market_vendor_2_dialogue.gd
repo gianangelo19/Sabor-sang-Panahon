@@ -1,35 +1,31 @@
 extends "res://scripts/two_person_npc_dialogue.gd"
 
 const VENDOR_PORTRAIT := preload("res://characters/npc_market_vendor2/npc_market_vendor2_front.png")
-const GUINAMOS_MINIGAME := preload(
-	"res://minigames-main/guinamos_jar_pick/scenes/guinamos_jar_pick.tscn"
-)
 
 
 func _ready() -> void:
-	npc_display_name = "Market Vendor 2"
+	npc_display_name = "Ginamos Vendor"
 	npc_portrait = VENDOR_PORTRAIT
 	minigame_title = "Choose the Right Ginamos"
 	minigame_instructions = "Inspect the five jars through your senses and identify the best-aged ginamos."
-	minigame_scene = GUINAMOS_MINIGAME
 	reward_id = "ginamos"
 	reward_name = "Ginamos (shrimp paste)"
 	destination_id = "market_vendor_2"
 	first_conversation = [
-		player_line("The meat vendor remembered preparing pork and liver, but not the dish they belonged to. Do you remember it?"),
-		npc_line("Meat with soft noodles, a deep salty taste, and a crisp topping... No. That should mean something to me, but it does not."),
-		player_line("Grandma forgot it too. It is as if the whole city lost the same memory."),
-		npc_line("That is impossible, and yet even old customers have stopped mentioning dishes they once ordered every week."),
+		player_line("The meat vendor's hands remembered pork and liver. Her brain filed no report. Does that sound familiar?"),
+		npc_line("Very. I judge jars by scent, color, age. Ask what dish they belong to and—pfft—my memory closes the stall."),
+		player_line("Grandma has the same gap. Like the whole city agreed to forget and forgot the meeting too."),
+		npc_line("Impossible... yet old customers stopped asking for one regular order. I remember missing them, but not what they ordered. That bothers me."),
 		player_line("Could ginamos have seasoned the broth?"),
-		npc_line("Yes, just a little shrimp paste for depth. I cannot recall the recipe, but I still know the scent, color, and age good ginamos should have."),
-		player_line("May I take some to test with the pork and liver?"),
-		npc_line("First, choose the proper jar from these five. They look alike at a glance, so inspect them closely and trust the clues each sense gives you."),
-		player_line("Then I should learn what separates the right jar from one that is too fresh, salty, watery, or spoiled."),
-		npc_line("That is the idea. Choose wisely, and the best-aged ginamos is yours for the broth."),
+		npc_line("A little. Enough to deepen it, not enough to announce itself from across the street. Good ginamos has manners. Bad ginamos enters before you do."),
+		player_line("Can I take some to test with the meat?"),
+		npc_line("Choose the proper jar from five. Trust the scent, color, and texture; labels can lie, but noses gossip honestly."),
+		player_line("And if I pick the watery or spoiled one?"),
+		npc_line("Then your face will tell me before your mouth does. Pick well, and the best-aged jar is yours."),
 	]
 	repeat_conversation = [
-		player_line("Does the ginamos bring the broth back to you?"),
-		npc_line("Only the amount I would add. The dish and its name are still gone."),
+		player_line("Any luck remembering what the ginamos belonged to?"),
+		npc_line("Only the exact spoonful. Apparently my memory kept the measurement and threw away the label."),
 	]
 	sync_completion_from_game_state()
 

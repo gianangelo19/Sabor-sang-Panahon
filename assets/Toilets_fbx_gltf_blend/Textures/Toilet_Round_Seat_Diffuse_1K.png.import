@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dsdgs8hweah0u"
-path.s3tc="res://.godot/imported/Toilet_Round_Seat_Diffuse_1K.png-9f8092fea0e01a3472653460caf023d5.s3tc.ctex"
+path.s3tc="res://.godot/imported/Toilet_Round_Seat_Diffuse_1K.png-f2e3ef84d4bd60ff12e8540c6dba81e3.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://assets/Toilets_fbx_gltf_blend/textures/Toilet_Round_Seat_Diffuse_1K.png"
-dest_files=["res://.godot/imported/Toilet_Round_Seat_Diffuse_1K.png-9f8092fea0e01a3472653460caf023d5.s3tc.ctex"]
+source_file="res://assets/Toilets_fbx_gltf_blend/Textures/Toilet_Round_Seat_Diffuse_1K.png"
+dest_files=["res://.godot/imported/Toilet_Round_Seat_Diffuse_1K.png-f2e3ef84d4bd60ff12e8540c6dba81e3.s3tc.ctex"]
 
 [params]
 

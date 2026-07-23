@@ -1,7 +1,7 @@
 extends Control
 
-signal minigame_won
-signal dismissed
+signal minigame_completed
+signal minigame_failed
 
 @onready var title_label: Label = %TitleLabel
 @onready var instruction_label: Label = %InstructionLabel
@@ -9,23 +9,23 @@ signal dismissed
 
 
 func _ready() -> void:
-	%CompleteButton.pressed.connect(_on_complete_pressed)
-	%LaterButton.pressed.connect(_on_later_pressed)
-	%CompleteButton.grab_focus()
+	%ContinueButton.pressed.connect(_on_continue_pressed)
+	%ReturnButton.pressed.connect(_on_return_pressed)
+	%ContinueButton.grab_focus()
 
 
-func start_minigame(title: String, instructions: String, reward: String) -> void:
-	title_label.text = title
-	instruction_label.text = instructions
-	reward_label.text = "Reward: " + reward
+func configure_placeholder(context: Dictionary) -> void:
+	title_label.text = str(context.get("title", "Challenge Coming Soon"))
+	instruction_label.text = str(context.get("instructions", "This challenge is being updated."))
+	reward_label.text = "Story reward: " + str(context.get("reward", "Continue the story"))
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
-func _on_complete_pressed() -> void:
-	minigame_won.emit()
+func _on_continue_pressed() -> void:
+	minigame_completed.emit()
 	queue_free()
 
 
-func _on_later_pressed() -> void:
-	dismissed.emit()
+func _on_return_pressed() -> void:
+	minigame_failed.emit()
 	queue_free()

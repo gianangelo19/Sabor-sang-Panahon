@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bh6rifn423wdp"
-path.s3tc="res://.godot/imported/Urinal_B_Roughness_1K.png-b4e299dd9fde4ebd4c1a25571863211e.s3tc.ctex"
+path.s3tc="res://.godot/imported/Urinal_B_Roughness_1K.png-678d36fe6d3be0b4c65c10cee05888ef.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://assets/Toilets_fbx_gltf_blend/textures/Urinal_B_Roughness_1K.png"
-dest_files=["res://.godot/imported/Urinal_B_Roughness_1K.png-b4e299dd9fde4ebd4c1a25571863211e.s3tc.ctex"]
+source_file="res://assets/Toilets_fbx_gltf_blend/Textures/Urinal_B_Roughness_1K.png"
+dest_files=["res://.godot/imported/Urinal_B_Roughness_1K.png-678d36fe6d3be0b4c65c10cee05888ef.s3tc.ctex"]
 
 [params]
 

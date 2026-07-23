@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b5qkp8nfx27g5"
-path.s3tc="res://.godot/imported/Toilet_pipes_flush_Roughness_1K.png-e755dc2a861b6491bb94b39f7acef474.s3tc.ctex"
+path.s3tc="res://.godot/imported/Toilet_pipes_flush_Roughness_1K.png-df58f2c7dd82388f16302aae0dadafab.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://assets/Toilets_fbx_gltf_blend/textures/Toilet_pipes_flush_Roughness_1K.png"
-dest_files=["res://.godot/imported/Toilet_pipes_flush_Roughness_1K.png-e755dc2a861b6491bb94b39f7acef474.s3tc.ctex"]
+source_file="res://assets/Toilets_fbx_gltf_blend/Textures/Toilet_pipes_flush_Roughness_1K.png"
+dest_files=["res://.godot/imported/Toilet_pipes_flush_Roughness_1K.png-df58f2c7dd82388f16302aae0dadafab.s3tc.ctex"]
 
 [params]
 

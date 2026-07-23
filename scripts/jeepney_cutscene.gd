@@ -136,22 +136,23 @@ func _start_ride_dialogue() -> void:
 		[
 			{
 				"speaker": "Driver",
-				"text": "[i]Diin ka manaog, gha?[/i]\n[font_size=17]English: Where are you getting off?[/font_size]",
+				"text": "[i]Diin ka manaog, gha?[/i]\n[font_size=17]English: Where are you getting off? Say it before we pass—the brakes and I are still negotiating.[/font_size]",
 				"portrait": DRIVER_PORTRAIT,
 			},
 			{
 				"speaker": "You",
-				"text": "[i]Sa may Lapaz Public Market lang, nong.[/i]\n[font_size=17]English: Just near La Paz Public Market, uncle.[/font_size]",
+				"text": "[i]Sa may La Paz Public Market lang, nong.[/i]\n[font_size=17]English: Just near La Paz Public Market, uncle. I'll shout with confidence.[/font_size]",
 				"portrait": PLAYER_PORTRAIT,
 			},
 			{
 				"speaker": "You",
-				"text": "[i]Lugar lang sa ibabaw nong, ari bayad ko.[/i]\n[font_size=17]English: Please stop up ahead, uncle. Here is my fare.[/font_size]",
+				"text": "[i]Lugar lang sa ibabaw nong, ari bayad ko.[/i]\n[font_size=17]English: Stop up ahead, uncle. Here's my fare—and thank you for the free spinal adjustment.[/font_size]",
 				"portrait": PLAYER_PORTRAIT,
 				"delay_before": 2.0,
 			},
 		],
-		[5.0, 5.0, 3.0]
+		[6.0, 6.0, 4.0],
+		get_node_or_null("npc_driver") as Node3D,
 	)
 	ride_dialogue.dialogue_finished.connect(_on_ride_dialogue_finished)
 

@@ -1,8 +1,6 @@
 extends StaticBody3D
 
-const BOX_MINIGAME_SCENE := preload(
-	"res://minigames-main/box_unboxing/scenes/box_unboxing.tscn"
-)
+const BOX_PLACEHOLDER_SCENE := preload("res://ui/vendor_minigame_placeholder.tscn")
 const MINIGAME_SESSION_SCRIPT := preload("res://scripts/minigame_session.gd")
 const NEWSPAPER_CLUE := "Damaged newspaper"
 const TUTORIAL_INTERACT_STEP := 3
@@ -49,7 +47,14 @@ func interact() -> void:
 	session_parent.add_child(_session)
 	_session.minigame_won.connect(_on_minigame_won)
 	_session.dismissed.connect(_on_minigame_dismissed)
-	_session.start(BOX_MINIGAME_SCENE)
+	_session.start(
+		BOX_PLACEHOLDER_SCENE,
+		{
+			"title": "Open the Keepsake Box",
+			"instructions": "Unpack the box and examine the damaged newspaper inside.",
+			"reward": "Damaged newspaper clue",
+		}
+	)
 
 
 func _lock_player() -> void:

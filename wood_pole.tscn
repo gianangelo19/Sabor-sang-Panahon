@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://caktot3beb035"]
+
+[ext_resource type="Texture2D" uid="uid://we1jj5fiwpe8" path="res://textures/wood_table_worn_4k.gltf/textures/wood_table_worn_diff_4k.jpg" id="1_h554k"]
+[ext_resource type="Texture2D" uid="uid://c8yhbwfwi3rp4" path="res://textures/rusty_metal_sheet_1k.gltf/textures/rusty_metal_sheet_diff_1k.jpg" id="2_8bajh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hc5bh"]
+albedo_texture = ExtResource("1_h554k")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_le0f1"]
+albedo_texture = ExtResource("2_8bajh")
+metallic = 1.0
+roughness = 0.7
+
+[node name="wood pole" type="Node3D" unique_id=149627544]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="." unique_id=1163346245]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.2570276, 0)
+use_collision = true
+radius = 0.19
+height = 14.675476
+material = SubResource("StandardMaterial3D_hc5bh")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="." unique_id=1183772207]
+transform = Transform3D(1.0663571, 0, 0, 0, 1.0663571, 0, 0, 0, 1.0663571, 0, 1.0100584, 0)
+use_collision = true
+radius = 0.19
+height = 0.10559082
+material = SubResource("StandardMaterial3D_le0f1")
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="." unique_id=1958055746]
+transform = Transform3D(1.0663571, 0, 0, 0, 1.0663571, 0, 0, 0, 1.0663571, 0, 4.3061543, 0)
+use_collision = true
+radius = 0.19
+height = 0.10559082
+material = SubResource("StandardMaterial3D_le0f1")
+
+[node name="CSGCylinder3D4" type="CSGCylinder3D" parent="." unique_id=47494556]
+transform = Transform3D(1.0663571, 0, 0, 0, 1.0663571, 0, 0, 0, 1.0663571, 0, 7.941856, 0)
+use_collision = true
+radius = 0.19
+height = 0.10559082
+material = SubResource("StandardMaterial3D_le0f1")
+
+[node name="CSGCylinder3D5" type="CSGCylinder3D" parent="." unique_id=1907781222]
+transform = Transform3D(1.0663571, 0, 0, 0, 1.0663571, 0, 0, 0, 1.0663571, 0, 13.080109, 0)
+use_collision = true
+radius = 0.19
+height = 0.10559082
+material = SubResource("StandardMaterial3D_le0f1")

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://m4b7gyhy41cq"
-path.s3tc="res://.godot/imported/Sink_A_Roughness_1K.png-26a7d9c2eb752ba49450f0ee3a41b0bc.s3tc.ctex"
+path.s3tc="res://.godot/imported/Sink_A_Roughness_1K.png-8011fd8b5b5956a98022aebd9678456e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://assets/Toilets_fbx_gltf_blend/textures/Sink_A_Roughness_1K.png"
-dest_files=["res://.godot/imported/Sink_A_Roughness_1K.png-26a7d9c2eb752ba49450f0ee3a41b0bc.s3tc.ctex"]
+source_file="res://assets/Toilets_fbx_gltf_blend/Textures/Sink_A_Roughness_1K.png"
+dest_files=["res://.godot/imported/Sink_A_Roughness_1K.png-8011fd8b5b5956a98022aebd9678456e.s3tc.ctex"]
 
 [params]
 
