@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://818rht44uctn"]
+
+[ext_resource type="Texture2D" uid="uid://bvf5e05yrh3wj" path="res://assets/art/images/Lapaz Batchoy Signage.png" id="1_n6261"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_temmm"]
+albedo_texture = ExtResource("1_n6261")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_78q3s"]
+material = SubResource("StandardMaterial3D_temmm")
+
+[node name="Sign" type="Node3D" unique_id=2085551311]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=227931755]
+transform = Transform3D(5.543413, 0, 0, 0, -4.371139e-08, -0.7256137, 0, 1, -3.1717583e-08, 0.0011486262, 0, -0.027131796)
+mesh = SubResource("PlaneMesh_78q3s")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1068911150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.104080096)
+size = Vector3(11.060547, 1.4274902, 0.15328369)

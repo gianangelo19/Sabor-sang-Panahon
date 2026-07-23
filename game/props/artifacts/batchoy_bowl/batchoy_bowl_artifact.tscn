@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cpju0w0siq8ow"]
+
+[ext_resource type="Texture2D" uid="uid://dyiast1bcuh4p" path="res://assets/art/images/batchoy_bowl_artifact.png" id="1_121nq"]
+[ext_resource type="Script" uid="uid://dlopmy7kpwuvf" path="res://game/props/artifacts/batchoy_bowl/batchoy_bowl_artifact.gd" id="2_artifact"]
+[ext_resource type="AudioStream" path="res://assets/audio/cultural_echoes/batchoy_eatery_echo.wav" id="3_artifact_audio"]
+[ext_resource type="AudioStream" path="res://assets/audio/cultural_echoes/batchoy_steam_echo.wav" id="4_broth_audio"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_artifact"]
+size = Vector3(1.6, 1.25, 0.75)
+
+[node name="batchoy_bowl_artifact" type="Node3D" unique_id=1502265348]
+script = ExtResource("2_artifact")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=96917663]
+transform = Transform3D(0.17999998, 0, 0, 0, 0.17999998, 0, 0, 0, 0.17999998, 0, 0, 0)
+billboard = 1
+alpha_cut = 1
+texture = ExtResource("1_121nq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1875783710]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=938101297]
+shape = SubResource("BoxShape3D_artifact")
+
+[node name="BrothCulturalClue" type="AudioStreamPlayer3D" parent="." unique_id=1768449927]
+stream = ExtResource("4_broth_audio")
+unit_size = 7.0
+max_distance = 55.0
+bus = &"SFX"
+attenuation_filter_cutoff_hz = 12000.0
+
+[node name="ArtifactCulturalClue" type="AudioStreamPlayer3D" parent="." unique_id=489242494]
+stream = ExtResource("3_artifact_audio")
+unit_size = 15.0
+max_distance = 110.0
+bus = &"SFX"
+attenuation_filter_cutoff_hz = 7000.0

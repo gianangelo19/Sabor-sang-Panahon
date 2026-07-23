@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://jt465iks2tgr"]
+
+[ext_resource type="Script" uid="uid://cfuqwpbihm8hn" path="res://features/minigames/fail_screen/scripts/minigame_fail_screen.gd" id="1_8gb1b"]
+
+[node name="MinigameFailScreen" type="CanvasLayer" unique_id=1021002308]
+script = ExtResource("1_8gb1b")
+
+[node name="FailRoot" type="Control" parent="." unique_id=1640876717]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DimOverlay" type="ColorRect" parent="FailRoot" unique_id=1093306685]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 0, 0, 1)
+
+[node name="DialogueGroup" type="Control" parent="FailRoot" unique_id=951127858]
+anchors_preset = 0
+
+[node name="DialogueBox" type="Sprite2D" parent="FailRoot/DialogueGroup" unique_id=944006801]
+
+[node name="SpeakerLabel" type="Label" parent="FailRoot/DialogueGroup" unique_id=195338775]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="DialogueLabel" type="Label" parent="FailRoot/DialogueGroup" unique_id=2103009283]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="ContinueLabel" type="Label" parent="FailRoot/DialogueGroup" unique_id=1614948754]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="ResultGroup" type="Control" parent="FailRoot" unique_id=1818927375]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GameOverTitle" type="Sprite2D" parent="FailRoot/ResultGroup" unique_id=1143202278]
+
+[node name="ReasonLabel" type="Label" parent="FailRoot/ResultGroup" unique_id=528100589]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="ScoreLabel" type="Label" parent="FailRoot/ResultGroup" unique_id=1694855993]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="RetryGroup" type="Node2D" parent="FailRoot/ResultGroup" unique_id=1797904399]
+
+[node name="RetrySprite" type="Sprite2D" parent="FailRoot/ResultGroup/RetryGroup" unique_id=1004629035]
+
+[node name="RetryButton" type="Button" parent="FailRoot/ResultGroup/RetryGroup" unique_id=1756635181]
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="ExitGroup" type="Node2D" parent="FailRoot/ResultGroup" unique_id=416448220]
+
+[node name="ExitSprite" type="Sprite2D" parent="FailRoot/ResultGroup/ExitGroup" unique_id=1247462137]
+
+[node name="ExitButton" type="Button" parent="FailRoot/ResultGroup/ExitGroup" unique_id=835519635]
+offset_right = 8.0
+offset_bottom = 8.0

@@ -1,0 +1,118 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://game/ui/artifact/artifact_discovery_popup.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/art/images/batchoy_bowl_artifact.png" id="2_bowl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.105882, 0.0862745, 0.0784314, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.886275, 0.607843, 0.235294, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.65)
+shadow_size = 18
+
+[node name="ArtifactDiscoveryPopup" type="CanvasLayer"]
+layer = 40
+process_mode = 3
+script = ExtResource("1_script")
+
+[node name="Overlay" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.0156863, 0.0117647, 0.00784314, 0.82)
+
+[node name="Center" type="CenterContainer" parent="Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Panel" type="PanelContainer" parent="Overlay/Center"]
+custom_minimum_size = Vector2(620, 530)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margin" type="MarginContainer" parent="Overlay/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 42
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 42
+theme_override_constants/margin_bottom = 30
+
+[node name="Content" type="VBoxContainer" parent="Overlay/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Kicker" type="Label" parent="Overlay/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.964706, 0.690196, 0.290196, 1)
+theme_override_font_sizes/font_size = 15
+text = "CULTURAL ARTIFACT RECOVERED"
+horizontal_alignment = 1
+
+[node name="BowlImage" type="TextureRect" parent="Overlay/Center/Panel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 230)
+layout_mode = 2
+texture = ExtResource("2_bowl")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ArtifactTitle" type="Label" parent="Overlay/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92549, 0.792157, 1)
+theme_override_font_sizes/font_size = 27
+text = "THE BATCHOY BOWL"
+horizontal_alignment = 1
+
+[node name="Divider" type="HSeparator" parent="Overlay/Center/Panel/Margin/Content"]
+layout_mode = 2
+
+[node name="FactHeading" type="Label" parent="Overlay/Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.964706, 0.690196, 0.290196, 1)
+theme_override_font_sizes/font_size = 14
+text = "A FACT FROM LA PAZ, ILOILO"
+horizontal_alignment = 1
+
+[node name="FactText" type="Label" parent="Overlay/Center/Panel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 76)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94902, 0.917647, 0.85098, 1)
+theme_override_font_sizes/font_size = 17
+text = "La Paz Batchoy takes its name from the La Paz district of Iloilo City. In this investigation, the four recovered ingredient clues are meat, fresh miki noodles, crushed chicharon, and ginamos (shrimp paste)."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ContinueButton" type="Button" parent="Overlay/Center/Panel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "CONTINUE"

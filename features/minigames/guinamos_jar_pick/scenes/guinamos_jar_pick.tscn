@@ -1,0 +1,157 @@
+[gd_scene format=3 uid="uid://cl7b2vbtnee33"]
+
+[ext_resource type="Texture2D" uid="uid://bodd1fah5vcsy" path="res://features/minigames/guinamos_jar_pick/assets/background/guinamos_background_shelf.png" id="1_7767b"]
+[ext_resource type="Script" uid="uid://dghvxnxmyvpuc" path="res://features/minigames/guinamos_jar_pick/scripts/guinamos_jar_pick.gd" id="1_kektq"]
+[ext_resource type="Texture2D" uid="uid://cubnujp3trcjn" path="res://features/minigames/guinamos_jar_pick/assets/ui/guinamos_score_frame.png" id="2_kektq"]
+[ext_resource type="Texture2D" uid="uid://csl8ghumdik1r" path="res://features/minigames/guinamos_jar_pick/assets/ui/guinamos_selected_pointer.png" id="3_js4kv"]
+[ext_resource type="Texture2D" uid="uid://m5rj6rth5v5" path="res://features/minigames/guinamos_jar_pick/assets/background/guinamos_table.png" id="4_youuw"]
+[ext_resource type="Texture2D" uid="uid://dn5pghve1hfbt" path="res://features/minigames/guinamos_jar_pick/assets/ui/guinamos_sense_panel.png" id="5_r3m02"]
+[ext_resource type="Texture2D" uid="uid://cefo0nhypwgo" path="res://features/minigames/guinamos_jar_pick/assets/ui/guinamos_paper_dialogue_box.png" id="6_fqmk7"]
+[ext_resource type="Texture2D" uid="uid://csvnh3epvv7p4" path="res://features/minigames/guinamos_jar_pick/assets/ui/guinamos_button_back.png" id="8_youuw"]
+[ext_resource type="Texture2D" uid="uid://dj61ltc8gs5b5" path="res://features/minigames/guinamos_jar_pick/assets/ui/guinamos_button_select.png" id="9_r3m02"]
+
+[node name="GuinamosJarPick" type="Node2D" unique_id=989192837]
+script = ExtResource("1_kektq")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=334468486]
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_7767b")
+
+[node name="ScoreFrame" type="Sprite2D" parent="." unique_id=1706767485]
+z_index = 50
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("2_kektq")
+
+[node name="ScoreLabel" type="Label" parent="ScoreFrame" unique_id=873521165]
+offset_left = -795.0
+offset_top = -448.3333
+offset_right = -613.33325
+offset_bottom = -378.3333
+
+[node name="MainJarSlots" type="Node2D" parent="." unique_id=26562021]
+
+[node name="JarSlot1" type="Area2D" parent="MainJarSlots" unique_id=2139655485]
+z_index = 3
+
+[node name="JarSprite" type="Sprite2D" parent="MainJarSlots/JarSlot1" unique_id=1397663797]
+
+[node name="JarSlot2" type="Area2D" parent="MainJarSlots" unique_id=2049943552]
+z_index = 6
+
+[node name="JarSprite" type="Sprite2D" parent="MainJarSlots/JarSlot2" unique_id=1569403836]
+
+[node name="JarSlot3" type="Area2D" parent="MainJarSlots" unique_id=315083901]
+z_index = 9
+
+[node name="JarSprite" type="Sprite2D" parent="MainJarSlots/JarSlot3" unique_id=1279138335]
+
+[node name="JarSlot4" type="Area2D" parent="MainJarSlots" unique_id=733627904]
+z_index = 6
+
+[node name="JarSprite" type="Sprite2D" parent="MainJarSlots/JarSlot4" unique_id=1380310882]
+
+[node name="JarSlot5" type="Area2D" parent="MainJarSlots" unique_id=1579259379]
+z_index = 3
+
+[node name="JarSprite" type="Sprite2D" parent="MainJarSlots/JarSlot5" unique_id=682817956]
+
+[node name="SelectedPointer" type="Sprite2D" parent="." unique_id=1331096796]
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("3_js4kv")
+
+[node name="DetailView" type="Node2D" parent="." unique_id=378252403]
+
+[node name="DetailBackgroundDim" type="ColorRect" parent="DetailView" unique_id=463345984]
+offset_right = 1151.0
+offset_bottom = 646.0
+color = Color(0.16470589, 0.09411765, 0.003921569, 0.3882353)
+
+[node name="Table" type="Sprite2D" parent="DetailView" unique_id=1504483688]
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("4_youuw")
+
+[node name="BigJar" type="Sprite2D" parent="DetailView" unique_id=1392106372]
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+
+[node name="SensePanel" type="Sprite2D" parent="DetailView" unique_id=1838936486]
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("5_r3m02")
+
+[node name="PaperDialogueBox" type="Sprite2D" parent="DetailView" unique_id=1891975894]
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("6_fqmk7")
+
+[node name="HintLabel" type="Label" parent="DetailView" unique_id=57428367]
+offset_left = 696.0
+offset_top = 209.0
+offset_right = 933.0
+offset_bottom = 379.0
+theme_override_colors/font_outline_color = Color(0.101960786, 0.07058824, 0.043137256, 1)
+theme_override_font_sizes/font_size = 23
+autowrap_mode = 3
+
+[node name="BackButtonVisual" type="Sprite2D" parent="DetailView" unique_id=301755006]
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("8_youuw")
+
+[node name="SelectButtonVisual" type="Sprite2D" parent="DetailView" unique_id=1734882356]
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("9_r3m02")
+
+[node name="BackButton" type="Button" parent="DetailView" unique_id=1471004878]
+modulate = Color(1, 1, 1, 0)
+offset_left = 580.0
+offset_top = 547.0
+offset_right = 802.0
+offset_bottom = 597.0
+
+[node name="SelectButton" type="Button" parent="DetailView" unique_id=296812792]
+modulate = Color(1, 1, 1, 0)
+offset_left = 854.0
+offset_top = 546.0
+offset_right = 1037.0
+offset_bottom = 597.0
+
+[node name="SenseSoundButton" type="Button" parent="DetailView" unique_id=1853631358]
+modulate = Color(1, 1, 1, 0)
+offset_left = 466.0
+offset_top = 111.0
+offset_right = 523.0
+offset_bottom = 170.0
+
+[node name="SenseTouchButton" type="Button" parent="DetailView" unique_id=232649745]
+modulate = Color(1, 1, 1, 0)
+offset_left = 464.0
+offset_top = 204.0
+offset_right = 525.0
+offset_bottom = 260.0
+
+[node name="SenseTasteButton" type="Button" parent="DetailView" unique_id=1130073224]
+modulate = Color(1, 1, 1, 0)
+offset_left = 464.0
+offset_top = 292.0
+offset_right = 527.0
+offset_bottom = 352.0
+
+[node name="SenseSmellButton" type="Button" parent="DetailView" unique_id=744044176]
+modulate = Color(1, 1, 1, 0)
+offset_left = 464.0
+offset_top = 384.0
+offset_right = 526.0
+offset_bottom = 446.0
+
+[node name="SenseSightButton" type="Button" parent="DetailView" unique_id=163316191]
+modulate = Color(1, 1, 1, 0)
+offset_left = 464.0
+offset_top = 478.0
+offset_right = 527.0
+offset_bottom = 541.0

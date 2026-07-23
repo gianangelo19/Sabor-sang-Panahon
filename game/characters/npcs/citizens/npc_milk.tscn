@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://clewhbb6g8pbj"]
+
+[ext_resource type="Texture2D" uid="uid://duaqwtllktam7" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/front_milk.png" id="1_470cd"]
+[ext_resource type="Script" uid="uid://ckdxpasqp15r5" path="res://game/characters/npcs/shared/npc_four_angle_billboard.gd" id="2_nmstp"]
+[ext_resource type="Texture2D" uid="uid://16i857wdh2w2" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/right_milk.png" id="3_nmstp"]
+[ext_resource type="Texture2D" uid="uid://bgmdaj6qk6ska" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/back_milk.png" id="4_hb0nh"]
+[ext_resource type="Texture2D" uid="uid://cdhsj4i7oyelx" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/left_milk.png" id="5_kpg3j"]
+[ext_resource type="Script" path="res://game/characters/npcs/shared/ambient_npc_dialogue.gd" id="6_dialogue"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7u4qh"]
+radius = 1.35
+height = 8.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_k1p0l"]
+radius = 4.0
+height = 9.0
+
+[node name="npc_milk" type="Node3D" unique_id=1142351024]
+script = ExtResource("6_dialogue")
+npc_display_name = "Milk Vendor"
+opening_line = "Fresh milk! Cold enough to make your teeth file a complaint."
+player_reply = "That sounds less like advertising and more like a warning."
+closing_line = "Honesty builds loyal customers. So does always having change for a hundred."
+repeat_lines = Array[String](["Today it is milk. Yesterday someone asked if I sold phone chargers. I almost said yes.", "Cold milk, warm day, exact change. That is my whole business philosophy."])
+restored_line = "So the forgotten dish was Batchoy? Good. Finally, a mystery that does not end with someone asking me for condensed milk."
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D" unique_id=1923829397]
+billboard = 1
+alpha_cut = 1
+texture = ExtResource("1_470cd")
+script = ExtResource("2_nmstp")
+front_texture = ExtResource("1_470cd")
+right_texture = ExtResource("5_kpg3j")
+back_texture = ExtResource("4_hb0nh")
+left_texture = ExtResource("3_nmstp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1088412551]
+shape = SubResource("CapsuleShape3D_7u4qh")
+
+[node name="Area3D" type="Area3D" parent="CharacterBody3D" unique_id=1090324574]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/Area3D" unique_id=1075787251]
+shape = SubResource("CapsuleShape3D_k1p0l")
+
+[node name="Marker3D" type="Marker3D" parent="CharacterBody3D" unique_id=1852879488]

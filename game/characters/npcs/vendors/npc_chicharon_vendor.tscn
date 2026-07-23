@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://d4bpiaxd1lgnl"]
+
+[ext_resource type="Texture2D" uid="uid://bdelal344cpea" path="res://assets/art/characters/npc_chicharon_vendor/npc_chicharon_vendor_front.png" id="1_0rl5s"]
+[ext_resource type="Script" uid="uid://ckdxpasqp15r5" path="res://game/characters/npcs/shared/npc_four_angle_billboard.gd" id="2_626v5"]
+[ext_resource type="Texture2D" uid="uid://c3mppivplcp27" path="res://assets/art/characters/npc_chicharon_vendor/npc_chicharon_vendor_right.png" id="3_626v5"]
+[ext_resource type="Texture2D" uid="uid://dl8g0k463vv8u" path="res://assets/art/characters/npc_chicharon_vendor/npc_chicharon_vendor_back.png" id="4_ssyow"]
+[ext_resource type="Texture2D" uid="uid://qhml6kyekhhf" path="res://assets/art/characters/npc_chicharon_vendor/npc_chicharon_vendor_left.png" id="5_dq3ix"]
+[ext_resource type="Script" path="res://game/characters/npcs/vendors/chicharon_vendor_dialogue.gd" id="6_dialogue"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vendor"]
+radius = 1.35
+height = 8.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_interaction"]
+radius = 4.0
+height = 9.0
+
+[node name="npc_chicharon_vendor" type="Node3D" unique_id=1207727301]
+script = ExtResource("6_dialogue")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=844800300]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D" unique_id=1799151814]
+billboard = 1
+alpha_cut = 1
+texture = ExtResource("1_0rl5s")
+script = ExtResource("2_626v5")
+front_texture = ExtResource("1_0rl5s")
+right_texture = ExtResource("3_626v5")
+back_texture = ExtResource("4_ssyow")
+left_texture = ExtResource("5_dq3ix")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1489019117]
+shape = SubResource("CapsuleShape3D_vendor")
+
+[node name="Area3D" type="Area3D" parent="CharacterBody3D" unique_id=1852192532]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/Area3D" unique_id=389430433]
+shape = SubResource("CapsuleShape3D_interaction")
+
+[node name="Marker3D" type="Marker3D" parent="CharacterBody3D" unique_id=607288636]

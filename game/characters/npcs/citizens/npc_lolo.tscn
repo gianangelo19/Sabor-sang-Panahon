@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bd25vbbevm3bt"]
+
+[ext_resource type="Texture2D" uid="uid://bwq0b2dmg882p" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/front_grandpa.png" id="1_drort"]
+[ext_resource type="Script" uid="uid://ckdxpasqp15r5" path="res://game/characters/npcs/shared/npc_four_angle_billboard.gd" id="1_omyun"]
+[ext_resource type="Texture2D" uid="uid://cod40plvev4ei" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/left_grandpa.png" id="3_brm4w"]
+[ext_resource type="Texture2D" uid="uid://ci4edl38itxl" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/back_grandpa.png" id="4_1vmer"]
+[ext_resource type="Texture2D" uid="uid://dxt8ucyn8hlsr" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/right_grandpa.png" id="5_qgxix"]
+[ext_resource type="Script" path="res://game/characters/npcs/shared/ambient_npc_dialogue.gd" id="6_dialogue"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7u4qh"]
+radius = 1.35
+height = 8.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_k1p0l"]
+radius = 4.0
+height = 9.0
+
+[node name="npc_lolo" type="Node3D" unique_id=1142351024]
+script = ExtResource("6_dialogue")
+npc_display_name = "Lolo Pilo"
+opening_line = "Everyone walks too fast now. Then they arrive somewhere and stare at their phones. I can do that from a bench."
+player_reply = "You're saving time."
+closing_line = "And my knees. Wisdom comes in layers."
+repeat_lines = Array[String](["This bench has heard more secrets than the barangay hall. It is also better at keeping them.", "When I was your age, we got lost without GPS. It built character and very tired feet."])
+restored_line = "La Paz Batchoy... I remember arguing over the last spoonful. Good. I was worried I had become peaceful."
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D" unique_id=1923829397]
+billboard = 1
+alpha_cut = 1
+texture = ExtResource("1_drort")
+script = ExtResource("1_omyun")
+front_texture = ExtResource("1_drort")
+right_texture = ExtResource("3_brm4w")
+back_texture = ExtResource("4_1vmer")
+left_texture = ExtResource("5_qgxix")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1088412551]
+shape = SubResource("CapsuleShape3D_7u4qh")
+
+[node name="Area3D" type="Area3D" parent="CharacterBody3D" unique_id=1090324574]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/Area3D" unique_id=1075787251]
+shape = SubResource("CapsuleShape3D_k1p0l")
+
+[node name="Marker3D" type="Marker3D" parent="CharacterBody3D" unique_id=1852879488]

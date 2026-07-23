@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://dhks3tgbmc7dk"]
+
+[ext_resource type="Script" uid="uid://ft5bt0usiheh" path="res://features/minigames/chicharon_beat/scripts/chicharon_beat.gd" id="1_fv046"]
+[ext_resource type="Texture2D" uid="uid://fhfrhb841ans" path="res://features/minigames/chicharon_beat/assets/background/sky.png" id="3_48efb"]
+[ext_resource type="Texture2D" uid="uid://b82vpw7khmnbb" path="res://features/minigames/chicharon_beat/assets/background/table.png" id="4_gbs35"]
+[ext_resource type="Texture2D" uid="uid://eshit03rgm75" path="res://features/minigames/chicharon_beat/assets/props/pot.png" id="5_vfj3p"]
+[ext_resource type="Texture2D" uid="uid://bkix683u8icyx" path="res://features/minigames/chicharon_beat/assets/sprites/oil/oil_1.png" id="6_8dsc2"]
+[ext_resource type="Script" uid="uid://bwjd5go6wdjee" path="res://features/minigames/chicharon_beat/scripts/takeout_indicator.gd" id="6_121se"]
+[ext_resource type="Texture2D" uid="uid://dtewf4ayiot5u" path="res://features/minigames/chicharon_beat/assets/sprites/oil/oil_2.png" id="7_qgtbh"]
+[ext_resource type="Texture2D" uid="uid://po2ple57avdm" path="res://features/minigames/chicharon_beat/assets/sprites/oil/oil_3.png" id="8_kcuou"]
+[ext_resource type="Script" uid="uid://c4r1bvti1osb6" path="res://features/minigames/chicharon_beat/scripts/oil.gd" id="9_n18ho"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xnq7a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_8dsc2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_qgtbh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_kcuou")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 3.0
+}]
+
+[node name="ChicharonBeat" type="Node2D" unique_id=2041760764]
+script = ExtResource("1_fv046")
+
+[node name="Background" type="Node2D" parent="." unique_id=608865677]
+
+[node name="Sky" type="Sprite2D" parent="Background" unique_id=879726632]
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("3_48efb")
+
+[node name="Table" type="Sprite2D" parent="Background" unique_id=1188962340]
+z_index = 10
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("4_gbs35")
+
+[node name="PotLayer" type="Node2D" parent="." unique_id=983455642]
+
+[node name="Pot" type="Sprite2D" parent="PotLayer" unique_id=297188117]
+z_index = 20
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("5_vfj3p")
+
+[node name="Oil" type="AnimatedSprite2D" parent="PotLayer" unique_id=157136506]
+modulate = Color(1, 1, 1, 0.627451)
+z_index = 30
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+sprite_frames = SubResource("SpriteFrames_xnq7a")
+animation = &"idle"
+script = ExtResource("9_n18ho")
+
+[node name="ChicharonContainer" type="Node2D" parent="." unique_id=463912114]
+z_index = 25
+
+[node name="ThrowStartPoint" type="Marker2D" parent="." unique_id=1010096149]
+position = Vector2(1250, 200)
+
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=631020098]
+position = Vector2(920, 470)
+
+[node name="TakeOutPoint" type="Marker2D" parent="." unique_id=1464640241]
+position = Vector2(220, 470)
+
+[node name="TakeOutIndicator" type="Node2D" parent="." unique_id=1658707948]
+z_index = 40
+position = Vector2(220, 470)
+script = ExtResource("6_121se")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1459561465]
+
+[node name="RoundLabel" type="Label" parent="UI" unique_id=1882543211]
+offset_left = 30.0
+offset_top = 20.0
+offset_right = 70.0
+offset_bottom = 43.0
+
+[node name="CollectedLabel" type="Label" parent="UI" unique_id=363784826]
+offset_left = 30.0
+offset_top = 50.0
+offset_right = 70.0
+offset_bottom = 73.0
+
+[node name="WastedLabel" type="Label" parent="UI" unique_id=789187948]
+offset_left = 30.0
+offset_top = 80.0
+offset_right = 70.0
+offset_bottom = 103.0
+
+[node name="ComboLabel" type="Label" parent="UI" unique_id=1191888963]
+offset_left = 30.0
+offset_top = 110.0
+offset_right = 70.0
+offset_bottom = 133.0
+
+[node name="FeedbackLabel" type="Label" parent="UI" unique_id=1182718973]
+offset_left = 480.0
+offset_top = 120.0
+offset_right = 520.0
+offset_bottom = 143.0

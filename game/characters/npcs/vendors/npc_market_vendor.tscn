@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://ert3o2251v5q"]
+
+[ext_resource type="Texture2D" uid="uid://8av2enidiq4b" path="res://assets/art/characters/npc_market_vendor/npc_market_vendor_front.png" id="1_5iahv"]
+[ext_resource type="Script" uid="uid://ckdxpasqp15r5" path="res://game/characters/npcs/shared/npc_four_angle_billboard.gd" id="2_xpmge"]
+[ext_resource type="Texture2D" uid="uid://cdhubhlupb60w" path="res://assets/art/characters/npc_market_vendor/npc_market_vendor_right.png" id="3_gkg8s"]
+[ext_resource type="Texture2D" uid="uid://n8v3arp6sldi" path="res://assets/art/characters/npc_market_vendor/npc_market_vendor_back.png" id="4_o30tp"]
+[ext_resource type="Script" path="res://game/characters/npcs/vendors/market_vendor_1_dialogue.gd" id="5_dialogue"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vendor"]
+radius = 1.35
+height = 8.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_interaction"]
+radius = 4.0
+height = 9.0
+
+[node name="npc_market_vendor" type="Node3D" unique_id=1919641282]
+script = ExtResource("5_dialogue")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1433910172]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D" unique_id=51389116]
+billboard = 1
+alpha_cut = 1
+texture = ExtResource("1_5iahv")
+script = ExtResource("2_xpmge")
+front_texture = ExtResource("1_5iahv")
+right_texture = ExtResource("3_gkg8s")
+back_texture = ExtResource("4_o30tp")
+left_texture = ExtResource("4_o30tp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1408154304]
+shape = SubResource("CapsuleShape3D_vendor")
+
+[node name="Area3D" type="Area3D" parent="CharacterBody3D" unique_id=652375774]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/Area3D" unique_id=933237209]
+shape = SubResource("CapsuleShape3D_interaction")
+
+[node name="Marker3D" type="Marker3D" parent="CharacterBody3D" unique_id=1402879259]

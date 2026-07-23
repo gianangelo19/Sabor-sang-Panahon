@@ -10,14 +10,14 @@
 
 # This asset pack uses `.blend` in a folder name; its exported textures are
 # runtime dependencies and must remain versioned.
-!textures/old_linoleum_flooring_01_4k.blend/
-!textures/old_linoleum_flooring_01_4k.blend/textures/
-!textures/old_linoleum_flooring_01_4k.blend/textures/**
+!assets/art/materials/old_linoleum_flooring_01_4k.blend/
+!assets/art/materials/old_linoleum_flooring_01_4k.blend/textures/
+!assets/art/materials/old_linoleum_flooring_01_4k.blend/textures/**
 
 # Design/reference material is not required by the playable Godot project.
 *.pdf
-images/Screenshot *.png
-images/Screenshot *.png.import
+assets/art/images/Screenshot *.png
+assets/art/images/Screenshot *.png.import
 
 # Third-party demonstration scenes are not used by the game.
 /addons/phantom_camera/examples/
@@ -28,6 +28,8 @@ Thumbs.db
 desktop.ini
 *.tmp
 *.log
+__pycache__/
+*.pyc
 
 # Local Godot exports and packaged releases.
 /build/

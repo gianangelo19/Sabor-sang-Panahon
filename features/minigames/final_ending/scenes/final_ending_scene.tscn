@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://p2e7q236dyxx"]
+
+[ext_resource type="Script" path="res://features/minigames/final_ending/scripts/final_ending_scene.gd" id="1_p7ptm"]
+
+[node name="FinalEndingScene" type="Node2D" unique_id=165356969]
+script = ExtResource("1_p7ptm")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=955161903]
+layer = 30
+
+[node name="SlideImage" type="TextureRect" parent="CanvasLayer" unique_id=739137477]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BlackOverlay" type="ColorRect" parent="CanvasLayer" unique_id=339380960]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DialogueBox" type="TextureRect" parent="CanvasLayer" unique_id=1043676436]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DialogueText" type="Label" parent="CanvasLayer" unique_id=803032456]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="ContinueLabelLabel2" type="Label" parent="CanvasLayer" unique_id=935310317]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="CenterTextLabel" type="Label" parent="CanvasLayer" unique_id=153088292]
+offset_right = 40.0
+offset_bottom = 23.0

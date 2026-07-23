@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bojlggomplre1"
+path="res://.godot/imported/notification sound.mp3-127e1124a53a83791f802b527c1678e6.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/notification sound.mp3"
+dest_files=["res://.godot/imported/notification sound.mp3-127e1124a53a83791f802b527c1678e6.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

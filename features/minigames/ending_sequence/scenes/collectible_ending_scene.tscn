@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://givejeljetuv"]
+
+[ext_resource type="Script" uid="uid://bn54k4eqci7f1" path="res://features/minigames/ending_sequence/scripts/collectible_ending_scene.gd" id="1_cosfj"]
+[ext_resource type="Texture2D" uid="uid://cecdcv83tvupq" path="res://features/minigames/ending_sequence/assets/bag/ending_bag_back.png" id="2_bgaox"]
+[ext_resource type="Texture2D" uid="uid://dh2ccbg1lx6ik" path="res://features/minigames/ending_sequence/assets/bag/ending_bag_front.png" id="3_k8yh0"]
+[ext_resource type="Script" uid="uid://b52ukuxewqxe8" path="res://features/minigames/ending_sequence/scripts/draggable_collectible.gd" id="4_bgaox"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xnq7a"]
+radius = 448.03568
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ksot0"]
+
+[node name="CollectibleEndingScene" type="CanvasLayer" unique_id=1606977658]
+script = ExtResource("1_cosfj")
+
+[node name="EndingRoot" type="Control" parent="." unique_id=965452779]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DimOverlay" type="ColorRect" parent="EndingRoot" unique_id=1726252758]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 0, 0, 0)
+
+[node name="Bag" type="Node2D" parent="EndingRoot" unique_id=67956475]
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+
+[node name="BagBack" type="Sprite2D" parent="EndingRoot/Bag" unique_id=195684683]
+z_index = 20
+texture = ExtResource("2_bgaox")
+
+[node name="BagDropZone" type="Area2D" parent="EndingRoot/Bag" unique_id=2009164926]
+position = Vector2(10, 348.3333)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EndingRoot/Bag/BagDropZone" unique_id=129847970]
+z_index = 30
+position = Vector2(-18.333364, 215.00006)
+shape = SubResource("CircleShape2D_xnq7a")
+
+[node name="BagMouth" type="Marker2D" parent="EndingRoot/Bag" unique_id=298696935]
+position = Vector2(570, 543)
+
+[node name="BagFront" type="Sprite2D" parent="EndingRoot/Bag" unique_id=682764374]
+z_index = 40
+texture = ExtResource("3_k8yh0")
+
+[node name="DraggableCollectible" type="Area2D" parent="EndingRoot" unique_id=1395093554]
+z_index = 30
+scale = Vector2(0.6, 0.6)
+script = ExtResource("4_bgaox")
+
+[node name="Sprite2D" type="Sprite2D" parent="EndingRoot/DraggableCollectible" unique_id=1536761636]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EndingRoot/DraggableCollectible" unique_id=513243745]
+shape = SubResource("RectangleShape2D_ksot0")
+
+[node name="FinalFade" type="ColorRect" parent="EndingRoot" unique_id=1897946091]
+z_index = 100
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 0, 0, 0)
+
+[node name="PromptLabel" type="Label" parent="EndingRoot" unique_id=2145262248]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

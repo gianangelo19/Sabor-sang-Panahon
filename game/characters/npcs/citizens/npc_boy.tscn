@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://bwncihbn58n12"]
+
+[ext_resource type="Texture2D" uid="uid://dg3p78xyca2q4" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/front_sitting_man.png" id="1_ebidi"]
+[ext_resource type="Script" uid="uid://ckdxpasqp15r5" path="res://game/characters/npcs/shared/npc_four_angle_billboard.gd" id="1_lhl6y"]
+[ext_resource type="Texture2D" uid="uid://c0npsdk78us34" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/left_sitting_man.png" id="3_htcdj"]
+[ext_resource type="Texture2D" uid="uid://hgamo2848quq" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/back_sitting_man.png" id="4_0fl0u"]
+[ext_resource type="Texture2D" uid="uid://d5ad6f2uruvl" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/right_sitting_man.png" id="5_113rv"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7u4qh"]
+radius = 1.35
+height = 8.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_k1p0l"]
+radius = 4.0
+height = 9.0
+
+[node name="npc_boy" type="Node3D" unique_id=1142351024]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D" unique_id=1923829397]
+billboard = 1
+alpha_cut = 1
+texture = ExtResource("1_ebidi")
+script = ExtResource("1_lhl6y")
+front_texture = ExtResource("1_ebidi")
+right_texture = ExtResource("3_htcdj")
+back_texture = ExtResource("4_0fl0u")
+left_texture = ExtResource("5_113rv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1088412551]
+shape = SubResource("CapsuleShape3D_7u4qh")
+
+[node name="Area3D" type="Area3D" parent="CharacterBody3D" unique_id=1090324574]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/Area3D" unique_id=1075787251]
+shape = SubResource("CapsuleShape3D_k1p0l")
+
+[node name="Marker3D" type="Marker3D" parent="CharacterBody3D" unique_id=1852879488]

@@ -42,6 +42,17 @@ Developers can run the project directly with Godot:
 3. In the Godot Project Manager, select **Import** and choose `project.godot`.
 4. Open the project and press `F5` to run it.
 
+The repository is organized by responsibility: reusable engine code is under
+`core/`, playable content is under `game/`, self-contained minigames are under
+`features/minigames/`, and source media is under `assets/`. See
+[`docs/project_structure.md`](docs/project_structure.md) for the full layout.
+
+Run the complete headless test suite with:
+
+```bash
+tools/run_tests.sh
+```
+
 ## Build the Windows executable
 
 Install the Godot 4.7 export templates, then run this command from the repository root:
@@ -54,6 +65,6 @@ The Windows preset embeds the project data into the executable, producing a port
 
 ## Procedural artifact placement
 
-The final Batchoy Bowl hunt runs entirely inside Godot. It checks the authored hiding markers in `lapaz_home.tscn`, filters blocked locations using a bowl-sized collision volume, and uniformly selects among safe locations that have not recently been used.
+The final Batchoy Bowl hunt runs entirely inside Godot. It checks the authored hiding markers in `game/worlds/la_paz/grandma_house/lapaz_home.tscn`, filters blocked locations using a bowl-sized collision volume, and uniformly selects among safe locations that have not recently been used.
 
 The 30-second countdown starts after a location is selected. No model, local server, API key, or internet connection is required.
