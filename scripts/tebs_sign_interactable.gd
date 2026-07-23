@@ -127,8 +127,8 @@ func _start_incomplete_dialogue() -> void:
 	var dialogue := DIALOGUE_SCENE.instantiate()
 	get_tree().root.add_child(dialogue)
 	dialogue.start_conversation([
-		{"speaker": "You", "text": "I don't recognize whatever's hidden under this cloth.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "You", "text": "Still, it feels like this could be useful later. Maybe the ingredients I'm gathering will help me make sense of it.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "You", "text": "Whatever is under this cloth has been collecting dust longer than I've been collecting bad decisions.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "You", "text": "Not the time to pull it apart. The ingredients might tell me what I'm actually looking at.", "portrait": PLAYER_PORTRAIT},
 	])
 	dialogue.dialogue_finished.connect(_on_incomplete_dialogue_finished)
 
@@ -146,11 +146,11 @@ func _start_reveal_dialogue() -> void:
 	var dialogue := DIALOGUE_SCENE.instantiate()
 	get_tree().root.add_child(dialogue)
 	dialogue.start_conversation([
-		{"speaker": "You", "text": "The cloth comes away... Teb's Old La Paz Batchoyan. This is the physical evidence the four ingredients led me back to.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "You", "text": "Wait... this was not only Grandma's old house. This was the original batchoyan here in La Paz, Iloilo.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "You", "text": "The stories in the newspaper started here. Our family home was built around a place that once served the dish everyone forgot.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "You", "text": "The old Batchoy Bowl may still be somewhere on this property. Those cultural echoes must be coming from it.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "You", "text": "Grandma will be back in thirty seconds. I have to find the bowl and prepare dinner before she returns.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "You", "text": "The cloth comes off... Teb's Old La Paz Batchoyan. So the house wasn't just beside the story. It was the story.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "You", "text": "This was a batchoyan. Grandma lived over the place everyone somehow forgot.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "You", "text": "That newspaper, the vendors, the way their hands remembered—every trail leads back here.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "You", "text": "If the old sign survived, maybe the Batchoy Bowl did too. Those cultural echoes are calling from somewhere on this property.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "You", "text": "And Grandma will be back in thirty seconds. Great. Restore a city's memory before dinner. Completely normal afternoon.", "portrait": PLAYER_PORTRAIT},
 	])
 	dialogue.dialogue_finished.connect(_on_reveal_dialogue_finished)
 

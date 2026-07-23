@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cg2mwxbvu5gdk" path="res://characters/right_cpu_phone.png" id="3_b6efy"]
 [ext_resource type="Texture2D" uid="uid://c22k4nhbhq4iv" path="res://characters/back_cpu_phone.png" id="4_r1cwv"]
 [ext_resource type="Texture2D" uid="uid://bochyt0duva5l" path="res://characters/left_cpu_phone.png" id="5_awvdh"]
+[ext_resource type="Script" path="res://scripts/ambient_npc_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nshqv"]
 radius = 1.35
@@ -15,6 +16,13 @@ radius = 4.0
 height = 9.0
 
 [node name="npc_cpu_student" type="Node3D" unique_id=1970061675]
+script = ExtResource("6_dialogue")
+npc_display_name = "CPU Student"
+opening_line = "My battery is at two percent. If I disappear mid-sentence, remember me as fully charged."
+player_reply = "Should I find you an outlet?"
+closing_line = "No time. I must spend the remaining one percent checking if it is still one percent."
+repeat_lines = Array[String](["It says one percent, but I believe in us.", "My charger is at home, resting after a difficult morning of not being packed."])
+restored_line = "La Paz Batchoy is back? Wait—let me post that before my phone dies. Cultural preservation, speed-run edition."
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1012973699]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

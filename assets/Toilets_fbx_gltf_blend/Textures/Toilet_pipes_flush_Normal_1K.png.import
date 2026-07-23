@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bn1ssic8bq8ww"
-path.s3tc="res://.godot/imported/Toilet_pipes_flush_Normal_1K.png-40185f520307ceb62b7e6649206e5bf8.s3tc.ctex"
+path.s3tc="res://.godot/imported/Toilet_pipes_flush_Normal_1K.png-9f8699db44433cd881630d9124971299.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://assets/Toilets_fbx_gltf_blend/textures/Toilet_pipes_flush_Normal_1K.png"
-dest_files=["res://.godot/imported/Toilet_pipes_flush_Normal_1K.png-40185f520307ceb62b7e6649206e5bf8.s3tc.ctex"]
+source_file="res://assets/Toilets_fbx_gltf_blend/Textures/Toilet_pipes_flush_Normal_1K.png"
+dest_files=["res://.godot/imported/Toilet_pipes_flush_Normal_1K.png-9f8699db44433cd881630d9124971299.s3tc.ctex"]
 
 [params]
 

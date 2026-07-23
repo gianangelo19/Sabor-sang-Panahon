@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://p1fkp3os02dv" path="res://characters/right_ui_student.png" id="3_oecr4"]
 [ext_resource type="Texture2D" uid="uid://tgmh40j8lts0" path="res://characters/back_ui_student.png" id="4_00ej4"]
 [ext_resource type="Texture2D" uid="uid://dfwq032yg12ch" path="res://characters/left_ui_student.png" id="5_v4ixw"]
+[ext_resource type="Script" path="res://scripts/ambient_npc_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nshqv"]
 radius = 1.35
@@ -15,6 +16,13 @@ radius = 4.0
 height = 9.0
 
 [node name="npc_ui_student" type="Node3D" unique_id=1970061675]
+script = ExtResource("6_dialogue")
+npc_display_name = "UI Student"
+opening_line = "People say Iloilo is small. That only becomes true when you owe someone money."
+player_reply = "Do you owe someone money?"
+closing_line = "See? Too small."
+repeat_lines = Array[String](["If you meet my classmate, I was on my way to pay. Spiritually.", "Small city rule: someone always knows your cousin, your teacher, or your unpaid balance."])
+restored_line = "The Batchoy memory is back? Good. Maybe everyone will discuss that instead of my debt."
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1012973699]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

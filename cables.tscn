@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c55ha4rshjvaa"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m5nyj"]
+albedo_color = Color(0.012617188, 0.012617188, 0.012617188, 1)
+clearcoat_enabled = true
+
+[node name="cables" type="Node3D" unique_id=768018638]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="." unique_id=1535779398]
+transform = Transform3D(1.8626451e-09, -0.13806006, 0, 0.06903003, 3.7252903e-09, 0, 0, 0, 0.06903003, 0, 0, 0)
+height = 136.0
+material = SubResource("StandardMaterial3D_m5nyj")

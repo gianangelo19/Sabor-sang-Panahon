@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c6t78vyftuhu7" path="res://characters/right_sanag_student.png" id="3_weto3"]
 [ext_resource type="Texture2D" uid="uid://c56sxm6nsfdxw" path="res://characters/back_sanag_student.png" id="4_51ytf"]
 [ext_resource type="Texture2D" uid="uid://cmbhsgtuvgjeb" path="res://characters/left_sanag_student.png" id="5_4un61"]
+[ext_resource type="Script" path="res://scripts/ambient_npc_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nshqv"]
 radius = 1.35
@@ -15,6 +16,13 @@ radius = 4.0
 height = 9.0
 
 [node name="npc_sanag_student" type="Node3D" unique_id=1970061675]
+script = ExtResource("6_dialogue")
+npc_display_name = "San Ag Student"
+opening_line = "My friends said, 'one quick stop.' That was forty minutes and three snacks ago."
+player_reply = "You sound upset."
+closing_line = "I am carrying snacks. I will recover."
+repeat_lines = Array[String](["Never trust a friend who says 'last stop' while looking at a menu.", "I came here for notes. I am leaving with banana cue and no notes."])
+restored_line = "La Paz Batchoy? Add one more stop. I have learned nothing and regret nothing."
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1012973699]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

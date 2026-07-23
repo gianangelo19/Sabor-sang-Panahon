@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://wxnw6gh6r3cy" path="res://characters/right_hm_student.png" id="3_8jwss"]
 [ext_resource type="Texture2D" uid="uid://bktp4ne7geob0" path="res://characters/back_hm_student.png" id="4_se2h4"]
 [ext_resource type="Texture2D" uid="uid://cm5y1jxxfp005" path="res://characters/left_hm_student.png" id="5_we1ew"]
+[ext_resource type="Script" path="res://scripts/ambient_npc_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nshqv"]
 radius = 1.35
@@ -15,6 +16,13 @@ radius = 4.0
 height = 9.0
 
 [node name="npc_cpu_hm_student" type="Node3D" unique_id=1970061675]
+script = ExtResource("6_dialogue")
+npc_display_name = "HM Student"
+opening_line = "Our practical exam was soup. Mine had excellent plating and the emotional depth of tap water."
+player_reply = "At least it looked confident."
+closing_line = "It believed in itself. The seasoning did not."
+repeat_lines = Array[String](["My instructor said, 'Cook from the heart.' Mine apparently needs salt.", "Garnish cannot save a dish, but it can make the failure photogenic."])
+restored_line = "La Paz Batchoy... that is what our instructor means when she says food needs memory, not just garnish."
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1012973699]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

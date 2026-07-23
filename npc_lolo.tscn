@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cod40plvev4ei" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/left_grandpa.png" id="3_brm4w"]
 [ext_resource type="Texture2D" uid="uid://ci4edl38itxl" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/back_grandpa.png" id="4_1vmer"]
 [ext_resource type="Texture2D" uid="uid://dxt8ucyn8hlsr" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/right_grandpa.png" id="5_qgxix"]
+[ext_resource type="Script" path="res://scripts/ambient_npc_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7u4qh"]
 radius = 1.35
@@ -15,6 +16,13 @@ radius = 4.0
 height = 9.0
 
 [node name="npc_lolo" type="Node3D" unique_id=1142351024]
+script = ExtResource("6_dialogue")
+npc_display_name = "Lolo Pilo"
+opening_line = "Everyone walks too fast now. Then they arrive somewhere and stare at their phones. I can do that from a bench."
+player_reply = "You're saving time."
+closing_line = "And my knees. Wisdom comes in layers."
+repeat_lines = Array[String](["This bench has heard more secrets than the barangay hall. It is also better at keeping them.", "When I was your age, we got lost without GPS. It built character and very tired feet."])
+restored_line = "La Paz Batchoy... I remember arguing over the last spoonful. Good. I was worried I had become peaceful."
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

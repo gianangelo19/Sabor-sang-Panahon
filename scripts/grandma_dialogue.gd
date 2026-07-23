@@ -7,33 +7,33 @@ const ARTIFACT_RECOVERED_CLUE := "Batchoy Bowl artifact recovered."
 const BATCHOY_SERVED_CLUE := "La Paz Batchoy served to Grandma."
 
 const FIRST_CONVERSATION: Array[Dictionary] = [
-	{"speaker": "You", "text": "Grandma! It's good to see you. How are you feeling?", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "Ay, apo! You came all the way to La Paz? I'm all right, only a little tired.", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "You", "text": "I found a damaged newspaper about an old dish from La Paz. I thought you might remember it.", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "An old dish? My memory is not what it used to be, but tell me what you found.", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "You", "text": "The article mentioned broth, noodles, the market, and an oldtimer. Does that sound familiar?", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "I remember soft noodles, tender meat, a deep salty taste, and something crisp scattered on top.", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "You", "text": "Do you remember what the dish was called?", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "No... the name escapes me. But I can still hear bowls clinking and the market bustling nearby.", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "Grandma", "text": "The aroma used to fill this whole neighborhood. It felt warm and familiar, especially on rainy afternoons.", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "You", "text": "I'll ask around the neighborhood and the market. Someone else may remember.", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "Please do, apo. I must leave soon to buy my medicine.", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "You", "text": "I'll be back before dinner. Maybe we can make the dish together.", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "I'll look forward to that. Take care while you explore La Paz, ha?", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "Grandma! I crossed half of Iloilo and survived a jeepney ride with no suspension. Please look impressed.", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Grandma", "text": "Apo! Come here. Let me look at you. Ay—thinner. Are they not feeding you, or are you spending everything on iced coffee again?", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "Both can be true. How are you feeling?", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Grandma", "text": "Old enough to dislike that question. A little tired, nothing dramatic. Now, why are you holding that newspaper like a detective?", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "I found it damaged. It's about an old La Paz dish—broth, noodles, the market, and an old-timer. I thought you might remember.", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Grandma", "text": "Hmm. Soft noodles. Tender meat. A broth salty enough to wake you up. And something crisp on top that disappeared before the bowl reached the table.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "That sounds very specific for someone who doesn't remember the name.", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Grandma", "text": "My hands remember more than my head. I can hear bowls clinking, vendors shouting, rain on the roof... but the name? Blank.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "Grandma", "text": "The smell used to reach the street. On wet afternoons, people squeezed inside dripping everywhere and still left smiling.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "Then I'll ask around. If the whole neighborhood ate it, somebody has to remember.", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Grandma", "text": "Good. I need to buy my medicine anyway. Apparently stubbornness is not a complete treatment.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "Be back before dinner. If I find the dish, we make it together.", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Grandma", "text": "Deal. And apo? Follow the clues, not every stranger offering free food. Use judgment—then bring me some.", "portrait": GRANDMA_PORTRAIT},
 ]
 
 const REPEAT_CONVERSATION: Array[Dictionary] = [
-	{"speaker": "You", "text": "Grandma, can you remind me what you remembered about the dish?", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "Soft noodles, tender meat, a deep salty taste, and something crisp scattered on top.", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "You", "text": "Got it. I'll ask around the neighborhood and the market.", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "Take care, apo. Come back before dinner.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "Quick memory check: soft noodles, tender meat, salty broth, crisp topping. Did I miss anything?", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Grandma", "text": "Yes. Legible handwriting. But the food clues are right.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "Cruel. Accurate, but cruel.", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Grandma", "text": "That is what grandmothers are for. Go carefully, apo—and come home hungry.", "portrait": GRANDMA_PORTRAIT},
 ]
 
 const RESTORED_CONVERSATION: Array[Dictionary] = [
-	{"speaker": "You", "text": "How is the batchoy, Grandma?", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "It tastes like home, apo. The meat, fresh miki, ginamos, and crushed chicharon - I remember all four now.", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "You", "text": "Then the old bowl really carried the memory back to us.", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "And now that we remember together, La Paz Batchoy will not be forgotten again.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "Verdict, Grandma. Does it taste like the one in your memory?", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Grandma", "text": "It tastes like home—meat, fresh miki, ginamos, chicharon... and you hovering over me like a nervous waiter.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "I nearly fought half the market for that bowl. I'm allowed to hover.", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Grandma", "text": "Then sit. Memories are better when they have someone to return to.", "portrait": GRANDMA_PORTRAIT},
 ]
 
 var _dialogue_active := false
@@ -87,7 +87,7 @@ func interact() -> void:
 		conversation = RESTORED_CONVERSATION
 	elif _conversation_completed:
 		conversation = REPEAT_CONVERSATION
-	dialogue.start_conversation(conversation)
+	dialogue.start_conversation(conversation, self)
 	dialogue.dialogue_finished.connect(_on_dialogue_finished)
 
 

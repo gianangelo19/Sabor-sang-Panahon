@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c3d1vwlxb8xvc"
-path.s3tc="res://.godot/imported/Toilet_Elongated_Normal_1K.png-4f55c2ac447ce3ddc9d81999ac7ffd2d.s3tc.ctex"
+path.s3tc="res://.godot/imported/Toilet_Elongated_Normal_1K.png-61032c739b8c58c6d6b4e5dd19038dac.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://assets/Toilets_fbx_gltf_blend/textures/Toilet_Elongated_Normal_1K.png"
-dest_files=["res://.godot/imported/Toilet_Elongated_Normal_1K.png-4f55c2ac447ce3ddc9d81999ac7ffd2d.s3tc.ctex"]
+source_file="res://assets/Toilets_fbx_gltf_blend/Textures/Toilet_Elongated_Normal_1K.png"
+dest_files=["res://.godot/imported/Toilet_Elongated_Normal_1K.png-61032c739b8c58c6d6b4e5dd19038dac.s3tc.ctex"]
 
 [params]
 

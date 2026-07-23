@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bkt6511whafwg" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/left_talking_man.png" id="3_esnnw"]
 [ext_resource type="Texture2D" uid="uid://b2lys7hgsmq82" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/back_talking_man.png" id="4_y8b5n"]
 [ext_resource type="Texture2D" uid="uid://oaeuk02ga74a" path="res://characters/Sabor_sang_Panahon_Characters and Sprites/right_talking_man.png" id="5_jldow"]
+[ext_resource type="Script" path="res://scripts/ambient_npc_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7u4qh"]
 radius = 1.35
@@ -15,6 +16,13 @@ radius = 4.0
 height = 9.0
 
 [node name="npc_man" type="Node3D" unique_id=1142351024]
+script = ExtResource("6_dialogue")
+npc_display_name = "Neighborhood Tito"
+opening_line = "I know every shortcut in La Paz. The problem is La Paz moves the roads when I am not looking."
+player_reply = "The road behind you looks fairly committed."
+closing_line = "That is what it wants you to think."
+repeat_lines = Array[String](["A shortcut is just a long route with confidence.", "I am not lost. I am giving the correct place time to find me."])
+restored_line = "Teb's Batchoyan! Of course. I have been giving directions past it for years and forgot what it was."
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

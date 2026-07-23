@@ -51,23 +51,23 @@ func _run() -> void:
 		return
 	_verify_placed_tindero()
 
-	await _verify_conversation(vendor_1, "Market Vendor", "npc_market_vendor_front.png", 10, "pork_and_liver", "SnatchBattle", &"minigame_completed")
+	await _verify_conversation(vendor_1, "Meat Vendor", "npc_market_vendor_front.png", 10, "pork_and_liver", "Find the Right Meat Cuts")
 	_check(game_state.is_destination_completed("market_vendor_1"), "First market vendor destination completes")
 	_check(game_state.active_destination == "market_vendor_2", "First vendor unlocks and selects the second vendor")
 	_check(game_state.clues.has("Market testimony: pork and liver feel connected, but the vendor cannot remember the dish."), "First vendor records the meat clue")
 
-	await _verify_conversation(vendor_2, "Market Vendor 2", "npc_market_vendor2_front.png", 10, "ginamos", "GuinamosJarPick", &"minigame_completed")
+	await _verify_conversation(vendor_2, "Ginamos Vendor", "npc_market_vendor2_front.png", 10, "ginamos", "Choose the Right Ginamos")
 	_check(game_state.is_destination_completed("market_vendor_2"), "Second market vendor destination completes")
 	_check(game_state.active_destination == "chicharon_vendor", "Second vendor unlocks and selects the chicharon vendor")
 	_check(game_state.clues.has("Market testimony: ginamos belongs in the broth, but the vendor cannot remember the dish."), "Second vendor records the broth seasoning clue")
 
-	await _verify_conversation(chicharon_vendor, "Chicharon Vendor", "npc_chicharon_vendor_front.png", 10, "crushed_chicharon", "ChicharonBeat", &"minigame_finished")
+	await _verify_conversation(chicharon_vendor, "Chicharon Vendor", "npc_chicharon_vendor_front.png", 10, "crushed_chicharon", "Fry the Chicharon")
 	_check(game_state.is_destination_completed("chicharon_vendor"), "Chicharon vendor destination completes")
 	_check(game_state.active_destination == "tindero", "Chicharon vendor unlocks and selects the tindero")
 	_check(game_state.clues.has("Vendor testimony: crushed chicharon fits the bowl, but its identity remains forgotten."), "Chicharon vendor records the final memory clue")
 	_check(game_state.current_objective == "Talk to the tindero for fresh miki noodles.", "Chicharon vendor points to the noodle seller")
 
-	await _verify_conversation(tindero, "Tindero", "npc_tindero_front.png", 6, "fresh_miki", "MikiNoodleCrank", &"minigame_finished")
+	await _verify_conversation(tindero, "Miki Tindero", "npc_tindero_front.png", 6, "fresh_miki", "Crank the Miki Noodles")
 	_check(game_state.is_destination_completed("tindero"), "Tindero destination completes")
 	_check(game_state.active_destination.is_empty(), "No stale beacon remains after the final vendor")
 	_check(game_state.clues.has("Tindero testimony: fresh miki noodles complete the set of four ingredients."), "Tindero records the fourth ingredient")
@@ -121,7 +121,7 @@ func _verify_vendor_locked_before_grandma() -> void:
 	vendor.queue_free()
 
 
-func _verify_conversation(npc: Node, npc_name: String, portrait_filename: String, expected_lines: int, reward_id: String, minigame_node_name: String, completion_signal: StringName) -> void:
+func _verify_conversation(npc: Node, npc_name: String, portrait_filename: String, expected_lines: int, reward_id: String, placeholder_title: String) -> void:
 	await process_frame
 	var game_state := root.get_node("GameState")
 	_check(npc.has_method("interact"), npc_name + " is interactable")
@@ -132,7 +132,7 @@ func _verify_conversation(npc: Node, npc_name: String, portrait_filename: String
 	var dialogue := root.find_child("dialogue_ui", true, false)
 	_check(dialogue != null, npc_name + " opens the shared dialogue UI")
 	_check(not player.can_move and player.mouse_released, npc_name + " locks player controls")
-	if npc_name == "Market Vendor":
+	if npc_name == "Meat Vendor":
 		_check(game_state.grandma_left_for_medicine, "Talking to the first vendor sends Grandma out to buy medicine")
 	if dialogue == null:
 		return
@@ -150,16 +150,14 @@ func _verify_conversation(npc: Node, npc_name: String, portrait_filename: String
 		dialogue._complete_typewriter()
 		dialogue._on_continue_pressed()
 	await process_frame
-	var minigame := root.find_child(minigame_node_name, true, false)
-	_check(minigame != null, npc_name + " opens the mapped " + minigame_node_name + " minigame after dialogue")
-	_check(not game_state.has_ingredient(reward_id), npc_name + " does not award its ingredient before a win")
+	var minigame := root.find_child("VendorMinigamePlaceholder", true, false)
+	_check(minigame != null, npc_name + " opens the temporary minigame placeholder after dialogue")
+	_check(not game_state.has_ingredient(reward_id), npc_name + " does not award its ingredient before continuing")
 	if minigame:
-		if completion_signal == &"minigame_completed":
-			minigame.emit_signal(completion_signal, 100)
-		else:
-			minigame.emit_signal(completion_signal)
+		_check(minigame.title_label.text == placeholder_title, npc_name + " shows the correct placeholder title")
+		minigame.get_node("Panel/Stack/ContinueButton").pressed.emit()
 		await process_frame
-	_check(game_state.has_ingredient(reward_id), npc_name + " awards its ingredient after the win signal")
+	_check(game_state.has_ingredient(reward_id), npc_name + " awards its ingredient after continuing")
 	_check(player.can_move and player.mouse_captured, npc_name + " restores player controls")
 
 

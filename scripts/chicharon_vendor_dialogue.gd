@@ -1,9 +1,6 @@
 extends "res://scripts/two_person_npc_dialogue.gd"
 
 const VENDOR_PORTRAIT := preload("res://characters/npc_chicharon_vendor/npc_chicharon_vendor_front.png")
-const CHICHARON_MINIGAME := preload(
-	"res://minigames-main/chicharon_beat/scenes/chicharon_beat.tscn"
-)
 
 
 func _ready() -> void:
@@ -11,25 +8,24 @@ func _ready() -> void:
 	npc_portrait = VENDOR_PORTRAIT
 	minigame_title = "Fry the Chicharon"
 	minigame_instructions = "Follow the rhythm and lift enough pieces from the oil at perfect crispness."
-	minigame_scene = CHICHARON_MINIGAME
 	reward_id = "crushed_chicharon"
 	reward_name = "Crushed chicharon"
 	destination_id = "chicharon_vendor"
 	first_conversation = [
-		player_line("I'm looking for a crisp topping from a noodle dish nobody seems able to remember."),
-		npc_line("Nobody remembers it? Even here in La Paz? Tell me what was in the bowl."),
-		player_line("Meat, ginamos in the broth, and something crunchy scattered on top. I still need the miki noodles."),
-		npc_line("Crushed chicharon would match that texture. But the dish... no. It is like a sign after all its letters have faded."),
-		player_line("The other vendors remember preparing ingredients, but not what they were for."),
-		npc_line("Then this is bigger than one forgotten recipe. People in Iloilo do not simply forget food that shaped their lives."),
-		player_line("Could you give me some crushed chicharon? I want to rebuild the bowl for Grandma."),
-		npc_line("Help me with this batch first. Listen to the frying rhythm and lift each piece when it turns perfectly crisp—not raw, and not burnt."),
-		player_line("I will watch the oil and keep the timing steady until we have enough good pieces."),
-		npc_line("Do that without wasting the batch, and I will crush the best chicharon for your grandmother's bowl."),
+		player_line("I'm hunting for the crisp topping of a noodle dish nobody can name."),
+		npc_line("A mystery topping at my stall? Careful. The chicharon can hear you flattering it."),
+		player_line("So far: meat, ginamos in the broth, something crunchy on top, and fresh miki still missing."),
+		npc_line("Crushed chicharon fits. Even that little crackle feels familiar... but the dish behind it is all fog."),
+		player_line("The other vendors remember what their hands did, just not why they did it."),
+		npc_line("People forget birthdays, umbrellas, sometimes a child at the sari-sari store. Iloilo does not forget food. Something is wrong."),
+		player_line("Can I get some for Grandma's bowl? Maybe the crunch will wake the memory."),
+		npc_line("Help with this batch. Listen to the oil and lift each piece at the perfect beat. Too early: rubber. Too late: family shame."),
+		player_line("No pressure. Just rhythm, boiling oil, and the honor of my bloodline."),
+		npc_line("Now you understand chicharon. Keep the batch crisp, and the best pieces are yours."),
 	]
 	repeat_conversation = [
-		player_line("Does crushed chicharon bring back the missing dish?"),
-		npc_line("Only a feeling that it belongs in the bowl. The name itself is still missing."),
+		player_line("Has the chicharon remembered the dish yet? You said it could hear us."),
+		npc_line("It remains deliciously silent. But yes—it belongs in that bowl. My bones are sure, even if my brain is lazy."),
 	]
 	sync_completion_from_game_state()
 

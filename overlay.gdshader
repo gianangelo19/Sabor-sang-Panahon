@@ -1,116 +1,147 @@
 shader_type spatial;
-render_mode unshaded, fog_disabled;
+render_mode unshaded, fog_disabled, cull_disabled, depth_draw_never, depth_test_disabled;
 
-uniform sampler2D screen_texture : hint_screen_texture;
-uniform sampler2D depth_texture : hint_depth_texture, repeat_disable, filter_nearest;
-uniform float pixel_size : hint_range(1.0, 32.0, 1.0) = 4.0;
-uniform float color_levels : hint_range(2.0, 64.0, 1.0) = 18.0;
-uniform float toon_steps : hint_range(2.0, 8.0, 1.0) = 4.0;
-uniform float toon_strength : hint_range(0.0, 1.0, 0.01) = 0.72;
-uniform float scanline_strength : hint_range(0.0, 1.0, 0.01) = 0.03;
-uniform float vignette_strength : hint_range(0.0, 1.0, 0.01) = 0.08;
-uniform float warp_strength : hint_range(0.0, 0.08, 0.001) = 0.004;
-uniform float noise_strength : hint_range(0.0, 0.2, 0.001) = 0.004;
-uniform float edge_strength : hint_range(0.0, 1.0, 0.01) = 0.88;
-uniform float edge_threshold : hint_range(0.01, 0.5, 0.001) = 0.075;
-uniform float depth_edge_strength : hint_range(0.0, 1.0, 0.01) = 0.65;
-uniform float depth_edge_threshold : hint_range(0.0001, 0.05, 0.0001) = 0.004;
-uniform float outline_width : hint_range(1.0, 6.0, 0.5) = 2.0;
-uniform float brightness : hint_range(0.5, 1.5, 0.01) = 1.12;
-uniform float saturation : hint_range(0.0, 2.0, 0.01) = 1.18;
-uniform vec3 ink_color = vec3(0.035, 0.024, 0.015);
-uniform vec3 warm_tint = vec3(1.07, 1.02, 0.92);
+// Full-screen CRT post-process. The defaults aim for a warm consumer television
+// rather than a sharp LCD/pixel-art filter.
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear;
 
-float random(vec2 uv) {
-	return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453123);
+group_uniforms tube_shape;
+uniform float curvature : hint_range(0.0, 0.2, 0.001) = 0.065;
+uniform float overscan : hint_range(1.0, 1.15, 0.001) = 1.028;
+uniform float corner_radius : hint_range(0.0, 0.25, 0.001) = 0.085;
+uniform float corner_softness : hint_range(0.001, 0.05, 0.001) = 0.012;
+uniform float vignette_strength : hint_range(0.0, 1.0, 0.01) = 0.32;
+
+group_uniforms phosphor;
+uniform float scanline_strength : hint_range(0.0, 1.0, 0.01) = 0.21;
+uniform float scanline_count : hint_range(120.0, 720.0, 1.0) = 340.0;
+uniform float mask_strength : hint_range(0.0, 1.0, 0.01) = 0.14;
+uniform float mask_pixel_size : hint_range(1.0, 6.0, 1.0) = 2.0;
+uniform float chromatic_aberration : hint_range(0.0, 0.01, 0.0001) = 0.0016;
+uniform float glow_strength : hint_range(0.0, 1.0, 0.01) = 0.16;
+uniform float glow_threshold : hint_range(0.0, 1.0, 0.01) = 0.55;
+
+group_uniforms analog_signal;
+uniform float noise_strength : hint_range(0.0, 0.15, 0.001) = 0.012;
+uniform float flicker_strength : hint_range(0.0, 0.1, 0.001) = 0.008;
+uniform float rolling_bar_strength : hint_range(0.0, 0.15, 0.001) = 0.015;
+uniform float rolling_bar_speed : hint_range(-2.0, 2.0, 0.01) = 0.18;
+uniform float horizontal_jitter : hint_range(0.0, 0.003, 0.0001) = 0.0002;
+
+group_uniforms color_grade;
+uniform float brightness : hint_range(0.5, 1.5, 0.01) = 1.17;
+uniform float contrast : hint_range(0.5, 1.5, 0.01) = 1.05;
+uniform float saturation : hint_range(0.0, 2.0, 0.01) = 1.06;
+uniform float vibrance : hint_range(0.0, 1.0, 0.01) = 0.22;
+uniform float shadow_lift : hint_range(0.0, 0.2, 0.005) = 0.04;
+uniform vec3 warm_tint = vec3(1.06, 1.015, 0.935);
+
+float random(vec2 value) {
+	return fract(sin(dot(value, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
 float luma(vec3 color) {
 	return dot(color, vec3(0.299, 0.587, 0.114));
 }
 
+vec2 curve_screen(vec2 uv) {
+	vec2 centered = (uv * 2.0 - 1.0) / overscan;
+	vec2 squared = centered * centered;
+	centered *= vec2(
+		1.0 + squared.y * curvature,
+		1.0 + squared.x * curvature
+	);
+	return centered * 0.5 + 0.5;
+}
+
+float rounded_tube_mask(vec2 uv) {
+	vec2 centered = abs(uv * 2.0 - 1.0);
+	vec2 distance_to_box = centered - (vec2(1.0) - corner_radius);
+	float signed_distance = (
+		length(max(distance_to_box, vec2(0.0)))
+		+ min(max(distance_to_box.x, distance_to_box.y), 0.0)
+		- corner_radius
+	);
+	return 1.0 - smoothstep(-corner_softness, corner_softness, signed_distance);
+}
+
+vec3 sample_crt(vec2 uv, vec2 chroma_offset) {
+	return vec3(
+		texture(screen_texture, uv + chroma_offset).r,
+		texture(screen_texture, uv).g,
+		texture(screen_texture, uv - chroma_offset).b
+	);
+}
+
 void vertex() {
-	POSITION = vec4(VERTEX.xy, 1.0, 1.0); 
+	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
 }
 
 void fragment() {
-	vec2 uv = SCREEN_UV;
-
-	// Slight CRT-style bend
-	vec2 centered_uv = uv * 2.0 - 1.0;
-	float radius = dot(centered_uv, centered_uv);
-	uv += centered_uv * radius * warp_strength;
-	uv = clamp(uv, vec2(0.0), vec2(1.0));
-
 	vec2 screen_size = vec2(textureSize(screen_texture, 0));
-	vec2 pixel_count = screen_size / pixel_size;
-	vec2 pixelated_uv = (floor(uv * pixel_count) + 0.5) / pixel_count;
-	vec3 color = texture(screen_texture, pixelated_uv).rgb;
-	color = clamp(color, 0.0, 1.0);
-	vec2 texel = (pixel_size * outline_width) / screen_size;
+	vec2 texel = 1.0 / screen_size;
+	vec2 curved_uv = curve_screen(SCREEN_UV);
+	vec2 centered = curved_uv * 2.0 - 1.0;
 
-	// Edge detection (luma + depth)
-	float center_luma = luma(color);
-	float right_luma = luma(texture(screen_texture, pixelated_uv + vec2(texel.x, 0.0)).rgb);
-	float left_luma = luma(texture(screen_texture, pixelated_uv - vec2(texel.x, 0.0)).rgb);
-	float up_luma = luma(texture(screen_texture, pixelated_uv + vec2(0.0, texel.y)).rgb);
-	float down_luma = luma(texture(screen_texture, pixelated_uv - vec2(0.0, texel.y)).rgb);
-	float luma_edge_value = abs(center_luma - right_luma) + abs(center_luma - left_luma) + abs(center_luma - up_luma) + abs(center_luma - down_luma);
-	float luma_edge = smoothstep(edge_threshold, edge_threshold * 3.0, luma_edge_value);
+	// Slight per-line instability keeps the signal analog without making the
+	// picture distracting or difficult to read.
+	float jitter_line = floor(curved_uv.y * scanline_count);
+	float jitter_time = floor(TIME * 30.0);
+	float jitter = random(vec2(jitter_line, jitter_time)) - 0.5;
+	curved_uv.x += jitter * horizontal_jitter;
 
-	float center_depth = texture(depth_texture, pixelated_uv).r;
-	float right_depth = texture(depth_texture, pixelated_uv + vec2(texel.x, 0.0)).r;
-	float left_depth = texture(depth_texture, pixelated_uv - vec2(texel.x, 0.0)).r;
-	float up_depth = texture(depth_texture, pixelated_uv + vec2(0.0, texel.y)).r;
-	float down_depth = texture(depth_texture, pixelated_uv - vec2(0.0, texel.y)).r;
-	float depth_edge_value = abs(center_depth - right_depth) + abs(center_depth - left_depth) + abs(center_depth - up_depth) + abs(center_depth - down_depth);
-	float depth_edge = smoothstep(depth_edge_threshold, depth_edge_threshold * 8.0, depth_edge_value);
-	float edge = clamp(max(luma_edge, depth_edge * depth_edge_strength), 0.0, 1.0);
+	vec2 chroma_offset = vec2(centered.x, centered.y * 0.35) * chromatic_aberration;
+	vec3 color = sample_crt(curved_uv, chroma_offset);
 
-	// Original warm tint and color grading
+	// A small bright-pass blur imitates light bleeding between nearby phosphors.
+	vec3 blur = (
+		texture(screen_texture, curved_uv + vec2(texel.x * 2.0, 0.0)).rgb
+		+ texture(screen_texture, curved_uv - vec2(texel.x * 2.0, 0.0)).rgb
+		+ texture(screen_texture, curved_uv + vec2(0.0, texel.y * 2.0)).rgb
+		+ texture(screen_texture, curved_uv - vec2(0.0, texel.y * 2.0)).rgb
+	) * 0.25;
+	vec3 glow = max(blur - vec3(glow_threshold), vec3(0.0));
+	color += glow * glow_strength;
+
+	// Consumer CRT color response: gently warm, mildly saturated, with softer
+	// blacks than the former posterized/toon treatment.
 	color *= warm_tint * brightness;
+	color = (color - vec3(0.5)) * contrast + vec3(0.5);
 	color = mix(vec3(luma(color)), color, saturation);
+	float color_range = max(color.r, max(color.g, color.b)) - min(color.r, min(color.g, color.b));
+	float adaptive_vibrance = vibrance * (1.0 - clamp(color_range, 0.0, 1.0));
+	color = mix(vec3(luma(color)), color, 1.0 + adaptive_vibrance);
+	float dark_area = 1.0 - smoothstep(0.0, 0.45, luma(color));
+	color += vec3(shadow_lift * dark_area);
 
-	// 8x8 Bayer dithering (Shadowglass-style upgrade from 4x4)
-	int dx = int(mod(uv.x * screen_size.x / pixel_size, 8.0));
-	int dy = int(mod(uv.y * screen_size.y / pixel_size, 8.0));
-	float dither_matrix[64] = float[](
-		 0.0, 32.0,  8.0, 40.0,  2.0, 34.0, 10.0, 42.0,
-		48.0, 16.0, 56.0, 24.0, 50.0, 18.0, 58.0, 26.0,
-		12.0, 44.0,  4.0, 36.0, 14.0, 46.0,  6.0, 38.0,
-		60.0, 28.0, 52.0, 20.0, 62.0, 30.0, 54.0, 22.0,
-		 3.0, 35.0, 11.0, 43.0,  1.0, 33.0,  9.0, 41.0,
-		51.0, 19.0, 59.0, 27.0, 49.0, 17.0, 57.0, 25.0,
-		15.0, 47.0,  7.0, 39.0, 13.0, 45.0,  5.0, 37.0,
-		63.0, 31.0, 55.0, 23.0, 61.0, 29.0, 53.0, 21.0
-	);
-	float dither_val = (dither_matrix[dx + dy * 8] / 64.0) - 0.5;
-	color += dither_val * (2.0 / color_levels);
+	// Horizontal electron-beam scanlines.
+	float scan_wave = 0.5 + 0.5 * cos(curved_uv.y * scanline_count * TAU);
+	color *= 1.0 - scanline_strength * scan_wave;
 
-	// Posterize
-	color = clamp(floor(color * color_levels) / color_levels, 0.0, 1.0);
+	// RGB aperture-grille pattern, deliberately subtle so text remains legible.
+	float mask_index = mod(floor(curved_uv.x * screen_size.x / mask_pixel_size), 3.0);
+	vec3 phosphor_mask = vec3(0.72);
+	if (mask_index < 1.0) {
+		phosphor_mask.r = 1.0;
+	} else if (mask_index < 2.0) {
+		phosphor_mask.g = 1.0;
+	} else {
+		phosphor_mask.b = 1.0;
+	}
+	color *= mix(vec3(1.0), phosphor_mask, mask_strength);
 
-	// Toon shading
-	float shaded_luma = luma(color);
-	float banded_luma = (floor(shaded_luma * toon_steps) + 0.5) / toon_steps;
-	vec3 hue = color / max(shaded_luma, 0.001);
-	color = mix(color, hue * banded_luma, toon_strength);
-
-	// Scanlines
-	float scanline = sin(uv.y * screen_size.y * 3.14159);
-	color *= 1.0 - (scanline_strength * (0.5 + 0.5 * scanline));
-
-	// Film noise
-	float noise = random(pixelated_uv + TIME * 0.15) - 0.5;
+	// Low-level RF noise, mains flicker, and a slowly traveling brightness band.
+	float noise = random(SCREEN_UV * screen_size + vec2(jitter_time, -jitter_time)) - 0.5;
 	color += noise * noise_strength;
+	color *= 1.0 + sin(TIME * 60.0) * flicker_strength;
+	float rolling_bar = 0.5 + 0.5 * sin((curved_uv.y - TIME * rolling_bar_speed) * TAU);
+	color *= 1.0 - rolling_bar_strength * rolling_bar;
 
-	// Ink outlines
-	color = mix(color, ink_color, edge * edge_strength);
+	// Darken toward the curved glass edge and cut the corners to the tube shape.
+	float vignette = clamp(1.0 - dot(centered * vec2(0.72, 0.62), centered * vec2(0.72, 0.62)), 0.0, 1.0);
+	vignette = mix(1.0, vignette, vignette_strength);
+	float tube_mask = rounded_tube_mask(curved_uv);
 
-	// Vignette
-	float vignette = smoothstep(0.85, 0.2, distance(uv, vec2(0.5)));
-	color *= mix(1.0 - vignette_strength, 1.0, vignette);
-	
-	ALBEDO = clamp(color, vec3(0.0), vec3(1.0));
+	ALBEDO = clamp(color * vignette * tube_mask, vec3(0.0), vec3(1.0));
 	ALPHA = 1.0;
 }

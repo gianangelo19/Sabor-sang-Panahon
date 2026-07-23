@@ -1,35 +1,31 @@
 extends "res://scripts/two_person_npc_dialogue.gd"
 
 const VENDOR_PORTRAIT := preload("res://characters/npc_market_vendor/npc_market_vendor_front.png")
-const MEAT_MINIGAME := preload(
-	"res://minigames-main/snatch_battle/scenes/snatch_battle.tscn"
-)
 
 
 func _ready() -> void:
-	npc_display_name = "Market Vendor"
+	npc_display_name = "Meat Vendor"
 	npc_portrait = VENDOR_PORTRAIT
 	minigame_title = "Find the Right Meat Cuts"
 	minigame_instructions = "Claim the required cuts before the other customers and reject spoiled meat."
-	minigame_scene = MEAT_MINIGAME
 	reward_id = "pork_and_liver"
 	reward_name = "Meat"
 	destination_id = "market_vendor_1"
 	first_conversation = [
-		player_line("Excuse me. My grandma remembers an old noodle dish from this neighborhood, but she cannot remember its name."),
-		npc_line("An old dish from La Paz? Tell me what she remembers about the bowl."),
-		player_line("Soft noodles, tender meat, a deep salty taste, and something crisp on top."),
-		npc_line("Pork and liver feel right. My hands know exactly how I would portion them, but I cannot remember the dish they belonged to."),
-		player_line("How could a local dish disappear from everyone's memory so suddenly?"),
-		npc_line("I wish I knew. I have worked here for years, and it feels like a word was quietly taken from us."),
-		player_line("Could I take the cuts that belong in that bowl? Maybe handling the right ingredients will help Grandma remember."),
-		npc_line("You may, but the stall is crowded. Find the belly, atay, and lapay before another customer takes them, and keep spoiled or unwanted cuts out of the basket."),
-		player_line("So I need to recognize the right pieces quickly, without grabbing whatever is closest."),
-		npc_line("Exactly. Complete the order carefully, and I will set aside fresh meat for your grandmother's bowl."),
+		player_line("Excuse me, Nang. My grandma remembers a La Paz noodle dish, except for the useful part—the name."),
+		npc_line("So you came to a meat stall with a mystery. Better than the man who asked if pork was vegetarian."),
+		player_line("She remembers soft noodles, tender meat, a salty broth, and something crisp on top."),
+		npc_line("Pork and liver. My hands already know the cuts—belly, atay, lapay. Strange. The knife remembers, but I don't."),
+		player_line("Everyone keeps saying that. How does a whole city lose the same word?"),
+		npc_line("In this market? We cannot lose gossip for five minutes. But this dish vanished, and nobody even noticed the empty space."),
+		player_line("Could I take the right cuts to Grandma? Maybe the taste will pull the memory loose."),
+		npc_line("Earn them. Find the belly, atay, and lapay before the crowd does. And no spoiled meat—your grandmother will blame me, then haunt my stall while still alive."),
+		player_line("Fast hands, good eyes, no accidental poisoning. Comforting standards."),
+		npc_line("You joke now. Wait until three aunties reach for the same cut. Survive that, and the meat is yours."),
 	]
 	repeat_conversation = [
-		player_line("Does the forgotten bowl still sound familiar?"),
-		npc_line("Only the way I prepare the pork and liver. The dish itself remains an empty space in my memory."),
+		player_line("Still getting that strange almost-memory when you cut the liver?"),
+		npc_line("Every time. My hands say yes; my head says, 'Please hold.' Very poor customer service."),
 	]
 	sync_completion_from_game_state()
 

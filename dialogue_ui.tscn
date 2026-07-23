@@ -1,30 +1,39 @@
-[gd_scene format=3 uid="uid://cbqmlmhm8cmsj"]
+[gd_scene load_steps=7 format=3 uid="uid://cbqmlmhm8cmsj"]
 
 [ext_resource type="Texture2D" uid="uid://dsrfqi587r4tk" path="res://characters/1main_character_talking.png" id="1_portrait"]
 [ext_resource type="Script" uid="uid://b0n2eawn401w4" path="res://scripts/dialogue_ui.gd" id="1_script"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cniej"]
-bg_color = Color(0.16078432, 0.12941177, 0.12156863, 1)
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color(0.54901963, 0.3647059, 0.25882354, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_size = 6
-shadow_offset = Vector2(-0.615, 2.815)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_npc"]
+bg_color = Color(0.0352941, 0.0431373, 0.0509804, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.760784, 0.623529, 0.376471, 0.72)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 8
+shadow_offset = Vector2(0, 5)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_78q3s"]
-bg_color = Color(0.54901963, 0.3647059, 0.25882354, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_size = 4
-shadow_offset = Vector2(0.355, 0.935)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_thought"]
+bg_color = Color(0.025, 0.027, 0.03, 0.91)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.435294, 0.352941, 0.27451, 0.72)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 10
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_button"]
 
 [node name="dialogue_ui" type="Control" unique_id=1757765990]
 layout_mode = 3
@@ -38,57 +47,87 @@ script = ExtResource("1_script")
 
 [node name="canvas" type="CanvasLayer" parent="." unique_id=1127671252]
 
-[node name="portrait" type="TextureRect" parent="canvas" unique_id=1498536075]
-offset_left = -144.0
-offset_top = 59.0
-offset_right = 468.0
-offset_bottom = 760.0
+[node name="npc_bubble" type="Panel" parent="canvas"]
+offset_left = 356.0
+offset_top = 110.0
+offset_right = 796.0
+offset_bottom = 292.0
 mouse_filter = 2
-texture = ExtResource("1_portrait")
-expand_mode = 1
-stretch_mode = 5
+theme_override_styles/panel = SubResource("StyleBoxFlat_npc")
 
-[node name="npc_portrait" type="TextureRect" parent="canvas"]
-offset_left = 728.0
-offset_top = 59.0
-offset_right = 1340.0
-offset_bottom = 760.0
-mouse_filter = 2
-texture = ExtResource("1_portrait")
-expand_mode = 1
-stretch_mode = 5
-flip_h = true
+[node name="bubble_tail" type="Polygon2D" parent="canvas"]
+polygon = PackedVector2Array(-12, -2, 12, -2, 0, 22)
+color = Color(0.0352941, 0.0431373, 0.0509804, 0.96)
 
-[node name="bg" type="Panel" parent="canvas" unique_id=374399662]
-offset_top = 447.0
-offset_right = 1152.0
-offset_bottom = 645.0
+[node name="player_thought" type="Panel" parent="canvas"]
+offset_left = 128.0
+offset_top = 459.0
+offset_right = 1024.0
+offset_bottom = 614.0
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_cniej")
+theme_override_styles/panel = SubResource("StyleBoxFlat_thought")
 
 [node name="speaker_name" type="RichTextLabel" parent="canvas" unique_id=394026181]
-offset_left = 33.0
-offset_top = 475.0
-offset_right = 323.0
-offset_bottom = 530.0
-theme_override_font_sizes/normal_font_size = 25
+offset_left = 378.0
+offset_top = 126.0
+offset_right = 770.0
+offset_bottom = 157.0
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.952941, 0.768627, 0.407843, 1)
+theme_override_font_sizes/normal_font_size = 18
 text = "Speaker Name"
+fit_content = true
 
 [node name="dialogue_text" type="RichTextLabel" parent="canvas" unique_id=1147312437]
-offset_left = 33.0
-offset_top = 520.0
-offset_right = 703.0
-offset_bottom = 620.0
+offset_left = 378.0
+offset_top = 164.0
+offset_right = 770.0
+offset_bottom = 265.0
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.968627, 0.94902, 0.901961, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.55)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
 text = "(Dialogue text here)"
+fit_content = false
+scroll_active = false
+autowrap_mode = 2
 
 [node name="continue_btn" type="Button" parent="canvas" unique_id=1791232172]
-offset_left = 938.0
-offset_top = 583.0
-offset_right = 1123.0
-offset_bottom = 620.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_78q3s")
-text = "Continue"
+offset_left = 744.0
+offset_top = 248.0
+offset_right = 780.0
+offset_bottom = 280.0
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.952941, 0.768627, 0.407843, 1)
+theme_override_colors/font_hover_color = Color(1, 0.929412, 0.713726, 1)
+theme_override_colors/font_pressed_color = Color(0.760784, 0.623529, 0.376471, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_button")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_button")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_button")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_button")
+text = "▶"
+
+; These transparent nodes retain the old public API for authored dialogue data and
+; tests. Portrait textures are never rendered by the redesigned presentation.
+[node name="portrait" type="TextureRect" parent="canvas" unique_id=1498536075]
+offset_left = -2.0
+offset_top = -2.0
+offset_right = -1.0
+offset_bottom = -1.0
+mouse_filter = 2
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("1_portrait")
+
+[node name="npc_portrait" type="TextureRect" parent="canvas"]
+offset_left = -2.0
+offset_top = -2.0
+offset_right = -1.0
+offset_bottom = -1.0
+mouse_filter = 2
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("1_portrait")

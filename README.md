@@ -31,7 +31,7 @@ Do not run the executable from inside the ZIP. Extract it first. The release is 
 | Phone | `P` |
 | Pause / Settings | `Esc` |
 
-Individual minigames display their own instructions before they begin.
+Minigames are temporarily represented by placeholder screens. Select **Continue Story** on a placeholder to receive its story reward and proceed through the main game.
 
 ## Run from source
 

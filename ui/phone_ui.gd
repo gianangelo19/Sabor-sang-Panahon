@@ -33,96 +33,96 @@ const ORANGE := Color("ef641d")
 const MUTED_CREAM := Color("d9bf91")
 const AMBOT_CONVERSATIONS := {
 	"casual": {
-		"opening": "Hello. I have no new clues or objective updates to analyze right now.",
+		"opening": "No new clues right now. I checked twice because I calculated a 92 percent chance you would ask me to check again.",
 		"questions": [
-			{"text": "Can you check again?", "answer": "Check complete. No new evidence has been recorded since our last conversation."},
-			{"text": "What should I do now?", "answer": "Continue your current objective and inspect anything that may connect to the investigation."},
-			{"text": "How are you, AMBot?", "answer": "All mapping functions are normal. Thank you for asking. That question was not map-related, but it was acceptable."},
+			{"text": "Can you check again?", "answer": "There. A third check. Still nothing. I hope the ceremony was comforting."},
+			{"text": "What should I do now?", "answer": "Continue your current objective. Look closely, ask people questions, and try not to interpret every spoon as destiny."},
+			{"text": "How are you, AMBot?", "answer": "All systems are normal. Thank you for asking. I was not designed to enjoy that question, which makes this response inconvenient."},
 		],
-		"closing": "I will notify you when new information is available."
+		"closing": "I will notify you when something changes. Until then, please generate evidence by leaving this screen."
 	},
 	"newspaper_scan": {
-		"opening": "I detected severe damage in the newspaper. Document integrity is 24 percent. I can still recover several useful details.",
+		"opening": "Document integrity: 24 percent. In human terms, this newspaper is extremely dead. Fortunately, it left clues.",
 		"questions": [
-			{"text": "What can you read?", "answer": "Readable data: La Paz, Iloilo City. Food category. Historical article."},
-			{"text": "Can you identify the dish?", "answer": "Not yet. The name and most of the photograph are damaged. More evidence is required."},
-			{"text": "Where should I start?", "answer": "A family source may recognize the surviving details. Your saved route records include Grandma's old house."},
+			{"text": "What can you read?", "answer": "La Paz. Iloilo City. Food. Historical article. The paper has preserved every detail except the convenient ones."},
+			{"text": "Can you identify the dish?", "answer": "Not yet. The name and photograph are damaged. Guessing would be fast, dramatic, and statistically embarrassing."},
+			{"text": "Where should I start?", "answer": "With someone whose memory predates your search history. Grandma's old house is in your saved routes."},
 		],
-		"closing": "Evidence file created: Unknown La Paz Dish."
+		"closing": "Evidence file created: Unknown La Paz Dish. A terrible title, but an accurate one."
 	},
 	"arrival_maps": {
-		"opening": "Arrival confirmed. Grandma's old house has been added to Maps and selected as your destination.",
+		"opening": "Arrival confirmed. Grandma's old house is now in Maps. I selected it for you because wandering aimlessly is already well represented in your skill set.",
 		"questions": [
-			{"text": "How do I find the house?", "answer": "Open Maps on your phone. Your position is blue, and the selected destination is marked in amber."},
-			{"text": "What is the diamond on screen?", "answer": "It is a subtle destination beacon. It fades when you reach the entrance."},
-			{"text": "Will Maps reveal everyone?", "answer": "No. New people and places appear only after evidence makes them relevant."},
+			{"text": "How do I find the house?", "answer": "Open Maps. You are blue; the destination is amber. If the blue marker enters the river, reconsider your route."},
+			{"text": "What is the diamond on screen?", "answer": "A destination beacon. It fades at the entrance, unlike your tendency to walk past obvious doors."},
+			{"text": "Will Maps reveal everyone?", "answer": "No. Story-relevant leads appear when evidence supports them. Regular people still require regular conversation."},
 		],
-		"closing": "Current destination: Grandma's Old House."
+		"closing": "Current destination: Grandma's Old House. Try saying hello before beginning the interrogation."
 	},
 	"grandma_clues": {
-		"opening": "Grandma's testimony has been recorded: soft noodles, tender meat, a deep salty taste, and a crisp topping.",
+		"opening": "Grandma remembers soft noodles, tender meat, salty broth, and a crisp topping. She also remembers your bad handwriting. I omitted that from the evidence file.",
 		"questions": [
-			{"text": "Where do these clues lead?", "answer": "The strongest match is a food prepared near La Paz Market."},
-			{"text": "Why are memories useful?", "answer": "Repeated sensory details can connect incomplete records to people and places."},
-			{"text": "What is my next step?", "answer": "Speak with a market vendor. Search area added to Maps."},
+			{"text": "Where do these clues lead?", "answer": "Toward food prepared near La Paz Market. This is evidence-based, not merely because all roads in Iloilo eventually lead to food."},
+			{"text": "Why are memories useful?", "answer": "Smell, taste, sound, and habit often survive after names disappear. Human storage is disorganized but surprisingly durable."},
+			{"text": "What is my next step?", "answer": "Talk to the market vendors. They work with the ingredients Grandma remembers, and they are less likely than I am to describe flavor as data."},
 		],
-		"closing": "Search area unlocked: La Paz Market."
+		"closing": "La Paz Market unlocked. Bring patience. Exact change would also be culturally responsible."
 	},
 	"market_vendor_1_clues": {
-		"opening": "Meat acquired. The vendor remembers preparing pork and liver together, but shows the same unexplained memory gap around the dish.",
+		"opening": "Meat acquired. The vendor remembers every cut but not the dish—proof that hands can keep a secret from the brain.",
 		"questions": [
-			{"text": "Why can nobody name it?", "answer": "The shared pattern is statistically unusual. Multiple local memories appear incomplete in the same place."},
-			{"text": "What should I do next?", "answer": "Test the remaining ingredient memories with the second market vendor."},
+			{"text": "Why can nobody name it?", "answer": "Matching memory gaps across unrelated people are statistically abnormal. Either the city forgot together, or reality has developed poor filing habits."},
+			{"text": "What should I do next?", "answer": "Ask the ginamos vendor about the broth. Preferably before opening any suspicious jar yourself."},
 		],
-		"closing": "Next testimony marked: Ginamos Vendor."
+		"closing": "Ginamos Vendor marked. Your inventory now contains meat and an increasingly uncomfortable mystery."
 	},
 	"market_vendor_2_clues": {
-		"opening": "Ginamos acquired. The second vendor remembers measuring shrimp paste for a rich broth, but not the dish it seasoned.",
+		"opening": "Ginamos acquired. The vendor remembers the exact spoonful but not the recipe. Human memory continues to preserve the strangest save files.",
 		"questions": [
-			{"text": "Could everyone forget at once?", "answer": "Ordinary forgetting would not produce matching gaps across unrelated witnesses. More evidence is required."},
-			{"text": "Who should I ask next?", "answer": "The chicharon vendor may recognize the final texture and has been marked in Maps."},
+			{"text": "Could everyone forget at once?", "answer": "Ordinary forgetting is messy. This is precise: same dish, same blank space. I dislike patterns that behave more neatly than my code."},
+			{"text": "Who should I ask next?", "answer": "The chicharon vendor. A crisp topping is still missing, and subtlety has never been chicharon's primary function."},
 		],
-		"closing": "Next testimony marked: Chicharon Vendor."
+		"closing": "Chicharon Vendor marked. Please resist eating the evidence before it becomes evidence."
 	},
 	"chicharon_clues": {
-		"opening": "Crushed chicharon acquired. The vendors recognize the meat, broth seasoning, and crisp topping, yet none remembers the dish itself.",
+		"opening": "Crushed chicharon acquired. Meat, ginamos, and crisp topping now agree with each other. The witnesses remain less cooperative.",
 		"questions": [
-			{"text": "What clues do we have now?", "answer": "Meat, ginamos or shrimp paste, and crushed chicharon. Fresh miki noodles are the fourth and final ingredient still needed."},
-			{"text": "Why is the name still missing?", "answer": "The identity appears absent from Iloilo's collective memory. Family and physical evidence may restore it."},
+			{"text": "What clues do we have now?", "answer": "Meat, ginamos, and crushed chicharon. Fresh miki is the last missing ingredient. The bowl is becoming clearer; the name is being stubborn."},
+			{"text": "Why is the name still missing?", "answer": "The identity is absent from multiple memories. Family history or physical evidence may restore what testimony cannot."},
 		],
-		"closing": "Collective memory anomaly recorded. The tindero has been marked for the final noodle ingredient."
+		"closing": "Collective memory anomaly recorded. The miki tindero is marked. Try not to challenge every vendor to a minigame after this."
 	},
 	"tindero_miki_clue": {
-		"opening": "Fresh miki acquired. All four ingredients are now collected: meat, miki noodles, crushed chicharon, and ginamos or shrimp paste. The dish name remains missing.",
+		"opening": "Fresh miki acquired. Meat, miki, ginamos, and crushed chicharon: four of four. We have reconstructed an entire bowl and somehow misplaced its name.",
 		"questions": [
-			{"text": "Do all four ingredients fit?", "answer": "Yes. Meat, fresh miki noodles, ginamos or shrimp paste, and crushed chicharon form a consistent La Paz noodle-bowl profile."},
-			{"text": "What should I do next?", "answer": "Return to your family's La Paz house and search around the property for physical evidence. Look closely at anything old or covered."},
+			{"text": "Do all four ingredients fit?", "answer": "Yes. They form one coherent La Paz noodle bowl. Statistically convincing. Emotionally suspicious."},
+			{"text": "What should I do next?", "answer": "Return to the family house. Search for old signage, tools, or anything deliberately covered. History enjoys hiding under cloth and dust."},
 		],
-		"closing": "Ingredient set complete: 4 of 4. New objective: search the La Paz house for physical evidence."
+		"closing": "Ingredients complete. New objective: search the La Paz house. This is the part where 'do not touch anything' becomes unhelpful advice."
 	},
 	"market_evidence": {
-		"opening": "All four ingredients are recorded: meat, fresh miki noodles, ginamos or shrimp paste, and crushed chicharon.",
+		"opening": "All four ingredients are recorded. The recipe has shape now, even if its name is still behaving like classified information.",
 		"questions": [
-			{"text": "Do the ingredients match?", "answer": "Yes. They form a coherent noodle-soup profile, but ingredients alone cannot verify the dish's name."},
-			{"text": "Where should I search?", "answer": "Return to the La Paz house. Physical evidence on the property may connect the four ingredients to the forgotten dish."},
+			{"text": "Do the ingredients match?", "answer": "Yes. Meat, miki, ginamos, and chicharon belong together. Ingredients can identify a meal, but not prove its history."},
+			{"text": "Where should I search?", "answer": "The family house. If the dish mattered there, something physical may have survived the forgetting."},
 		],
-		"closing": "Next lead: search around the La Paz house."
+		"closing": "Next lead: the La Paz house. Return home and look at it like a place you have never seen before."
 	},
 	"family_house": {
-		"opening": "The complete four-ingredient profile now points back to your family's La Paz house.",
+		"opening": "Every ingredient points back to your family's La Paz house. Families are efficient that way: even their mysteries eventually come home.",
 		"questions": [
-			{"text": "Is our house connected?", "answer": "Possibly. The testimony is consistent, but physical evidence is still required."},
-			{"text": "What evidence should I find?", "answer": "Search around the property for old signage or another object that may have been covered or overlooked."},
+			{"text": "Is our house connected?", "answer": "Probably, but testimony is not proof. The house needs to speak for itself, preferably through an object and not structural damage."},
+			{"text": "What evidence should I find?", "answer": "Old signs, bowls, tools—anything covered, misplaced, or treated as ordinary for so long that nobody sees it anymore."},
 		],
-		"closing": "Search area: the La Paz house and its surroundings."
+		"closing": "Search area: the house and its surroundings. Familiar places are excellent at hiding in plain sight."
 	},
 	"memory_bowl": {
-		"opening": "Ingredient profile complete. Final identification requires the Memory Bowl.",
+		"opening": "Ingredient profile complete. Final identification requires the old Batchoy Bowl. Apparently dinner now has an artifact requirement.",
 		"questions": [
-			{"text": "Where is the bowl?", "answer": "Search the origin property. Cultural Echoes may reveal its hiding place."},
-			{"text": "Can you identify the dish now?", "answer": "Not without the physical heritage artifact."},
+			{"text": "Where is the bowl?", "answer": "Somewhere on the origin property. Follow the Cultural Echoes; they are louder than my current certainty."},
+			{"text": "Can you identify the dish now?", "answer": "Not responsibly. The physical artifact is the last link between ingredients, family, and place."},
 		],
-		"closing": "Token allowance exhausted. Manual search required."
+		"closing": "Token allowance exhausted. Manual search required. Yes, even I recognize the timing is rude."
 	},
 }
 
