@@ -1722,8 +1722,17 @@ near_objective = "Talk to the tindero for fresh miki noodles."
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=471590215]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 1.9000001, -7.8)
+light_color = Color(1, 0.84, 0.65, 1)
+light_energy = 0.72
+light_size = 0.2
+shadow_enabled = true
+shadow_bias = 0.12
+shadow_opacity = 0.32
+shadow_blur = 2.0
 omni_range = 2.445
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=1464091196]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1.7, -2.5000002)
+light_color = Color(1, 0.9, 0.78, 1)
+light_energy = 0.42
 omni_range = 2.445

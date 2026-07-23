@@ -292,7 +292,11 @@ transform = Transform3D(1.5793768, 0, 0, 0, -1.5793772, -1.44828e-07, 0, 1.44828
 transform = Transform3D(0.51282054, 0, 0, 0, 0.5128204, -1.7763568e-14, 0, 1.7763568e-14, 0.5128204, 0, 0.3407842, -5.9604645e-08)
 light_color = Color(0.9999998, 0.88903815, 0.7663421, 1)
 light_energy = 0.3
+light_size = 0.22
+shadow_enabled = true
+shadow_bias = 0.12
 shadow_opacity = 0.28
+shadow_blur = 2.2
 omni_range = 4.5
 
 [node name="Shelf_01_4k" parent="." unique_id=1554945851 instance=ExtResource("13_ix0ng")]

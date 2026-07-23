@@ -63,6 +63,18 @@ sky_material = SubResource("PanoramaSkyMaterial_y5vev")
 background_mode = 2
 background_energy_multiplier = 1.53
 sky = SubResource("Sky_s3k5f")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.75
+ambient_light_energy = 0.72
+reflected_light_source = 2
+tonemap_mode = 3
+tonemap_exposure = 1.08
+ssao_enabled = true
+ssao_radius = 0.9
+ssao_intensity = 1.1
+ssao_power = 1.2
+ssao_detail = 0.6
+ssao_light_affect = 0.08
 fog_mode = 1
 fog_light_color = Color(0.700359, 0.613651, 0.40811548, 1)
 fog_density = 0.2951
@@ -184,7 +196,18 @@ environment = SubResource("Environment_e42m6")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1580595109]
 transform = Transform3D(-0.91607356, 0.24917296, -0.3142005, -0.11562483, 0.5861224, 0.80192983, 0.38397917, 0.7709561, -0.5081206, -31.991507, 8.106487, 46.392616)
+light_color = Color(1, 0.88, 0.72, 1)
+light_energy = 1.12
+light_indirect_energy = 0.72
+light_volumetric_fog_energy = 0.45
+light_angular_distance = 0.8
 shadow_enabled = true
+shadow_bias = 0.045
+shadow_normal_bias = 0.9
+shadow_opacity = 0.62
+shadow_blur = 1.5
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 90.0
 
 [node name="ground" type="Node3D" parent="." unique_id=1400869878]
 
