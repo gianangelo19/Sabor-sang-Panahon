@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/images/background_scenery/la_paz/la_paz_residential_row.png" id="1_texture"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_scenery"]
+transparency = 2
+alpha_scissor_threshold = 0.25
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_texture")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_scenery"]
+material = SubResource("StandardMaterial3D_scenery")
+size = Vector2(45, 17.519531)
+
+[node name="LaPazResidentialRow" type="Node3D"]
+editor_description = "Transparent fixed-facing La Paz background scenery. The root sits on the ground line; orient local +Z toward the playable area. Default width is 45 m."
+
+[node name="SceneryMesh" type="MeshInstance3D" parent="."]
+position = Vector3(0, 8.759766, 0.02)
+cast_shadow = 0
+gi_mode = 2
+mesh = SubResource("QuadMesh_scenery")

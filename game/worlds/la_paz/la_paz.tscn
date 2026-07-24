@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://pynnsd7sxmka" path="res://game/worlds/la_paz/grandma_house/lapaz_home.tscn" id="3_7hepo"]
 [ext_resource type="PackedScene" uid="uid://cvsap3ygjadcf" path="res://assets/BUILDINGS/game_ready_building_5/scene.gltf" id="4_ccmpj"]
 [ext_resource type="PackedScene" uid="uid://rjmvxpqlaydv" path="res://assets/lake_pinatubo_philippines/scene.gltf" id="5_y5vev"]
-[ext_resource type="PackedScene" uid="uid://c55ha4rshjvaa" path="res://game/props/environment/infrastructure/cables.tscn" id="8_crk1f"]
 [ext_resource type="PackedScene" uid="uid://bgjewlr4hg77s" path="res://assets/VEHICLES/1984_suzuki_kei_truck/scene.gltf" id="8_ytphx"]
 [ext_resource type="PackedScene" uid="uid://5xvcspr3137c" path="res://assets/VEHICLES/honda_supra_x_125/scene.gltf" id="9_abovg"]
 [ext_resource type="Texture2D" uid="uid://bnwu2ojp3qu1j" path="res://assets/art/materials/herringbone_brick_03_1k.gltf/textures/herringbone_brick_03_diff_1k.jpg" id="9_uatrr"]
@@ -19,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://cffbygnjafknx" path="res://game/worlds/la_paz/public_market/lapaz_public_market.tscn" id="14_e5bc8"]
 [ext_resource type="Texture2D" uid="uid://cyn7lm4xs1o0b" path="res://assets/art/materials/polystyrene_4k.gltf/textures/polystyrene_diff_4k.jpg" id="14_p22k2"]
 [ext_resource type="PackedScene" uid="uid://l43cfl3je41g" path="res://assets/BUILDINGS/worned_out_traffic_light.glb" id="15_3p7g8"]
+[ext_resource type="PackedScene" path="res://game/props/environment/background_scenery/la_paz/la_paz_commercial_row.tscn" id="18_t5bp8"]
 [ext_resource type="PackedScene" uid="uid://bcuhecxvx5g2c" path="res://game/props/vehicles/jeepney/jeepney.tscn" id="20_3vwpy"]
 [ext_resource type="PackedScene" uid="uid://caktot3beb035" path="res://game/props/environment/infrastructure/wood_pole.tscn" id="20_5prct"]
 [ext_resource type="PackedScene" uid="uid://d3atve3bkjke" path="res://game/worlds/la_paz/apartment/apartment.tscn" id="20_noq4k"]
@@ -49,6 +49,20 @@
 [ext_resource type="PackedScene" uid="uid://b6xroypt8w5nu" path="res://assets/VEHICLES/lowpoly_traysikeltricycle.glb" id="47_kfmu4"]
 [ext_resource type="PackedScene" uid="uid://0d0np8qte5ii" path="res://assets/VEHICLES/poor_model_09_aznava_1.5_s.glb" id="48_5prct"]
 [ext_resource type="PackedScene" uid="uid://bpmd3npcrnfaf" path="res://assets/VEHICLES/2005_-_2008_innova_v_2.7_tgn41.glb" id="49_crk1f"]
+[ext_resource type="PackedScene" uid="uid://dg65gvduetw15" path="res://game/props/vehicles/jeepney/iloilo_jeep_2.tscn" id="52_6t6vh"]
+[ext_resource type="PackedScene" uid="uid://c5p13ipj1vloi" path="res://game/props/vehicles/jeepney/iloilo_jeep_style.tscn" id="52_wq4f1"]
+[ext_resource type="PackedScene" uid="uid://nkkgrtms1lwk" path="res://game/props/vehicles/jeepney/iloilo_jeep_3.tscn" id="53_8dht6"]
+[ext_resource type="PackedScene" path="res://game/props/environment/infrastructure/cable_clutter/cable_clutter_hanging.tscn" id="54_1x8sy"]
+[ext_resource type="PackedScene" path="res://game/props/environment/infrastructure/cable_clutter/cable_clutter_horizontal.tscn" id="55_6o0u6"]
+[ext_resource type="PackedScene" path="res://game/props/environment/background_scenery/la_paz/la_paz_heritage_row.tscn" id="56_skgpu"]
+[ext_resource type="PackedScene" path="res://game/props/environment/background_scenery/la_paz/la_paz_market_row.tscn" id="57_t5bp8"]
+[ext_resource type="PackedScene" path="res://game/props/environment/infrastructure/cables_clean/cable_clean_single_long.tscn" id="59_lq1ee"]
+[ext_resource type="PackedScene" path="res://game/props/environment/background_scenery/la_paz/la_paz_residential_row.tscn" id="59_rnedl"]
+[ext_resource type="PackedScene" path="res://game/props/environment/signage/commercial_landmarks/gaysano_g_logo.tscn" id="61_wl1wg"]
+[ext_resource type="PackedScene" path="res://game/props/environment/signage/commercial_landmarks/gaysano_la_paz_sign.tscn" id="62_min3h"]
+[ext_resource type="PackedScene" path="res://game/props/environment/signage/commercial_landmarks/peteron_price_pylon.tscn" id="63_ujd45"]
+[ext_resource type="PackedScene" path="res://game/props/environment/signage/commercial_landmarks/peteron_tall_pylon.tscn" id="64_fwo27"]
+[ext_resource type="PackedScene" path="res://game/props/environment/signage/commercial_landmarks/jabilee_sign.tscn" id="65_fwo27"]
 [ext_resource type="PackedScene" path="res://game/ui/hud/game_hud.tscn" id="hud_phone"]
 [ext_resource type="Script" uid="uid://bdubpo54wcesl" path="res://game/worlds/la_paz/apartment/wake_up.gd" id="wakeup_script"]
 
@@ -295,15 +309,6 @@ transform = Transform3D(-0.006230979, 0.019311793, 0.84040886, -0.03863307, 0.83
 [node name="lapaz_home" parent="buildings/Electrical Poles" unique_id=1425629456 instance=ExtResource("3_7hepo")]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 41.174473, 0.3230517, 36.830753)
 
-[node name="cables4" parent="buildings/Electrical Poles" unique_id=534685973 instance=ExtResource("8_crk1f")]
-transform = Transform3D(0.01359202, -0.0032733823, -1.6971958, -0.024703877, -1.1807244, 0.0045621404, -1.9990895, 0.014568627, -0.011595577, -24.462385, 9.255965, 1.1653805)
-
-[node name="cables2" parent="buildings/Electrical Poles" unique_id=1741336576 instance=ExtResource("8_crk1f")]
-transform = Transform3D(0.8587165, 0.012621433, 0.22939618, -0.010912446, 0.998255, -0.0026437272, -0.2059945, -0.00026786918, 0.95640945, -39.414856, 9.281169, 42.410603)
-
-[node name="cables3" parent="buildings/Electrical Poles" unique_id=270447380 instance=ExtResource("8_crk1f")]
-transform = Transform3D(0.8587165, 0.012621433, 0.22939618, -0.010912446, 0.998255, -0.0026437272, -0.2059945, -0.00026786918, 0.95640945, -39.414856, 9.281169, 42.99382)
-
 [node name="Sketchfab_Scene" parent="buildings" unique_id=521530763 instance=ExtResource("4_ccmpj")]
 transform = Transform3D(8.403297, 0, -124.71721, 0, 124.99999, 0, 124.71721, 0, 8.403297, 13.625019, 5.143277, -161.2163)
 
@@ -545,6 +550,15 @@ transform = Transform3D(-1.3305985, 0, -0.015476543, 0, 1.3306882, 0, 0.01547654
 
 [node name="Sketchfab_Scene17" parent="background" unique_id=1816578399 instance=ExtResource("13_e5bc8")]
 transform = Transform3D(-0.022241741, 0, -1.3305025, 0, 1.3306882, 0, 1.3305025, 0, -0.022241741, 24.769636, 3.008566, 46.31203)
+
+[node name="LaPazCommercialRow" parent="background" unique_id=548956392 instance=ExtResource("18_t5bp8")]
+transform = Transform3D(0.9839657, 0, -0.17835766, 0, 1, 0, 0.17835766, 0, 0.9839657, -66.011665, 0.49999905, 55.920715)
+
+[node name="LaPazCommercialRow2" parent="background" unique_id=80625097 instance=ExtResource("18_t5bp8")]
+transform = Transform3D(0.9147574, 0, 0.40400365, 0, 1, 0, -0.40400365, 0, 0.9147574, -77.943054, 2.3571386, 29.531063)
+
+[node name="LaPazCommercialRow3" parent="background" unique_id=69952652 instance=ExtResource("18_t5bp8")]
+transform = Transform3D(0.9147574, 0, 0.40400365, 0, 1, 0, -0.40400365, 0, 0.9147574, -77.943054, 2.179163, 13.10128)
 
 [node name="road signs" type="Node3D" parent="." unique_id=815428474]
 
@@ -1368,7 +1382,7 @@ transform = Transform3D(1.0863109, 0, 1.2946149, 0, 1.6899997, 0, -1.2946149, 0,
 transform = Transform3D(1.0863109, 0, 1.2946149, 0, 1.6899997, 0, -1.2946149, 0, 1.0863109, -29.66581, 0.6, -31.042482)
 
 [node name="Sketchfab_Scene30" parent="." unique_id=2111755124 instance=ExtResource("23_0ih5w")]
-transform = Transform3D(-0.29346538, 0, 1.6643248, 0, 1.6899997, 0, -1.6643248, 0, -0.29346538, -29.874996, 0.6, 65.09436)
+transform = Transform3D(-0.29346538, 0, 1.6643248, 0, 1.6899997, 0, -1.6643248, 0, -0.29346538, -26.824324, 0.6, 82.39558)
 
 [node name="Sketchfab_Scene31" parent="." unique_id=914887529 instance=ExtResource("23_0ih5w")]
 transform = Transform3D(-0.29346538, 0, 1.6643248, 0, 1.6899997, 0, -1.6643248, 0, -0.29346538, -46.997032, 0.6, 61.420765)
@@ -1692,7 +1706,7 @@ transform = Transform3D(-9.296276e-09, 0, -0.21267399, 0, 0.21267399, 0, 0.21267
 transform = Transform3D(0.18228959, 0, 0, 0, 0.18228959, 0, 0, 0, 0.18228959, -36.917526, 0.6506541, -23.875332)
 
 [node name="npc_student" parent="." unique_id=919328641 instance=ExtResource("41_faovn")]
-transform = Transform3D(-7.920907e-09, 0, -0.1812092, 0, 0.1812092, 0, 0.1812092, 0, -7.920907e-09, -24.531816, 0.67117125, 18.642645)
+transform = Transform3D(-7.920907e-09, 0, -0.1812092, 0, 0.1812092, 0, 0.1812092, 0, -7.920907e-09, -24.531816, 0.67117125, 17.374018)
 
 [node name="npc_panda" parent="." unique_id=1027138765 instance=ExtResource("42_0pe5x")]
 transform = Transform3D(-0.16780114, 0, -1.46696415e-08, 0, 0.16780114, 0, 1.46696415e-08, 0, -0.16780114, 44.680786, 0.039450783, 30.540611)
@@ -1707,7 +1721,7 @@ transform = Transform3D(-7.593905e-09, 0, 0.17372829, 0, 0.17372829, 0, -0.17372
 transform = Transform3D(-7.593905e-09, 0, 0.17372829, 0, 0.17372829, 0, -0.17372829, 0, -7.593905e-09, -6.5223036, 0.7137485, 8.939154)
 
 [node name="npc_sanag_student" parent="." unique_id=1798763155 instance=ExtResource("43_8m64p")]
-transform = Transform3D(-7.593905e-09, 0, -0.17372829, 0, 0.17372829, 0, 0.17372829, 0, -7.593905e-09, -24.84869, 0.72969085, 19.862194)
+transform = Transform3D(-7.593905e-09, 0, -0.17372829, 0, 0.17372829, 0, 0.17372829, 0, -7.593905e-09, -25.37636, 0.72969085, 18.47503)
 
 [node name="npc_sanag_talking" parent="." unique_id=1970621911 instance=ExtResource("42_mur58")]
 transform = Transform3D(-6.951007e-09, 0, -0.1590205, 0, 0.1590205, 0, 0.1590205, 0, -6.951007e-09, 27.055922, 0.7204706, 22.628937)
@@ -1725,10 +1739,232 @@ transform = Transform3D(-0.0011760888, 1.1429389e-18, -0.041161917, 0.005139773,
 transform = Transform3D(-1.2827414, 0, -0.007155478, 0, 1.2827613, 0, 0.007155478, 0, -1.2827414, -9.153315, 1.5379283, -5.0993867)
 
 [node name="Sketchfab_Scene8" parent="." unique_id=1158717059 instance=ExtResource("48_5prct")]
-transform = Transform3D(0.0687676, 0, -1.2809168, 0.103875056, 1.2785368, 0.0055766604, 1.276698, -0.104024634, 0.06854111, -45.626003, 1.5735629, -16.246075)
+transform = Transform3D(0.0687676, 0, -1.2809168, 0.103875056, 1.2785368, 0.0055766604, 1.276698, -0.104024634, 0.06854111, -44.35544, 1.5735629, -16.246075)
 
 [node name="Sketchfab_Scene4" parent="." unique_id=1752242098 instance=ExtResource("49_crk1f")]
 transform = Transform3D(-0.023085022, 0, -0.036640693, 0, 0.043306567, 0, 0.036640693, 0, -0.023085022, -27.560951, 1.782829, 21.615393)
 
 [node name="Sketchfab_Scene6" parent="." unique_id=1924750176 instance=ExtResource("49_crk1f")]
 transform = Transform3D(0.0013334452, 0, -0.043286033, 0.0028359613, 0.043213528, 8.7363034e-05, 0.04319303, -0.0028373064, 0.0013305803, -34.4741, 1.7315233, -16.011206)
+
+[node name="iloilo_jeep1" parent="." unique_id=1975086835 instance=ExtResource("52_wq4f1")]
+transform = Transform3D(0.0016834482, 5.754601e-19, -0.66345817, -0.031627025, 0.66270596, -8.0249905e-05, 0.66270393, 0.031627126, 0.0016815345, -55.196762, 0.9007621, -23.07924)
+
+[node name="iloilo_jeep3" parent="." unique_id=514060435 instance=ExtResource("52_wq4f1")]
+transform = Transform3D(-0.66324586, -0.00469622, 0.016205143, -0.0047156457, 0.663443, -0.0007384814, -0.016199505, -0.0008534201, -0.663262, -6.219361, 0.8824296, -38.15381)
+
+[node name="iloilo_jeep2" parent="." unique_id=382759835 instance=ExtResource("52_6t6vh")]
+transform = Transform3D(0.0034300033, 0, -0.6513792, 0, 0.6513882, 0, 0.6513792, 0, 0.0034300033, -30.609667, 0.85265994, -88.81815)
+
+[node name="iloilo_jeep_3" parent="." unique_id=1974936966 instance=ExtResource("53_8dht6")]
+transform = Transform3D(0.010854214, 0, -0.6243635, 0, 0.6244578, 0, 0.6243635, 0, 0.010854214, -40.94742, 0.8234515, -88.885895)
+
+[node name="iloilo_jeep_4" parent="." unique_id=1449472327 instance=ExtResource("53_8dht6")]
+transform = Transform3D(0.008798986, 0, 0.6243958, -0.044313516, 0.6228832, 0.0006244661, -0.62282133, -0.044317916, 0.008776799, -54.5291, 0.8234515, -15.927594)
+
+[node name="iloilo_jeep_5" parent="." unique_id=350670121 instance=ExtResource("53_8dht6")]
+transform = Transform3D(0.6209066, -0.034775622, 0.056687273, 0.034204394, 0.6234713, 0.007830493, -0.057033755, -0.0046809376, 0.6218299, -7.3798423, 0.8995671, -49.002647)
+
+[node name="CableClutterHanging" parent="." unique_id=135848495 instance=ExtResource("54_1x8sy")]
+transform = Transform3D(0.58335555, 0, 0.39241537, 0, 0.70306015, 0, -0.39241537, 0, 0.58335555, -23.826538, 7.1101704, -5.8468213)
+
+[node name="CableClutterHanging3" parent="." unique_id=1867525766 instance=ExtResource("54_1x8sy")]
+transform = Transform3D(0.423248, 0, 0.6559788, 0, 0.7806708, 0, -0.6559788, 0, 0.423248, -22.67586, 6.178828, -28.159468)
+
+[node name="CableClutterHanging2" parent="." unique_id=819112795 instance=ExtResource("54_1x8sy")]
+transform = Transform3D(0.3743124, 0, 0.6866833, 0, 0.78207654, 0, -0.6866833, 0, 0.3743124, -22.858303, 6.3163705, -6.7847023)
+
+[node name="LaPazHeritageRow" parent="." unique_id=12624065 instance=ExtResource("56_skgpu")]
+transform = Transform3D(0.42452228, 0, -0.9054175, 0, 1, 0, 0.9054175, 0, 0.42452228, -27.33124, 0.5, 86.81283)
+
+[node name="LaPazHeritageRow2" parent="." unique_id=350573475 instance=ExtResource("56_skgpu")]
+transform = Transform3D(0.16834407, 0, 0.9857284, 0, 1, 0, -0.9857284, 0, 0.16834407, -7.5679226, 0.5, 113.88767)
+
+[node name="LaPazMarketRow" parent="." unique_id=1121165755 instance=ExtResource("57_t5bp8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.69165, 0, 57.022697)
+
+[node name="LaPazMarketRow4" parent="." unique_id=402180494 instance=ExtResource("57_t5bp8")]
+transform = Transform3D(0.7551832, 0, 0.65551376, 0, 1, 0, -0.65551376, 0, 0.7551832, 69.93074, 0.48033714, 81.84399)
+
+[node name="LaPazMarketRow2" parent="." unique_id=786328889 instance=ExtResource("57_t5bp8")]
+transform = Transform3D(0.5650887, 0, 0.8250302, 0, 1, 0, -0.8250302, 0, 0.5650887, 66.88445, 0, 38.805035)
+
+[node name="LaPazHeritageRow3" parent="." unique_id=940300986 instance=ExtResource("56_skgpu")]
+transform = Transform3D(0.24922055, 0, -0.9684468, 0, 1, 0, 0.9684468, 0, 0.24922055, 51.23287, 0, -7.112845)
+
+[node name="LaPazResidentialRow" parent="." unique_id=1510494440 instance=ExtResource("59_rnedl")]
+transform = Transform3D(0.52418077, 0, 0.851607, 0, 1, 0, -0.851607, 0, 0.52418077, -24.811342, -0.8210907, -164.60301)
+
+[node name="LaPazResidentialRow2" parent="." unique_id=282442570 instance=ExtResource("59_rnedl")]
+transform = Transform3D(0.52418077, 0, 0.851607, 0, 1, 0, -0.851607, 0, 0.52418077, -6.081321, -0.8210907, -194.72034)
+
+[node name="LaPazHeritageRow4" parent="." unique_id=725573341 instance=ExtResource("56_skgpu")]
+transform = Transform3D(0.18866517, 0, -0.9820415, 0, 1, 0, 0.9820415, 0, 0.18866517, 16.732988, -0.030919552, -85.60172)
+
+[node name="LaPazHeritageRow6" parent="." unique_id=1563461871 instance=ExtResource("56_skgpu")]
+transform = Transform3D(-0.9995505, 0, -0.029980022, 0, 1, 0, 0.029980022, 0, -0.9995505, -62.633186, -0.030919552, -136.75627)
+
+[node name="LaPazHeritageRow5" parent="." unique_id=1733932011 instance=ExtResource("56_skgpu")]
+transform = Transform3D(0.18866517, 0, -0.9820415, 0, 1, 0, 0.9820415, 0, 0.18866517, 20.909658, -0.030919552, -47.88465)
+
+[node name="LaPazMarketRow3" parent="." unique_id=1252388042 instance=ExtResource("57_t5bp8")]
+transform = Transform3D(0.342966, 0, 0.67409927, 0, 0.75633025, 0, -0.67409927, 0, 0.342966, -67.254265, 0, -53.587894)
+
+[node name="CableCleanSingleLong" parent="." unique_id=1033159231 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(5.7629755e-08, 0.1727993, 1.022639, -1.2992041e-08, 0.7664986, -0.23054355, -1.9822639, 0, 3.124189e-08, -21.617409, 7.576497, -112.4324)
+
+[node name="CableCleanSingleLong6" parent="." unique_id=1624779764 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(5.7615292e-08, 0.22100368, 0.97527295, -1.3056028e-08, 0.97527295, -0.22100368, -1.9822639, 0, 2.9802322e-08, -22.749628, 8.976857, -112.4324)
+
+[node name="CableCleanSingleLong24" parent="." unique_id=74326265 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(5.7615292e-08, 0.22100368, 0.97527295, -1.3056028e-08, 0.97527295, -0.22100368, -1.9822639, 0, 2.9802322e-08, -22.749628, 8.976857, -134.80573)
+
+[node name="CableCleanSingleLong2" parent="." unique_id=1027345452 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(5.7629755e-08, 0.1727993, 1.022639, -1.2992041e-08, 0.7664986, -0.23054355, -1.9822639, 0, 3.124189e-08, -22.181812, 7.7659936, -112.4324)
+
+[node name="CableCleanSingleLong3" parent="." unique_id=571223673 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(5.7629755e-08, 0.1727993, 1.022639, -1.2992041e-08, 0.7664986, -0.23054355, -1.9822639, 0, 3.124189e-08, -22.863243, 7.57103, -112.4324)
+
+[node name="CableCleanSingleLong21" parent="." unique_id=2045146101 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(5.7629755e-08, 0.1727993, 1.022639, -1.2992041e-08, 0.7664986, -0.23054355, -1.9822639, 0, 3.124189e-08, -21.617409, 7.576497, -134.46048)
+
+[node name="CableCleanSingleLong22" parent="." unique_id=1695912431 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(5.7629755e-08, 0.1727993, 1.022639, -1.2992041e-08, 0.7664986, -0.23054355, -1.9822639, 0, 3.124189e-08, -22.181812, 7.7659936, -134.46048)
+
+[node name="CableCleanSingleLong23" parent="." unique_id=900804599 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(5.7629755e-08, 0.1727993, 1.022639, -1.2992041e-08, 0.7664986, -0.23054355, -1.9822639, 0, 3.124189e-08, -22.863243, 7.57103, -134.46048)
+
+[node name="CableCleanSingleLong4" parent="." unique_id=236486462 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(6.67178e-08, 0.21713944, 1.0074792, -1.9184712e-08, 0.75513583, -0.28970084, -2.3293927, 0, 3.1241893e-08, -21.622005, 7.5414643, -68.45128)
+
+[node name="CableCleanSingleLong5" parent="." unique_id=454735849 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(6.67178e-08, 0.21713944, 1.0074792, -1.9184712e-08, 0.75513583, -0.28970084, -2.3293927, 0, 3.1241893e-08, -22.174416, 7.763505, -68.45128)
+
+[node name="CableCleanSingleLong10" parent="." unique_id=1795940638 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(6.67178e-08, 0.21713944, 1.0074792, -1.9184712e-08, 0.75513583, -0.28970084, -2.3293927, 0, 3.1241893e-08, -22.866043, 7.608552, -68.45128)
+
+[node name="CableCleanSingleLong11" parent="." unique_id=952920995 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(6.404573e-08, 0.21713944, 1.0074792, -1.8416358e-08, 0.75513583, -0.28970084, -2.2360997, 0, 3.1241893e-08, -21.622005, 7.5414643, -41.454075)
+
+[node name="CableCleanSingleLong13" parent="." unique_id=1786693798 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(6.404573e-08, 0.21713944, 1.0074792, -1.8416358e-08, 0.75513583, -0.28970084, -2.2360997, 0, 3.1241893e-08, -22.174416, 7.763505, -41.454075)
+
+[node name="CableCleanSingleLong14" parent="." unique_id=903233153 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(6.404573e-08, 0.21713944, 1.0074792, -1.8416358e-08, 0.75513583, -0.28970084, -2.2360997, 0, 3.1241893e-08, -22.866043, 7.608552, -41.454075)
+
+[node name="CableCleanSingleLong15" parent="." unique_id=2042141383 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(5.155567e-08, 0.21713944, 1.0074792, -1.482484e-08, 0.75513583, -0.28970084, -1.8000205, 0, 3.1241893e-08, -21.927977, 7.7159057, -17.870037)
+
+[node name="CableCleanSingleLong16" parent="." unique_id=1005380409 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(5.155567e-08, 0.21713944, 1.0074792, -1.482484e-08, 0.75513583, -0.28970084, -1.8000205, 0, 3.1241893e-08, -22.174416, 7.763505, -17.870037)
+
+[node name="CableCleanSingleLong17" parent="." unique_id=1874213497 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(5.155567e-08, 0.21713944, 1.0074792, -1.482484e-08, 0.75513583, -0.28970084, -1.8000205, 0, 3.1241893e-08, -22.866043, 7.608552, -17.870037)
+
+[node name="CableCleanSingleLong18" parent="." unique_id=2002905631 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(6.6864594e-08, 0.21713944, 1.0074792, -1.9226924e-08, 0.75513583, -0.28970084, -2.334518, 0, 3.1241893e-08, -21.622005, 7.811291, 6.5510473)
+
+[node name="CableCleanSingleLong35" parent="." unique_id=1869401472 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(0.8547407, 0.19826294, 0.9423061, -2.7379544e-08, 0.76357573, -0.300075, -1.7961904, 0.09434604, 0.44840875, -26.592325, 7.811291, 31.09696)
+
+[node name="CableCleanSingleLong36" parent="." unique_id=1092551305 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(0.81910247, 0.20008744, 0.9509776, -4.0116173e-08, 0.76357573, -0.300075, -1.8127196, 0.0904123, 0.42971244, -26.588566, 7.811291, 30.15183)
+
+[node name="CableCleanSingleLong37" parent="." unique_id=1057791777 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(0.81910247, 0.20008744, 0.9509776, -4.0116173e-08, 0.76357573, -0.300075, -1.8127196, 0.0904123, 0.42971244, -26.9884, 7.811291, 29.719336)
+
+[node name="CableCleanSingleLong19" parent="." unique_id=953897177 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(6.6864594e-08, 0.21713944, 1.0074792, -1.9226924e-08, 0.75513583, -0.28970084, -2.334518, 0, 3.1241893e-08, -22.174416, 7.763505, 6.5510473)
+
+[node name="CableCleanSingleLong20" parent="." unique_id=1541773685 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(6.6864594e-08, 0.21713944, 1.0074792, -1.9226924e-08, 0.75513583, -0.28970084, -2.334518, 0, 3.1241893e-08, -22.866043, 7.608552, 6.5510473)
+
+[node name="CableCleanSingleLong7" parent="." unique_id=2120751984 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(4.7190248e-08, 0.1727993, 1.022639, -1.063856e-08, 0.7664986, -0.23054355, -1.6231811, 0, 3.124189e-08, -21.617409, 7.576497, -91.32466)
+
+[node name="CableCleanSingleLong25" parent="." unique_id=21027878 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(1.7244622, -0.020055018, -0.11788974, -2.0168693e-08, 0.76501584, -0.22855207, 0.20189771, 0.17129505, 1.0069277, -15.004501, 10.433543, -80.7139)
+
+[node name="CableCleanSingleLong28" parent="." unique_id=893345304 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(0.07684725, 0.17269343, 1.0219593, -2.0093529e-08, 0.76651055, -0.23053518, -2.166358, 0.006125984, 0.03625196, -5.5475626, 10.433543, -67.07503)
+
+[node name="CableCleanSingleLong31" parent="." unique_id=351166529 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(0.08083558, 0.17262697, 1.0202174, -0.20411575, 0.7636842, -0.22597554, -2.2696311, -0.06253241, 0.05665899, -6.342225, 11.1203985, -41.591545)
+
+[node name="CableCleanSingleLong33" parent="." unique_id=969882095 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(-1.4341718, -0.15797918, -0.49735257, -0.18967853, 0.7031795, -0.15277511, 1.5482535, -0.060191132, -0.47942185, -14.431929, 10.037791, -15.31145)
+
+[node name="CableCleanSingleLong34" parent="." unique_id=1732028849 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(-1.4341718, -0.15797918, -0.49735257, -0.18967853, 0.7031795, -0.15277511, 1.5482535, -0.060191132, -0.47942185, -14.431929, 8.7595415, -15.31145)
+
+[node name="CableCleanSingleLong32" parent="." unique_id=1932174513 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(0.08083558, 0.17262697, 1.0202174, -0.20411575, 0.7636842, -0.22597554, -2.2696311, -0.06253241, 0.05665899, -6.342225, 12.866948, -41.591545)
+
+[node name="CableCleanSingleLong29" parent="." unique_id=85818588 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(0.076847844, 0.17254953, 1.0221506, -0.03748989, 0.7658632, -0.22991638, -2.1660507, -0.007133716, 0.040243555, -5.5475626, 11.375708, -67.07503)
+
+[node name="CableCleanSingleLong30" parent="." unique_id=692363657 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(0.07685613, 0.17213847, 1.0226946, -0.1445852, 0.7627516, -0.22776584, -2.161779, -0.044894796, 0.05159264, -5.5475626, 12.648493, -67.07503)
+
+[node name="CableCleanSingleLong26" parent="." unique_id=65413998 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(1.7244622, -0.020055018, -0.11788974, -2.0168693e-08, 0.76501584, -0.22855207, 0.20189771, 0.17129505, 1.0069277, -15.004501, 9.738436, -80.7139)
+
+[node name="CableCleanSingleLong27" parent="." unique_id=1178424002 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(1.7244622, -0.020055018, -0.11788974, -2.0168693e-08, 0.76501584, -0.22855207, 0.20189771, 0.17129505, 1.0069277, -15.004501, 8.563505, -80.7139)
+
+[node name="CableCleanSingleLong8" parent="." unique_id=1961033386 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(4.7190248e-08, 0.1727993, 1.022639, -1.063856e-08, 0.7664986, -0.23054355, -1.6231811, 0, 3.124189e-08, -22.181812, 7.7659936, -91.32466)
+
+[node name="CableCleanSingleLong9" parent="." unique_id=1850991916 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(4.7190248e-08, 0.1727993, 1.022639, -1.063856e-08, 0.7664986, -0.23054355, -1.6231811, 0, 3.124189e-08, -22.863243, 7.57103, -91.32466)
+
+[node name="CableCleanSingleLong12" parent="." unique_id=165148125 instance=ExtResource("59_lq1ee")]
+transform = Transform3D(4.7190248e-08, 0.1727993, 1.022639, -1.063856e-08, 0.7664986, -0.23054355, -1.6231811, 0, 3.124189e-08, -22.863243, 8.8127575, -91.32466)
+
+[node name="wood pole6" parent="." unique_id=849545016 instance=ExtResource("20_5prct")]
+transform = Transform3D(1, 0, 0, 0, 0.7268164, 0, 0, 0, 1, -24.712368, 0.6799226, -80.34672)
+
+[node name="wood pole7" parent="." unique_id=1881479211 instance=ExtResource("20_5prct")]
+transform = Transform3D(1, 0, 0, 0, 0.7268164, 0, 0, 0, 1, -25.12495, 0.6799226, -81.86801)
+
+[node name="CableClutterHanging4" parent="." unique_id=1421702958 instance=ExtResource("54_1x8sy")]
+transform = Transform3D(0.062070906, 0, 0.861618, 0, 0.8638509, 0, -0.861618, 0, 0.062070906, -22.176926, 6.9218874, -81.74808)
+
+[node name="wood pole8" parent="." unique_id=1802585010 instance=ExtResource("20_5prct")]
+transform = Transform3D(1, 0, 0, 0, 0.7167627, 0, 0, 0, 1, -6.741361, 0.6799221, 14.907441)
+
+[node name="wood pole9" parent="." unique_id=1550782619 instance=ExtResource("20_5prct")]
+transform = Transform3D(1, 0, 0, 0, 0.7636058, 0, 0, 0, 1, -6.070339, 0.6799226, -24.40341)
+
+[node name="wood pole10" parent="." unique_id=1832795499 instance=ExtResource("20_5prct")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2087116, 0.6799226, -54.55696)
+
+[node name="wood pole11" parent="." unique_id=327485181 instance=ExtResource("20_5prct")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.014839, -1.3336687, -79.65926)
+
+[node name="Electrical Pole" parent="." unique_id=1363475971 instance=ExtResource("14_3p7g8")]
+transform = Transform3D(-1.0796895, 0, -0.18661939, 0, 1.2677692, 0, 0.18661939, 0, -1.0796895, -6.1462727, 0.67688465, -28.601183)
+
+[node name="CableClutterHorizontal" parent="." unique_id=820320890 instance=ExtResource("55_6o0u6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.057545, 10.987857, -54.336426)
+
+[node name="CableClutterHanging5" parent="." unique_id=528097365 instance=ExtResource("54_1x8sy")]
+transform = Transform3D(0.054092795, 0, -0.998536, 0, 1, 0, 0.998536, 0, 0.054092795, -6.4126554, 10.841887, -54.618454)
+
+[node name="GaysanoGLogo" parent="." unique_id=370659421 instance=ExtResource("61_wl1wg")]
+transform = Transform3D(-6.2803515e-08, 0, 1.436777, 0, 1.436777, 0, -1.436777, 0, -6.2803515e-08, -34.11259, 7.7063856, -57.89291)
+
+[node name="GaysanoLaPazSign" parent="." unique_id=28913212 instance=ExtResource("62_min3h")]
+transform = Transform3D(1.5142747, 0, 0, 0, 1.5142747, 0, 0, 0, 1.5142747, -47.352074, 7.762032, -39.430664)
+
+[node name="GaysanoLaPazSign2" parent="." unique_id=1256494315 instance=ExtResource("62_min3h")]
+transform = Transform3D(-5.295284e-08, 0, 1.2114198, 0, 1.2114198, 0, -1.2114198, 0, -5.295284e-08, -33.891155, 4.8137455, -57.79602)
+
+[node name="PeteronPricePylon" parent="." unique_id=123078114 instance=ExtResource("63_ujd45")]
+transform = Transform3D(-1.4981315, 0, 0.395793, 0, 1.5495323, 0, -0.395793, 0, -1.4981315, -23.331747, 0.5770118, 56.4828)
+
+[node name="PeteronTallPylon" parent="." unique_id=67110792 instance=ExtResource("64_fwo27")]
+transform = Transform3D(-1.4104598, 0, -0.086600475, 0, 1.4131159, 0, 0.086600475, 0, -1.4104598, -26.581276, 0.59921217, 59.73245)
+
+[node name="JabileeSign" parent="." unique_id=1174613540 instance=ExtResource("65_fwo27")]
+transform = Transform3D(-1.1598804, 0, 1.2248274, 0, 1.6868684, 0, -1.2248274, 0, -1.1598804, -36.202858, 14.241111, 65.19935)

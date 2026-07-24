@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/images/jeepney_stickers/pavia_lapaz.png" id="1_texture"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sticker"]
+transparency = 2
+alpha_scissor_threshold = 0.25
+cull_mode = 2
+roughness = 0.85
+albedo_texture = ExtResource("1_texture")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_sticker"]
+material = SubResource("StandardMaterial3D_sticker")
+size = Vector2(1, 0.572917)
+
+[node name="PaviaLapazSticker" type="Node3D"]
+editor_description = "Place this origin on the jeepney surface. The sticker faces local +Z and is offset 3 mm to prevent z-fighting. Scale the root uniformly to resize it."
+
+[node name="StickerMesh" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, 0.003)
+cast_shadow = 0
+gi_mode = 2
+mesh = SubResource("QuadMesh_sticker")

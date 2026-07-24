@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/images/electrical_cables_clean/cable_clean_junction_loop.png" id="1_texture"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cable"]
+transparency = 2
+alpha_scissor_threshold = 0.25
+shading_mode = 0
+cull_mode = 2
+roughness = 0.9
+albedo_texture = ExtResource("1_texture")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_cable"]
+material = SubResource("StandardMaterial3D_cable")
+size = Vector2(8, 2.005208)
+
+[node name="CableCleanJunctionLoop" type="Node3D"]
+editor_description = "Organized pole junction with one service loop and a compact box. Place its origin at the horizontal cable run and orient local +Z toward the visible side."
+
+[node name="CableMesh" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, 0.01)
+cast_shadow = 0
+gi_mode = 2
+mesh = SubResource("QuadMesh_cable")

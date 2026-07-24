@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/images/electrical_cable_clutter/cable_clutter_radial.png" id="1_texture"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cables"]
+transparency = 2
+alpha_scissor_threshold = 0.25
+cull_mode = 2
+roughness = 0.9
+albedo_texture = ExtResource("1_texture")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_cables"]
+material = SubResource("StandardMaterial3D_cables")
+size = Vector2(4.5, 4.494141)
+
+[node name="CableClutterRadial" type="Node3D"]
+editor_description = "Dense radial pole-junction cable knot. Place this origin over the pole's center and orient local +Z toward the camera-facing side. The mesh is offset 1 cm to prevent z-fighting."
+
+[node name="CableMesh" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, 0.01)
+cast_shadow = 0
+gi_mode = 2
+mesh = SubResource("QuadMesh_cables")
