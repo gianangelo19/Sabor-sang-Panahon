@@ -1,14 +1,15 @@
 extends Control
 
-const PHONE_SIZE := Vector2(368, 640)
-const PHONE_SPRITE := preload("res://assets/art/images/phone_ui/phone_sprite.png")
-const AMBOT_ICON := preload("res://assets/art/images/phone_ui/ambot_icon.png")
-const MAPS_ICON := preload("res://assets/art/images/phone_ui/maps_icon.png")
-const CALENDAR_ICON := preload("res://assets/art/images/phone_ui/calendar_icon.png")
-const CLOCK_ICON := preload("res://assets/art/images/phone_ui/clock_icon.png")
-const NOTES_ICON := preload("res://assets/art/images/phone_ui/notes_icon.png")
-const PHOTOS_ICON := preload("res://assets/art/images/phone_ui/photos_icon.png")
-const CALCULATOR_ICON := preload("res://assets/art/images/phone_ui/calculator_icon.png")
+const PHONE_SIZE := Vector2(304, 640)
+const PHONE_FRAME := preload("res://assets/art/images/phone_ui/phone_frame_v2.png")
+const PHONE_WALLPAPER := preload("res://assets/art/images/phone_ui/phone_wallpaper_cow_dolphin.png")
+const PHONE_GLASS_CRACKS := preload("res://assets/art/images/phone_ui/phone_glass_cracks.png")
+const AMBOT_ICON := preload("res://assets/art/images/phone_ui/ambot_icon_v2.png")
+const MAPS_ICON := preload("res://assets/art/images/phone_ui/maps_icon_v2.png")
+const CALENDAR_ICON := preload("res://assets/art/images/phone_ui/calendar_icon_v2.png")
+const CLOCK_ICON := preload("res://assets/art/images/phone_ui/clock_icon_v2.png")
+const NOTES_ICON := preload("res://assets/art/images/phone_ui/notes_icon_v2.png")
+const CALCULATOR_ICON := preload("res://assets/art/images/phone_ui/calculator_icon_v2.png")
 const MAP_VIEW_SCRIPT := preload("res://game/ui/phone/map_view.gd")
 const PHONE_OPEN_SOUND := preload("res://assets/audio/retro_filipino_pack/phone_open.wav")
 const PHONE_CLOSE_SOUND := preload("res://assets/audio/retro_filipino_pack/phone_close.wav")
@@ -135,7 +136,6 @@ var calculator_stored := 0.0
 var calculator_operation := ""
 var calculator_waiting_for_value := false
 var previous_mouse_mode := Input.MOUSE_MODE_CAPTURED
-var player_was_enabled := true
 var notes_text := "Things to remember:\n\n- Visit Grandma\n- Find something to eat"
 
 var phone_frame: PanelContainer
@@ -237,7 +237,7 @@ func _build_interface() -> void:
 
 	var phone_art := TextureRect.new()
 	phone_art.name = "PhoneArtwork"
-	phone_art.texture = _atlas_texture(PHONE_SPRITE, Rect2(240, 0, 600, 1080))
+	phone_art.texture = PHONE_FRAME
 	phone_art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	phone_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	phone_art.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -246,21 +246,46 @@ func _build_interface() -> void:
 
 	var screen_margin := MarginContainer.new()
 	screen_margin.name = "ScreenMargin"
-	screen_margin.add_theme_constant_override("margin_left", 52)
-	screen_margin.add_theme_constant_override("margin_right", 52)
-	screen_margin.add_theme_constant_override("margin_top", 50)
-	screen_margin.add_theme_constant_override("margin_bottom", 34)
+	screen_margin.add_theme_constant_override("margin_left", 28)
+	screen_margin.add_theme_constant_override("margin_right", 28)
+	screen_margin.add_theme_constant_override("margin_top", 73)
+	screen_margin.add_theme_constant_override("margin_bottom", 73)
 	phone_frame.add_child(screen_margin)
 
-	var screen_surface := PanelContainer.new()
+	var screen_surface := Control.new()
 	screen_surface.name = "ScreenSurface"
 	screen_surface.theme = _build_phone_theme()
-	screen_surface.add_theme_stylebox_override("panel", _style(Color(0.035, 0.075, 0.12, 0.91), Color(1.0, 0.67, 0.25, 0.48), 1, 7, 7))
 	screen_margin.add_child(screen_surface)
+
+	var wallpaper := TextureRect.new()
+	wallpaper.name = "ScreenWallpaper"
+	wallpaper.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	wallpaper.texture = PHONE_WALLPAPER
+	wallpaper.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	wallpaper.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	wallpaper.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	wallpaper.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	screen_surface.add_child(wallpaper)
+
+	var screen_tint := ColorRect.new()
+	screen_tint.name = "ScreenTint"
+	screen_tint.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	screen_tint.color = Color(0.015, 0.045, 0.075, 0.42)
+	screen_tint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	screen_surface.add_child(screen_tint)
+
+	var shell_margin := MarginContainer.new()
+	shell_margin.name = "ScreenContentMargin"
+	shell_margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	shell_margin.add_theme_constant_override("margin_left", 5)
+	shell_margin.add_theme_constant_override("margin_right", 5)
+	shell_margin.add_theme_constant_override("margin_top", 4)
+	shell_margin.add_theme_constant_override("margin_bottom", 4)
+	screen_surface.add_child(shell_margin)
 
 	var shell := VBoxContainer.new()
 	shell.add_theme_constant_override("separation", 5)
-	screen_surface.add_child(shell)
+	shell_margin.add_child(shell)
 
 	var status := HBoxContainer.new()
 	status.name = "StatusBar"
@@ -344,6 +369,25 @@ func _build_interface() -> void:
 	hint.add_theme_font_size_override("font_size", 9)
 	hint.add_theme_color_override("font_color", MUTED_CREAM)
 	shell.add_child(hint)
+
+	var glass_margin := MarginContainer.new()
+	glass_margin.name = "PhoneGlassLayer"
+	glass_margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	glass_margin.add_theme_constant_override("margin_left", 28)
+	glass_margin.add_theme_constant_override("margin_right", 28)
+	glass_margin.add_theme_constant_override("margin_top", 73)
+	glass_margin.add_theme_constant_override("margin_bottom", 73)
+	phone_frame.add_child(glass_margin)
+
+	var cracked_glass := TextureRect.new()
+	cracked_glass.name = "CrackedGlassOverlay"
+	cracked_glass.texture = PHONE_GLASS_CRACKS
+	cracked_glass.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	cracked_glass.stretch_mode = TextureRect.STRETCH_SCALE
+	cracked_glass.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	cracked_glass.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cracked_glass.modulate = Color(1.0, 1.0, 1.0, 0.36)
+	glass_margin.add_child(cracked_glass)
 	show_home()
 
 func _build_audio_players() -> void:
@@ -408,14 +452,8 @@ func _build_phone_theme() -> Theme:
 	phone_theme.set_color("font_color", "TextEdit", Color("402512"))
 	return phone_theme
 
-func _atlas_texture(texture: Texture2D, region: Rect2) -> AtlasTexture:
-	var atlas := AtlasTexture.new()
-	atlas.atlas = texture
-	atlas.region = region
-	return atlas
-
-func _app_icon(texture: Texture2D) -> AtlasTexture:
-	return _atlas_texture(texture, Rect2(220, 220, 640, 640))
+func _app_icon(texture: Texture2D) -> Texture2D:
+	return texture
 
 func open_phone() -> void:
 	if get_tree().paused:
@@ -428,7 +466,6 @@ func open_phone() -> void:
 	phone_frame.visible = true
 	previous_mouse_mode = Input.mouse_mode
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	_set_player_input(false)
 	show_home()
 
 func close_phone() -> void:
@@ -440,17 +477,7 @@ func close_phone() -> void:
 	phone_open = false
 	dim.visible = false
 	phone_frame.visible = false
-	_set_player_input(player_was_enabled)
 	Input.set_mouse_mode(previous_mouse_mode)
-
-func _set_player_input(enabled: bool) -> void:
-	var player := get_tree().root.find_child("ProtoController", true, false)
-	if not player:
-		return
-	if not enabled:
-		player_was_enabled = player.can_move
-	player.can_move = enabled
-	player.set_process_unhandled_input(enabled)
 
 func _clear_screen() -> void:
 	_stop_clock_sound()
@@ -500,7 +527,6 @@ func show_home() -> void:
 	_add_app_button(grid, "Calendar", show_calendar, _app_icon(CALENDAR_ICON))
 	_add_app_button(grid, "Clock", show_clock, _app_icon(CLOCK_ICON))
 	_add_app_button(grid, "Notes", show_notes, _app_icon(NOTES_ICON))
-	_add_app_button(grid, "Photos", show_photos, _app_icon(PHOTOS_ICON))
 	_add_app_button(grid, "Calculator", show_calculator, _app_icon(CALCULATOR_ICON))
 
 func show_maps() -> void:
@@ -695,19 +721,6 @@ func show_notes() -> void:
 	note.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	note.text_changed.connect(func(): notes_text = note.text)
 	screen_stack.add_child(note)
-
-func show_photos() -> void:
-	current_app = "photos"
-	title_label.text = "Photos"
-	_show_back_button()
-	_clear_screen()
-	var empty := Label.new()
-	empty.text = "No recent photos.\n\nRecovered story images will appear here."
-	empty.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	empty.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	empty.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	screen_stack.add_child(empty)
 
 func _open_ambot() -> void:
 	current_situation = GameState.consume_ambot_notification() if GameState.has_ambot_notification() else "casual"

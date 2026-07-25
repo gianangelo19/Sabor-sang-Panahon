@@ -1,5 +1,12 @@
 extends SceneTree
 
+class MockPlayer extends Node3D:
+	var can_move := true
+
+	func _unhandled_input(_event: InputEvent) -> void:
+		pass
+
+
 var failures: Array[String] = []
 
 func _initialize() -> void:
@@ -18,12 +25,30 @@ func _run() -> void:
 		_finish()
 		return
 
+	var mock_player := MockPlayer.new()
+	mock_player.name = "ProtoController"
+	root.add_child(mock_player)
 	var phone := phone_scene.instantiate()
 	root.add_child(phone)
 	await process_frame
 	_check(phone.current_app == "home", "Phone starts on the app launcher")
 	_check(not phone.phone_frame.visible, "Phone starts put away")
 	_check(phone.phone_frame.find_child("PhoneArtwork", true, false) != null, "Phone uses the illustrated phone artwork")
+	_check(phone.phone_frame.find_child("ScreenWallpaper", true, false) != null, "Phone uses the cow and dolphin wallpaper")
+	var screen_margin := phone.phone_frame.find_child("ScreenMargin", true, false) as MarginContainer
+	var glass_layer := phone.phone_frame.find_child("PhoneGlassLayer", true, false) as MarginContainer
+	var cracked_glass := phone.phone_frame.find_child("CrackedGlassOverlay", true, false) as TextureRect
+	_check(glass_layer != null and cracked_glass != null, "Phone has a separate cracked-glass layer")
+	_check(
+		glass_layer != null
+		and screen_margin != null
+		and glass_layer.get_index() > screen_margin.get_index(),
+		"Cracked glass renders above the interactive screen"
+	)
+	_check(
+		cracked_glass != null and cracked_glass.mouse_filter == Control.MOUSE_FILTER_IGNORE,
+		"Cracked glass does not block app input"
+	)
 	_check(phone.phone_frame.find_child("StatusTime", true, false) != null, "Phone status bar shows the time")
 	var location_label := phone.phone_frame.find_child("StatusLocation", true, false) as Label
 	_check(location_label != null and location_label.text == "LA PAZ", "Phone status bar shows the location")
@@ -33,6 +58,7 @@ func _run() -> void:
 	_check(ambot_app_button != null and ambot_app_button.icon != null, "Phone launcher uses the supplied app icons")
 	var calculator_app_button := phone.phone_frame.find_child("CalculatorAppButton", true, false) as Button
 	_check(calculator_app_button != null and calculator_app_button.icon != null, "Calculator uses its matching generated icon")
+	_check(phone.phone_frame.find_child("PhotosAppButton", true, false) == null, "Unused Photos app is removed")
 	phone._open_ambot()
 	_check(phone.current_app == "ambot", "AMBot can open without a notification")
 	_check(phone.current_situation == "casual", "AMBot uses casual dialogue when no clues are new")
@@ -63,6 +89,11 @@ func _run() -> void:
 
 	phone.open_phone()
 	_check(phone.phone_open, "Phone can be opened")
+	_check(mock_player.can_move, "Player can keep walking while the phone is open")
+	_check(
+		mock_player.is_processing_unhandled_input(),
+		"Phone leaves the player controller's input processing enabled"
+	)
 	phone._open_ambot()
 	_check(phone.current_app == "ambot", "Notification opens the AMBot chat")
 	_check(phone.current_situation == "newspaper_scan", "Correct authored situation is selected")
@@ -112,15 +143,15 @@ func _run() -> void:
 		if child is TextEdit:
 			reopened_note = child
 	_check(reopened_note != null and reopened_note.text == "Buy medicine", "Notes persist while the game is running")
-	phone.show_photos()
-	_check(phone.current_app == "photos", "Photos app opens")
 	phone.close_phone()
 	_check(not phone.phone_open, "Phone can be put away")
+	_check(mock_player.can_move, "Closing the phone leaves player movement unchanged")
 	phone.open_phone()
 	_check(phone.current_app == "home", "Reopening the phone always returns to the home screen")
 	phone.close_phone()
 
-	phone.queue_free()
+	phone.free()
+	mock_player.free()
 	_finish()
 
 func _check(condition: bool, label: String) -> void:
