@@ -63,6 +63,10 @@
 [ext_resource type="PackedScene" path="res://game/props/environment/signage/commercial_landmarks/peteron_price_pylon.tscn" id="63_ujd45"]
 [ext_resource type="PackedScene" path="res://game/props/environment/signage/commercial_landmarks/peteron_tall_pylon.tscn" id="64_fwo27"]
 [ext_resource type="PackedScene" path="res://game/props/environment/signage/commercial_landmarks/jabilee_sign.tscn" id="65_fwo27"]
+[ext_resource type="PackedScene" path="res://game/characters/npcs/citizens/npc_bjorn.tscn" id="66_mo16j"]
+[ext_resource type="PackedScene" uid="uid://cc1mes80qa5ba" path="res://game/props/environment/611_chair.tscn" id="67_8ib26"]
+[ext_resource type="PackedScene" uid="uid://cjmdxpq8jcbot" path="res://game/props/environment/611_table.tscn" id="68_268gj"]
+[ext_resource type="PackedScene" path="res://game/props/environment/signage/commercial_landmarks/six_eleven_sign.tscn" id="69_268gj"]
 [ext_resource type="PackedScene" path="res://game/ui/hud/game_hud.tscn" id="hud_phone"]
 [ext_resource type="Script" uid="uid://bdubpo54wcesl" path="res://game/worlds/la_paz/apartment/wake_up.gd" id="wakeup_script"]
 
@@ -1663,7 +1667,7 @@ transform = Transform3D(-1.0000001, 0, 1.7881393e-07, 0, 1, 0, -1.7881393e-07, 0
 script = ExtResource("33_collision")
 
 [node name="Sketchfab_Scene23" parent="." unique_id=224506931 instance=ExtResource("30_pu1ue")]
-transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -30.542433, 0.55933523, -7.821727)
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -30.542433, 0.49070978, -7.821727)
 script = ExtResource("33_collision")
 
 [node name="Sketchfab_Scene34" parent="." unique_id=453997032 instance=ExtResource("31_mky0e")]
@@ -1675,7 +1679,7 @@ transform = Transform3D(0.043765664, -0.003196955, 0.0020660497, 0.00318335, 0.0
 script = ExtResource("33_collision")
 
 [node name="Sketchfab_Scene41" parent="." unique_id=1555210539 instance=ExtResource("31_mky0e")]
-transform = Transform3D(-1.8626451e-09, 0, 0.051839996, 0, 0.051839985, 0, -0.051839996, 0, -1.8626451e-09, 1.3999994, 2.000001, -26.099998)
+transform = Transform3D(-1.8626451e-09, 0, 0.051839996, 0, 0.051839985, 0, -0.051839996, 0, -1.8626451e-09, 1.3999994, 2.000001, -27.407572)
 script = ExtResource("33_collision")
 
 [node name="Sketchfab_Scene48" parent="." unique_id=90878040 instance=ExtResource("31_mky0e")]
@@ -1694,7 +1698,7 @@ script = ExtResource("33_collision")
 transform = Transform3D(-4.885962e-08, 0, 1.1177781, 0, 1.1177781, 0, -1.1177781, 0, -4.885962e-08, -27.53286, 0.5098752, -26.2)
 
 [node name="npc_milk" parent="." unique_id=1142351024 instance=ExtResource("35_8p8mx")]
-transform = Transform3D(-8.792586e-09, 0, 0.20115092, 0, 0.20115092, 0, -0.20115092, 0, -8.792586e-09, -5.149008, 0.0184725, -22.87695)
+transform = Transform3D(-8.163162e-09, 0, 0.18675138, 0, 0.18675138, 0, -0.18675138, 0, -8.163162e-09, -5.572149, 0.0184725, -22.87695)
 
 [node name="npc_woman" parent="." unique_id=1350490822 instance=ExtResource("36_mur58")]
 transform = Transform3D(-8.451159e-09, 0, 0.19333999, 0, 0.19333999, 0, -0.19333999, 0, -8.451159e-09, 0.5886032, 0.50355834, 34.71092)
@@ -1794,9 +1798,6 @@ transform = Transform3D(0.24922055, 0, -0.9684468, 0, 1, 0, 0.9684468, 0, 0.2492
 
 [node name="LaPazResidentialRow" parent="." unique_id=1510494440 instance=ExtResource("59_rnedl")]
 transform = Transform3D(0.52418077, 0, 0.851607, 0, 1, 0, -0.851607, 0, 0.52418077, -24.811342, -0.8210907, -164.60301)
-
-[node name="LaPazResidentialRow2" parent="." unique_id=282442570 instance=ExtResource("59_rnedl")]
-transform = Transform3D(0.52418077, 0, 0.851607, 0, 1, 0, -0.851607, 0, 0.52418077, -6.081321, -0.8210907, -194.72034)
 
 [node name="LaPazHeritageRow4" parent="." unique_id=725573341 instance=ExtResource("56_skgpu")]
 transform = Transform3D(0.18866517, 0, -0.9820415, 0, 1, 0, 0.9820415, 0, 0.18866517, 16.732988, -0.030919552, -85.60172)
@@ -1968,3 +1969,42 @@ transform = Transform3D(-1.4104598, 0, -0.086600475, 0, 1.4131159, 0, 0.08660047
 
 [node name="JabileeSign" parent="." unique_id=1174613540 instance=ExtResource("65_fwo27")]
 transform = Transform3D(-1.1598804, 0, 1.2248274, 0, 1.6868684, 0, -1.2248274, 0, -1.1598804, -36.202858, 14.241111, 65.19935)
+
+[node name="npc_bjorn" parent="." unique_id=1744998197 instance=ExtResource("66_mo16j")]
+transform = Transform3D(-8.663283e-09, 0, 0.19819282, 0, 0.19819282, 0, -0.19819282, 0, -8.663283e-09, -5.120196, 0.59585845, -21.621181)
+
+[node name="611 chair" parent="." unique_id=810243711 instance=ExtResource("67_8ib26")]
+transform = Transform3D(0.99540305, 0, -0.09577482, 0, 1, 0, 0.09577482, 0, 0.99540305, -4.4672146, 0.5391414, -22.932564)
+
+[node name="611 chair3" parent="." unique_id=681013853 instance=ExtResource("67_8ib26")]
+transform = Transform3D(0.041982457, 0, -0.9991183, 0, 1, 0, 0.9991183, 0, 0.041982457, -3.00208, 0.6766764, -24.387388)
+
+[node name="611 chair4" parent="." unique_id=213805427 instance=ExtResource("67_8ib26")]
+transform = Transform3D(0.041982457, 0, -0.9991183, 0, 1, 0, 0.9991183, 0, 0.041982457, -1.829585, 0.6766764, -24.436655)
+
+[node name="611 chair5" parent="." unique_id=1242447481 instance=ExtResource("67_8ib26")]
+transform = Transform3D(-0.1986327, 0, -0.980074, 0, 1, 0, 0.980074, 0, -0.1986327, -0.44190815, 0.6766764, -24.421974)
+
+[node name="611 chair6" parent="." unique_id=787558366 instance=ExtResource("67_8ib26")]
+transform = Transform3D(0.15212092, 0, -0.9883619, 0, 1, 0, 0.9883619, 0, 0.15212092, 0.8273016, 0.6766764, -24.334314)
+
+[node name="611 chair2" parent="." unique_id=930253607 instance=ExtResource("67_8ib26")]
+transform = Transform3D(0.9531937, 0, 0.30236018, 0, 1, 0, -0.30236018, 0, 0.9531937, -4.580027, 0.5391414, -21.712168)
+
+[node name="611_table" parent="." unique_id=174119729 instance=ExtResource("68_268gj")]
+transform = Transform3D(1.3823211, 0, 0, 0, 1.3823211, 0, 0, 0, 1.3823211, -4.4965, 0.8101566, -22.328457)
+
+[node name="611_table2" parent="." unique_id=1413534293 instance=ExtResource("68_268gj")]
+transform = Transform3D(-0.0030226111, 0, -1.3823178, 0, 1.3823211, 0, 1.3823178, 0, -0.0030226111, -2.6383753, 0.8101566, -24.393873)
+
+[node name="611_table3" parent="." unique_id=459446217 instance=ExtResource("68_268gj")]
+transform = Transform3D(-0.0030226111, 0, -1.3823178, 0, 1.3823211, 0, 1.3823178, 0, -0.0030226111, 0.12475848, 0.8101566, -24.38783)
+
+[node name="SixElevenSign" parent="." unique_id=2043379821 instance=ExtResource("69_268gj")]
+transform = Transform3D(-8.389887e-09, 0, -0.19193825, 0, 0.19193825, 0, 0.19193825, 0, -8.389887e-09, -4.9982853, 3.900572, -20.58143)
+
+[node name="SixElevenSign2" parent="." unique_id=1655152324 instance=ExtResource("69_268gj")]
+transform = Transform3D(0.5139927, 0, 1.9951962e-08, 0, 0.5139928, 0, -1.9951962e-08, 0, 0.5139927, -6.1253, 8.32636, -24.215038)
+
+[node name="SixElevenSign3" parent="." unique_id=465762937 instance=ExtResource("69_268gj")]
+transform = Transform3D(-0.5139927, 0, 2.4982711e-08, 0, 0.5139928, 0, -2.4982711e-08, 0, -0.5139927, -6.1253, 8.32636, -24.606447)

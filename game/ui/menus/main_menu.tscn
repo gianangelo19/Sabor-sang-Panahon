@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://game/ui/menus/main_menu.gd" id="1_menu"]
 [ext_resource type="Texture2D" path="res://assets/art/images/main_menu_bg.png" id="2_background"]
@@ -59,6 +59,22 @@ bg_color = Color(0, 0, 0, 0)
 border_width_left = 3
 border_color = Color(1, 0.77, 0.38, 0.8)
 
+[sub_resource type="StyleBoxFlat" id="StyleBox_credits_panel"]
+bg_color = Color(0.028, 0.019, 0.012, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.94, 0.66, 0.25, 0.78)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 34.0
+content_margin_top = 26.0
+content_margin_right = 34.0
+content_margin_bottom = 24.0
+
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -94,9 +110,9 @@ expand_mode = 1
 [node name="MenuColumn" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchor_left = 0.045
-anchor_top = 0.43
+anchor_top = 0.39
 anchor_right = 0.32
-anchor_bottom = 0.89
+anchor_bottom = 0.92
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 5
@@ -151,6 +167,7 @@ alignment = 0
 [node name="SettingsButton" type="Button" parent="MenuColumn"]
 custom_minimum_size = Vector2(265, 50)
 layout_mode = 2
+focus_neighbor_bottom = NodePath("../CreditsButton")
 theme_override_colors/font_color = Color(0.98, 0.94, 0.86, 1)
 theme_override_colors/font_hover_color = Color(1, 0.79, 0.42, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.9, 0.68, 1)
@@ -163,9 +180,28 @@ theme_override_styles/focus = SubResource("StyleBox_button_focus")
 text = "SETTINGS"
 alignment = 0
 
+[node name="CreditsButton" type="Button" parent="MenuColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(265, 50)
+layout_mode = 2
+focus_neighbor_top = NodePath("../SettingsButton")
+focus_neighbor_bottom = NodePath("../QuitButton")
+theme_override_colors/font_color = Color(0.98, 0.94, 0.86, 1)
+theme_override_colors/font_hover_color = Color(1, 0.79, 0.42, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.9, 0.68, 1)
+theme_override_colors/font_focus_color = Color(1, 0.79, 0.42, 1)
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = SubResource("StyleBox_button_normal")
+theme_override_styles/hover = SubResource("StyleBox_button_hover")
+theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
+theme_override_styles/focus = SubResource("StyleBox_button_focus")
+text = "CREDITS"
+alignment = 0
+
 [node name="QuitButton" type="Button" parent="MenuColumn"]
 custom_minimum_size = Vector2(265, 50)
 layout_mode = 2
+focus_neighbor_top = NodePath("../CreditsButton")
 focus_neighbor_bottom = NodePath("../StartButton")
 theme_override_colors/font_color = Color(0.98, 0.94, 0.86, 1)
 theme_override_colors/font_hover_color = Color(1, 0.79, 0.42, 1)
@@ -192,7 +228,100 @@ theme_override_colors/font_color = Color(1, 0.9, 0.72, 0.5)
 theme_override_font_sizes/font_size = 12
 text = "A LA PAZ MEMORY MYSTERY"
 
+[node name="CreditsOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Scrim" type="ColorRect" parent="CreditsOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.008, 0.005, 0.003, 0.82)
+
+[node name="CreditsPanel" type="PanelContainer" parent="CreditsOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.1
+anchor_top = 0.07
+anchor_right = 0.9
+anchor_bottom = 0.93
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_credits_panel")
+
+[node name="CreditsColumn" type="VBoxContainer" parent="CreditsOverlay/CreditsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="CreditsTitle" type="Label" parent="CreditsOverlay/CreditsPanel/CreditsColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.79, 0.42, 1)
+theme_override_font_sizes/font_size = 30
+text = "CREDITS"
+horizontal_alignment = 1
+
+[node name="CreditsSubtitle" type="Label" parent="CreditsOverlay/CreditsPanel/CreditsColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.72, 0.72)
+theme_override_font_sizes/font_size = 14
+text = "FREE THIRD-PARTY ASSETS USED IN SABOR SANG PANAHON"
+horizontal_alignment = 1
+
+[node name="CreditsRule" type="HSeparator" parent="CreditsOverlay/CreditsPanel/CreditsColumn"]
+layout_mode = 2
+
+[node name="CreditsText" type="RichTextLabel" parent="CreditsOverlay/CreditsPanel/CreditsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 2
+focus_neighbor_bottom = NodePath("../CloseRow/CloseCreditsButton")
+mouse_default_cursor_shape = 2
+theme_override_colors/default_color = Color(0.93, 0.89, 0.8, 1)
+theme_override_colors/font_selected_color = Color(0.06, 0.04, 0.02, 1)
+theme_override_colors/selection_color = Color(1, 0.72, 0.3, 0.78)
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+meta_underlined = false
+hint_underlined = false
+selection_enabled = true
+scroll_following = false
+
+[node name="CloseRow" type="HBoxContainer" parent="CreditsOverlay/CreditsPanel/CreditsColumn"]
+layout_mode = 2
+alignment = 1
+
+[node name="CloseCreditsButton" type="Button" parent="CreditsOverlay/CreditsPanel/CreditsColumn/CloseRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 46)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../CreditsText")
+theme_override_colors/font_color = Color(0.98, 0.94, 0.86, 1)
+theme_override_colors/font_hover_color = Color(1, 0.79, 0.42, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.9, 0.68, 1)
+theme_override_colors/font_focus_color = Color(1, 0.79, 0.42, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBox_button_normal")
+theme_override_styles/hover = SubResource("StyleBox_button_hover")
+theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
+theme_override_styles/focus = SubResource("StyleBox_button_focus")
+text = "BACK"
+
 [connection signal="pressed" from="MenuColumn/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="MenuColumn/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="MenuColumn/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MenuColumn/CreditsButton" to="." method="_on_credits_button_pressed"]
 [connection signal="pressed" from="MenuColumn/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="meta_clicked" from="CreditsOverlay/CreditsPanel/CreditsColumn/CreditsText" to="." method="_on_credits_link_clicked"]
+[connection signal="pressed" from="CreditsOverlay/CreditsPanel/CreditsColumn/CloseRow/CloseCreditsButton" to="." method="_on_close_credits_button_pressed"]

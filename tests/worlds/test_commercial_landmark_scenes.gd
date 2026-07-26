@@ -21,6 +21,14 @@ const LANDMARK_SCENES := {
 		"size": Vector2(2.632813, 12.0),
 		"grounded": true,
 	},
+	"res://game/props/environment/signage/commercial_landmarks/six_eleven_sign.tscn": {
+		"size": Vector2(4.0, 4.0),
+		"grounded": false,
+	},
+	"res://game/props/environment/signage/commercial_landmarks/six_eleven_white_wordmark.tscn": {
+		"size": Vector2(6.0, 1.5),
+		"grounded": false,
+	},
 }
 
 var failures: Array[String] = []

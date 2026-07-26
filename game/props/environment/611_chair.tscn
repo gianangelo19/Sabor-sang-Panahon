@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://cc1mes80qa5ba"]
+
+[ext_resource type="PackedScene" path="res://game/props/environment/signage/commercial_landmarks/six_eleven_white_wordmark.tscn" id="1_yfvb8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hc5bh"]
+albedo_color = Color(0.9991576, 0.5052982, 0, 1)
+
+[node name="611 chair" type="Node3D" unique_id=810243711]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=118364242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.3521531, 0, 0.55879146, 0)
+use_collision = true
+size = Vector3(1, 0.068359375, 0.38500977)
+material = SubResource("StandardMaterial3D_hc5bh")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=340486271]
+transform = Transform3D(-5.226543e-08, -1, 0, 1.1956937, -4.371139e-08, 0, 0, 0, 1.3521531, -0.46572176, 0.25404406, 0)
+use_collision = true
+size = Vector3(0.5545044, 0.068359375, 0.38500977)
+material = SubResource("StandardMaterial3D_hc5bh")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="." unique_id=1068440862]
+transform = Transform3D(-5.226543e-08, -1, 0, 1.1956937, -4.371139e-08, 0, 0, 0, 1.3521531, 0.46597674, 0.2540441, 0)
+use_collision = true
+size = Vector3(0.5545044, 0.068359375, 0.38500977)
+material = SubResource("StandardMaterial3D_hc5bh")
+
+[node name="SixElevenWhiteWordmark" parent="." unique_id=1887677057 instance=ExtResource("1_yfvb8")]
+transform = Transform3D(-4.7420685e-09, 0, -0.08045972, 0, 0.08045972, 0, 0.10848589, 0, -3.517006e-09, -0.50435495, 0.264896, -0.0019943863)
+
+[node name="SixElevenWhiteWordmark2" parent="." unique_id=930556072 instance=ExtResource("1_yfvb8")]
+transform = Transform3D(-4.2005204e-09, 0, 0.08045972, 0, 0.08045972, 0, -0.0960967, 0, -3.517006e-09, 0.5024664, 0.264896, 5.4867705e-05)
