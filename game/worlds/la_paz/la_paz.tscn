@@ -1698,7 +1698,7 @@ script = ExtResource("33_collision")
 transform = Transform3D(-4.885962e-08, 0, 1.1177781, 0, 1.1177781, 0, -1.1177781, 0, -4.885962e-08, -27.53286, 0.5098752, -26.2)
 
 [node name="npc_milk" parent="." unique_id=1142351024 instance=ExtResource("35_8p8mx")]
-transform = Transform3D(-8.163162e-09, 0, 0.18675138, 0, 0.18675138, 0, -0.18675138, 0, -8.163162e-09, -5.572149, 0.0184725, -22.87695)
+transform = Transform3D(-8.163162e-09, 0, 0.18675138, 0, 0.18675138, 0, -0.18675138, 0, -8.163162e-09, -5.572149, 0.096337855, -22.87695)
 
 [node name="npc_woman" parent="." unique_id=1350490822 instance=ExtResource("36_mur58")]
 transform = Transform3D(-8.451159e-09, 0, 0.19333999, 0, 0.19333999, 0, -0.19333999, 0, -8.451159e-09, 0.5886032, 0.50355834, 34.71092)
