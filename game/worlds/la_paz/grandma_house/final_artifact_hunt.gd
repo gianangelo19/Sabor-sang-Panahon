@@ -182,6 +182,7 @@ func _on_artifact_recovered(_recovered_artifact: Node3D) -> void:
 	_stop_hunt_clock()
 	GameState.add_clue(ARTIFACT_RECOVERED_CLUE)
 	GameState.add_clue(DISH_RESTORED_CLUE)
+	GameState.add_inventory_item("batchoy_bowl", "Old Batchoy Bowl")
 	GameState.complete_final_hunt(true)
 	GameState.set_objective("Serve the restored La Paz Batchoy to Grandma.")
 	GameState.set_ambot_status("Cultural memory restored: La Paz Batchoy")

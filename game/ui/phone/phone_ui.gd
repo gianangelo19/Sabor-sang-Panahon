@@ -1,5 +1,7 @@
 extends Control
 
+signal open_state_changed(is_open: bool)
+
 const PHONE_SIZE := Vector2(304, 640)
 const PHONE_FRAME := preload("res://assets/art/images/phone_ui/phone_frame_v2.png")
 const PHONE_WALLPAPER := preload("res://assets/art/images/phone_ui/phone_wallpaper_cow_dolphin.png")
@@ -467,6 +469,8 @@ func open_phone() -> void:
 	previous_mouse_mode = Input.mouse_mode
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	show_home()
+	notification_banner.visible = false
+	open_state_changed.emit(true)
 
 func close_phone() -> void:
 	if not phone_open:
@@ -477,7 +481,54 @@ func close_phone() -> void:
 	phone_open = false
 	dim.visible = false
 	phone_frame.visible = false
+	notification_banner.visible = GameState.has_ambot_notification()
 	Input.set_mouse_mode(previous_mouse_mode)
+	open_state_changed.emit(false)
+
+func is_point_over_phone(viewport_position: Vector2) -> bool:
+	return phone_open and phone_frame.get_global_rect().has_point(viewport_position)
+
+func analyze_inventory_item(item_id: String) -> void:
+	if item_id.is_empty():
+		return
+	if not phone_open:
+		open_phone()
+	var definition := GameState.get_item_definition(item_id)
+	current_app = "ambot"
+	current_situation = "inventory_scan_" + item_id
+	title_label.text = "AMBot • ITEM SCAN"
+	_show_back_button()
+	_clear_screen()
+	notification_toast.visible = false
+	notification_banner.visible = false
+
+	var heading := Label.new()
+	heading.text = "OBJECT RECOGNITION COMPLETE"
+	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	heading.add_theme_font_size_override("font_size", 11)
+	heading.add_theme_color_override("font_color", GOLD)
+	screen_stack.add_child(heading)
+	_add_chat_bubble(
+		"AMBot",
+		"%s\nCategory: %s\n\n%s" % [
+			str(definition.get("display_name", item_id.capitalize())),
+			str(definition.get("category", "Item")),
+			str(definition.get("ambot", "No reference information is available.")),
+		],
+		false,
+		_finish_inventory_item_scan.bind(item_id),
+	)
+
+func _finish_inventory_item_scan(item_id: String) -> void:
+	var done := Button.new()
+	done.text = "Scan complete • drag another item"
+	done.tooltip_text = "Return to the app launcher"
+	done.pressed.connect(func():
+		_play_sfx(phone_back_player)
+		show_home()
+	)
+	screen_stack.add_child(done)
+	GameState.set_ambot_status("Scanned " + str(GameState.get_item_definition(item_id).get("display_name", item_id.capitalize())))
 
 func _clear_screen() -> void:
 	_stop_clock_sound()
@@ -899,7 +950,7 @@ func _on_notification_received(notification: Dictionary, play_sound := true) -> 
 	notification_toast.text = "AMBot - %s\n%s" % [notification.get("title", "New message"), notification.get("preview", "Tap to open")]
 	notification_toast.visible = true
 	notification_banner.text = notification_toast.text
-	notification_banner.visible = true
+	notification_banner.visible = not phone_open
 	if play_sound:
 		_play_sfx(notification_player)
 

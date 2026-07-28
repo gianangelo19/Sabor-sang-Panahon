@@ -22,6 +22,7 @@ const KEY_E := preload("res://assets/art/images/ui/key_prompts/key_e.png")
 @onready var clue_label: Label = %ClueValue
 @onready var ingredient_label: Label = %IngredientValue
 @onready var ambot_label: Label = %AMBotValue
+@onready var ambot_panel: PanelContainer = $HUDRoot/AMBotPanel
 @onready var pause_menu: Control = %PauseMenu
 @onready var resume_button: Button = %ResumeButton
 @onready var phone_ui: Control = $PhoneUI
@@ -47,6 +48,8 @@ var _tutorial_tween: Tween
 var _normal_canvas_layer := 0
 var _mouse_mode_before_pause := Input.MOUSE_MODE_CAPTURED
 var _main_menu_transitioning := false
+var _inventory_hud_hidden := false
+var _ambot_panel_was_visible := false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -62,13 +65,27 @@ func _ready() -> void:
 	GameState.final_hunt_time_changed.connect(_on_final_hunt_time_changed)
 	GameState.final_hunt_finished.connect(_on_final_hunt_finished)
 	GameState.final_hunt_placement_decided.connect(_on_final_hunt_placement_decided)
+	phone_ui.open_state_changed.connect(_on_inventory_open_state_changed)
 	_on_tutorial_step_changed(GameState.tutorial_step)
+	_on_inventory_open_state_changed(phone_ui.phone_open)
 	final_hunt_result.visible = false
 	_on_final_hunt_placement_decided(GameState.final_hunt_placement_source, GameState.final_hunt_placement_spot)
 	if GameState.final_hunt_active:
 		_on_final_hunt_started(GameState.final_hunt_time_remaining)
 	else:
 		final_hunt_panel.visible = false
+
+func _on_inventory_open_state_changed(is_open: bool) -> void:
+	if is_open:
+		if not _inventory_hud_hidden:
+			_ambot_panel_was_visible = ambot_panel.visible
+		_inventory_hud_hidden = true
+		objective_panel.visible = false
+		ambot_panel.visible = false
+	elif _inventory_hud_hidden:
+		_inventory_hud_hidden = false
+		_update_objective_panel_visibility()
+		ambot_panel.visible = _ambot_panel_was_visible
 
 func _input(event: InputEvent) -> void:
 	if tutorial_transitioning:

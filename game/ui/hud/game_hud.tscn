@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://game/ui/hud/game_hud.gd" id="1_hud"]
 [ext_resource type="PackedScene" path="res://game/ui/phone/phone_ui.tscn" id="2_phone"]
 [ext_resource type="Script" path="res://game/ui/navigation/navigation_beacon.gd" id="3_beacon"]
 [ext_resource type="Texture2D" path="res://assets/art/images/ui/key_prompts/key_wasd.png" id="4_wasd"]
 [ext_resource type="Texture2D" path="res://assets/art/images/ui/key_prompts/key_spacebar.png" id="5_space"]
+[ext_resource type="PackedScene" path="res://game/ui/inventory/inventory_ui.tscn" id="6_inventory"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 bg_color = Color(0.055, 0.043, 0.031, 0.82)
@@ -333,6 +334,8 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PhoneUI" parent="." instance=ExtResource("2_phone")]
+
+[node name="InventoryUI" parent="." instance=ExtResource("6_inventory")]
 
 [node name="Dim" type="ColorRect" parent="PauseMenu"]
 layout_mode = 1
