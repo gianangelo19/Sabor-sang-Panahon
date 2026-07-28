@@ -8,6 +8,22 @@ func _initialize() -> void:
 func _run() -> void:
 	var game_state := root.get_node("GameState")
 	game_state.reset()
+	var interact_uses_f := false
+	var interact_uses_e := false
+	for event: InputEvent in InputMap.action_get_events("interact"):
+		if event is InputEventKey:
+			var key_event := event as InputEventKey
+			interact_uses_f = (
+				interact_uses_f
+				or key_event.physical_keycode == KEY_F
+				or key_event.keycode == KEY_F
+			)
+			interact_uses_e = (
+				interact_uses_e
+				or key_event.physical_keycode == KEY_E
+				or key_event.keycode == KEY_E
+			)
+	_check(interact_uses_f and not interact_uses_e, "Interact action is bound to F instead of E")
 	var hud_scene := load("res://game/ui/hud/game_hud.tscn") as PackedScene
 	_check(hud_scene != null, "HUD scene loads")
 	if hud_scene == null:
@@ -43,7 +59,7 @@ func _run() -> void:
 	await create_timer(0.35).timeout
 	_check(game_state.tutorial_step == hud.TUTORIAL_INTERACT, "Seeing the box unlocks interaction instruction")
 	_check(hud.hint_text.text == "OPEN THE BOX", "Box instruction identifies the current action")
-	_check(hud.primary_key.texture.resource_path.ends_with("key_e.png"), "Box instruction uses the E sprite")
+	_check(hud.primary_key.texture.resource_path.ends_with("key_f.png"), "Box instruction uses the F sprite")
 
 	await _send_action(hud, "interact")
 	_check(game_state.tutorial_step == hud.TUTORIAL_WAITING_FOR_MINIGAME, "Interaction prompt disappears while the minigame runs")
@@ -53,7 +69,7 @@ func _run() -> void:
 	await create_timer(0.35).timeout
 	_check(game_state.tutorial_step == hud.TUTORIAL_PHONE, "Completing the box minigame unlocks the phone instruction")
 	_check(hud.hint_text.text == "CHECK YOUR PHONE", "Phone instruction follows minigame completion")
-	_check(hud.primary_key.texture.resource_path.ends_with("key_p.png"), "Phone instruction uses the P sprite")
+	_check(hud.primary_key.texture.resource_path.ends_with("key_e.png"), "Phone instruction uses the E sprite")
 	await _send_action(hud, "phone")
 	_check(game_state.tutorial_step == hud.TUTORIAL_COMPLETE, "Opening the phone completes the tutorial")
 	_check(not hud.hint_bar.visible, "Final instruction fades out after completion")

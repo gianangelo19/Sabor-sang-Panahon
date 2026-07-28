@@ -28,8 +28,8 @@ func get_interaction_text() -> String:
 	if not _is_story_available():
 		return _locked_interaction_text()
 	if _conversation_completed and not _minigame_completed:
-		return "Press E to continue " + npc_display_name + "'s story"
-	return "Press E to talk to " + npc_display_name
+		return "Press F to continue " + npc_display_name + "'s story"
+	return "Press F to talk to " + npc_display_name
 
 
 func interact() -> void:

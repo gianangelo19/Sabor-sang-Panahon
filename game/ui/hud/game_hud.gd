@@ -14,8 +14,8 @@ const TUTORIAL_FADE_DURATION := 0.28
 
 const KEY_WASD := preload("res://assets/art/images/ui/key_prompts/key_wasd.png")
 const KEY_SPACEBAR := preload("res://assets/art/images/ui/key_prompts/key_spacebar.png")
+const KEY_F := preload("res://assets/art/images/ui/key_prompts/key_f.png")
 const KEY_E := preload("res://assets/art/images/ui/key_prompts/key_e.png")
-const KEY_P := preload("res://assets/art/images/ui/key_prompts/key_p.png")
 
 @onready var objective_label: Label = %ObjectiveValue
 @onready var objective_panel: PanelContainer = $HUDRoot/TopLeftPanel
@@ -337,11 +337,11 @@ func _configure_tutorial(step: int) -> void:
 			secondary_label.text = "JUMP"
 		TUTORIAL_INTERACT:
 			hint_text.text = "OPEN THE BOX"
-			primary_key.texture = KEY_E
+			primary_key.texture = KEY_F
 			primary_label.text = "INTERACT"
 		TUTORIAL_PHONE:
 			hint_text.text = "CHECK YOUR PHONE"
-			primary_key.texture = KEY_P
+			primary_key.texture = KEY_E
 			primary_label.text = "OPEN PHONE"
 
 

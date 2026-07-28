@@ -193,7 +193,7 @@ func update_interaction_prompt() -> void:
 		if current_interactable.has_method("get_interaction_text"):
 			interact_prompt.text = current_interactable.get_interaction_text()
 		else:
-			interact_prompt.text = "Press E to interact"
+			interact_prompt.text = "Press F to interact"
 		interact_prompt.visible = true
 	else:
 		interact_prompt.visible = false

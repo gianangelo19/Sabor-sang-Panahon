@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/images/vandalism_decals/iloilo_color_burst.png" id="1_texture"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_decal"]
+transparency = 2
+alpha_scissor_threshold = 0.25
+cull_mode = 2
+roughness = 0.95
+albedo_texture = ExtResource("1_texture")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_decal"]
+material = SubResource("StandardMaterial3D_decal")
+size = Vector2(5, 1.591495)
+
+[node name="IloiloColorBurstDecal" type="Node3D"]
+editor_description = "Original colorful Iloilo-inspired mural decal. Place the origin on a wall, orient local +Z toward the visible side, and scale the root uniformly as needed."
+
+[node name="DecalMesh" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, 0.003)
+cast_shadow = 0
+gi_mode = 2
+mesh = SubResource("QuadMesh_decal")

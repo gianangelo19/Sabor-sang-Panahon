@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/images/vandalism_decals/palangga_lugar_message.png" id="1_texture"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_decal"]
+transparency = 2
+alpha_scissor_threshold = 0.25
+cull_mode = 2
+roughness = 0.95
+albedo_texture = ExtResource("1_texture")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_decal"]
+material = SubResource("StandardMaterial3D_decal")
+size = Vector2(3, 1.101923)
+
+[node name="PalanggaLugarMessageDecal" type="Node3D"]
+editor_description = "Hand-painted PALANGGA TA / ANG ATON LUGAR wall-message decal. Place the origin on a wall and orient local +Z toward the visible side."
+
+[node name="DecalMesh" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, 0.003)
+cast_shadow = 0
+gi_mode = 2
+mesh = SubResource("QuadMesh_decal")

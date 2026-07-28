@@ -17,7 +17,7 @@ var _player_was_movable := true
 
 
 func get_interaction_text() -> String:
-	return "Press E to talk to " + npc_display_name
+	return "Press F to talk to " + npc_display_name
 
 
 func interact() -> void:

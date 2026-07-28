@@ -364,7 +364,7 @@ func _build_interface() -> void:
 	shell.add_child(screen_stack)
 
 	var hint := Label.new()
-	hint.text = "P  PUT AWAY"
+	hint.text = "E  PUT AWAY"
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint.add_theme_font_size_override("font_size", 9)
 	hint.add_theme_color_override("font_color", MUTED_CREAM)

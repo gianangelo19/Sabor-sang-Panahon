@@ -68,7 +68,7 @@ func _update_audio() -> void:
 
 func get_interaction_text() -> String:
 	if current_state == State.IDLE:
-		return "Press E to ride Jeepney"
+		return "Press F to ride Jeepney"
 	return ""
 
 func interact() -> void:
@@ -215,7 +215,7 @@ func _process(_delta: float) -> void:
 	if current_state == State.STOPPED and player_node:
 		var prompt = player_node.get_node_or_null("InteractionUI/Prompt")
 		if prompt:
-			prompt.text = "Press E to get off Jeepney"
+			prompt.text = "Press F to get off Jeepney"
 			prompt.visible = true
 	elif current_state == State.RIDING and player_node:
 		var prompt = player_node.get_node_or_null("InteractionUI/Prompt")

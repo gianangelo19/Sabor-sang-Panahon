@@ -60,10 +60,9 @@ albedo_texture = ExtResource("16_4t723")
 
 [node name="lapaz_public_market" type="Node3D" unique_id=707524680]
 
-[node name="MarketAmbience" type="AudioStreamPlayer3D" parent="."]
-position = Vector3(-5, 1.5, 3)
+[node name="MarketAmbience" type="AudioStreamPlayer3D" parent="." unique_id=1279057049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.5, 3)
 volume_db = -8.0
-unit_size = 10.0
 max_distance = 34.0
 bus = &"Music"
 script = ExtResource("27_loop_audio_3d")
@@ -895,10 +894,10 @@ shadow_enabled = true
 omni_range = 9.670755
 
 [node name="npc_market_vendor" parent="." unique_id=1919641282 instance=ExtResource("11_5f1vv")]
-transform = Transform3D(-0.3920449, 0, -3.4273654e-08, 0, 0.3920449, 0, 3.4273654e-08, 0, -0.3920449, -14.099999, 0, -4.5618734)
+transform = Transform3D(-0.42941192, 0, -3.754038e-08, 0, 0.42941192, 0, 3.754038e-08, 0, -0.42941192, -14.099999, 0, -4.5618734)
 
 [node name="npc_market_vendor2" parent="." unique_id=1240062083 instance=ExtResource("12_lp7p1")]
-transform = Transform3D(0.46939138, 0, 0, 0, 0.46939138, 0, 0, 0, 0.46939138, -2.75, -0.20000002, 10.05)
+transform = Transform3D(0.50668657, 0, 0, 0, 0.50668657, 0, 0, 0, 0.50668657, -2.75, -0.20000002, 10.05)
 
 [node name="MarketVendor1Destination" type="Marker3D" parent="." unique_id=1376764569]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.099999, 0, -5.1)

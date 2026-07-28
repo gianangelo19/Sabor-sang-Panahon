@@ -27,7 +27,7 @@ func _run() -> void:
 	_check(box is StaticBody3D and box.has_method("interact"), "The table box is the newspaper minigame interactable")
 	_check(box.get_node_or_null("CollisionShape3D") != null, "The table box has a raycast collision shape")
 	_check(door._is_story_locked(), "Apartment door is locked before the first clue")
-	_check(door.get_interaction_text() == "Press E to open the box before leaving", "Locked door points the player toward the box")
+	_check(door.get_interaction_text() == "Press F to open the box before leaving", "Locked door points the player toward the box")
 	door.interact()
 	await process_frame
 	_check(not door._is_open, "Trying the locked door cannot open it")
@@ -57,7 +57,7 @@ func _run() -> void:
 	_check(game_state.current_objective == "Ride the jeepney to La Paz.", "The newspaper supplies the first visible objective")
 	_check(objective_panel.visible, "Objective HUD appears when the newspaper is found")
 	_check(not door._is_story_locked(), "Finding the newspaper unlocks the apartment door")
-	_check(door.get_interaction_text() == "Press E to open apartment door", "Unlocked door restores its normal prompt")
+	_check(door.get_interaction_text() == "Press F to open apartment door", "Unlocked door restores its normal prompt")
 	door.interact()
 	_check(door._is_open, "The apartment door opens after the first clue")
 

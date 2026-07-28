@@ -28,7 +28,7 @@ func _run() -> void:
 	var count_only_sign := (load("res://game/props/environment/signage/tebs_sign.tscn") as PackedScene).instantiate()
 	root.add_child(count_only_sign)
 	await process_frame
-	_check(count_only_sign.get_interaction_text() == "Press E to inspect covered sign", "A count alone cannot bypass the exact four-ingredient sign gate")
+	_check(count_only_sign.get_interaction_text() == "Press F to inspect covered sign", "A count alone cannot bypass the exact four-ingredient sign gate")
 	count_only_sign.queue_free()
 	game_state.reset()
 
@@ -77,7 +77,7 @@ func _run() -> void:
 	var sign := (load("res://game/props/environment/signage/tebs_sign.tscn") as PackedScene).instantiate()
 	root.add_child(sign)
 	await process_frame
-	_check(sign.get_interaction_text() == "Press E to uncover Teb's sign", "The covered signage becomes discoverable after the exact four ingredients")
+	_check(sign.get_interaction_text() == "Press F to uncover Teb's sign", "The covered signage becomes discoverable after the exact four ingredients")
 	sign.queue_free()
 
 	vendor_1.queue_free()

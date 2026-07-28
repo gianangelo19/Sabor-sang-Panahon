@@ -40,7 +40,7 @@ func _run() -> void:
 	await process_frame
 
 	_check(grandma.has_method("interact"), "Grandma is interactable")
-	_check(grandma.get_interaction_text() == "Press E to talk to Grandma", "Grandma has a clear interaction prompt")
+	_check(grandma.get_interaction_text() == "Press F to talk to Grandma", "Grandma has a clear interaction prompt")
 	var body_shape := grandma.get_node("CharacterBody3D/CollisionShape3D") as CollisionShape3D
 	_check(body_shape.shape != null, "Grandma has physical collision")
 
@@ -73,7 +73,23 @@ func _run() -> void:
 		_check(dialogue.portrait.texture.resource_path.ends_with("2main_character_asking.png"), "Player portrait stays on the left")
 		_check(dialogue.npc_portrait.texture.resource_path.ends_with("npc_grandma_front.png"), "Grandma lines use Grandma's right-side portrait")
 
-		for line_index in range(1, dialogue.dialogue_lines.size()):
+		var interact_event := InputEventAction.new()
+		interact_event.action = "interact"
+		interact_event.pressed = true
+		dialogue._unhandled_input(interact_event)
+		_check(
+			dialogue.current_line == 1
+				and not dialogue._is_typing
+				and dialogue.dialogue_text.visible_characters == -1,
+			"F reveals the rest of a typing NPC line",
+		)
+		dialogue._unhandled_input(interact_event)
+		_check(
+			dialogue.current_line == 2 and dialogue.player_thought.visible,
+			"A second F skips the completed NPC line",
+		)
+
+		for line_index in range(2, dialogue.dialogue_lines.size()):
 			dialogue._complete_typewriter()
 			dialogue._on_continue_pressed()
 		await process_frame

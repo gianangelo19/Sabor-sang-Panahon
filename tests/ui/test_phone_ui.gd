@@ -16,6 +16,22 @@ func _run() -> void:
 	var game_state := root.get_node("GameState")
 	game_state.reset()
 	_check(InputMap.has_action("phone"), "Phone input action exists")
+	var phone_uses_e := false
+	var phone_uses_p := false
+	for event: InputEvent in InputMap.action_get_events("phone"):
+		if event is InputEventKey:
+			var key_event := event as InputEventKey
+			phone_uses_e = (
+				phone_uses_e
+				or key_event.physical_keycode == KEY_E
+				or key_event.keycode == KEY_E
+			)
+			phone_uses_p = (
+				phone_uses_p
+				or key_event.physical_keycode == KEY_P
+				or key_event.keycode == KEY_P
+			)
+	_check(phone_uses_e and not phone_uses_p, "Phone action is bound to E instead of P")
 	_check(not game_state.has_ambot_notification(), "AMBot starts without new information")
 	_check(game_state.collected_ingredients.is_empty(), "Ingredient inventory starts empty")
 

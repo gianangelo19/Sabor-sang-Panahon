@@ -12,8 +12,8 @@ var _player_was_movable := true
 
 func get_interaction_text() -> String:
 	if GameState.clues.has(NEWSPAPER_CLUE):
-		return "Press E to inspect the opened box"
-	return "Press E to open the box"
+		return "Press F to inspect the opened box"
+	return "Press F to open the box"
 
 
 func interaction_focus_entered() -> void:
@@ -23,7 +23,7 @@ func interaction_focus_entered() -> void:
 
 
 func should_hide_interaction_prompt() -> bool:
-	# The tutorial card already shows the E key and interaction action.
+	# The tutorial card already shows the F key and interaction action.
 	return (
 		GameState.tutorial_step == TUTORIAL_INTERACT_STEP
 		and not GameState.clues.has(NEWSPAPER_CLUE)

@@ -32,11 +32,11 @@ func get_interaction_text() -> String:
 		if GameState.final_hunt_active:
 			return "Cultural echoes active — find the Batchoy Bowl"
 		if not GameState.final_hunt_succeeded:
-			return "Press E to recall Teb's sign"
-		return "Press E to inspect Teb's sign"
+			return "Press F to recall Teb's sign"
+		return "Press F to inspect Teb's sign"
 	if _has_required_ingredients():
-		return "Press E to uncover Teb's sign"
-	return "Press E to inspect covered sign"
+		return "Press F to uncover Teb's sign"
+	return "Press F to inspect covered sign"
 
 
 func interact() -> void:

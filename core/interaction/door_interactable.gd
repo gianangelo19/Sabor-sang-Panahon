@@ -35,9 +35,9 @@ func _ready() -> void:
 
 func get_interaction_text() -> String:
 	if _is_story_locked():
-		return "Press E to " + locked_interaction_label
+		return "Press F to " + locked_interaction_label
 	var label := interaction_label_close if _is_open else interaction_label_open
-	return "Press E to " + label
+	return "Press F to " + label
 
 
 func interact() -> void:

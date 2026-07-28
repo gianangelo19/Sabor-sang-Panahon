@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://game/props/items/collectibles/assets/crank_handle_world_item.png" id="1_texture"]
+[ext_resource type="Script" path="res://game/props/items/collectibles/collectible_billboard_item.gd" id="2_item"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_crank"]
+size = Vector3(1.56, 1.44, 0.36)
+
+[node name="CrankHandleItem" type="Node3D"]
+editor_description = "Collection-ready noodle-machine crank handle. The root origin sits on the ground; the sprite always faces the active camera."
+script = ExtResource("2_item")
+item_id = &"crank_handle"
+display_name = "Crank Handle"
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+position = Vector3(0, 0.72, 0)
+billboard = 1
+pixel_size = 0.0035
+alpha_cut = 1
+texture = ExtResource("1_texture")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+position = Vector3(0, 0.72, 0)
+shape = SubResource("BoxShape3D_crank")

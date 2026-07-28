@@ -69,8 +69,8 @@ func _apply_presence(present: bool) -> void:
 
 func get_interaction_text() -> String:
 	if GameState.clues.has("La Paz Batchoy served to Grandma."):
-		return "Press E to talk about the restored Batchoy"
-	return "Press E to talk to Grandma"
+		return "Press F to talk about the restored Batchoy"
+	return "Press F to talk to Grandma"
 
 
 func interact() -> void:

@@ -11,7 +11,7 @@ extends StaticBody3D
 @export var ambot_notification_preview: String = "New information is available."
 
 func get_interaction_text() -> String:
-	return "Press E to " + interaction_label
+	return "Press F to " + interaction_label
 
 func interact() -> void:
 	if clue_to_add.strip_edges() != "":

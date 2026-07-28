@@ -42,7 +42,7 @@ func _process(_delta: float) -> void:
 func get_interaction_text() -> String:
 	if not active or _recovered:
 		return ""
-	return "Press E to recover the Batchoy Bowl"
+	return "Press F to recover the Batchoy Bowl"
 
 
 func interact() -> void:

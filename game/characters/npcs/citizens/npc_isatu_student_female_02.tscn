@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/characters/npc_isatu_student_female_02/npc_isatu_student_female_02_front.png" id="1_front"]
+[ext_resource type="Script" uid="uid://ckdxpasqp15r5" path="res://game/characters/npcs/shared/npc_four_angle_billboard.gd" id="2_billboard"]
+[ext_resource type="Texture2D" path="res://assets/art/characters/npc_isatu_student_female_02/npc_isatu_student_female_02_right.png" id="3_right"]
+[ext_resource type="Texture2D" path="res://assets/art/characters/npc_isatu_student_female_02/npc_isatu_student_female_02_back.png" id="4_back"]
+[ext_resource type="Texture2D" path="res://assets/art/characters/npc_isatu_student_female_02/npc_isatu_student_female_02_left.png" id="5_left"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_character"]
+radius = 1.35
+height = 8.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_interaction"]
+radius = 4.0
+height = 9.0
+
+[node name="npc_isatu_student_female_02" type="Node3D"]
+editor_description = "Four-angle billboard NPC wearing glasses, a white blouse, and a blue plaid ISAT U-inspired student uniform."
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D"]
+billboard = 1
+pixel_size = 0.015
+alpha_cut = 1
+texture = ExtResource("1_front")
+script = ExtResource("2_billboard")
+front_texture = ExtResource("1_front")
+right_texture = ExtResource("3_right")
+back_texture = ExtResource("4_back")
+left_texture = ExtResource("5_left")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_character")
+
+[node name="Area3D" type="Area3D" parent="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/Area3D"]
+shape = SubResource("CapsuleShape3D_interaction")
+
+[node name="Marker3D" type="Marker3D" parent="CharacterBody3D"]
