@@ -76,6 +76,8 @@
 [ext_resource type="PackedScene" path="res://game/characters/npcs/vendors/npc_seasoning_vendor.tscn" id="76_kwc6r"]
 [ext_resource type="PackedScene" path="res://game/characters/npcs/vendors/npc_herbs_vendor.tscn" id="77_45wna"]
 [ext_resource type="PackedScene" path="res://game/characters/npcs/citizens/npc_isatu_student_male_01.tscn" id="78_45wna"]
+[ext_resource type="PackedScene" path="res://game/props/items/collectibles/empty_aged_jar_item.tscn" id="79_yakvf"]
+[ext_resource type="PackedScene" path="res://game/props/items/collectibles/crank_handle_item.tscn" id="80_mdmqi"]
 [ext_resource type="PackedScene" path="res://game/ui/hud/game_hud.tscn" id="hud_phone"]
 [ext_resource type="Script" uid="uid://bdubpo54wcesl" path="res://game/worlds/la_paz/apartment/wake_up.gd" id="wakeup_script"]
 
@@ -2056,3 +2058,9 @@ transform = Transform3D(0.22855122, 0, 0, 0, 0.22855122, 0, 0, 0, 0.22855122, 4.
 
 [node name="npc_isatu_student_male_01" parent="." unique_id=1132466092 instance=ExtResource("78_45wna")]
 transform = Transform3D(-9.098724e-09, 0, 0.20815456, 0, 0.20815456, 0, -0.20815456, 0, -9.098724e-09, -7.2992983, 0.63149, 20.919731)
+
+[node name="EmptyAgedJarItem" parent="." unique_id=1722116053 instance=ExtResource("79_yakvf")]
+transform = Transform3D(0.19315192, 0, 0, 0, 0.19315192, 0, 0, 0, 0.19315192, 30.06598, 1.6507531, 37)
+
+[node name="CrankHandleItem" parent="." unique_id=67920814 instance=ExtResource("80_mdmqi")]
+transform = Transform3D(0.240049, 0, 0, 0, 0.240049, 0, 0, 0, 0.240049, -5.8324223, 0.6287075, -22.56678)

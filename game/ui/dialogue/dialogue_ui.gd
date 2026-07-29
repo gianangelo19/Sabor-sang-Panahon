@@ -5,6 +5,7 @@ signal dialogue_finished
 const DIALOGUE_TYPE_SOUND := preload("res://assets/audio/retro_filipino_pack/dialogue_type_click.wav")
 const TYPE_SOUND_CHARACTER_INTERVAL := 2
 const PLAYER_SPEAKER_NAMES := ["you", "player", "main character"]
+const HUD_FADE_DURATION := 0.24
 
 @export_range(0.005, 0.1, 0.005) var type_character_delay := 0.025
 @export_range(-12.0, 6.0, 0.5) var type_sound_volume_db := 3.0
@@ -37,6 +38,7 @@ var _showing_player_thought := true
 var _speaker_target: Node3D = null
 var _line_speaker_target: Node3D = null
 var _current_line_text := ""
+var _hud_hidden_by_dialogue := false
 
 
 func _ready() -> void:
@@ -117,9 +119,29 @@ func start_timed_conversation(
 
 
 func _hide_hud() -> void:
+	_hud_hidden_by_dialogue = true
+	var hud := get_tree().root.find_child("GameHUD", true, false)
+	if hud != null and hud.has_method("set_dialogue_hud_hidden"):
+		hud.set_dialogue_hud_hidden(true, HUD_FADE_DURATION)
+		return
 	var hud_root := get_tree().root.find_child("HUDRoot", true, false)
 	if hud_root:
-		hud_root.modulate.a = 0.0
+		var tween := hud_root.create_tween()
+		tween.tween_property(hud_root, "modulate:a", 0.0, HUD_FADE_DURATION)
+
+
+func _show_hud() -> void:
+	if not _hud_hidden_by_dialogue:
+		return
+	_hud_hidden_by_dialogue = false
+	var hud := get_tree().root.find_child("GameHUD", true, false)
+	if hud != null and hud.has_method("set_dialogue_hud_hidden"):
+		hud.set_dialogue_hud_hidden(false, HUD_FADE_DURATION)
+		return
+	var hud_root := get_tree().root.find_child("HUDRoot", true, false)
+	if hud_root:
+		var tween := hud_root.create_tween()
+		tween.tween_property(hud_root, "modulate:a", 1.0, HUD_FADE_DURATION)
 
 
 func _prepare_portraits() -> void:
@@ -290,10 +312,7 @@ func _make_portraits_invisible() -> void:
 
 func _finish_dialogue() -> void:
 	_cancel_typewriter()
-	var hud_root := get_tree().root.find_child("HUDRoot", true, false)
-	if hud_root:
-		var tween := hud_root.create_tween()
-		tween.tween_property(hud_root, "modulate:a", 1.0, 0.5)
+	_show_hud()
 	dialogue_finished.emit()
 	queue_free()
 

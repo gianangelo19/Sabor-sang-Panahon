@@ -9,8 +9,61 @@ const STORY_INGREDIENT_IDS := [
 	"fresh_miki",
 ]
 const STORY_INGREDIENT_TOTAL := 4
+const INVENTORY_SIZE := 27
+const HOTBAR_SIZE := 9
+const MAX_ITEM_STACK := 64
 const PHYSICAL_EVIDENCE_OBJECTIVE := "Search around the La Paz house for physical evidence."
 const SIGN_REVEALED_CLUE := "Teb's Old La Paz Batchoyan signage revealed."
+const ITEM_CATALOG := {
+	"pork_and_liver": {
+		"display_name": "Pork and Liver",
+		"category": "Ingredient",
+		"icon": "res://features/minigames/ending_sequence/assets/collectibles/collectible_meat_set_bag.png",
+		"ambot": "A market bundle of pork belly, liver, and spleen. These cuts build the rich, savory base associated with traditional La Paz Batchoy.",
+	},
+	"ginamos": {
+		"display_name": "Aged Ginamos",
+		"category": "Ingredient",
+		"icon": "res://features/minigames/ending_sequence/assets/collectibles/collectible_guinamos_bag.png",
+		"ambot": "Fermented shrimp paste with a concentrated salty, umami flavor. A small amount deepens the broth; the aged aroma is strong by design.",
+	},
+	"crushed_chicharon": {
+		"display_name": "Crushed Chicharon",
+		"category": "Ingredient",
+		"icon": "res://features/minigames/ending_sequence/assets/collectibles/collectible_chicharon_bag.png",
+		"ambot": "Crisp pork cracklings crushed into a topping. They add texture and a roasted, savory finish after the broth is served.",
+	},
+	"fresh_miki": {
+		"display_name": "Fresh Miki Noodles",
+		"category": "Ingredient",
+		"icon": "res://features/minigames/ending_sequence/assets/collectibles/collectible_miki_noodles_bag.png",
+		"ambot": "Fresh yellow egg noodles made for a springy, tender bite. Their shape and texture make them a defining part of the reconstructed dish.",
+	},
+	"damaged_newspaper": {
+		"display_name": "Damaged Newspaper",
+		"category": "Clue",
+		"icon": "res://features/minigames/ending_sequence/assets/collectibles/collectible_newspaper_clue.png",
+		"ambot": "A badly damaged historical article. The surviving print mentions La Paz, Iloilo City, and a local dish, but its name and photograph are missing.",
+	},
+	"empty_aged_jar": {
+		"display_name": "Empty Aged Jar",
+		"category": "Tool",
+		"icon": "res://game/props/items/collectibles/assets/empty_aged_jar.png",
+		"ambot": "An empty earthen jar with residue from aged ginamos. The staining and aroma suggest repeated use for fermented seasoning.",
+	},
+	"crank_handle": {
+		"display_name": "Crank Handle",
+		"category": "Tool",
+		"icon": "res://game/props/items/collectibles/assets/crank_handle_world_item.png",
+		"ambot": "A removable hand crank shaped for a noodle machine. Wear around the grip suggests it was used often rather than kept as decoration.",
+	},
+	"batchoy_bowl": {
+		"display_name": "Old Batchoy Bowl",
+		"category": "Artifact",
+		"icon": "res://assets/art/images/batchoy_bowl_artifact.png",
+		"ambot": "A well-used serving bowl tied to the family eatery. Its physical history connects the recovered ingredients, the house, and the forgotten name La Paz Batchoy.",
+	},
+}
 
 signal objective_changed(objective: String)
 signal clue_added(clue: String)
@@ -28,6 +81,8 @@ signal final_hunt_time_changed(seconds_remaining: float)
 signal final_hunt_finished(success: bool)
 signal final_hunt_placement_decided(source: String, spot_id: String)
 signal grandma_presence_changed(present: bool)
+signal inventory_changed
+signal selected_inventory_slot_changed(slot_index: int)
 
 var current_objective := "Find something to eat."
 var ambot_status := "Offline"
@@ -35,6 +90,8 @@ var clues: Array[String] = []
 var ingredients_found := 0
 var ingredients_total := STORY_INGREDIENT_TOTAL
 var collected_ingredients: Dictionary = {}
+var inventory_slots: Array[Dictionary] = []
+var selected_inventory_slot := 0
 var pending_ambot_notification: Dictionary = {}
 var completed_ambot_conversations: Array[String] = []
 var tutorial_step := 0
@@ -64,6 +121,8 @@ func reset() -> void:
 	ingredients_found = 0
 	ingredients_total = STORY_INGREDIENT_TOTAL
 	collected_ingredients.clear()
+	_initialize_inventory_slots()
+	selected_inventory_slot = 0
 	pending_ambot_notification.clear()
 	completed_ambot_conversations.clear()
 	tutorial_step = 0
@@ -83,6 +142,8 @@ func reset() -> void:
 	objective_changed.emit(current_objective)
 	ambot_status_changed.emit(ambot_status)
 	ingredients_changed.emit(ingredients_found, ingredients_total)
+	inventory_changed.emit()
+	selected_inventory_slot_changed.emit(selected_inventory_slot)
 	ambot_availability_changed.emit(false)
 	tutorial_step_changed.emit(tutorial_step)
 	navigation_changed.emit()
@@ -148,6 +209,7 @@ func collect_ingredient(ingredient_id: String, display_name: String) -> bool:
 	if ingredient_id.is_empty() or collected_ingredients.has(ingredient_id):
 		return false
 	collected_ingredients[ingredient_id] = display_name
+	add_inventory_item(ingredient_id, display_name)
 	ingredients_found = _count_story_ingredients()
 	ingredients_changed.emit(ingredients_found, ingredients_total)
 	_request_autosave()
@@ -155,6 +217,105 @@ func collect_ingredient(ingredient_id: String, display_name: String) -> bool:
 
 func has_ingredient(ingredient_id: String) -> bool:
 	return collected_ingredients.has(ingredient_id)
+
+func add_inventory_item(item_id: String, display_name: String = "", quantity: int = 1) -> bool:
+	if item_id.is_empty() or quantity <= 0:
+		return false
+	if inventory_slots.size() != INVENTORY_SIZE:
+		_initialize_inventory_slots()
+
+	var remaining := quantity
+	var resolved_name := display_name
+	if resolved_name.is_empty():
+		resolved_name = str(get_item_definition(item_id).get("display_name", item_id.capitalize()))
+
+	for index in range(inventory_slots.size()):
+		var slot: Dictionary = inventory_slots[index]
+		if (
+			str(slot.get("item_id", "")) == item_id
+			and int(slot.get("quantity", 0)) < MAX_ITEM_STACK
+		):
+			var room := MAX_ITEM_STACK - int(slot.get("quantity", 0))
+			var amount := mini(room, remaining)
+			slot["quantity"] = int(slot.get("quantity", 0)) + amount
+			inventory_slots[index] = slot
+			remaining -= amount
+			if remaining <= 0:
+				break
+
+	while remaining > 0:
+		var empty_index := _find_empty_inventory_slot()
+		if empty_index < 0:
+			break
+		var amount := mini(MAX_ITEM_STACK, remaining)
+		inventory_slots[empty_index] = {
+			"item_id": item_id,
+			"display_name": resolved_name,
+			"quantity": amount,
+		}
+		remaining -= amount
+
+	if remaining != quantity:
+		inventory_changed.emit()
+		_request_autosave()
+	return remaining == 0
+
+func get_inventory_slot(slot_index: int) -> Dictionary:
+	if slot_index < 0 or slot_index >= inventory_slots.size():
+		return {}
+	return inventory_slots[slot_index].duplicate(true)
+
+func get_selected_inventory_slot() -> Dictionary:
+	return get_inventory_slot(selected_inventory_slot)
+
+func select_inventory_slot(slot_index: int) -> bool:
+	if slot_index < 0 or slot_index >= HOTBAR_SIZE:
+		return false
+	if selected_inventory_slot == slot_index:
+		return true
+	selected_inventory_slot = slot_index
+	selected_inventory_slot_changed.emit(selected_inventory_slot)
+	_request_autosave()
+	return true
+
+func swap_inventory_slots(first_index: int, second_index: int) -> bool:
+	if (
+		first_index < 0
+		or second_index < 0
+		or first_index >= inventory_slots.size()
+		or second_index >= inventory_slots.size()
+	):
+		return false
+	if first_index == second_index:
+		return true
+	var held_slot: Dictionary = inventory_slots[first_index]
+	inventory_slots[first_index] = inventory_slots[second_index]
+	inventory_slots[second_index] = held_slot
+	inventory_changed.emit()
+	_request_autosave()
+	return true
+
+func get_item_definition(item_id: String) -> Dictionary:
+	var definition: Dictionary = ITEM_CATALOG.get(item_id, {}).duplicate(true)
+	if definition.is_empty():
+		definition = {
+			"display_name": item_id.capitalize(),
+			"category": "Item",
+			"icon": "",
+			"ambot": "I can confirm this is an inventory item, but I do not have enough reference data for a more precise identification.",
+		}
+	return definition
+
+func _initialize_inventory_slots() -> void:
+	inventory_slots.clear()
+	for _index in range(INVENTORY_SIZE):
+		inventory_slots.append({})
+
+func _find_empty_inventory_slot() -> int:
+	for index in range(inventory_slots.size()):
+		if str(inventory_slots[index].get("item_id", "")).is_empty():
+			return index
+	return -1
 
 func has_all_story_ingredients() -> bool:
 	for ingredient_id in STORY_INGREDIENT_IDS:
@@ -302,6 +463,8 @@ func save_game(scene_path: String = "") -> bool:
 		"ambot_status": ambot_status,
 		"clues": clues,
 		"ingredients": collected_ingredients,
+		"inventory": inventory_slots,
+		"selected_inventory_slot": selected_inventory_slot,
 		"ingredients_total": ingredients_total,
 		"pending_notification": pending_ambot_notification,
 		"completed_ambot_conversations": completed_ambot_conversations,
@@ -343,6 +506,15 @@ func load_game() -> String:
 	ambot_status = str(parsed.get("ambot_status", "Offline"))
 	clues.assign(parsed.get("clues", []))
 	collected_ingredients = parsed.get("ingredients", {}).duplicate(true)
+	_load_inventory(parsed.get("inventory", []))
+	selected_inventory_slot = clampi(
+		int(parsed.get("selected_inventory_slot", 0)),
+		0,
+		HOTBAR_SIZE - 1,
+	)
+	if not parsed.has("inventory"):
+		for ingredient_id: String in collected_ingredients:
+			add_inventory_item(ingredient_id, str(collected_ingredients[ingredient_id]))
 	ingredients_found = _count_story_ingredients()
 	ingredients_total = STORY_INGREDIENT_TOTAL
 	pending_ambot_notification = parsed.get("pending_notification", {}).duplicate(true)
@@ -395,10 +567,31 @@ func _perform_autosave() -> void:
 	if autosave_enabled:
 		save_game()
 
+func _load_inventory(raw_inventory: Variant) -> void:
+	_initialize_inventory_slots()
+	if not raw_inventory is Array:
+		return
+	var loaded_slots := raw_inventory as Array
+	for index in range(mini(loaded_slots.size(), INVENTORY_SIZE)):
+		if not loaded_slots[index] is Dictionary:
+			continue
+		var slot := (loaded_slots[index] as Dictionary).duplicate(true)
+		var item_id := str(slot.get("item_id", ""))
+		var quantity := clampi(int(slot.get("quantity", 0)), 0, MAX_ITEM_STACK)
+		if item_id.is_empty() or quantity <= 0:
+			continue
+		inventory_slots[index] = {
+			"item_id": item_id,
+			"display_name": str(slot.get("display_name", get_item_definition(item_id).get("display_name", item_id.capitalize()))),
+			"quantity": quantity,
+		}
+
 func _emit_loaded_state() -> void:
 	objective_changed.emit(current_objective)
 	ambot_status_changed.emit(ambot_status)
 	ingredients_changed.emit(ingredients_found, ingredients_total)
+	inventory_changed.emit()
+	selected_inventory_slot_changed.emit(selected_inventory_slot)
 	ambot_availability_changed.emit(not pending_ambot_notification.is_empty())
 	tutorial_step_changed.emit(tutorial_step)
 	navigation_changed.emit()
