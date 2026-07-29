@@ -164,6 +164,8 @@ var ambot_typing_accumulator := 0.0
 var ambot_typing_sound_counter := 0
 var ambot_typing_sound_index := 0
 var ambot_typing_finished_callback: Callable
+var dialogue_hud_hidden := false
+var dialogue_notification_tween: Tween
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -481,12 +483,51 @@ func close_phone() -> void:
 	phone_open = false
 	dim.visible = false
 	phone_frame.visible = false
-	notification_banner.visible = GameState.has_ambot_notification()
+	notification_banner.visible = GameState.has_ambot_notification() and not dialogue_hud_hidden
 	Input.set_mouse_mode(previous_mouse_mode)
 	open_state_changed.emit(false)
 
 func is_point_over_phone(viewport_position: Vector2) -> bool:
 	return phone_open and phone_frame.get_global_rect().has_point(viewport_position)
+
+func set_dialogue_hud_hidden(hidden: bool, duration: float = 0.24) -> void:
+	dialogue_hud_hidden = hidden
+	if dialogue_notification_tween != null and dialogue_notification_tween.is_valid():
+		dialogue_notification_tween.kill()
+	if hidden:
+		if not notification_banner.visible:
+			notification_banner.modulate.a = 0.0
+			return
+		dialogue_notification_tween = create_tween()
+		dialogue_notification_tween.set_trans(Tween.TRANS_SINE)
+		dialogue_notification_tween.set_ease(Tween.EASE_IN_OUT)
+		dialogue_notification_tween.tween_property(
+			notification_banner,
+			"modulate:a",
+			0.0,
+			maxf(duration, 0.0),
+		)
+		dialogue_notification_tween.tween_callback(func():
+			if dialogue_hud_hidden:
+				notification_banner.visible = false
+		)
+		return
+
+	if phone_open or not GameState.has_ambot_notification():
+		notification_banner.visible = false
+		notification_banner.modulate.a = 1.0
+		return
+	notification_banner.visible = true
+	notification_banner.modulate.a = 0.0
+	dialogue_notification_tween = create_tween()
+	dialogue_notification_tween.set_trans(Tween.TRANS_SINE)
+	dialogue_notification_tween.set_ease(Tween.EASE_IN_OUT)
+	dialogue_notification_tween.tween_property(
+		notification_banner,
+		"modulate:a",
+		1.0,
+		maxf(duration, 0.0),
+	)
 
 func analyze_inventory_item(item_id: String) -> void:
 	if item_id.is_empty():
@@ -950,7 +991,7 @@ func _on_notification_received(notification: Dictionary, play_sound := true) -> 
 	notification_toast.text = "AMBot - %s\n%s" % [notification.get("title", "New message"), notification.get("preview", "Tap to open")]
 	notification_toast.visible = true
 	notification_banner.text = notification_toast.text
-	notification_banner.visible = not phone_open
+	notification_banner.visible = not phone_open and not dialogue_hud_hidden
 	if play_sound:
 		_play_sfx(notification_player)
 

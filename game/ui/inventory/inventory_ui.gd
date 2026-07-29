@@ -25,6 +25,11 @@ var held_root: Control
 var held_icon: TextureRect
 var _drag_item_id := ""
 var _idle_time := 0.0
+var _dialogue_hud_tween: Tween
+var _prepared_texture_cache: Dictionary = {}
+var _hovered_item_slot := -1
+var _scan_target_requested := false
+var _scan_target_tween: Tween
 
 
 func _ready() -> void:
@@ -74,11 +79,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	_idle_time += delta
 	if held_root.visible:
-		var bob := sin(_idle_time * 1.8) * 3.0
-		held_icon.position.y = bob
-	if scan_target.visible:
-		var glow := 0.72 + sin(_idle_time * 4.0) * 0.18
-		scan_target.modulate = Color(1.0, 1.0, 1.0, glow)
+		var held_sway := sin(_idle_time * 1.65)
+		held_icon.position = Vector2(held_sway * 1.5, absf(sin(_idle_time * 0.85)))
+		held_icon.rotation = deg_to_rad(held_sway * 0.45)
 
 
 func _build_interface() -> void:
@@ -130,7 +133,7 @@ func _build_backpack() -> void:
 	flap_row.add_theme_constant_override("separation", 10)
 	flap.add_child(flap_row)
 	var title := Label.new()
-	title.text = "OPEN BACKPACK"
+	title.text = "BACKPACK"
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 25)
@@ -213,6 +216,8 @@ func _build_phone_scan_target() -> void:
 	scan_target.custom_minimum_size = Vector2(326, 652)
 	scan_target.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	scan_target.add_theme_stylebox_override("panel", _style(Color("10243818"), Color("ffd36ad9"), 3, 28, 7))
+	scan_target.visible = false
+	scan_target.modulate.a = 0.0
 	add_child(scan_target)
 	var target_label := Label.new()
 	target_label.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
@@ -232,7 +237,7 @@ func _build_held_item() -> void:
 	held_root = Control.new()
 	held_root.name = "HeldItem"
 	held_root.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	held_root.position = Vector2(-300, -300)
+	held_root.position = Vector2(-250, -250)
 	held_root.size = Vector2(280, 280)
 	held_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(held_root)
@@ -240,6 +245,7 @@ func _build_held_item() -> void:
 	held_icon = TextureRect.new()
 	held_icon.position = Vector2.ZERO
 	held_icon.size = held_root.size
+	held_icon.pivot_offset = Vector2(held_icon.size.x * 0.76, held_icon.size.y * 0.92)
 	held_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	held_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	held_icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -266,7 +272,7 @@ func _refresh_selected_item() -> void:
 	var display_name := str(selected.get("display_name", definition.get("display_name", "")))
 	var icon_path := str(definition.get("icon", ""))
 	var texture := load(icon_path) as Texture2D if not icon_path.is_empty() else null
-	held_icon.texture = _crop_transparent_texture(texture)
+	held_icon.texture = prepare_item_texture(texture)
 	held_icon.tooltip_text = display_name
 	held_root.visible = not backpack_open and not item_id.is_empty()
 	for slot in hotbar_slots:
@@ -308,11 +314,13 @@ func swap_inventory_slots(first_index: int, second_index: int) -> void:
 
 func inventory_drag_started(item_id: String) -> void:
 	_drag_item_id = item_id
-	scan_target.modulate = Color.WHITE
+	_set_scan_target_active(true)
 
 
 func inventory_drag_ended(item_id: String, mouse_position: Vector2, drag_succeeded: bool) -> void:
 	_drag_item_id = ""
+	_hovered_item_slot = -1
+	_set_scan_target_active(false)
 	if drag_succeeded or phone_ui == null or not backpack_open:
 		return
 	if (
@@ -323,12 +331,67 @@ func inventory_drag_ended(item_id: String, mouse_position: Vector2, drag_succeed
 		phone_ui.analyze_inventory_item(item_id)
 
 
+func inventory_item_hover_changed(
+	slot_index: int,
+	item_id: String,
+	hovered: bool,
+) -> void:
+	if hovered and not item_id.is_empty():
+		_hovered_item_slot = slot_index
+		_set_scan_target_active(true)
+	elif _hovered_item_slot == slot_index:
+		_hovered_item_slot = -1
+		if _drag_item_id.is_empty():
+			_set_scan_target_active(false)
+
+
 func _on_phone_open_state_changed(is_open: bool) -> void:
 	backpack_open = is_open
 	backpack_panel.visible = backpack_open
-	scan_target.visible = backpack_open
 	hotbar_panel.visible = not backpack_open
+	if not backpack_open:
+		_hovered_item_slot = -1
+		_drag_item_id = ""
+	_set_scan_target_active(
+		backpack_open
+			and (_hovered_item_slot >= 0 or not _drag_item_id.is_empty())
+	)
 	_refresh_selected_item()
+
+
+func _set_scan_target_active(active: bool) -> void:
+	_scan_target_requested = active and backpack_open
+	if _scan_target_tween != null and _scan_target_tween.is_valid():
+		_scan_target_tween.kill()
+	if _scan_target_requested:
+		scan_target.visible = true
+		_scan_target_tween = create_tween()
+		_scan_target_tween.set_trans(Tween.TRANS_SINE)
+		_scan_target_tween.set_ease(Tween.EASE_OUT)
+		_scan_target_tween.tween_property(scan_target, "modulate:a", 1.0, 0.18)
+	elif scan_target.visible:
+		_scan_target_tween = create_tween()
+		_scan_target_tween.set_trans(Tween.TRANS_SINE)
+		_scan_target_tween.set_ease(Tween.EASE_IN)
+		_scan_target_tween.tween_property(scan_target, "modulate:a", 0.0, 0.18)
+		_scan_target_tween.tween_callback(func():
+			if not _scan_target_requested:
+				scan_target.visible = false
+		)
+
+
+func set_dialogue_hud_hidden(hidden: bool, duration: float = 0.24) -> void:
+	if _dialogue_hud_tween != null and _dialogue_hud_tween.is_valid():
+		_dialogue_hud_tween.kill()
+	_dialogue_hud_tween = create_tween()
+	_dialogue_hud_tween.set_trans(Tween.TRANS_SINE)
+	_dialogue_hud_tween.set_ease(Tween.EASE_IN_OUT)
+	_dialogue_hud_tween.tween_property(
+		self,
+		"modulate:a",
+		0.0 if hidden else 1.0,
+		maxf(duration, 0.0),
+	)
 
 
 func _select_relative_slot(direction: int) -> void:
@@ -336,18 +399,26 @@ func _select_relative_slot(direction: int) -> void:
 	GameState.select_inventory_slot(next_slot)
 
 
-func _crop_transparent_texture(texture: Texture2D) -> Texture2D:
+func prepare_item_texture(texture: Texture2D) -> Texture2D:
 	if texture == null:
 		return null
+	var cache_key := texture.resource_path
+	if not cache_key.is_empty() and _prepared_texture_cache.has(cache_key):
+		return _prepared_texture_cache[cache_key] as Texture2D
 	var image := texture.get_image()
 	if image == null or image.is_empty():
+		return texture
+	if image.is_compressed() and image.decompress() != OK:
 		return texture
 	var used_rect := image.get_used_rect()
 	if used_rect.size.x <= 0 or used_rect.size.y <= 0:
 		return texture
 	var padding := maxi(used_rect.size.x, used_rect.size.y) / 24
 	used_rect = used_rect.grow(padding).intersection(Rect2i(Vector2i.ZERO, image.get_size()))
-	return ImageTexture.create_from_image(image.get_region(used_rect))
+	var prepared := ImageTexture.create_from_image(image.get_region(used_rect))
+	if not cache_key.is_empty():
+		_prepared_texture_cache[cache_key] = prepared
+	return prepared
 
 
 func _style(fill: Color, border: Color, border_width: int, radius: int, margin: int) -> StyleBoxFlat:

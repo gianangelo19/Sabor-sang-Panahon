@@ -20,14 +20,17 @@ func configure(owner_ui: Control, index: int, is_compact: bool = false) -> void:
 	focus_mode = Control.FOCUS_NONE
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	pressed.connect(_on_pressed)
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
 	icon_rect = TextureRect.new()
 	icon_rect.name = "ItemIcon"
 	icon_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	icon_rect.offset_left = 5.0
-	icon_rect.offset_top = 5.0
-	icon_rect.offset_right = -5.0
-	icon_rect.offset_bottom = -5.0
+	var icon_padding := 1.0 if compact else 2.0
+	icon_rect.offset_left = icon_padding
+	icon_rect.offset_top = icon_padding
+	icon_rect.offset_right = -icon_padding
+	icon_rect.offset_bottom = -icon_padding
 	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -71,7 +74,10 @@ func refresh() -> void:
 	var quantity := int(slot.get("quantity", 0))
 	var definition := GameState.get_item_definition(item_id) if not item_id.is_empty() else {}
 	var icon_path := str(definition.get("icon", ""))
-	icon_rect.texture = load(icon_path) as Texture2D if not icon_path.is_empty() else null
+	var texture := load(icon_path) as Texture2D if not icon_path.is_empty() else null
+	if texture != null and inventory_ui.has_method("prepare_item_texture"):
+		texture = inventory_ui.prepare_item_texture(texture)
+	icon_rect.texture = texture
 	quantity_label.text = str(quantity) if quantity > 1 else ""
 	tooltip_text = (
 		"%s\n%s" % [
@@ -95,14 +101,20 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	if item_id.is_empty() or inventory_ui == null:
 		return null
 	_dragged_item_id = item_id
+	var preview_root := Control.new()
+	preview_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var preview := TextureRect.new()
 	preview.custom_minimum_size = Vector2(76, 76)
+	preview.size = Vector2(76, 76)
+	preview.position = -preview.size * 0.5
 	preview.texture = icon_rect.texture
 	preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	preview.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	preview.modulate = Color(1.1, 1.05, 0.9, 0.92)
-	set_drag_preview(preview)
+	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	preview_root.add_child(preview)
+	set_drag_preview(preview_root)
 	if inventory_ui.has_method("inventory_drag_started"):
 		inventory_ui.inventory_drag_started(item_id)
 	return {
@@ -135,3 +147,17 @@ func _notification(what: int) -> void:
 			get_viewport().gui_is_drag_successful(),
 		)
 	_dragged_item_id = ""
+
+
+func _on_mouse_entered() -> void:
+	if (
+		not item_id.is_empty()
+		and inventory_ui != null
+		and inventory_ui.has_method("inventory_item_hover_changed")
+	):
+		inventory_ui.inventory_item_hover_changed(slot_index, item_id, true)
+
+
+func _on_mouse_exited() -> void:
+	if inventory_ui != null and inventory_ui.has_method("inventory_item_hover_changed"):
+		inventory_ui.inventory_item_hover_changed(slot_index, item_id, false)

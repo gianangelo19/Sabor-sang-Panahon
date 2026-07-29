@@ -94,15 +94,77 @@ func _run() -> void:
 	_check(hud.objective_panel.visible, "Objective HUD is visible during regular play")
 	_check(phone.notification_banner.visible, "AMBot notification is visible during regular play")
 
+	var dialogue := (
+		load("res://game/ui/dialogue/dialogue_ui.tscn") as PackedScene
+	).instantiate()
+	root.add_child(dialogue)
+	dialogue.start_conversation([
+		{
+			"speaker": "You",
+			"text": "The gameplay HUD should fade away during this line.",
+			"portrait": null,
+		},
+	])
+	await create_timer(0.3).timeout
+	_check(
+		is_zero_approx(hud.get_node("HUDRoot").modulate.a),
+		"Dialogue fades out objectives and AMBot status",
+	)
+	_check(
+		is_zero_approx(inventory.modulate.a),
+		"Dialogue fades out the hotbar and held item",
+	)
+	_check(
+		not phone.notification_banner.visible,
+		"Dialogue fades out the AMBot notification banner",
+	)
+	dialogue._cancel_typewriter()
+	dialogue.current_line = dialogue.dialogue_lines.size()
+	dialogue.show_current_line()
+	await create_timer(0.3).timeout
+	_check(
+		is_equal_approx(hud.get_node("HUDRoot").modulate.a, 1.0),
+		"Gameplay HUD fades back in after dialogue",
+	)
+	_check(
+		is_equal_approx(inventory.modulate.a, 1.0),
+		"Hotbar and held item fade back in after dialogue",
+	)
+	_check(
+		phone.notification_banner.visible
+			and is_equal_approx(phone.notification_banner.modulate.a, 1.0),
+		"Unread AMBot notification fades back in after dialogue",
+	)
+
 	phone.open_phone()
 	await process_frame
 	_check(phone.phone_open, "E phone state can open")
 	_check(inventory.backpack_panel.visible, "Opening the phone opens the backpack")
-	_check(inventory.scan_target.visible, "Open inventory marks the phone as an AMBot drop target")
+	_check(not inventory.scan_target.visible, "AMBot drop target stays hidden until an item is approached")
 	_check(not inventory.hotbar_panel.visible, "Expanded inventory replaces the regular hotbar")
 	_check(not hud.objective_panel.visible, "Open inventory hides the objective HUD")
 	_check(not phone.notification_banner.visible, "Open inventory hides the AMBot notification banner")
 
+	inventory.inventory_item_hover_changed(1, "pork_and_liver", true)
+	await create_timer(0.22).timeout
+	_check(
+		inventory.scan_target.visible
+			and is_equal_approx(inventory.scan_target.modulate.a, 1.0),
+		"Hovering a filled slot fades in the AMBot drop target",
+	)
+	inventory.inventory_item_hover_changed(1, "pork_and_liver", false)
+	await create_timer(0.22).timeout
+	_check(
+		not inventory.scan_target.visible,
+		"Leaving an item fades out the AMBot drop target",
+	)
+	inventory.inventory_drag_started("pork_and_liver")
+	await create_timer(0.22).timeout
+	_check(
+		inventory.scan_target.visible
+			and is_equal_approx(inventory.scan_target.modulate.a, 1.0),
+		"Dragging an item fades in the AMBot drop target",
+	)
 	var phone_center: Vector2 = phone.phone_frame.get_global_rect().get_center()
 	inventory.inventory_drag_ended("pork_and_liver", phone_center, false)
 	_check(phone.current_app == "ambot", "Dropping an item on the phone opens AMBot")

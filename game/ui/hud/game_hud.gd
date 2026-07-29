@@ -11,6 +11,7 @@ const TUTORIAL_WAITING_FOR_MINIGAME := 4
 const TUTORIAL_PHONE := 5
 const TUTORIAL_COMPLETE := 6
 const TUTORIAL_FADE_DURATION := 0.28
+const DIALOGUE_HUD_FADE_DURATION := 0.24
 
 const KEY_WASD := preload("res://assets/art/images/ui/key_prompts/key_wasd.png")
 const KEY_SPACEBAR := preload("res://assets/art/images/ui/key_prompts/key_spacebar.png")
@@ -26,6 +27,7 @@ const KEY_E := preload("res://assets/art/images/ui/key_prompts/key_e.png")
 @onready var pause_menu: Control = %PauseMenu
 @onready var resume_button: Button = %ResumeButton
 @onready var phone_ui: Control = $PhoneUI
+@onready var inventory_ui: Control = $InventoryUI
 @onready var hint_bar: PanelContainer = $HUDRoot/HintBar
 @onready var hint_text: Label = %HintText
 @onready var primary_key: TextureRect = %PrimaryKey
@@ -50,6 +52,7 @@ var _mouse_mode_before_pause := Input.MOUSE_MODE_CAPTURED
 var _main_menu_transitioning := false
 var _inventory_hud_hidden := false
 var _ambot_panel_was_visible := false
+var _dialogue_hud_tween: Tween
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -86,6 +89,27 @@ func _on_inventory_open_state_changed(is_open: bool) -> void:
 		_inventory_hud_hidden = false
 		_update_objective_panel_visibility()
 		ambot_panel.visible = _ambot_panel_was_visible
+
+func set_dialogue_hud_hidden(
+	hidden: bool,
+	duration: float = DIALOGUE_HUD_FADE_DURATION,
+) -> void:
+	if _dialogue_hud_tween != null and _dialogue_hud_tween.is_valid():
+		_dialogue_hud_tween.kill()
+	var target_alpha := 0.0 if hidden else 1.0
+	_dialogue_hud_tween = create_tween()
+	_dialogue_hud_tween.set_trans(Tween.TRANS_SINE)
+	_dialogue_hud_tween.set_ease(Tween.EASE_IN_OUT)
+	_dialogue_hud_tween.tween_property(
+		$HUDRoot,
+		"modulate:a",
+		target_alpha,
+		maxf(duration, 0.0),
+	)
+	if inventory_ui.has_method("set_dialogue_hud_hidden"):
+		inventory_ui.set_dialogue_hud_hidden(hidden, duration)
+	if phone_ui.has_method("set_dialogue_hud_hidden"):
+		phone_ui.set_dialogue_hud_hidden(hidden, duration)
 
 func _input(event: InputEvent) -> void:
 	if tutorial_transitioning:
