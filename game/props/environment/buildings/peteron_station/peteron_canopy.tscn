@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/peteron_station/peteron_canopy_front_face.tscn" id="1_front"]
+
+[node name="PeteronCanopy" type="Node3D"]
+editor_description = "Flat compatibility wrapper for the Peteron canopy front sprite. The six canopy faces are separate scenes and are intentionally not assembled here."
+
+[node name="FrontFace" parent="." instance=ExtResource("1_front")]

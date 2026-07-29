@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/images/market_stalls/la_paz/seasoning_counter_topdown.png" id="1_texture"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_counter"]
+transparency = 2
+alpha_scissor_threshold = 0.25
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_texture")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_counter"]
+material = SubResource("StandardMaterial3D_counter")
+size = Vector2(6, 2)
+
+[node name="SeasoningCounterTopdown" type="Node3D"]
+editor_description = "Horizontal top-down pixel-art seasoning counter with five bulk-spice compartments and metal scoops. The root is centered on the counter; local +Y is the visible side. Default footprint is 6 x 2 m."
+
+[node name="CounterMesh" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.02, 0)
+rotation = Vector3(-1.5708, 0, 0)
+cast_shadow = 0
+gi_mode = 2
+mesh = SubResource("QuadMesh_counter")

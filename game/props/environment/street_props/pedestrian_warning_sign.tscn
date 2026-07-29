@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/images/street_props/la_paz/pedestrian_sign.png" id="1_texture"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_prop"]
+transparency = 2
+alpha_scissor_threshold = 0.25
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_texture")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_prop"]
+material = SubResource("StandardMaterial3D_prop")
+size = Vector2(1.031553, 3.2)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_pole"]
+height = 3.2
+radius = 0.08
+
+[node name="PedestrianWarningSign" type="Node3D"]
+editor_description = "Fixed pixel-art pedestrian warning sign prop. The root sits on the ground line; orient local +Z toward the playable area. Includes a narrow pole collider. Default height is 3.2 m."
+
+[node name="StreetPropMesh" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.6, 0.02)
+cast_shadow = 0
+gi_mode = 2
+mesh = SubResource("QuadMesh_prop")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+position = Vector3(0, 1.6, -0.04)
+shape = SubResource("CylinderShape3D_pole")

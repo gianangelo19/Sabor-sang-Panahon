@@ -3,6 +3,7 @@ extends SceneTree
 const VENDOR_SCENES := {
 	"res://game/characters/npcs/vendors/npc_herbs_vendor.tscn": "Herbs vendor",
 	"res://game/characters/npcs/vendors/npc_seasoning_vendor.tscn": "Seasoning vendor",
+	"res://game/characters/npcs/vendors/npc_egg_vendor.tscn": "Egg vendor",
 }
 const EXPECTED_TEXTURE_SIZE := Vector2(384, 608)
 const EXPECTED_PIXEL_SIZE := 0.015

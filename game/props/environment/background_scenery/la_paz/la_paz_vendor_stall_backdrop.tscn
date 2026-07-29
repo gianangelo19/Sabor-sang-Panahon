@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/images/background_scenery/la_paz/la_paz_vendor_stall_backdrop.png" id="1_texture"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_scenery"]
+transparency = 2
+alpha_scissor_threshold = 0.25
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_texture")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_scenery"]
+material = SubResource("StandardMaterial3D_scenery")
+size = Vector2(12, 6.75)
+
+[node name="LaPazVendorStallBackdrop" type="Node3D"]
+editor_description = "Fixed-facing pixel-art rear-wall backdrop for La Paz market stalls. The open center is designed to sit behind an existing 3D vendor and counter. The root sits on the ground line; local +Z is the visible side. Default size is 12 x 6.75 m."
+
+[node name="SceneryMesh" type="MeshInstance3D" parent="."]
+position = Vector3(0, 3.375, 0.02)
+cast_shadow = 0
+gi_mode = 2
+mesh = SubResource("QuadMesh_scenery")

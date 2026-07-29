@@ -32,6 +32,7 @@ func interact() -> void:
 
 	_collected = true
 	set_active(false)
+	GameState.add_inventory_item(str(item_id), display_name)
 	collected.emit(item_id, display_name, self)
 
 

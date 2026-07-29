@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://dh5q3o6r3ywvy"]
+
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/peteron_station/peteron_canopy_bottom_face.tscn" id="1_ajejg"]
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/peteron_station/peteron_canopy_right_face.tscn" id="2_lmv2s"]
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/peteron_station/peteron_canopy_left_face.tscn" id="3_dgslh"]
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/peteron_station/peteron_canopy_top_face.tscn" id="4_aklrd"]
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/peteron_station/peteron_canopy_front_face.tscn" id="5_dgslh"]
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/peteron_station/peteron_canopy_back_face.tscn" id="6_aklrd"]
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/peteron_station/peteron_support_column.tscn" id="7_lhm2k"]
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/peteron_station/peteron_fuel_pump_island.tscn" id="8_1ncdw"]
+
+[node name="peteron_station" type="Node3D" unique_id=37232083]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2673037, 0)
+
+[node name="PeteronCanopyBottomFace" parent="." unique_id=1838074927 instance=ExtResource("1_ajejg")]
+transform = Transform3D(1.2153616, 0, 0, 0, -8.881965e-08, -0.99999994, 0, 2.0319567, -4.3711385e-08, 0.24306898, 9.927593, -0.8462021)
+
+[node name="PeteronCanopyRightFace" parent="." unique_id=388270917 instance=ExtResource("2_lmv2s")]
+transform = Transform3D(0, 0, 1.2153615, 0, 1, 0, -2.0319564, 0, 0, 12.337009, 11.151141, -0.76787066)
+
+[node name="PeteronCanopyLeftFace" parent="." unique_id=906334662 instance=ExtResource("3_dgslh")]
+transform = Transform3D(-8.881965e-08, 0, -1.2153615, 0, 1, 0, 2.0319567, 0, -5.3125138e-08, -11.94847, 11.144736, -0.7740786)
+
+[node name="PeteronCanopyTopFace" parent="." unique_id=1397218555 instance=ExtResource("4_aklrd")]
+transform = Transform3D(1.2153616, 0, 0, 0, -8.881965e-08, -0.99999994, 0, 2.0319567, -4.3711385e-08, 0.21627037, 12.37665, -0.7659379)
+
+[node name="PeteronCanopyFrontFace" parent="." unique_id=758509573 instance=ExtResource("5_dgslh")]
+transform = Transform3D(1.2153616, 0, 0, 0, 1, 0, 0, 0, 2.0319567, 0.16916041, 11.1293955, 5.267996)
+
+[node name="PeteronCanopyBackFace" parent="." unique_id=2081773515 instance=ExtResource("6_aklrd")]
+transform = Transform3D(1.2153616, 0, 0, 0, 1, 0, 0, 0, 2.0319567, 0.17557348, 11.140582, -6.806434)
+
+[node name="PeteronSupportColumn" parent="." unique_id=280948336 instance=ExtResource("7_lhm2k")]
+transform = Transform3D(1.3937912, 0, 0, 0, 1.7975361, 0, 0, 0, 1.3937912, -7.069006, 0.9832604, -0.94933915)
+
+[node name="PeteronSupportColumn2" parent="." unique_id=393512985 instance=ExtResource("7_lhm2k")]
+transform = Transform3D(1.3937912, 0, 0, 0, 1.7975361, 0, 0, 0, 1.3937912, 6.7918835, 0.9832604, -0.94933915)
+
+[node name="PeteronFuelPumpIsland" parent="." unique_id=1673256340 instance=ExtResource("8_1ncdw")]
+transform = Transform3D(2.0989344, 0, 0, 0, 2.0989344, 0, 0, 0, 2.0989344, -2.8039403, 0.9903128, -1.1005528)
+
+[node name="PeteronFuelPumpIsland2" parent="." unique_id=1604060828 instance=ExtResource("8_1ncdw")]
+transform = Transform3D(2.0989344, 0, 0, 0, 2.0989344, 0, 0, 0, 2.0989344, 12.090946, 0.9903128, -1.1005528)

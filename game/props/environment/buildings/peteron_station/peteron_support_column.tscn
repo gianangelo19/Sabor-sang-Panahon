@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/images/street_props/peteron_station/peteron_support_column.png" id="1_texture"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_column"]
+transparency = 2
+alpha_scissor_threshold = 0.25
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_texture")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_column"]
+material = SubResource("StandardMaterial3D_column")
+size = Vector2(1.202411, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_column"]
+size = Vector3(0.8, 5, 0.8)
+
+[node name="PeteronSupportColumn" type="Node3D"]
+editor_description = "Reusable pixel-art Peteron canopy support. The root sits on the ground line; orient local +Z toward the playable area. Default height is 5 m."
+
+[node name="ComponentMesh" type="MeshInstance3D" parent="."]
+position = Vector3(0, 2.5, 0.02)
+cast_shadow = 0
+gi_mode = 2
+mesh = SubResource("QuadMesh_column")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+position = Vector3(0, 2.5, -0.4)
+shape = SubResource("BoxShape3D_column")

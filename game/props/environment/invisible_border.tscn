@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_invisible_border"]
+size = Vector3(5, 4, 0.25)
+
+[node name="InvisibleBorder" type="StaticBody3D"]
+editor_description = "Reusable invisible boundary wall. Scale this scene instance to fit the area players must not cross."
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 2, 0)
+shape = SubResource("BoxShape3D_invisible_border")

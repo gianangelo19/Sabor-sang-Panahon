@@ -73,6 +73,7 @@ func _lock_player() -> void:
 func _on_minigame_won() -> void:
 	_session = null
 	GameState.add_clue(NEWSPAPER_CLUE)
+	GameState.add_inventory_item("damaged_newspaper", "Damaged Newspaper")
 	GameState.set_objective("Ride the jeepney to La Paz.")
 	GameState.set_ambot_status("Document scan incomplete. Dish identity unknown.")
 	GameState.push_ambot_notification(

@@ -17,6 +17,14 @@ const SCENERY_SCENES := {
 		45.0,
 		17.519531,
 	),
+	"res://game/props/environment/background_scenery/la_paz/la_paz_seasoning_stall_backdrop.tscn": Vector2(
+		12.0,
+		6.75,
+	),
+	"res://game/props/environment/background_scenery/la_paz/la_paz_vendor_stall_backdrop.tscn": Vector2(
+		12.0,
+		6.75,
+	),
 }
 
 var failures: Array[String] = []

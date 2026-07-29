@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/images/street_props/peteron_station/peteron_fuel_pump_island.png" id="1_texture"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pump"]
+transparency = 2
+alpha_scissor_threshold = 0.25
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_texture")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_pump"]
+material = SubResource("StandardMaterial3D_pump")
+size = Vector2(2.87746, 2.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pump"]
+size = Vector3(2.6, 2.4, 1.2)
+
+[node name="PeteronFuelPumpIsland" type="Node3D"]
+editor_description = "Reusable pixel-art Peteron fuel pump island. The root sits on the ground line; orient local +Z toward the playable area. Default height is 2.4 m."
+
+[node name="ComponentMesh" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.2, 0.02)
+cast_shadow = 0
+gi_mode = 2
+mesh = SubResource("QuadMesh_pump")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+position = Vector3(0, 1.2, -0.6)
+shape = SubResource("BoxShape3D_pump")
