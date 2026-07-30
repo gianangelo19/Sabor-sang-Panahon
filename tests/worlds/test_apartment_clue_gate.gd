@@ -21,13 +21,15 @@ func _run() -> void:
 
 	var door := apartment.get_node("ApartmentDoor")
 	var box := apartment.get_node("box_minigame")
+	var fridge := apartment.get_node("FridgeInteractable")
 	var objective_panel := hud.get_node("HUDRoot/TopLeftPanel") as PanelContainer
+	var phone := hud.get_node("PhoneUI")
 
 	_check(not objective_panel.visible, "Objective HUD is hidden before the newspaper is found")
 	_check(box is StaticBody3D and box.has_method("interact"), "The table box is the newspaper minigame interactable")
 	_check(box.get_node_or_null("CollisionShape3D") != null, "The table box has a raycast collision shape")
 	_check(door._is_story_locked(), "Apartment door is locked before the first clue")
-	_check(door.get_interaction_text() == "Press F to open the box before leaving", "Locked door points the player toward the box")
+	_check(door.get_interaction_text() == "Press F to check the fridge and open the box first", "Locked door points the player toward the fridge and box")
 	door.interact()
 	await process_frame
 	_check(not door._is_open, "Trying the locked door cannot open it")
@@ -36,13 +38,31 @@ func _run() -> void:
 	if locked_dialogue != null:
 		_check(
 			locked_dialogue.dialogue_lines[0].text == door.locked_message,
-			"Locked-door dialogue tells the player to open the box"
+			"Locked-door dialogue tells the player to check the fridge and open the box"
 		)
 		locked_dialogue._cancel_typewriter()
 		locked_dialogue.current_line = locked_dialogue.dialogue_lines.size()
 		locked_dialogue.show_current_line()
 		await process_frame
 	_check(not door._locked_dialogue_active, "Finishing locked-door dialogue allows future interactions")
+
+	_check(fridge.has_method("interact"), "The apartment fridge is interactable")
+	_check(box.get_interaction_text().is_empty(), "The package has no prompt before the fridge dialogue")
+	_check(box.should_hide_interaction_prompt(), "The package interaction is disabled before the fridge dialogue")
+	box.interact()
+	await process_frame
+	_check(
+		root.find_child("VendorMinigamePlaceholder", true, false) == null,
+		"The disabled package cannot launch before the fridge dialogue",
+	)
+	fridge.interact()
+	await process_frame
+	var fridge_dialogue := root.find_child("dialogue_ui", true, false)
+	_check(fridge_dialogue != null, "Checking the fridge opens Scene 2 dialogue")
+	if fridge_dialogue != null:
+		_check(fridge_dialogue.dialogue_lines.size() == 4, "The fridge carries the full V3 food-search exchange")
+		await _finish_dialogue(fridge_dialogue)
+	_check(game_state.has_story_flag("apartment_fridge_checked"), "Finishing the fridge dialogue unlocks the package")
 
 	box.interact()
 	await process_frame
@@ -54,8 +74,17 @@ func _run() -> void:
 		minigame.get_node("Panel/Stack/ContinueButton").pressed.emit()
 	await process_frame
 	_check(game_state.clues.has("Damaged newspaper"), "Continuing past the placeholder records the newspaper clue")
+	_check(
+		root.find_child("dialogue_ui", true, false) == null,
+		"The box does not repeat dialogue owned by the eventual keepsake minigame",
+	)
 	_check(game_state.current_objective == "Ride the jeepney to La Paz.", "The newspaper supplies the first visible objective")
-	_check(objective_panel.visible, "Objective HUD appears when the newspaper is found")
+	_check(not objective_panel.visible, "The old standalone objective panel stays hidden")
+	_check(
+		phone.notification_banner.visible
+		and phone.notification_banner.text == "You have a new notification!",
+		"Objective and AMBot updates share one generic notification",
+	)
 	_check(not door._is_story_locked(), "Finding the newspaper unlocks the apartment door")
 	_check(door.get_interaction_text() == "Press F to open apartment door", "Unlocked door restores its normal prompt")
 	door.interact()
@@ -67,6 +96,13 @@ func _run() -> void:
 	game_state.autosave_enabled = original_autosave
 	await process_frame
 	_finish()
+
+
+func _finish_dialogue(dialogue: Node) -> void:
+	while is_instance_valid(dialogue) and dialogue.is_inside_tree():
+		dialogue._complete_typewriter()
+		dialogue._on_continue_pressed()
+		await process_frame
 
 
 func _check(condition: bool, label: String) -> void:

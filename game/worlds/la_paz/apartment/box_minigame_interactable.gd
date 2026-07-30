@@ -3,7 +3,7 @@ extends StaticBody3D
 const BOX_PLACEHOLDER_SCENE := preload("res://game/ui/minigames/vendor_minigame_placeholder.tscn")
 const MINIGAME_SESSION_SCRIPT := preload("res://features/minigames/shared/scripts/minigame_session.gd")
 const NEWSPAPER_CLUE := "Damaged newspaper"
-const TUTORIAL_INTERACT_STEP := 3
+const FRIDGE_FLAG := "apartment_fridge_checked"
 
 var _session: CanvasLayer
 var _player: Node
@@ -11,26 +11,21 @@ var _player_was_movable := true
 
 
 func get_interaction_text() -> String:
+	if not GameState.has_story_flag(FRIDGE_FLAG):
+		return ""
 	if GameState.clues.has(NEWSPAPER_CLUE):
 		return "Press F to inspect the opened box"
 	return "Press F to open the box"
 
 
-func interaction_focus_entered() -> void:
-	var hud := get_tree().root.find_child("GameHUD", true, false)
-	if hud != null and hud.has_method("notify_box_seen"):
-		hud.notify_box_seen()
-
-
 func should_hide_interaction_prompt() -> bool:
-	# The tutorial card already shows the F key and interaction action.
-	return (
-		GameState.tutorial_step == TUTORIAL_INTERACT_STEP
-		and not GameState.clues.has(NEWSPAPER_CLUE)
-	)
+	# The package is completely inactive until the fridge conversation is done.
+	return not GameState.has_story_flag(FRIDGE_FLAG)
 
 
 func interact() -> void:
+	if not GameState.has_story_flag(FRIDGE_FLAG):
+		return
 	if GameState.clues.has(NEWSPAPER_CLUE):
 		print("The opened box held the damaged newspaper that pointed toward La Paz.")
 		return

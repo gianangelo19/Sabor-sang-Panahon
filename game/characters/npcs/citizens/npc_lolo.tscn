@@ -23,6 +23,9 @@ player_reply = "You're saving time."
 closing_line = "And my knees. Wisdom comes in layers."
 repeat_lines = Array[String](["This bench has heard more secrets than the barangay hall. It is also better at keeping them.", "When I was your age, we got lost without GPS. It built character and very tired feet."])
 restored_line = "La Paz Batchoy... I remember arguing over the last spoonful. Good. I was worried I had become peaceful."
+first_exchange = Array[String](["Lolo Pilo|Dugay ka na wala diri, toto Jobert.", "Lolo Pilo|Everyone walks too fast now. I can be late from a bench.", "Jobert|You are saving time.", "Lolo Pilo|And my knees."])
+repeat_exchange = Array[String](["Lolo Pilo|When I was your age, we got lost without GPS. It built character and very tired feet."])
+restored_exchange = Array[String](["Lolo Pilo|La Paz Batchoy... I remember arguing over the last spoonful."])
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

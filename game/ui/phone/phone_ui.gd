@@ -26,8 +26,24 @@ const AMBOT_TEXT_TICK_1 := preload(
 const AMBOT_TEXT_TICK_2 := preload(
 	"res://features/minigames/box_unboxing/assets/audio/ui/sfx_text_tick_02.wav"
 )
+const NOTIFICATION_BOUNCE_SOUND := preload(
+	"res://features/minigames/box_unboxing/assets/audio/ui/sfx_ui_hover.wav"
+)
 const AMBOT_CHARACTERS_PER_SECOND := 32.0
 const AMBOT_CHARACTERS_PER_TICK := 3
+const UNIFIED_NOTIFICATION_TEXT := "You have a new notification!"
+const NOTIFICATION_BOUNCE_INTERVAL := 3.0
+const NOTIFICATION_BANNER_SIZE := Vector2(370, 76)
+const NOTIFICATION_BANNER_MARGIN := Vector2(24, 24)
+const ITEM_SCAN_DESTINATIONS := {
+	"damaged_newspaper": "grandma_house",
+	"pork_and_liver": "market_vendor_2",
+	"ginamos": "herbs_vendor",
+	"fresh_herbs": "seasoning_vendor",
+	"seasoning": "egg_vendor",
+	"fresh_egg": "chicharon_vendor",
+	"crushed_chicharon": "tindero",
+}
 const NAVY := Color("101c2b")
 const DEEP_NAVY := Color("09121e")
 const CREAM := Color("ffe1a3")
@@ -45,31 +61,31 @@ const AMBOT_CONVERSATIONS := {
 		"closing": "I will notify you when something changes. Until then, please generate evidence by leaving this screen."
 	},
 	"newspaper_scan": {
-		"opening": "Document integrity: 24 percent. In human terms, this newspaper is extremely dead. Fortunately, it left clues.",
+		"opening": "Damaged newspaper detected. Dish identity: unknown. Correct: my name remains appropriate.",
 		"questions": [
-			{"text": "What can you read?", "answer": "La Paz. Iloilo City. Food. Historical article. The paper has preserved every detail except the convenient ones."},
-			{"text": "Can you identify the dish?", "answer": "Not yet. The name and photograph are damaged. Guessing would be fast, dramatic, and statistically embarrassing."},
-			{"text": "Where should I start?", "answer": "With someone whose memory predates your search history. Grandma's old house is in your saved routes."},
+			{"text": "What can you read?", "answer": "Readable fragments: 'La Paz,' 'broth,' 'fresh miki,' and 'served for generations.' The title and recipe are incomprehensible."},
+			{"text": "Why can't you name it?", "answer": "The provided clues match more than one noodle dish. A witness or physical record will be stronger evidence."},
+			{"text": "What should I do?", "answer": "Given the context, ask contact: Lola Lynn. I have marked the jeepney route to her location."},
 		],
-		"closing": "Evidence file created: Unknown La Paz Dish. A terrible title, but an accurate one."
+		"closing": "Evidence file created: Unknown La Paz Dish. My name means 'I do not know.' This is branding, not permission to guess."
 	},
 	"arrival_maps": {
-		"opening": "Arrival confirmed. Grandma's old house is now in Maps. I selected it for you because wandering aimlessly is already well represented in your skill set.",
+		"opening": "Arrival confirmed. Grandma's old house destination is active. I selected it for you because wandering aimlessly is already well represented in your skill set.",
 		"questions": [
-			{"text": "How do I find the house?", "answer": "Open Maps. You are blue; the destination is amber. If the blue marker enters the river, reconsider your route."},
+			{"text": "How do I find the house?", "answer": "Follow the amber destination diamond on screen. If it enters the river, reconsider your route."},
 			{"text": "What is the diamond on screen?", "answer": "A destination beacon. It fades at the entrance, unlike your tendency to walk past obvious doors."},
-			{"text": "Will Maps reveal everyone?", "answer": "No. Story-relevant leads appear when evidence supports them. Regular people still require regular conversation."},
+			{"text": "Do I need to open Maps?", "answer": "No. Scanning a relevant item activates its supported destination beacon automatically. Maps remains available for orientation."},
 		],
 		"closing": "Current destination: Grandma's Old House. Try saying hello before beginning the interrogation."
 	},
 	"grandma_clues": {
-		"opening": "Grandma remembers soft noodles, tender meat, salty broth, and a crisp topping. She also remembers your bad handwriting. I omitted that from the evidence file.",
+		"opening": "Seven clues recorded: soft noodles, tender meat, salty depth, a crisp topping, a fresh egg, fragrant herbs, and warm seasoning.",
 		"questions": [
-			{"text": "Where do these clues lead?", "answer": "Toward food prepared near La Paz Market. This is evidence-based, not merely because all roads in Iloilo eventually lead to food."},
-			{"text": "Why are memories useful?", "answer": "Smell, taste, sound, and habit often survive after names disappear. Human storage is disorganized but surprisingly durable."},
-			{"text": "What is my next step?", "answer": "Talk to the market vendors. They work with the ingredients Grandma remembers, and they are less likely than I am to describe flavor as data."},
+			{"text": "What did Lola Lynn remember?", "answer": "Soft noodles, tender meat, salty depth, a crisp topping, a fresh egg, fragrant herbs, and warm seasoning. Seven ingredient slots are open."},
+			{"text": "Where do I begin?", "answer": "Start with Ate Telyn. Chat history suggests she worked with Lola Lynn and still runs the meat stall."},
+			{"text": "What is in my backpack?", "answer": "The damaged newspaper, family keepsakes, and seven empty ingredient slots."},
 		],
-		"closing": "La Paz Market unlocked. Bring patience. Exact change would also be culturally responsible."
+		"closing": "Ate Telyn marked. Probability that she knows embarrassing stories about you: high."
 	},
 	"market_vendor_1_clues": {
 		"opening": "Meat acquired. The vendor remembers every cut but not the dish—proof that hands can keep a secret from the brain.",
@@ -83,30 +99,55 @@ const AMBOT_CONVERSATIONS := {
 		"opening": "Ginamos acquired. The vendor remembers the exact spoonful but not the recipe. Human memory continues to preserve the strangest save files.",
 		"questions": [
 			{"text": "Could everyone forget at once?", "answer": "Ordinary forgetting is messy. This is precise: same dish, same blank space. I dislike patterns that behave more neatly than my code."},
-			{"text": "Who should I ask next?", "answer": "The chicharon vendor. A crisp topping is still missing, and subtlety has never been chicharon's primary function."},
+			{"text": "Who should I ask next?", "answer": "Ate Mila. Lola Lynn's memory includes an aroma that should lead to her herb stall."},
+		],
+		"closing": "Ate Mila marked. Your backpack now contains food, evidence, and one preventable odor."
+	},
+	"herbs_clues": {
+		"opening": "Fresh herbs recorded: spring onion and toasted garlic. Aroma remains one of the more reliable forms of human indexing.",
+		"questions": [
+			{"text": "What did Ate Mila remember?", "answer": "Lola Lynn smelled every bundle before buying it. The herbs were added near the end to keep the aroma bright."},
+			{"text": "Where next?", "answer": "Kuya Jun's seasoning stall. The broth still needs warm balance without more salt."},
+		],
+		"closing": "Kuya Jun marked. Please allow him to measure before offering an opinion."
+	},
+	"seasoning_clues": {
+		"opening": "Warm seasoning acquired. Black pepper wakes the broth; restraint prevents it from hiding the meat.",
+		"questions": [
+			{"text": "Why not add more salt?", "answer": "Ginamos already supplies salty depth. Kuya Jun's testimony emphasizes balance, not volume."},
+			{"text": "Who is next?", "answer": "Nang Cora. Lola Lynn remembers one soft ingredient cooking gently in the hot broth."},
+		],
+		"closing": "Nang Cora marked. Egg handling confidence remains unverified."
+	},
+	"egg_clues": {
+		"opening": "Fresh egg acquired. Nang Cora remembers the yolk remaining slightly soft in the center of the bowl.",
+		"questions": [
+			{"text": "How many clues remain?", "answer": "Two ingredient clues remain: crushed chicharon, then fresh miki."},
+			{"text": "Where do I go next?", "answer": "Ask the chicharon vendor about the crisp topping. Subtlety has never been chicharon's primary function."},
 		],
 		"closing": "Chicharon Vendor marked. Please resist eating the evidence before it becomes evidence."
 	},
 	"chicharon_clues": {
-		"opening": "Crushed chicharon acquired. Meat, ginamos, and crisp topping now agree with each other. The witnesses remain less cooperative.",
+		"opening": "Crushed chicharon acquired. Meat, ginamos, herbs, seasoning, egg, and crisp topping now agree with each other. The witnesses remain less cooperative.",
 		"questions": [
-			{"text": "What clues do we have now?", "answer": "Meat, ginamos, and crushed chicharon. Fresh miki is the last missing ingredient. The bowl is becoming clearer; the name is being stubborn."},
-			{"text": "Why is the name still missing?", "answer": "The identity is absent from multiple memories. Family history or physical evidence may restore what testimony cannot."},
+			{"text": "What clue remains?", "answer": "Fresh miki is the seventh and final ingredient clue."},
+			{"text": "Where do I find it?", "answer": "Ask Tito Bobet at the miki stall. His machine may require a missing crank before it cooperates."},
 		],
-		"closing": "Collective memory anomaly recorded. The miki tindero is marked. Try not to challenge every vendor to a minigame after this."
+		"closing": "Tito Bobet marked. Progress is sometimes a circle with better inventory."
 	},
 	"tindero_miki_clue": {
-		"opening": "Fresh miki acquired. Meat, miki, ginamos, and crushed chicharon: four of four. We have reconstructed an entire bowl and somehow misplaced its name.",
+		"opening": "Ingredient set recorded: pork and liver, ginamos, fresh herbs, seasoning, a fresh egg, crushed chicharon, and fresh miki.",
 		"questions": [
-			{"text": "Do all four ingredients fit?", "answer": "Yes. They form one coherent La Paz noodle bowl. Statistically convincing. Emotionally suspicious."},
-			{"text": "What should I do next?", "answer": "Return to the family house. Search for old signage, tools, or anything deliberately covered. History enjoys hiding under cloth and dust."},
+			{"text": "Can you name the dish now?", "answer": "Not responsibly. Seven ingredients are strong evidence, but ingredient evidence alone cannot confirm the dish name."},
+			{"text": "What kind of evidence do we need?", "answer": "A sign, menu, bowl, recipe, photograph, or other physical record."},
+			{"text": "Where should I search?", "answer": "Lola Lynn's house and entrance, where the newspaper and family keepsakes originated."},
 		],
-		"closing": "Ingredients complete. New objective: search the La Paz house. This is the part where 'do not touch anything' becomes unhelpful advice."
+		"closing": "Seven familiar faces, two missing tools, and one ginamos-smelling backpack later: return to the house."
 	},
 	"market_evidence": {
-		"opening": "All four ingredients are recorded. The recipe has shape now, even if its name is still behaving like classified information.",
+		"opening": "All seven ingredients are recorded. The recipe has shape now, even if its name is still behaving like classified information.",
 		"questions": [
-			{"text": "Do the ingredients match?", "answer": "Yes. Meat, miki, ginamos, and chicharon belong together. Ingredients can identify a meal, but not prove its history."},
+			{"text": "Do the ingredients match?", "answer": "Yes. Meat, ginamos, herbs, seasoning, egg, chicharon, and miki form one coherent bowl. Ingredients still cannot prove its history."},
 			{"text": "Where should I search?", "answer": "The family house. If the dish mattered there, something physical may have survived the forgetting."},
 		],
 		"closing": "Next lead: the La Paz house. Return home and look at it like a place you have never seen before."
@@ -127,12 +168,19 @@ const AMBOT_CONVERSATIONS := {
 		],
 		"closing": "Token allowance exhausted. Manual search required. Yes, even I recognize the timing is rude."
 	},
+	"cultural_echoes": {
+		"opening": "Cultural Echo search active. The signal is audible, but the house is bending its direction.",
+		"questions": [
+			{"text": "What am I listening for?", "answer": "A faint bowl-clink, market chatter, or broth simmer. Move slowly and follow whichever sound grows clearer."},
+			{"text": "Can you point to it?", "answer": "Not precisely. The signal bends around the house. I can confirm whether you are getting warmer."},
+		],
+		"closing": "Search slowly. Stronger echoes mean you are closer to the Batchoy Bowl."
+	},
 }
 
 var phone_open := false
 var current_app := "home"
 var current_situation := ""
-var asked_questions: Array[int] = []
 var calculator_value := "0"
 var calculator_stored := 0.0
 var calculator_operation := ""
@@ -154,6 +202,7 @@ var phone_tap_player: AudioStreamPlayer
 var phone_back_player: AudioStreamPlayer
 var select_app_player: AudioStreamPlayer
 var notification_player: AudioStreamPlayer
+var notification_bounce_player: AudioStreamPlayer
 var clock_player: AudioStreamPlayer
 var ambot_typing_players: Array[AudioStreamPlayer] = []
 var ambot_typing_active := false
@@ -164,8 +213,19 @@ var ambot_typing_accumulator := 0.0
 var ambot_typing_sound_counter := 0
 var ambot_typing_sound_index := 0
 var ambot_typing_finished_callback: Callable
+var ambot_scroll: ScrollContainer
+var ambot_chat_stack: VBoxContainer
+var ambot_autoscroll_pending := false
+var ambot_autoscroll_generation := 0
 var dialogue_hud_hidden := false
 var dialogue_notification_tween: Tween
+var notification_bounce_timer: Timer
+var notification_bounce_tween: Tween
+var objective_notification_unread := false
+var objective_notification_commit_pending := false
+var objective_notification_generation := 0
+var unread_notification_count := 0
+var ambot_notification_badge: Label
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -209,6 +269,7 @@ func _process(delta: float) -> void:
 	if time_label:
 		var now := Time.get_time_dict_from_system()
 		time_label.text = "%02d:%02d" % [now.hour, now.minute]
+	_layout_notification_banner()
 	_update_ambot_typing(delta)
 
 func _build_interface() -> void:
@@ -220,16 +281,30 @@ func _build_interface() -> void:
 
 	notification_banner = Button.new()
 	notification_banner.visible = false
-	notification_banner.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	notification_banner.position = Vector2(-354, 24)
-	notification_banner.size = Vector2(330, 76)
+	notification_banner.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	notification_banner.size = NOTIFICATION_BANNER_SIZE
+	notification_banner.pivot_offset = notification_banner.size * 0.5
 	notification_banner.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	notification_banner.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	notification_banner.text = UNIFIED_NOTIFICATION_TEXT
+	notification_banner.icon = AMBOT_ICON
+	notification_banner.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	notification_banner.expand_icon = true
+	notification_banner.tooltip_text = "Open AMBot"
 	notification_banner.add_theme_color_override("font_color", CREAM)
+	notification_banner.add_theme_font_size_override("font_size", 16)
+	notification_banner.add_theme_constant_override("icon_max_width", 46)
 	notification_banner.add_theme_stylebox_override("normal", _style(Color("142438"), GOLD, 2, 10))
 	notification_banner.add_theme_stylebox_override("hover", _style(Color("1c344b"), CREAM, 2, 10))
 	notification_banner.pressed.connect(_open_ambot_from_notification)
 	add_child(notification_banner)
+	_layout_notification_banner()
+
+	notification_bounce_timer = Timer.new()
+	notification_bounce_timer.wait_time = NOTIFICATION_BOUNCE_INTERVAL
+	notification_bounce_timer.autostart = true
+	notification_bounce_timer.timeout.connect(_bounce_notification_banner)
+	add_child(notification_bounce_timer)
 
 	phone_frame = PanelContainer.new()
 	phone_frame.name = "PhoneFrame"
@@ -329,7 +404,12 @@ func _build_interface() -> void:
 	notification_toast.visible = false
 	notification_toast.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	notification_toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	notification_toast.text = UNIFIED_NOTIFICATION_TEXT
+	notification_toast.icon = AMBOT_ICON
+	notification_toast.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	notification_toast.expand_icon = true
 	notification_toast.add_theme_font_size_override("font_size", 11)
+	notification_toast.add_theme_constant_override("icon_max_width", 24)
 	notification_toast.add_theme_stylebox_override("normal", _style(Color("1a3045"), ORANGE, 1, 6, 7))
 	notification_toast.pressed.connect(_open_ambot_from_notification)
 	shell.add_child(notification_toast)
@@ -401,6 +481,9 @@ func _build_audio_players() -> void:
 	phone_back_player = _create_sfx_player(PHONE_BACK_SOUND)
 	select_app_player = _create_sfx_player(SELECT_APP_SOUND)
 	notification_player = _create_sfx_player(NOTIFICATION_SOUND)
+	notification_bounce_player = _create_sfx_player(NOTIFICATION_BOUNCE_SOUND)
+	notification_bounce_player.volume_db = -16.0
+	notification_bounce_player.pitch_scale = 1.06
 	clock_player = _create_sfx_player(CLOCK_SOUND)
 	clock_player.finished.connect(_on_clock_sound_finished)
 	ambot_typing_players = [
@@ -472,6 +555,7 @@ func open_phone() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	show_home()
 	notification_banner.visible = false
+	_reset_notification_bounce()
 	open_state_changed.emit(true)
 
 func close_phone() -> void:
@@ -483,7 +567,7 @@ func close_phone() -> void:
 	phone_open = false
 	dim.visible = false
 	phone_frame.visible = false
-	notification_banner.visible = GameState.has_ambot_notification() and not dialogue_hud_hidden
+	notification_banner.visible = _has_unified_notification() and not dialogue_hud_hidden
 	Input.set_mouse_mode(previous_mouse_mode)
 	open_state_changed.emit(false)
 
@@ -513,9 +597,10 @@ func set_dialogue_hud_hidden(hidden: bool, duration: float = 0.24) -> void:
 		)
 		return
 
-	if phone_open or not GameState.has_ambot_notification():
+	if phone_open or not _has_unified_notification():
 		notification_banner.visible = false
 		notification_banner.modulate.a = 1.0
+		_reset_notification_bounce()
 		return
 	notification_banner.visible = true
 	notification_banner.modulate.a = 0.0
@@ -549,6 +634,41 @@ func analyze_inventory_item(item_id: String) -> void:
 	heading.add_theme_font_size_override("font_size", 11)
 	heading.add_theme_color_override("font_color", GOLD)
 	screen_stack.add_child(heading)
+
+	var preview_panel := PanelContainer.new()
+	preview_panel.name = "ScannedItemPreviewPanel"
+	preview_panel.custom_minimum_size.y = 104.0
+	preview_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	preview_panel.add_theme_stylebox_override(
+		"panel",
+		_style(Color("101c2bdd"), GOLD, 1, 7, 5),
+	)
+	screen_stack.add_child(preview_panel)
+
+	var preview := TextureRect.new()
+	preview.name = "ScannedItemPreview"
+	preview.set_meta("item_id", item_id)
+	preview.set_meta("source_icon_path", str(definition.get("icon", "")))
+	preview.tooltip_text = str(
+		definition.get("display_name", item_id.capitalize())
+	)
+	preview.texture = _inventory_item_texture(definition)
+	preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	preview.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	preview_panel.add_child(preview)
+
+	var details_scroll := ScrollContainer.new()
+	details_scroll.name = "ScannedItemDetailsScroll"
+	details_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	details_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	screen_stack.add_child(details_scroll)
+
+	var details_stack := VBoxContainer.new()
+	details_stack.name = "ScannedItemDetails"
+	details_stack.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	details_scroll.add_child(details_stack)
 	_add_chat_bubble(
 		"AMBot",
 		"%s\nCategory: %s\n\n%s" % [
@@ -558,9 +678,26 @@ func analyze_inventory_item(item_id: String) -> void:
 		],
 		false,
 		_finish_inventory_item_scan.bind(item_id),
+		true,
+		details_stack,
 	)
 
+
+func _inventory_item_texture(definition: Dictionary) -> Texture2D:
+	var icon_path := str(definition.get("icon", ""))
+	if icon_path.is_empty():
+		return null
+	var texture := load(icon_path) as Texture2D
+	if texture == null:
+		return null
+	var inventory_ui := get_parent().get_node_or_null("InventoryUI")
+	if inventory_ui != null and inventory_ui.has_method("prepare_item_texture"):
+		return inventory_ui.prepare_item_texture(texture)
+	return texture
+
+
 func _finish_inventory_item_scan(item_id: String) -> void:
+	_reveal_scanned_item_destination(item_id)
 	var done := Button.new()
 	done.text = "Scan complete • drag another item"
 	done.tooltip_text = "Return to the app launcher"
@@ -571,9 +708,35 @@ func _finish_inventory_item_scan(item_id: String) -> void:
 	screen_stack.add_child(done)
 	GameState.set_ambot_status("Scanned " + str(GameState.get_item_definition(item_id).get("display_name", item_id.capitalize())))
 
+
+func _reveal_scanned_item_destination(item_id: String) -> void:
+	var destination_id := str(ITEM_SCAN_DESTINATIONS.get(item_id, ""))
+	if destination_id.is_empty():
+		return
+
+	# The newspaper establishes Grandma's house as the first destination before
+	# the player reaches La Paz. Later vendor rewards already unlock their leads.
+	if item_id == "damaged_newspaper":
+		GameState.unlock_destination(destination_id)
+	if (
+		not GameState.is_destination_unlocked(destination_id)
+		or GameState.is_destination_completed(destination_id)
+	):
+		return
+	if not GameState.select_destination(destination_id):
+		return
+	if GameState.active_destination == destination_id:
+		GameState.mark_active_destination_seen_in_maps()
+
+
 func _clear_screen() -> void:
 	_stop_clock_sound()
 	_cancel_ambot_typing()
+	ambot_autoscroll_generation += 1
+	ambot_autoscroll_pending = false
+	ambot_scroll = null
+	ambot_chat_stack = null
+	ambot_notification_badge = null
 	for child in screen_stack.get_children():
 		child.queue_free()
 
@@ -613,8 +776,14 @@ func show_home() -> void:
 	grid.add_theme_constant_override("h_separation", 4)
 	grid.add_theme_constant_override("v_separation", 5)
 	screen_stack.add_child(grid)
-	var ambot_label := "AMBot •" if GameState.has_ambot_notification() else "AMBot"
-	_add_app_button(grid, ambot_label, _open_ambot, _app_icon(AMBOT_ICON))
+	_add_app_button(
+		grid,
+		"AMBot",
+		_open_ambot,
+		_app_icon(AMBOT_ICON),
+		true,
+		_unread_badge_count(),
+	)
 	_add_app_button(grid, "Maps", show_maps, _app_icon(MAPS_ICON))
 	_add_app_button(grid, "Calendar", show_calendar, _app_icon(CALENDAR_ICON))
 	_add_app_button(grid, "Clock", show_clock, _app_icon(CLOCK_ICON))
@@ -638,15 +807,25 @@ func show_maps() -> void:
 	hint.add_theme_color_override("font_color", MUTED_CREAM)
 	screen_stack.add_child(hint)
 
-func _add_app_button(parent: Control, label_text: String, callback: Callable, icon_texture: Texture2D = null, enabled := true) -> void:
+func _add_app_button(
+	parent: Control,
+	label_text: String,
+	callback: Callable,
+	icon_texture: Texture2D = null,
+	enabled := true,
+	badge_count := -1,
+) -> void:
 	var app := VBoxContainer.new()
 	app.custom_minimum_size = Vector2(76, 84)
 	app.add_theme_constant_override("separation", 0)
 	parent.add_child(app)
+	var icon_slot := Control.new()
+	icon_slot.custom_minimum_size = Vector2(68, 64)
+	icon_slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	app.add_child(icon_slot)
 	var button := Button.new()
 	button.name = label_text.replace(" •", "") + "AppButton"
-	button.custom_minimum_size = Vector2(68, 64)
-	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	button.tooltip_text = "Open " + label_text.replace(" •", "")
 	button.disabled = not enabled
 	button.focus_mode = Control.FOCUS_ALL
@@ -666,13 +845,33 @@ func _add_app_button(parent: Control, label_text: String, callback: Callable, ic
 		_play_sfx(select_app_player)
 		callback.call()
 	)
-	app.add_child(button)
+	icon_slot.add_child(button)
+	if badge_count >= 0:
+		ambot_notification_badge = Label.new()
+		ambot_notification_badge.name = "AMBotNotificationBadge"
+		ambot_notification_badge.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+		ambot_notification_badge.offset_left = -22.0
+		ambot_notification_badge.offset_top = -5.0
+		ambot_notification_badge.offset_right = 1.0
+		ambot_notification_badge.offset_bottom = 18.0
+		ambot_notification_badge.z_index = 2
+		ambot_notification_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ambot_notification_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		ambot_notification_badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		ambot_notification_badge.add_theme_font_size_override("font_size", 11)
+		ambot_notification_badge.add_theme_color_override("font_color", Color.WHITE)
+		ambot_notification_badge.add_theme_stylebox_override(
+			"normal",
+			_style(Color("f04438"), Color("ffafa8"), 1, 12, 2),
+		)
+		icon_slot.add_child(ambot_notification_badge)
+		_refresh_ambot_notification_badge()
 	var app_label := Label.new()
 	app_label.text = label_text
 	app_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	app_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	app_label.add_theme_font_size_override("font_size", 10)
-	app_label.add_theme_color_override("font_color", CREAM if not label_text.ends_with("•") else GOLD)
+	app_label.add_theme_color_override("font_color", CREAM)
 	app.add_child(app_label)
 
 func _show_back_button() -> void:
@@ -815,8 +1014,8 @@ func show_notes() -> void:
 	screen_stack.add_child(note)
 
 func _open_ambot() -> void:
+	_clear_unread_notifications()
 	current_situation = GameState.consume_ambot_notification() if GameState.has_ambot_notification() else "casual"
-	asked_questions.clear()
 	show_ambot()
 
 func _open_ambot_from_notification() -> void:
@@ -830,14 +1029,34 @@ func show_ambot() -> void:
 	title_label.text = "AMBot"
 	_show_back_button()
 	_clear_screen()
+	_build_ambot_chat_view()
 	notification_toast.visible = false
 	notification_banner.visible = false
+	_reset_notification_bounce()
 	var conversation: Dictionary = AMBOT_CONVERSATIONS.get(current_situation, {})
 	if conversation.is_empty():
 		var unavailable := Label.new()
 		unavailable.text = "This notification is no longer available."
-		screen_stack.add_child(unavailable)
+		ambot_chat_stack.add_child(unavailable)
 		return
+	for entry: Dictionary in GameState.get_ambot_chat_history():
+		_add_chat_bubble(
+			str(entry.get("speaker", "AMBot")),
+			str(entry.get("message", "")),
+			bool(entry.get("from_player", false)),
+			Callable(),
+			false,
+		)
+	if GameState.has_ambot_chat_entry(current_situation, "opening"):
+		_build_ambot_questions(conversation)
+		return
+	GameState.append_ambot_chat_message(
+		"AMBot",
+		str(conversation.opening),
+		false,
+		current_situation,
+		"opening",
+	)
 	_add_chat_bubble(
 		"AMBot",
 		conversation.opening,
@@ -846,7 +1065,11 @@ func show_ambot() -> void:
 	)
 
 func _build_ambot_questions(conversation: Dictionary) -> void:
+	if ambot_chat_stack == null or not is_instance_valid(ambot_chat_stack):
+		return
+	_clear_ambot_question_controls()
 	var questions: Array = conversation.get("questions", [])
+	var asked_questions := GameState.get_ambot_asked_questions(current_situation)
 	var remaining := false
 	for index in range(questions.size()):
 		if asked_questions.has(index):
@@ -856,21 +1079,57 @@ func _build_ambot_questions(conversation: Dictionary) -> void:
 		var button := Button.new()
 		button.text = question.text
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.set_meta("ambot_question_button", true)
 		button.pressed.connect(_ask_ambot_question.bind(index, question, conversation))
-		screen_stack.add_child(button)
+		ambot_chat_stack.add_child(button)
 	if not remaining:
+		if GameState.has_ambot_chat_entry(current_situation, "closing"):
+			_finish_ambot_conversation()
+			return
+		GameState.append_ambot_chat_message(
+			"AMBot",
+			str(conversation.closing),
+			false,
+			current_situation,
+			"closing",
+		)
 		_add_chat_bubble(
 			"AMBot",
 			conversation.closing,
 			false,
 			_finish_ambot_conversation
 		)
+	_request_ambot_autoscroll()
 
 func _ask_ambot_question(index: int, question: Dictionary, conversation: Dictionary) -> void:
+	if GameState.get_ambot_asked_questions(current_situation).has(index):
+		return
 	_play_sfx(phone_tap_player)
-	asked_questions.append(index)
-	_clear_screen()
-	_add_chat_bubble("You", question.text, true)
+	GameState.record_ambot_question(current_situation, index)
+	_clear_ambot_question_controls()
+	GameState.append_ambot_chat_message(
+		"You",
+		str(question.text),
+		true,
+		current_situation,
+		"question_%d" % index,
+	)
+	GameState.append_ambot_chat_message(
+		"AMBot",
+		str(question.answer),
+		false,
+		current_situation,
+		"answer_%d" % index,
+	)
+	_add_chat_bubble(
+		"You",
+		question.text,
+		true,
+		_show_ambot_answer.bind(question, conversation),
+	)
+
+
+func _show_ambot_answer(question: Dictionary, conversation: Dictionary) -> void:
 	_add_chat_bubble(
 		"AMBot",
 		question.answer,
@@ -881,29 +1140,103 @@ func _ask_ambot_question(index: int, question: Dictionary, conversation: Diction
 
 func _finish_ambot_conversation() -> void:
 	GameState.complete_ambot_conversation(current_situation)
+	if ambot_chat_stack == null or not is_instance_valid(ambot_chat_stack):
+		return
+	if ambot_chat_stack.find_child("AMBotCloseConversation", false, false) != null:
+		return
 	var done := Button.new()
+	done.name = "AMBotCloseConversation"
 	done.text = "Close conversation"
 	done.pressed.connect(func():
 		_play_sfx(phone_back_player)
 		show_home()
 	)
-	screen_stack.add_child(done)
+	ambot_chat_stack.add_child(done)
+	_request_ambot_autoscroll()
+
+
+func _build_ambot_chat_view() -> void:
+	ambot_scroll = ScrollContainer.new()
+	ambot_scroll.name = "AMBotHistoryScroll"
+	ambot_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	ambot_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	ambot_scroll.follow_focus = true
+	screen_stack.add_child(ambot_scroll)
+
+	ambot_chat_stack = VBoxContainer.new()
+	ambot_chat_stack.name = "AMBotChatHistory"
+	ambot_chat_stack.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ambot_chat_stack.add_theme_constant_override("separation", 6)
+	ambot_scroll.add_child(ambot_chat_stack)
+
+
+func _clear_ambot_question_controls() -> void:
+	if ambot_chat_stack == null or not is_instance_valid(ambot_chat_stack):
+		return
+	for child: Node in ambot_chat_stack.get_children():
+		if child is Button and child.has_meta("ambot_question_button"):
+			ambot_chat_stack.remove_child(child)
+			child.queue_free()
+
+
+func _scroll_ambot_to_bottom() -> void:
+	if ambot_scroll == null or not is_instance_valid(ambot_scroll):
+		return
+	var scroll_bar := ambot_scroll.get_v_scroll_bar()
+	var bottom := int(scroll_bar.max_value)
+	ambot_scroll.scroll_vertical = bottom
+	scroll_bar.value = scroll_bar.max_value
+
+
+func _request_ambot_autoscroll() -> void:
+	if ambot_scroll == null or not is_instance_valid(ambot_scroll):
+		return
+	if ambot_autoscroll_pending:
+		return
+	ambot_autoscroll_pending = true
+	var request_generation := ambot_autoscroll_generation
+	_scroll_ambot_after_layout.call_deferred(request_generation)
+
+
+func _scroll_ambot_after_layout(request_generation: int) -> void:
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if request_generation != ambot_autoscroll_generation:
+		return
+	ambot_autoscroll_pending = false
+	_scroll_ambot_to_bottom()
 
 
 func _add_chat_bubble(
 	speaker: String,
 	message: String,
 	from_player: bool,
-	on_typing_finished: Callable = Callable()
+	on_typing_finished: Callable = Callable(),
+	animate := true,
+	parent_override: Control = null,
 ) -> void:
 	var panel := PanelContainer.new()
+	panel.name = "PlayerChatBubble" if from_player else "AMBotChatBubble"
+	panel.set_meta("ambot_chat_bubble", true)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel.add_theme_stylebox_override("panel", _style(Color("31566b") if from_player else Color("29363d"), Color("6f8d8e"), 1, 6))
 	var label := Label.new()
 	label.text = speaker + "\n" + message
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	panel.add_child(label)
-	screen_stack.add_child(panel)
-	if from_player:
+	var parent: Control = parent_override
+	if parent == null or not is_instance_valid(parent):
+		parent = screen_stack
+	if (
+		parent_override == null
+		and ambot_chat_stack != null
+		and is_instance_valid(ambot_chat_stack)
+	):
+		parent = ambot_chat_stack
+	parent.add_child(panel)
+	_request_ambot_autoscroll()
+	if not animate:
+		label.visible_characters = -1
 		if on_typing_finished.is_valid():
 			on_typing_finished.call()
 		return
@@ -950,6 +1283,7 @@ func _update_ambot_typing(delta: float) -> void:
 
 		if ambot_typing_visible_characters >= ambot_typing_full_text.length():
 			_finish_ambot_typing()
+	_request_ambot_autoscroll()
 
 
 func _play_ambot_typing_sound() -> void:
@@ -974,6 +1308,7 @@ func _finish_ambot_typing() -> void:
 	ambot_typing_label = null
 	ambot_typing_full_text = ""
 	ambot_typing_finished_callback = Callable()
+	_request_ambot_autoscroll()
 	if callback.is_valid():
 		callback.call()
 
@@ -987,13 +1322,122 @@ func _cancel_ambot_typing() -> void:
 		if player.playing:
 			player.stop()
 
-func _on_notification_received(notification: Dictionary, play_sound := true) -> void:
-	notification_toast.text = "AMBot - %s\n%s" % [notification.get("title", "New message"), notification.get("preview", "Tap to open")]
+func _on_notification_received(_notification: Dictionary, play_sound := true) -> void:
+	if objective_notification_commit_pending:
+		objective_notification_generation += 1
+		objective_notification_commit_pending = false
+	_register_unread_notification()
+	_show_unified_notification(play_sound)
+
+func show_objective_notification(play_sound := false) -> void:
+	objective_notification_unread = true
+	if not (GameState.has_ambot_notification() and unread_notification_count > 0):
+		objective_notification_generation += 1
+		objective_notification_commit_pending = true
+		_commit_objective_notification.call_deferred(
+			objective_notification_generation
+		)
+	_show_unified_notification(play_sound)
+
+func _commit_objective_notification(generation: int) -> void:
+	if (
+		not objective_notification_commit_pending
+		or generation != objective_notification_generation
+	):
+		return
+	objective_notification_commit_pending = false
+	_register_unread_notification()
+
+func _register_unread_notification() -> void:
+	unread_notification_count = mini(unread_notification_count + 1, 999)
+	_refresh_ambot_notification_badge()
+
+func _clear_unread_notifications() -> void:
+	objective_notification_generation += 1
+	objective_notification_commit_pending = false
+	objective_notification_unread = false
+	unread_notification_count = 0
+	_refresh_ambot_notification_badge()
+
+func _unread_badge_count() -> int:
+	return unread_notification_count + (1 if objective_notification_commit_pending else 0)
+
+func _refresh_ambot_notification_badge() -> void:
+	if (
+		ambot_notification_badge == null
+		or not is_instance_valid(ambot_notification_badge)
+	):
+		return
+	var badge_count := _unread_badge_count()
+	ambot_notification_badge.visible = badge_count > 0
+	ambot_notification_badge.text = (
+		str(badge_count) if badge_count < 100 else "99+"
+	)
+	ambot_notification_badge.offset_left = -28.0 if badge_count >= 100 else -22.0
+
+func _show_unified_notification(play_sound: bool) -> void:
+	notification_toast.text = UNIFIED_NOTIFICATION_TEXT
 	notification_toast.visible = true
-	notification_banner.text = notification_toast.text
+	notification_banner.text = UNIFIED_NOTIFICATION_TEXT
 	notification_banner.visible = not phone_open and not dialogue_hud_hidden
+	notification_banner.modulate.a = 1.0
+	_layout_notification_banner()
+	if notification_bounce_timer:
+		notification_bounce_timer.start(NOTIFICATION_BOUNCE_INTERVAL)
 	if play_sound:
 		_play_sfx(notification_player)
+
+func _has_unified_notification() -> bool:
+	return (
+		_unread_badge_count() > 0
+		or objective_notification_unread
+		or GameState.has_ambot_notification()
+	)
+
+func _bounce_notification_banner() -> void:
+	if not notification_banner.visible or phone_open or dialogue_hud_hidden:
+		return
+	_play_sfx(notification_bounce_player)
+	if notification_bounce_tween != null and notification_bounce_tween.is_valid():
+		notification_bounce_tween.kill()
+	notification_banner.scale = Vector2.ONE
+	notification_bounce_tween = create_tween()
+	notification_bounce_tween.set_trans(Tween.TRANS_QUAD)
+	notification_bounce_tween.set_ease(Tween.EASE_OUT)
+	notification_bounce_tween.tween_property(
+		notification_banner,
+		"scale",
+		Vector2(1.04, 1.1),
+		0.12,
+	)
+	notification_bounce_tween.set_ease(Tween.EASE_IN)
+	notification_bounce_tween.tween_property(
+		notification_banner,
+		"scale",
+		Vector2(0.99, 0.96),
+		0.1,
+	)
+	notification_bounce_tween.set_ease(Tween.EASE_OUT)
+	notification_bounce_tween.tween_property(
+		notification_banner,
+		"scale",
+		Vector2.ONE,
+		0.12,
+	)
+
+func _reset_notification_bounce() -> void:
+	if notification_bounce_tween != null and notification_bounce_tween.is_valid():
+		notification_bounce_tween.kill()
+	notification_banner.scale = Vector2.ONE
+
+func _layout_notification_banner() -> void:
+	if notification_banner == null:
+		return
+	var viewport_size := get_viewport_rect().size
+	notification_banner.position = Vector2(
+		maxf(NOTIFICATION_BANNER_MARGIN.x, viewport_size.x - NOTIFICATION_BANNER_SIZE.x - NOTIFICATION_BANNER_MARGIN.x),
+		NOTIFICATION_BANNER_MARGIN.y,
+	)
 
 func _on_ambot_availability_changed(_available: bool) -> void:
 	if current_app == "home" and phone_open:

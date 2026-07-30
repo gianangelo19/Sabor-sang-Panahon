@@ -21,11 +21,20 @@ config/icon="res://icon.svg"
 GameState="*res://core/autoload/game_state.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 SettingsManager="*res://core/autoload/settings_manager.gd"
+GameOnPortal="*uid://bveglx7j2y7jj"
 
 [display]
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/game_on/plugin.cfg")
+
+[game_on]
+
+game_id="b806524a-5cc5-41d9-9696-417683c6254c"
 
 [gui]
 

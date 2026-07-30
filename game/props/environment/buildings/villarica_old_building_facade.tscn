@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/images/buildings/la_paz/villarica_old_building_facade.png" id="1_texture"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_facade"]
+transparency = 2
+alpha_scissor_threshold = 0.25
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_texture")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_facade"]
+material = SubResource("StandardMaterial3D_facade")
+size = Vector2(16, 10.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_facade"]
+size = Vector3(16, 10.7, 0.8)
+
+[node name="VillaricaOldBuildingFacade" type="Node3D"]
+editor_description = "Fixed-facing pixel-art façade of the weathered Villarica mixed-use building in La Paz. The root sits on the ground line; orient local +Z toward the playable area. Default width is 16 m."
+
+[node name="FacadeMesh" type="MeshInstance3D" parent="."]
+position = Vector3(0, 5.35, 0.02)
+cast_shadow = 0
+gi_mode = 2
+mesh = SubResource("QuadMesh_facade")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+position = Vector3(0, 5.35, -0.4)
+shape = SubResource("BoxShape3D_facade")

@@ -136,22 +136,32 @@ func _start_ride_dialogue() -> void:
 		[
 			{
 				"speaker": "Driver",
-				"text": "[i]Diin ka manaog, gha?[/i]\n[font_size=17]English: Where are you getting off? Say it before we pass—the brakes and I are still negotiating.[/font_size]",
+				"text": "[i]Diin ka manaog, Noy?[/i]",
 				"portrait": DRIVER_PORTRAIT,
 			},
 			{
 				"speaker": "You",
-				"text": "[i]Sa may La Paz Public Market lang, nong.[/i]\n[font_size=17]English: Just near La Paz Public Market, uncle. I'll shout with confidence.[/font_size]",
+				"text": "[i]Sa may La Paz Market lang, Nong.[/i]",
 				"portrait": PLAYER_PORTRAIT,
 			},
 			{
 				"speaker": "You",
-				"text": "[i]Lugar lang sa ibabaw nong, ari bayad ko.[/i]\n[font_size=17]English: Stop up ahead, uncle. Here's my fare—and thank you for the free spinal adjustment.[/font_size]",
+				"text": "[i]Lugar lang sa ibabaw. Ari bayad ko.[/i]",
 				"portrait": PLAYER_PORTRAIT,
 				"delay_before": 2.0,
 			},
+			{
+				"speaker": "Driver",
+				"text": "[i]Dugay ka na wala diri, Jobert ah.[/i]",
+				"portrait": DRIVER_PORTRAIT,
+			},
+			{
+				"speaker": "You",
+				"text": "You still remember me?",
+				"portrait": PLAYER_PORTRAIT,
+			},
 		],
-		[6.0, 6.0, 4.0],
+		[5.0, 5.0, 4.0, 5.0, 4.0],
 		get_node_or_null("npc_driver") as Node3D,
 	)
 	ride_dialogue.dialogue_finished.connect(_on_ride_dialogue_finished)
@@ -192,16 +202,16 @@ func get_off() -> void:
 		animation_player.play("exit jeep cutscene")
 
 func _unlock_arrival_destination() -> void:
-	if not GameState.unlock_destination("grandma_house"):
-		return
+	var newly_unlocked := GameState.unlock_destination("grandma_house")
 	GameState.select_destination("grandma_house")
 	GameState.set_objective("Visit Grandma at her old house.")
-	GameState.set_ambot_status("Grandma's house marked in Maps")
-	GameState.push_ambot_notification(
-		"arrival_maps",
-		"Destination added",
-		"Grandma's Old House is now available in Maps."
-	)
+	GameState.set_ambot_status("Grandma's house destination active")
+	if newly_unlocked:
+		GameState.push_ambot_notification(
+			"arrival_maps",
+			"Destination added",
+			"Grandma's Old House destination is now active."
+		)
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "jeepney_cutscene":

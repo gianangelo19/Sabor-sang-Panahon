@@ -128,7 +128,7 @@ func _start_incomplete_dialogue() -> void:
 	get_tree().root.add_child(dialogue)
 	dialogue.start_conversation([
 		{"speaker": "You", "text": "Whatever is under this cloth has been collecting dust longer than I've been collecting bad decisions.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "You", "text": "Not the time to pull it apart. The ingredients might tell me what I'm actually looking at.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "AMBot", "text": "The covering is fragile. Complete the ingredient evidence first; then we can examine the sign without guessing.", "portrait": null},
 	])
 	dialogue.dialogue_finished.connect(_on_incomplete_dialogue_finished)
 
@@ -146,11 +146,15 @@ func _start_reveal_dialogue() -> void:
 	var dialogue := DIALOGUE_SCENE.instantiate()
 	get_tree().root.add_child(dialogue)
 	dialogue.start_conversation([
-		{"speaker": "You", "text": "The cloth comes off... Teb's Old La Paz Batchoyan. So the house wasn't just beside the story. It was the story.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "You", "text": "This was a batchoyan. Grandma lived over the place everyone somehow forgot.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "You", "text": "That newspaper, the vendors, the way their hands remembered—every trail leads back here.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "You", "text": "If the old sign survived, maybe the Batchoy Bowl did too. Those cultural echoes are calling from somewhere on this property.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "You", "text": "And Grandma will be back in thirty seconds. Great. Restore a city's memory before dinner. Completely normal afternoon.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "You", "text": "Teb's Old La Paz Batchoyan?", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "You", "text": "Batchoy...", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "You", "text": "That's the word! Lola used to serve it to me here—after school, during rain, or whenever I pretended I wasn't hungry.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "You", "text": "The house was not beside the story. It was the story.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "AMBot", "text": "Physical record confirmed. Dish identity: La Paz Batchoy. Confidence: ninety-nine percent.", "portrait": null},
+		{"speaker": "You", "text": "Why does remembering it feel less like learning something and more like finding a room I forgot was in my own house?", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "AMBot", "text": "Because the evidence is connected to lived experience. I am also detecting repeating audio-visual anomalies nearby.", "portrait": null},
+		{"speaker": "You", "text": "Cultural Echoes. If the sign survived, maybe the old Batchoy Bowl did too.", "portrait": PLAYER_PORTRAIT},
+		{"speaker": "AMBot", "text": "Search the property. The echoes intensify near objects with a strong connection to the old batchoyan.", "portrait": null},
 	])
 	dialogue.dialogue_finished.connect(_on_reveal_dialogue_finished)
 

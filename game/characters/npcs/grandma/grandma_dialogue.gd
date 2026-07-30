@@ -7,33 +7,37 @@ const ARTIFACT_RECOVERED_CLUE := "Batchoy Bowl artifact recovered."
 const BATCHOY_SERVED_CLUE := "La Paz Batchoy served to Grandma."
 
 const FIRST_CONVERSATION: Array[Dictionary] = [
-	{"speaker": "You", "text": "Grandma! I crossed half of Iloilo and survived a jeepney ride with no suspension. Please look impressed.", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "Apo! Come here. Let me look at you. Ay—thinner. Are they not feeding you, or are you spending everything on iced coffee again?", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "You", "text": "Both can be true. How are you feeling?", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "Old enough to dislike that question. A little tired, nothing dramatic. Now, why are you holding that newspaper like a detective?", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "You", "text": "I found it damaged. It's about an old La Paz dish—broth, noodles, the market, and an old-timer. I thought you might remember.", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "Hmm. Soft noodles. Tender meat. A broth salty enough to wake you up. And something crisp on top that disappeared before the bowl reached the table.", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "You", "text": "That sounds very specific for someone who doesn't remember the name.", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "My hands remember more than my head. I can hear bowls clinking, vendors shouting, rain on the roof... but the name? Blank.", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "Grandma", "text": "The smell used to reach the street. On wet afternoons, people squeezed inside dripping everywhere and still left smiling.", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "You", "text": "Then I'll ask around. If the whole neighborhood ate it, somebody has to remember.", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "Good. I need to buy my medicine anyway. Apparently stubbornness is not a complete treatment.", "portrait": GRANDMA_PORTRAIT},
-	{"speaker": "You", "text": "Be back before dinner. If I find the dish, we make it together.", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "Deal. And apo? Follow the clues, not every stranger offering free food. Use judgment—then bring me some.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "Lolaaa! I crossed half of Iloilo and survived a jeepney ride. Tani proud ka sakon!", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "Apo! Ay, ari ka na! Come here, come here.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "Naku, you're so thin now! Nagkaon ka na bala?", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "Working on it po. I found this in your package.", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "You", "text": "It describes a La Paz dish. But I don't remember the name...", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "Huh...", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "That's strange.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "I don't remember storing a newspaper in your package.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "The contents of the newspaper... are familiar?", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "It's like having a memory that's not mine...", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "...", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "Lola?", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "Soft miki. Deep, salty broth. Meat... something crisp. An egg. Fresh herbs. Warm seasoning.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "So... you do remember?", "portrait": PLAYER_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "I'm getting old na, Jobert.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "I need to buy my medicine. Make dinner while I am out, ha? Palihog lang, Jobert.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "You", "text": "Sige po, no worries, La. I'll bring this dish home.", "portrait": PLAYER_PORTRAIT},
 ]
 
 const REPEAT_CONVERSATION: Array[Dictionary] = [
 	{"speaker": "You", "text": "Quick memory check: soft noodles, tender meat, salty broth, crisp topping. Did I miss anything?", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "Yes. Legible handwriting. But the food clues are right.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "Yes. Legible handwriting. But the food clues are right.", "portrait": GRANDMA_PORTRAIT},
 	{"speaker": "You", "text": "Cruel. Accurate, but cruel.", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "That is what grandmothers are for. Go carefully, apo—and come home hungry.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "That is what grandmothers are for. Go carefully, apo—and come home hungry.", "portrait": GRANDMA_PORTRAIT},
 ]
 
 const RESTORED_CONVERSATION: Array[Dictionary] = [
 	{"speaker": "You", "text": "Verdict, Grandma. Does it taste like the one in your memory?", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "It tastes like home—meat, fresh miki, ginamos, chicharon... and you hovering over me like a nervous waiter.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "It tastes like home—meat, fresh miki, ginamos, chicharon, herbs, seasoning, egg... and you hovering over me like a nervous waiter.", "portrait": GRANDMA_PORTRAIT},
 	{"speaker": "You", "text": "I nearly fought half the market for that bowl. I'm allowed to hover.", "portrait": PLAYER_PORTRAIT},
-	{"speaker": "Grandma", "text": "Then sit. Memories are better when they have someone to return to.", "portrait": GRANDMA_PORTRAIT},
+	{"speaker": "Lola Lynn", "text": "Then sit. Memories are better when they have someone to return to.", "portrait": GRANDMA_PORTRAIT},
 ]
 
 var _dialogue_active := false
@@ -112,7 +116,7 @@ func _on_dialogue_finished() -> void:
 		GameState.complete_destination("grandma_house")
 		GameState.unlock_destination("market_vendor_1")
 		GameState.select_destination("market_vendor_1")
-		GameState.add_clue("Grandma remembers soft noodles, tender meat, a salty taste, and a crisp topping.")
+		GameState.add_clue("Lola Lynn remembers seven sensory clues: miki, meat, salty depth, crisp topping, egg, herbs, and seasoning.")
 		GameState.set_objective("Ask the people of La Paz about Grandma's memories.")
 		GameState.set_ambot_status("La Paz Market marked in Maps")
 		GameState.push_ambot_notification(
@@ -120,6 +124,7 @@ func _on_dialogue_finished() -> void:
 			"Grandma's testimony recorded",
 			"A new search area is available in Maps."
 		)
+		GameState.set_grandma_left_for_medicine(true)
 
 	if _player != null and is_instance_valid(_player):
 		_player.can_move = _player_was_movable

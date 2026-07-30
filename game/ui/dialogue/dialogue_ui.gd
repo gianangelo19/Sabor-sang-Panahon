@@ -1,6 +1,7 @@
 extends Control
 
 signal dialogue_finished
+signal choice_selected(choice_id: String, choice_text: String)
 
 const DIALOGUE_TYPE_SOUND := preload("res://assets/audio/retro_filipino_pack/dialogue_type_click.wav")
 const TYPE_SOUND_CHARACTER_INTERVAL := 2
@@ -39,6 +40,11 @@ var _speaker_target: Node3D = null
 var _line_speaker_target: Node3D = null
 var _current_line_text := ""
 var _hud_hidden_by_dialogue := false
+var _choice_panel: PanelContainer
+var _choice_stack: VBoxContainer
+var _choice_buttons: Array[Button] = []
+var _choice_active := false
+var _current_entry_has_choices := false
 
 
 func _ready() -> void:
@@ -50,6 +56,7 @@ func _ready() -> void:
 	_typing_audio_player.volume_db = type_sound_volume_db
 	_typing_audio_player.max_polyphony = 2
 	add_child(_typing_audio_player)
+	_build_choice_panel()
 	continue_btn.pressed.connect(_on_continue_pressed)
 	continue_btn.grab_focus()
 
@@ -66,6 +73,15 @@ func _process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if auto_advance:
 		return
+	if _choice_active:
+		if event.is_action_pressed("ui_up"):
+			_focus_relative_choice(-1)
+			get_viewport().set_input_as_handled()
+			return
+		if event.is_action_pressed("ui_down"):
+			_focus_relative_choice(1)
+			get_viewport().set_input_as_handled()
+			return
 	if event.is_action_pressed("interact") or event.is_action_pressed("ui_accept"):
 		get_viewport().set_input_as_handled()
 		_on_continue_pressed()
@@ -183,6 +199,8 @@ func show_current_line() -> void:
 		canvas.visible = true
 		var speaker := str(entry.get("speaker", ""))
 		_current_line_text = str(entry.get("text", ""))
+		_current_entry_has_choices = entry.get("choices", []) is Array and not entry.get("choices", []).is_empty()
+		_hide_choices()
 		speaker_name.text = speaker
 		_resolve_line_target(entry)
 		_apply_line_layout(speaker)
@@ -191,6 +209,8 @@ func show_current_line() -> void:
 	else:
 		canvas.visible = true
 		_current_line_text = str(entry)
+		_current_entry_has_choices = false
+		_hide_choices()
 		_line_speaker_target = null
 		_apply_line_layout("You")
 		_start_typewriter(_current_line_text)
@@ -208,7 +228,8 @@ func _apply_line_layout(speaker: String) -> void:
 	player_thought.visible = _showing_player_thought
 	speaker_name.visible = not _showing_player_thought
 	continue_btn.visible = not auto_advance and _showing_player_thought
-	continue_btn.disabled = auto_advance or not _showing_player_thought
+	continue_btn.visible = continue_btn.visible and not _current_entry_has_choices
+	continue_btn.disabled = auto_advance or not _showing_player_thought or _current_entry_has_choices
 	if _showing_player_thought:
 		_layout_player_thought()
 	else:
@@ -220,7 +241,11 @@ func _layout_player_thought() -> void:
 	var panel_width := minf(980.0, maxf(280.0, viewport_size.x - 48.0))
 	if viewport_size.x > 720.0:
 		panel_width = minf(panel_width, viewport_size.x * 0.76)
-	var panel_height := clampf(viewport_size.y * 0.22, 132.0, 188.0)
+	var panel_height := (
+		clampf(viewport_size.y * 0.38, 238.0, 318.0)
+		if _current_entry_has_choices
+		else clampf(viewport_size.y * 0.22, 132.0, 188.0)
+	)
 	panel_height = minf(panel_height, maxf(108.0, viewport_size.y - 32.0))
 	var panel_position := Vector2(
 		(viewport_size.x - panel_width) * 0.5,
@@ -229,7 +254,13 @@ func _layout_player_thought() -> void:
 	player_thought.position = panel_position
 	player_thought.size = Vector2(panel_width, panel_height)
 	dialogue_text.position = panel_position + Vector2(34.0, 28.0)
-	dialogue_text.size = Vector2(panel_width - 68.0, panel_height - 50.0)
+	dialogue_text.size = Vector2(
+		panel_width - 68.0,
+		76.0 if _current_entry_has_choices else panel_height - 50.0,
+	)
+	if _current_entry_has_choices:
+		_choice_panel.position = panel_position + Vector2(30.0, 106.0)
+		_choice_panel.size = Vector2(panel_width - 60.0, panel_height - 126.0)
 	_position_continue_button(panel_position, Vector2(panel_width, panel_height))
 
 
@@ -312,6 +343,7 @@ func _make_portraits_invisible() -> void:
 
 func _finish_dialogue() -> void:
 	_cancel_typewriter()
+	_hide_choices()
 	_show_hud()
 	dialogue_finished.emit()
 	queue_free()
@@ -354,7 +386,10 @@ func _type_current_line(generation: int, parsed_text: String, total_characters: 
 		return
 	dialogue_text.visible_characters = -1
 	_is_typing = false
-	_schedule_npc_auto_advance(generation, total_characters)
+	if _current_entry_has_choices:
+		_show_current_choices()
+	else:
+		_schedule_npc_auto_advance(generation, total_characters)
 
 
 func _schedule_npc_auto_advance(generation: int, character_count: int) -> void:
@@ -396,6 +431,8 @@ func _cancel_typewriter(show_full_line := false) -> void:
 
 func _complete_typewriter() -> void:
 	_cancel_typewriter(true)
+	if _current_entry_has_choices:
+		_show_current_choices()
 
 
 func _update_portrait_focus(_speaker: String) -> void:
@@ -427,6 +464,118 @@ func _on_continue_pressed() -> void:
 	if _is_typing:
 		_complete_typewriter()
 		return
+	if _choice_active:
+		var focused := get_viewport().gui_get_focus_owner() as Button
+		if focused != null and _choice_buttons.has(focused):
+			focused.pressed.emit()
+		elif not _choice_buttons.is_empty():
+			_choice_buttons[0].pressed.emit()
+		return
+	if _current_entry_has_choices:
+		_show_current_choices()
+		return
 	SettingsManager.play_dialogue_continue_sound()
 	current_line += 1
 	show_current_line()
+
+
+func _build_choice_panel() -> void:
+	_choice_panel = PanelContainer.new()
+	_choice_panel.name = "ChoicePanel"
+	_choice_panel.visible = false
+	_choice_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(0.055, 0.06, 0.07, 0.97)
+	panel_style.border_color = Color(0.76, 0.62, 0.38, 0.85)
+	panel_style.set_border_width_all(2)
+	panel_style.set_corner_radius_all(10)
+	panel_style.content_margin_left = 12.0
+	panel_style.content_margin_right = 12.0
+	panel_style.content_margin_top = 10.0
+	panel_style.content_margin_bottom = 10.0
+	_choice_panel.add_theme_stylebox_override("panel", panel_style)
+	canvas.add_child(_choice_panel)
+
+	_choice_stack = VBoxContainer.new()
+	_choice_stack.name = "ChoiceStack"
+	_choice_stack.add_theme_constant_override("separation", 8)
+	_choice_panel.add_child(_choice_stack)
+
+
+func _show_current_choices() -> void:
+	if _choice_active or current_line >= dialogue_lines.size():
+		return
+	var entry = dialogue_lines[current_line]
+	if not entry is Dictionary:
+		return
+	var choices: Variant = entry.get("choices", [])
+	if not choices is Array or choices.is_empty():
+		return
+
+	_clear_choice_buttons()
+	for index in range(choices.size()):
+		var choice: Variant = choices[index]
+		if not choice is Dictionary:
+			continue
+		var button := Button.new()
+		button.name = "Choice%d" % index
+		button.text = "▸ " + str(choice.get("text", "Continue"))
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.focus_mode = Control.FOCUS_ALL
+		button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		button.add_theme_color_override("font_color", Color("f7e7c5"))
+		button.add_theme_color_override("font_hover_color", Color("ffd166"))
+		button.add_theme_color_override("font_focus_color", Color("ffd166"))
+		button.add_theme_font_size_override("font_size", 18)
+		button.pressed.connect(_select_choice.bind(choice))
+		_choice_stack.add_child(button)
+		_choice_buttons.append(button)
+
+	_choice_active = not _choice_buttons.is_empty()
+	_choice_panel.visible = _choice_active
+	if _choice_active:
+		_choice_buttons[0].grab_focus()
+
+
+func _select_choice(choice: Dictionary) -> void:
+	if not _choice_active:
+		return
+	SettingsManager.play_dialogue_continue_sound()
+	var choice_text := str(choice.get("text", "Continue"))
+	var choice_id := str(choice.get("id", choice_text.to_snake_case()))
+	choice_selected.emit(choice_id, choice_text)
+	_hide_choices()
+	current_line += 1
+	var branch_entries: Variant = choice.get("entries", [])
+	if branch_entries is Array:
+		for index in range(branch_entries.size() - 1, -1, -1):
+			dialogue_lines.insert(current_line, branch_entries[index])
+	show_current_line()
+
+
+func _focus_relative_choice(direction: int) -> void:
+	if _choice_buttons.is_empty():
+		return
+	var focused := get_viewport().gui_get_focus_owner() as Button
+	var current_index := _choice_buttons.find(focused)
+	if current_index < 0:
+		current_index = 0
+	var next_index := posmod(current_index + direction, _choice_buttons.size())
+	_choice_buttons[next_index].grab_focus()
+
+
+func _hide_choices() -> void:
+	_choice_active = false
+	if _choice_panel != null:
+		_choice_panel.visible = false
+	_clear_choice_buttons()
+
+
+func _clear_choice_buttons() -> void:
+	if _choice_stack == null:
+		return
+	for child: Node in _choice_stack.get_children():
+		_choice_stack.remove_child(child)
+		child.queue_free()
+	_choice_buttons.clear()

@@ -15,6 +15,10 @@ var reward_id := "ingredient"
 var reward_name := "Ingredient"
 var destination_id := ""
 var minigame_scene: PackedScene = MINIGAME_PLACEHOLDER_SCENE
+var required_item_id := ""
+var required_item_name := ""
+var consume_required_item := false
+var reward_conversation: Array[Dictionary] = []
 
 var _dialogue_active := false
 var _conversation_completed := false
@@ -28,6 +32,8 @@ func get_interaction_text() -> String:
 	if not _is_story_available():
 		return _locked_interaction_text()
 	if _conversation_completed and not _minigame_completed:
+		if not _has_required_item() and not required_item_name.is_empty():
+			return "Press F to ask about the missing " + required_item_name
 		return "Press F to continue " + npc_display_name + "'s story"
 	return "Press F to talk to " + npc_display_name
 
@@ -37,7 +43,11 @@ func interact() -> void:
 		return
 	_dialogue_active = true
 	_lock_player()
-	if _conversation_completed and not _minigame_completed:
+	if (
+		_conversation_completed
+		and not _minigame_completed
+		and required_item_id.is_empty()
+	):
 		_start_minigame()
 		return
 	if not _conversation_completed:
@@ -46,7 +56,7 @@ func interact() -> void:
 	var dialogue := DIALOGUE_SCENE.instantiate()
 	get_tree().root.add_child(dialogue)
 	dialogue.start_conversation(
-		repeat_conversation if _conversation_completed else first_conversation,
+		_get_conversation_entries(_conversation_completed),
 		self,
 	)
 	dialogue.dialogue_finished.connect(_on_dialogue_finished)
@@ -58,6 +68,17 @@ func player_line(text: String) -> Dictionary:
 
 func npc_line(text: String) -> Dictionary:
 	return {"speaker": npc_display_name, "text": text, "portrait": npc_portrait}
+
+func choice_line(prompt: String, choices: Array) -> Dictionary:
+	return {
+		"speaker": "You",
+		"text": prompt,
+		"portrait": PLAYER_PORTRAIT,
+		"choices": choices,
+	}
+
+func _get_conversation_entries(is_repeat: bool) -> Array[Dictionary]:
+	return repeat_conversation if is_repeat else first_conversation
 
 
 func sync_completion_from_game_state() -> void:
@@ -94,6 +115,11 @@ func _lock_player() -> void:
 func _on_dialogue_finished() -> void:
 	if not _conversation_completed:
 		_conversation_completed = true
+	if not _has_required_item():
+		_handle_required_item_missing()
+		_restore_player()
+		return
+	if not _minigame_completed:
 		_start_minigame()
 		return
 	_restore_player()
@@ -125,9 +151,17 @@ func _start_minigame() -> void:
 func _on_minigame_won() -> void:
 	_minigame_session = null
 	_minigame_completed = true
+	if consume_required_item and not required_item_id.is_empty():
+		GameState.remove_inventory_item(required_item_id)
 	GameState.collect_ingredient(reward_id, reward_name)
 	_handle_minigame_won()
-	_restore_player()
+	if reward_conversation.is_empty():
+		_restore_player()
+		return
+	var dialogue := DIALOGUE_SCENE.instantiate()
+	get_tree().root.add_child(dialogue)
+	dialogue.start_conversation(reward_conversation, self)
+	dialogue.dialogue_finished.connect(_restore_player)
 
 
 func _on_minigame_dismissed() -> void:
@@ -148,4 +182,10 @@ func _handle_minigame_won() -> void:
 
 
 func _handle_first_conversation_started() -> void:
+	pass
+
+func _has_required_item() -> bool:
+	return required_item_id.is_empty() or GameState.has_inventory_item(required_item_id)
+
+func _handle_required_item_missing() -> void:
 	pass

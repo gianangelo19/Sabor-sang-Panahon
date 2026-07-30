@@ -25,6 +25,8 @@ const AMBIENT_NPC_SCENES := [
 	"res://game/characters/npcs/citizens/npc_sanag_student.tscn",
 	"res://game/characters/npcs/citizens/npc_sanag_talking.tscn",
 	"res://game/characters/npcs/citizens/npc_ui_student.tscn",
+	"res://game/characters/npcs/citizens/npc_isatu_student_male_01.tscn",
+	"res://game/characters/npcs/citizens/npc_traffic_enforcer.tscn",
 ]
 
 var failures: Array[String] = []
@@ -48,7 +50,10 @@ func _run() -> void:
 		root.add_child(npc)
 		_check(npc.has_method("interact"), npc.name + " is optionally interactable")
 		_check(not npc.npc_display_name.is_empty(), npc.name + " has a character name")
-		_check(npc.repeat_lines.size() >= 2, npc.name + " has repeat conversation variety")
+		_check(
+			not npc.repeat_exchange.is_empty() or not npc.repeat_lines.is_empty(),
+			npc.name + " has a repeat conversation",
+		)
 
 	var player := MockPlayer.new()
 	player.name = "ProtoController"
@@ -59,8 +64,8 @@ func _run() -> void:
 	var dialogue := root.find_child("dialogue_ui", true, false)
 	_check(dialogue != null, "Ambient interaction opens the shared dialogue UI")
 	if dialogue:
-		_check(dialogue.dialogue_lines.size() == 3, "First ambient interaction has a complete exchange")
-		_check(dialogue.dialogue_lines[0].speaker == "Milk Vendor", "Ambient NPC opens in their own voice")
+		_check(dialogue.dialogue_lines.size() >= 3, "First ambient interaction has a complete exchange")
+		_check(dialogue.dialogue_lines[0].speaker == "Milk", "Ambient NPC opens in their own voice")
 		_check(dialogue.dialogue_lines[1].speaker == "You", "The player participates in ambient banter")
 		_check(dialogue._line_speaker_target == milk_vendor, "Ambient speech bubble tracks its NPC")
 		for line_index in range(dialogue.dialogue_lines.size()):

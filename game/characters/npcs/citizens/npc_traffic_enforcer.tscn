@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/art/characters/npc_traffic_enforcer/npc_traffic_enforcer_front.png" id="1_front"]
 [ext_resource type="Script" uid="uid://ckdxpasqp15r5" path="res://game/characters/npcs/shared/npc_four_angle_billboard.gd" id="2_billboard"]
 [ext_resource type="Texture2D" path="res://assets/art/characters/npc_traffic_enforcer/npc_traffic_enforcer_right.png" id="3_right"]
 [ext_resource type="Texture2D" path="res://assets/art/characters/npc_traffic_enforcer/npc_traffic_enforcer_back.png" id="4_back"]
 [ext_resource type="Texture2D" path="res://assets/art/characters/npc_traffic_enforcer/npc_traffic_enforcer_left.png" id="5_left"]
+[ext_resource type="Script" path="res://game/characters/npcs/shared/ambient_npc_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_character"]
 radius = 1.35
@@ -16,6 +17,11 @@ height = 9.0
 
 [node name="npc_traffic_enforcer" type="Node3D"]
 editor_description = "Four-angle billboard traffic enforcer NPC in an original blue-and-red uniform, directing traffic with a raised hand and baton."
+script = ExtResource("6_dialogue")
+npc_display_name = "Traffic Enforcer"
+first_exchange = Array[String](["Traffic Enforcer|Ngaa ari ka di sa tunga dalan?", "Jobert|I need hel-", "Traffic Enforcer|I said why are you in the middle of the road?", "Jobert|I am asking around about a dish Lola Lynn forgot.", "Traffic Enforcer|Then ask later... Not when I'm in the middle of the road.", "Jobert|Fair."])
+repeat_exchange = Array[String](["Traffic Enforcer|Cross when I signal, not when confidence arrives."])
+restored_exchange = Array[String](["Traffic Enforcer|La Paz Batchoy. Good. The mystery is cleared; the intersection is not.", "Jobert|One problem at a time.", "Traffic Enforcer|That is what traffic says before rush hour."])
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

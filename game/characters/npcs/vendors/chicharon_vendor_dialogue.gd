@@ -4,7 +4,7 @@ const VENDOR_PORTRAIT := preload("res://assets/art/characters/npc_chicharon_vend
 
 
 func _ready() -> void:
-	npc_display_name = "Chicharon Vendor"
+	npc_display_name = "Nong Andy"
 	npc_portrait = VENDOR_PORTRAIT
 	minigame_title = "Fry the Chicharon"
 	minigame_instructions = "Follow the rhythm and lift enough pieces from the oil at perfect crispness."
@@ -12,20 +12,31 @@ func _ready() -> void:
 	reward_name = "Crushed chicharon"
 	destination_id = "chicharon_vendor"
 	first_conversation = [
-		player_line("I'm hunting for the crisp topping of a noodle dish nobody can name."),
-		npc_line("A mystery topping at my stall? Careful. The chicharon can hear you flattering it."),
-		player_line("So far: meat, ginamos in the broth, something crunchy on top, and fresh miki still missing."),
-		npc_line("Crushed chicharon fits. Even that little crackle feels familiar... but the dish behind it is all fog."),
-		player_line("The other vendors remember what their hands did, just not why they did it."),
-		npc_line("People forget birthdays, umbrellas, sometimes a child at the sari-sari store. Iloilo does not forget food. Something is wrong."),
-		player_line("Can I get some for Grandma's bowl? Maybe the crunch will wake the memory."),
-		npc_line("Help with this batch. Listen to the oil and lift each piece at the perfect beat. Too early: rubber. Too late: family shame."),
-		player_line("No pressure. Just rhythm, boiling oil, and the honor of my bloodline."),
-		npc_line("Now you understand chicharon. Keep the batch crisp, and the best pieces are yours."),
+		player_line("Nong Andy!"),
+		npc_line("Jobert."),
+		player_line("I'm trying to cook a dish from Lola's old recipe... any idea for a crisp topping?"),
+		npc_line("Chicharon."),
+		player_line("You didn't even ask about the dish."),
+		npc_line("You smell like karne and ginamos."),
+		npc_line("That is enough."),
+		player_line("Okay... then can I have some po?"),
+		npc_line("No."),
+		player_line("Pretty please?"),
+		npc_line("No."),
+		player_line("..."),
+		npc_line("..."),
+		player_line("Uh—pretty, pretty please with chicharon on top? I'll help you fry them!"),
+		npc_line("Hmm... okay."),
+		player_line("Nayswan! You really love this job."),
+		npc_line("...I love going home."),
 	]
 	repeat_conversation = [
-		player_line("Has the chicharon remembered the dish yet? You said it could hear us."),
-		npc_line("It remains deliciously silent. But yes—it belongs in that bowl. My bones are sure, even if my brain is lazy."),
+		player_line("Still no extra words, Nong?"),
+		npc_line("Crisp. Last. Good."),
+	]
+	reward_conversation = [
+		npc_line("Keep the crackle."),
+		player_line("Three words. New record."),
 	]
 	sync_completion_from_game_state()
 
@@ -34,11 +45,11 @@ func _handle_minigame_won() -> void:
 	GameState.complete_destination("chicharon_vendor")
 	GameState.unlock_destination("tindero")
 	GameState.select_destination("tindero")
-	GameState.add_clue("Vendor testimony: crushed chicharon fits the bowl, but its identity remains forgotten.")
-	GameState.set_objective("Talk to the tindero for fresh miki noodles.")
-	GameState.set_ambot_status("Tindero marked in Maps")
+	GameState.add_clue("Nong Andy confirms crushed chicharon as the crisp topping.")
+	GameState.set_objective("Talk to Tito Bobet about fresh miki noodles.")
+	GameState.set_ambot_status("Tito Bobet marked in Maps")
 	GameState.push_ambot_notification(
 		"chicharon_clues",
 		"Crushed chicharon acquired",
-		"The tindero is now marked in Maps."
+		"Tito Bobet's miki stall is the final ingredient lead."
 	)

@@ -17,12 +17,15 @@ height = 9.0
 
 [node name="npc_panda" type="Node3D" unique_id=1142351024]
 script = ExtResource("6_dialogue")
-npc_display_name = "Panda Mascot"
+npc_display_name = "Panda"
 opening_line = "..."
 player_reply = "Are you not allowed to talk, or is this a very serious mascot oath?"
 closing_line = "[The panda slowly points to a tip jar.]"
 repeat_lines = Array[String](["[The panda offers a solemn thumbs-up.]", "[The panda wipes its forehead, then remembers the costume has no movable forehead.]"])
 restored_line = "[The panda performs a surprisingly emotional dance at the words 'La Paz Batchoy.']"
+first_exchange = Array[String](["Panda|Woof! Woof!", "Jobert|Panda! Dali lang—easy boy.", "Panda|Woof.", "Jobert|Okay, okay! Haha, I missed you too.", "Jobert|There's no treats in there! I swear, you only want me for the food."])
+repeat_exchange = Array[String](["Panda|Woof.", "Jobert|Unless this slipper is made of miki, it is not a clue.", "Panda|Woof.", "Jobert|I respect the confidence."])
+restored_exchange = Array[String](["Jobert|You only behave for Lola.", "Panda|Woof."])
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

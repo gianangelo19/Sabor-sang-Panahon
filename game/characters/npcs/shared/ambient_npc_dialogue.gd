@@ -9,6 +9,9 @@ const BATCHOY_SERVED_CLUE := "La Paz Batchoy served to Grandma."
 @export_multiline var closing_line := "Take care."
 @export var repeat_lines: Array[String] = []
 @export_multiline var restored_line := "La Paz remembers."
+@export var first_exchange: Array[String] = []
+@export var repeat_exchange: Array[String] = []
+@export var restored_exchange: Array[String] = []
 
 var _dialogue_active := false
 var _conversation_count := 0
@@ -33,11 +36,17 @@ func interact() -> void:
 
 
 func _build_conversation() -> Array[Dictionary]:
+	if GameState.clues.has(BATCHOY_SERVED_CLUE) and not restored_exchange.is_empty():
+		return _decode_exchange(restored_exchange)
 	if GameState.clues.has(BATCHOY_SERVED_CLUE) and not restored_line.is_empty():
 		return [_npc_line(restored_line)]
+	if _conversation_count > 0 and not repeat_exchange.is_empty():
+		return _decode_exchange(repeat_exchange)
 	if _conversation_count > 0 and not repeat_lines.is_empty():
 		var repeat_index := (_conversation_count - 1) % repeat_lines.size()
 		return [_npc_line(repeat_lines[repeat_index])]
+	if not first_exchange.is_empty():
+		return _decode_exchange(first_exchange)
 
 	var entries: Array[Dictionary] = []
 	if not opening_line.is_empty():
@@ -46,6 +55,25 @@ func _build_conversation() -> Array[Dictionary]:
 		entries.append({"speaker": "You", "text": player_reply, "portrait": null})
 	if not closing_line.is_empty():
 		entries.append(_npc_line(closing_line))
+	return entries
+
+
+func _decode_exchange(lines: Array[String]) -> Array[Dictionary]:
+	var entries: Array[Dictionary] = []
+	for encoded_line in lines:
+		var separator_index := encoded_line.find("|")
+		var speaker := npc_display_name
+		var text := encoded_line
+		if separator_index >= 0:
+			speaker = encoded_line.left(separator_index).strip_edges()
+			text = encoded_line.substr(separator_index + 1).strip_edges()
+		if speaker.to_lower() in ["jobert", "you"]:
+			speaker = "You"
+		entries.append({
+			"speaker": speaker,
+			"text": text,
+			"portrait": null,
+		})
 	return entries
 
 

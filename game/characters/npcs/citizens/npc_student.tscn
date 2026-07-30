@@ -23,6 +23,9 @@ player_reply = "Into what?"
 closing_line = "How long a student can avoid opening one PDF. Results are promising."
 repeat_lines = Array[String](["The deadline is tomorrow, which is technically not today. I see no emergency.", "I bought coffee to study. Now I am too caffeinated to read and too responsible to sleep."])
 restored_line = "So it was La Paz Batchoy. Finally, local history I can study with a spoon."
+first_exchange = Array[String](["College Student|If my professor asks, I am conducting field research.", "Jobert|Into what?", "College Student|How long a student can avoid opening one PDF. Results may astound you."])
+repeat_exchange = Array[String](["College Student|The deadline is tomorrow, which is technically not today. I see no emergency."])
+restored_exchange = Array[String](["College Student|So it was La Paz Batchoy. Finally, local history I can study with a spoon."])
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

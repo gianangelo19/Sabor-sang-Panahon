@@ -4,7 +4,7 @@ const VENDOR_PORTRAIT := preload("res://assets/art/characters/npc_market_vendor/
 
 
 func _ready() -> void:
-	npc_display_name = "Meat Vendor"
+	npc_display_name = "Ate Telyn"
 	npc_portrait = VENDOR_PORTRAIT
 	minigame_title = "Find the Right Meat Cuts"
 	minigame_instructions = "Claim the required cuts before the other customers and reject spoiled meat."
@@ -12,20 +12,27 @@ func _ready() -> void:
 	reward_name = "Meat"
 	destination_id = "market_vendor_1"
 	first_conversation = [
-		player_line("Excuse me, Nang. My grandma remembers a La Paz noodle dish, except for the useful part—the name."),
-		npc_line("So you came to a meat stall with a mystery. Better than the man who asked if pork was vegetarian."),
-		player_line("She remembers soft noodles, tender meat, a salty broth, and something crisp on top."),
-		npc_line("Pork and liver. My hands already know the cuts—belly, atay, lapay. Strange. The knife remembers, but I don't."),
-		player_line("Everyone keeps saying that. How does a whole city lose the same word?"),
-		npc_line("In this market? We cannot lose gossip for five minutes. But this dish vanished, and nobody even noticed the empty space."),
-		player_line("Could I take the right cuts to Grandma? Maybe the taste will pull the memory loose."),
-		npc_line("Earn them. Find the belly, atay, and lapay before the crowd does. And no spoiled meat—your grandmother will blame me, then haunt my stall while still alive."),
-		player_line("Fast hands, good eyes, no accidental poisoning. Comforting standards."),
-		npc_line("You joke now. Wait until three aunties reach for the same cut. Survive that, and the meat is yours."),
+		player_line("Ate Telyn!"),
+		npc_line("Hoy, Jobert! Dugay ka na wala kabalik ba!"),
+		npc_line("Ano, Lola Lynn sent you?"),
+		player_line("Not exactly po. She's acting weird—she couldn't recall what's in this newspaper."),
+		npc_line("Ehh? Your Lola Lynn always gives me the mystery and keeps the easy work."),
+		player_line("Miki. Deep, salty broth. Meat. Something crisp?"),
+		npc_line("And pork and liver. I cut those beside her for years."),
+		player_line("So you remember?"),
+		npc_line("I think so... but I can't confirm pa."),
+		npc_line("Find the belly, atay, at lapay around here. Then you can keep it for free."),
+		player_line("Same welcome as always."),
 	]
 	repeat_conversation = [
-		player_line("Still getting that strange almost-memory when you cut the liver?"),
-		npc_line("Every time. My hands say yes; my head says, 'Please hold.' Very poor customer service."),
+		player_line("Still making me work?"),
+		npc_line("Close friends do not raise lazy grandchildren."),
+		player_line("But I'm not your grandchild...?"),
+		npc_line("Tell that to your Lola."),
+	]
+	reward_conversation = [
+		npc_line("There. Pork and liver—the first pieces of your mystery."),
+		player_line("Salamat gid, Ate. One clue down, six to go."),
 	]
 	sync_completion_from_game_state()
 
@@ -34,7 +41,7 @@ func _handle_minigame_won() -> void:
 	GameState.complete_destination("market_vendor_1")
 	GameState.unlock_destination("market_vendor_2")
 	GameState.select_destination("market_vendor_2")
-	GameState.add_clue("Market testimony: pork and liver feel connected, but the vendor cannot remember the dish.")
+	GameState.add_clue("Ate Telyn remembers cutting pork and liver beside Lola Lynn.")
 	GameState.set_objective("Talk to the ginamos vendor.")
 	GameState.set_ambot_status("Second market testimony marked in Maps")
 	GameState.push_ambot_notification(

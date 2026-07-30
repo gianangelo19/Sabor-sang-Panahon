@@ -23,6 +23,9 @@ player_reply = "The road behind you looks fairly committed."
 closing_line = "That is what it wants you to think."
 repeat_lines = Array[String](["A shortcut is just a long route with confidence.", "I am not lost. I am giving the correct place time to find me."])
 restored_line = "Teb's Batchoyan! Of course. I have been giving directions past it for years and forgot what it was."
+first_exchange = Array[String](["Neighborhood Tito|Jobert! Kabalo na ko sang shortcut.", "Jobert|Where does it go?", "Neighborhood Tito|That depends on which road cooperates.", "Jobert|The road behind you looks fairly committed.", "Neighborhood Tito|That is what it wants you to think.", "Jobert|I am looking for a dish Lola Lynn used to cook. Any useful direction?", "Neighborhood Tito|Useful? No. But every good route passes somewhere that smells like lunch.", "Jobert|I will record that under philosophy, not navigation."])
+repeat_exchange = Array[String](["Neighborhood Tito|Update: the shortcut was longer, but the view was excellent."])
+restored_exchange = Array[String](["Neighborhood Tito|Teb's Old La Paz Batchoyan! Of course. I have been giving directions past it for years.", "Jobert|Were any of those directions correct?", "Neighborhood Tito|They are correct now that we know where we were going."])
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

@@ -21,6 +21,9 @@ func _run() -> void:
 
 
 func _verify_item(scene_path: String, expected_item_id: StringName) -> void:
+	var game_state := root.get_node("GameState")
+	if expected_item_id == &"crank_handle":
+		game_state.set_story_flag("milk_released_crank")
 	var label := scene_path.get_file()
 	var packed := load(scene_path) as PackedScene
 	_check(packed != null, label + " loads")

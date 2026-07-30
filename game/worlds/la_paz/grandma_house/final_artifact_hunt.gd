@@ -6,9 +6,6 @@ const FINAL_ENDING_SCENE := preload(
 )
 const ARTIFACT_DISCOVERY_POPUP_SCENE := preload("res://game/ui/artifact/artifact_discovery_popup.tscn")
 const POST_RECOVERY_CHOICE_SCENE := preload("res://game/ui/artifact/post_recovery_choice.tscn")
-const DIALOGUE_SCENE := preload("res://game/ui/dialogue/dialogue_ui.tscn")
-const PLAYER_PORTRAIT := preload("res://assets/art/characters/2main_character_asking.png")
-const GRANDMA_PORTRAIT := preload("res://assets/art/characters/npc_grandma/npc_grandma_front.png")
 const HUNT_CLOCK_SOUND := preload("res://assets/audio/clock_sound.mp3")
 
 const SIGN_REVEALED_CLUE := "Teb's Old La Paz Batchoyan signage revealed."
@@ -100,6 +97,11 @@ func start_hunt(resume_time: float = 0.0) -> void:
 	GameState.begin_final_hunt(_remaining)
 	GameState.set_objective("Find the Batchoy Bowl before Grandma returns. Follow the cultural echoes!")
 	GameState.set_ambot_status("Cultural Echo search active")
+	GameState.push_ambot_notification(
+		"cultural_echoes",
+		"Cultural Echo search active",
+		"I can explain what sounds to follow."
+	)
 	_start_hunt_clock()
 	print("Artifact placement source=procedural marker=%s reason=%s" % [_last_spot_id, reason])
 	_restore_player()
@@ -216,6 +218,8 @@ func _on_final_ending_finished() -> void:
 	if _final_ending != null and is_instance_valid(_final_ending):
 		_final_ending.queue_free()
 	_final_ending = null
+	GameState.add_clue(BATCHOY_SERVED_CLUE)
+	GameState.set_objective("Memory restored. Grandma remembers La Paz Batchoy.")
 	_show_artifact_discovery_popup()
 
 
@@ -237,7 +241,8 @@ func _show_post_recovery_choice() -> void:
 
 
 func _on_continue_exploring_requested() -> void:
-	_show_ending_dialogue()
+	_restore_player()
+	_clear_artifact()
 
 
 func _on_recovery_main_menu_requested() -> void:
@@ -246,27 +251,6 @@ func _on_recovery_main_menu_requested() -> void:
 	get_tree().paused = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	get_tree().change_scene_to_file("res://game/ui/menus/main_menu.tscn")
-
-
-func _show_ending_dialogue() -> void:
-	var dialogue := DIALOGUE_SCENE.instantiate()
-	get_tree().root.add_child(dialogue)
-	dialogue.start_conversation([
-		{"speaker": "You", "text": "There you are... all that noise in my head was an old bowl asking not to be left behind.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "Grandma", "text": "Apo, I'm home— Why are you holding that? That bowl... we served more meals in it than I could ever count.", "portrait": GRANDMA_PORTRAIT},
-		{"speaker": "You", "text": "This house was Teb's Old La Paz Batchoyan. The dish everyone forgot is La Paz Batchoy.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "Grandma", "text": "La Paz Batchoy... Meat, fresh miki, ginamos, crushed chicharon. Ay, apo—I remember the kitchen. I remember all of it.", "portrait": GRANDMA_PORTRAIT},
-		{"speaker": "You", "text": "I found the bowl and made the batchoy before you returned. I wanted home to be waiting for you this time.", "portrait": PLAYER_PORTRAIT},
-		{"speaker": "Grandma", "text": "It was always waiting. We only needed to remember the way back. Now sit—the soup is getting cold, and I raised you better than that.", "portrait": GRANDMA_PORTRAIT},
-	], _grandma)
-	dialogue.dialogue_finished.connect(_on_ending_dialogue_finished)
-
-
-func _on_ending_dialogue_finished() -> void:
-	GameState.add_clue(BATCHOY_SERVED_CLUE)
-	GameState.set_objective("Memory restored. Grandma remembers La Paz Batchoy.")
-	_restore_player()
-	_clear_artifact()
 
 
 func _clear_artifact() -> void:

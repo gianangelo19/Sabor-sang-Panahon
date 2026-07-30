@@ -37,8 +37,14 @@ func _run() -> void:
 	var sign_dialogue := root.find_child("dialogue_ui", true, false)
 	_check(sign_dialogue != null, "Revealing the sign opens the discovery monologue")
 	if sign_dialogue:
-		_check(sign_dialogue.dialogue_lines.all(func(line): return str(line.get("speaker", "")) == "You"), "The sign discovery is entirely the player's inner monologue")
-		_check(not sign_dialogue.npc_portrait.visible, "AMBot does not appear in the sign discovery")
+		_check(
+			sign_dialogue.dialogue_lines.any(func(line): return str(line.get("speaker", "")) == "AMBot"),
+			"The V3 sign discovery includes AMBot's physical-evidence confirmation",
+		)
+		_check(
+			sign_dialogue.dialogue_lines.any(func(line): return str(line.get("speaker", "")) == "You"),
+			"The player connects the sign to their lived memory",
+		)
 		for line_index in range(sign_dialogue.dialogue_lines.size()):
 			sign_dialogue._complete_typewriter()
 			sign_dialogue._on_continue_pressed()
@@ -81,10 +87,19 @@ func _run() -> void:
 				_check(recovery_choice.has_signal("continue_exploring"), "The recovery choice offers continued exploration")
 				recovery_choice._choose_continue()
 				await process_frame
-			var ending_dialogue := root.find_child("dialogue_ui", true, false)
-			_check(ending_dialogue != null, "Continuing exploration resumes Grandma's ending dialogue")
-			if ending_dialogue:
-				ending_dialogue.queue_free()
+			_check(
+				root.find_child("dialogue_ui", true, false) == null,
+				"The final minigame is not followed by duplicate cooking dialogue",
+			)
+			_check(
+				game_state.clues.has("La Paz Batchoy served to Grandma."),
+				"Finishing the final minigame records the restored dish",
+			)
+			_check(
+				game_state.current_objective
+					== "Memory restored. Grandma remembers La Paz Batchoy.",
+				"The final minigame advances directly to the restored-memory objective",
+			)
 		_check(not game_state.grandma_left_for_medicine, "Grandma returns after the bowl is recovered")
 
 	home.queue_free()

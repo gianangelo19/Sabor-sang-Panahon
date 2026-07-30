@@ -41,6 +41,7 @@
 [ext_resource type="PackedScene" uid="uid://vxv5l7pngwi4" path="res://assets/FURNITURE/small_wooden_cabinet_low_poly/scene.gltf" id="43_rpopx"]
 [ext_resource type="Script" uid="uid://bug0s0e0dlxyf" path="res://core/interaction/door_interactable.gd" id="44_door"]
 [ext_resource type="Script" uid="uid://w5mpgj8s68om" path="res://core/audio/looping_audio_player_3d.gd" id="45_loop_audio_3d"]
+[ext_resource type="Script" path="res://game/worlds/la_paz/apartment/fridge_interactable.gd" id="46_fridge"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c1tnr"]
 albedo_texture = ExtResource("1_hq0fg")
@@ -125,6 +126,9 @@ albedo_texture = ExtResource("3_i41os")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_box_minigame"]
 size = Vector3(0.42, 0.36, 0.55)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fridge_interaction"]
+size = Vector3(0.95, 1.9, 0.82)
 
 [node name="Apartment" type="Node3D" unique_id=986595706]
 
@@ -429,8 +433,8 @@ script = ExtResource("44_door")
 interaction_label_open = "open apartment door"
 interaction_label_close = "close apartment door"
 required_clue = "Damaged newspaper"
-locked_interaction_label = "open the box before leaving"
-locked_message = "I should open that box on the table before I leave."
+locked_interaction_label = "check the fridge and open the box first"
+locked_message = "I should check the fridge, then open Lola Lynn's package before I leave."
 
 [node name="aptDoor" type="CSGBox3D" parent="ApartmentDoor" unique_id=534594328]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
@@ -487,6 +491,13 @@ transform = Transform3D(0.13804242, 0, 0.061074756, 0, 0.15094978, 0, -0.0610747
 
 [node name="Sketchfab_Scene3" parent="mountain_bg" unique_id=263362313 instance=ExtResource("42_fnrjy")]
 transform = Transform3D(0.0020515423, 0, 0.7673252, 0, 0.76732796, 0, -0.7673252, 0, 0.0020515423, -1.8651061, 0.01883984, 0.0730606)
+
+[node name="FridgeInteractable" type="StaticBody3D" parent="."]
+position = Vector3(-1.8651061, 0.95, 0.0730606)
+script = ExtResource("46_fridge")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeInteractable"]
+shape = SubResource("BoxShape3D_fridge_interaction")
 
 [node name="Sketchfab_Scene" parent="." unique_id=1007757511 instance=ExtResource("43_rpopx")]
 transform = Transform3D(-0.84106314, 0, 1.0026255e-07, 0, 0.8410632, 0, -1.0026255e-07, 0, -0.84106314, 0.19568878, -0.054764926, 3.0327775)

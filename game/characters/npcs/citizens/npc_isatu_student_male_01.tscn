@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/art/characters/npc_isatu_student_male_01/npc_isatu_student_male_01_front.png" id="1_front"]
 [ext_resource type="Script" uid="uid://ckdxpasqp15r5" path="res://game/characters/npcs/shared/npc_four_angle_billboard.gd" id="2_billboard"]
 [ext_resource type="Texture2D" path="res://assets/art/characters/npc_isatu_student_male_01/npc_isatu_student_male_01_right.png" id="3_right"]
 [ext_resource type="Texture2D" path="res://assets/art/characters/npc_isatu_student_male_01/npc_isatu_student_male_01_back.png" id="4_back"]
 [ext_resource type="Texture2D" path="res://assets/art/characters/npc_isatu_student_male_01/npc_isatu_student_male_01_left.png" id="5_left"]
+[ext_resource type="Script" path="res://game/characters/npcs/shared/ambient_npc_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_character"]
 radius = 1.35
@@ -16,6 +17,11 @@ height = 9.0
 
 [node name="npc_isatu_student_male_01" type="Node3D"]
 editor_description = "Four-angle billboard NPC wearing a white blouse, black slacks, and an ISAT U-inspired student lanyard."
+script = ExtResource("6_dialogue")
+npc_display_name = "ISAT-U Student"
+first_exchange = Array[String](["ISAT-U Student|I came to measure the old structures. The street added three distractions and one snack.", "Jobert|That sounds like accurate fieldwork.", "ISAT-U Student|My drawing is accurate. My schedule is fiction.", "Jobert|I am reconstructing a dish from people's memories.", "ISAT-U Student|Same principle. One person remembers the shape, another the material, someone else where it used to stand.", "Jobert|And eventually the whole thing appears?", "ISAT-U Student|If the measurements agree. If not, call it a concept study."])
+repeat_exchange = Array[String](["ISAT-U Student|The building leaned before I drew it. Please note that."])
+restored_exchange = Array[String](["ISAT-U Student|The old batchoyan was the missing structure. The neighborhood makes more sense with it named.", "Jobert|You added it to the drawing?", "ISAT-U Student|And a bowl for scale. Academic necessity."])
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

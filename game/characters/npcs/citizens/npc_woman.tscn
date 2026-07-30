@@ -23,6 +23,9 @@ player_reply = "Maybe the shortcut is emotional."
 closing_line = "Then we have taken the scenic route."
 repeat_lines = Array[String](["I do not gossip. I collect community updates with dramatic timing.", "If anyone asks, I have been waiting only five minutes. It has been twenty-seven."])
 restored_line = "The old batchoyan came back to us... I knew this street felt hungry."
+first_exchange = Array[String](["Neighborhood Tita|Ay sus. That man is still explaining his shortcuts.", "Jobert|Maybe the shortcut is emotional.", "Neighborhood Tita|Then we have taken the scenic route.", "Jobert|What is today's community update?", "Neighborhood Tita|Lola Lynn's apo is walking around with soup ingredients and no lunch.", "Jobert|That is surprisingly accurate.", "Neighborhood Tita|I do not gossip. I verify before I exaggerate."])
+repeat_exchange = Array[String](["Neighborhood Tita|No new updates. You are still hungry, and he is still lost."])
+restored_exchange = Array[String](["Neighborhood Tita|The old batchoyan came back to us. I knew this street felt hungry.", "Jobert|You knew the whole time?", "Neighborhood Tita|I suspected. Knowing without proof is how rumors start."])
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

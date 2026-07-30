@@ -5,12 +5,17 @@ const PAUSE_OVERLAY_LAYER := 500
 const MAIN_MENU_SCENE := preload("res://game/ui/menus/main_menu.tscn")
 const TUTORIAL_WAITING_FOR_WAKE_UP := 0
 const TUTORIAL_MOVEMENT := 1
-const TUTORIAL_WAITING_FOR_BOX := 2
+const TUTORIAL_WAITING_FOR_FRIDGE := 2
+# Keep the old name as an alias so existing saves/scripts using the numeric step remain valid.
+const TUTORIAL_WAITING_FOR_BOX := TUTORIAL_WAITING_FOR_FRIDGE
 const TUTORIAL_INTERACT := 3
 const TUTORIAL_WAITING_FOR_MINIGAME := 4
 const TUTORIAL_PHONE := 5
 const TUTORIAL_COMPLETE := 6
 const TUTORIAL_FADE_DURATION := 0.28
+const TUTORIAL_HINT_HEIGHT := 172.0
+const TUTORIAL_HINT_BOTTOM_DEFAULT := -24.0
+const TUTORIAL_HINT_BOTTOM_ABOVE_HOTBAR := -98.0
 const DIALOGUE_HUD_FADE_DURATION := 0.24
 
 const KEY_WASD := preload("res://assets/art/images/ui/key_prompts/key_wasd.png")
@@ -127,7 +132,7 @@ func _input(event: InputEvent) -> void:
 			if event.is_action_pressed("jump"):
 				tutorial_jump_used = true
 			if tutorial_movement_used and tutorial_jump_used:
-				_hide_tutorial_and_set_step(TUTORIAL_WAITING_FOR_BOX)
+				_hide_tutorial_and_set_step(TUTORIAL_WAITING_FOR_FRIDGE)
 		TUTORIAL_INTERACT:
 			if event.is_action_pressed("interact"):
 				_hide_tutorial_and_set_step(TUTORIAL_WAITING_FOR_MINIGAME)
@@ -221,6 +226,11 @@ func _on_quit_button_pressed() -> void:
 
 func _on_objective_changed(objective: String) -> void:
 	objective_label.text = objective
+	if (
+		GameState.clues.has(FIRST_STORY_CLUE)
+		and phone_ui.has_method("show_objective_notification")
+	):
+		phone_ui.show_objective_notification()
 
 func _on_clue_added(_clue: String) -> void:
 	_update_objective_panel_visibility()
@@ -285,7 +295,10 @@ func _update_clue_count() -> void:
 	clue_label.text = "%d recorded" % GameState.clues.size()
 
 func _update_objective_panel_visibility() -> void:
-	objective_panel.visible = GameState.clues.has(FIRST_STORY_CLUE)
+	# Objectives and AMBot updates now share the phone's single notification
+	# banner. Keep the full objective in GameState for progression and menus,
+	# but do not duplicate it in a second on-screen panel.
+	objective_panel.visible = false
 
 func begin_apartment_tutorial() -> void:
 	if GameState.tutorial_step != TUTORIAL_WAITING_FOR_WAKE_UP:
@@ -295,9 +308,15 @@ func begin_apartment_tutorial() -> void:
 	_show_tutorial_step(TUTORIAL_MOVEMENT)
 
 
-func notify_box_seen() -> void:
-	if GameState.tutorial_step == TUTORIAL_WAITING_FOR_BOX:
+func notify_fridge_seen() -> void:
+	if GameState.tutorial_step == TUTORIAL_WAITING_FOR_FRIDGE:
 		_show_tutorial_step(TUTORIAL_INTERACT)
+
+
+func notify_box_seen() -> void:
+	# The first interaction lesson belongs to the fridge. The box deliberately
+	# cannot advance the tutorial before that conversation is complete.
+	pass
 
 
 func notify_box_minigame_started() -> void:
@@ -311,8 +330,7 @@ func notify_box_minigame_completed() -> void:
 
 
 func notify_box_minigame_dismissed() -> void:
-	if GameState.tutorial_step == TUTORIAL_WAITING_FOR_MINIGAME:
-		_show_tutorial_step(TUTORIAL_INTERACT)
+	pass
 
 
 func _on_tutorial_step_changed(_step: int) -> void:
@@ -368,6 +386,7 @@ func _hide_tutorial_and_set_step(step: int) -> void:
 func _configure_tutorial(step: int) -> void:
 	secondary_prompt.visible = false
 	primary_key.custom_minimum_size = Vector2(142, 96)
+	_position_tutorial_hint(step >= TUTORIAL_PHONE)
 	match step:
 		TUTORIAL_MOVEMENT:
 			hint_text.text = "MOVE AROUND"
@@ -377,13 +396,23 @@ func _configure_tutorial(step: int) -> void:
 			secondary_key.texture = KEY_SPACEBAR
 			secondary_label.text = "JUMP"
 		TUTORIAL_INTERACT:
-			hint_text.text = "OPEN THE BOX"
+			hint_text.text = "INTERACT"
 			primary_key.texture = KEY_F
 			primary_label.text = "INTERACT"
 		TUTORIAL_PHONE:
 			hint_text.text = "CHECK YOUR PHONE"
 			primary_key.texture = KEY_E
 			primary_label.text = "OPEN PHONE"
+
+
+func _position_tutorial_hint(above_hotbar: bool) -> void:
+	var bottom_offset := (
+		TUTORIAL_HINT_BOTTOM_ABOVE_HOTBAR
+		if above_hotbar
+		else TUTORIAL_HINT_BOTTOM_DEFAULT
+	)
+	hint_bar.offset_top = bottom_offset - TUTORIAL_HINT_HEIGHT
+	hint_bar.offset_bottom = bottom_offset
 
 
 func _stop_tutorial_tween() -> void:

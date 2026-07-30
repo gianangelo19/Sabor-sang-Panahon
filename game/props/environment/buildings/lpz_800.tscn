@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://8xv24iu4lvlk"]
+
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/lpz_800_building/lpz_800_bottom_face.tscn" id="1_0vegh"]
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/lpz_800_building/lpz_800_front_face.tscn" id="2_4elhw"]
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/lpz_800_building/lpz_800_left_face.tscn" id="3_1phua"]
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/lpz_800_building/lpz_800_right_face.tscn" id="4_tejh4"]
+[ext_resource type="PackedScene" path="res://game/props/environment/buildings/lpz_800_building/lpz_800_back_face.tscn" id="5_cgoxi"]
+
+[node name="lpz_800" type="Node3D" unique_id=1318398681]
+
+[node name="LPZ800BottomFace" parent="." unique_id=1913770768 instance=ExtResource("1_0vegh")]
+transform = Transform3D(1.933072, 0, 0, 0, -8.9479464e-08, -1, 0, 2.0470514, -4.371139e-08, 0, 0, -4.971783)
+
+[node name="LPZ800FrontFace" parent="." unique_id=125412881 instance=ExtResource("2_4elhw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.629, 5.205)
+
+[node name="LPZ800LeftFace" parent="." unique_id=1742030707 instance=ExtResource("3_1phua")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.174995, 14.62, -12.69922)
+
+[node name="LPZ800LeftFace2" parent="." unique_id=716170836 instance=ExtResource("3_1phua")]
+transform = Transform3D(1.2150841, 0, 0, 0, 1, 0, 0, 0, 1, 1.6901684, 14.62, -12.69922)
+
+[node name="LPZ800RightFace" parent="." unique_id=118351593 instance=ExtResource("4_tejh4")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -11.872163, 14.62, 1.4125099)
+
+[node name="LPZ800RightFace2" parent="." unique_id=459324240 instance=ExtResource("4_tejh4")]
+transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, -4.3711385e-08, -15.592094, 14.62, -7.5059505)
+
+[node name="LPZ800BackFace" parent="." unique_id=656994082 instance=ExtResource("5_cgoxi")]
+transform = Transform3D(-4.8380382e-08, 0, 1.0612581, 0, 1, 0, -1.1068141, 0, -4.6389065e-08, 8.027941, 14.62, -3.8493633)

@@ -44,8 +44,9 @@ func start_dialogue():
 	ui.start_dialogue(
 		"Main Character", 
 		[
-			"Ow. Either I slept wrong or the floor has been holding a grudge.",
-			"My stomach is louder than the alarm. Food first. Existential crisis after.",
+			"That was weird.",
+			"Like I forgot something... very specific.",
+			"Ambot. Gutom ko ah. Food first.",
 		],
 		waking_up_tex
 	)

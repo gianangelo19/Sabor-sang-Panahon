@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://16i857wdh2w2" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/right_milk.png" id="3_nmstp"]
 [ext_resource type="Texture2D" uid="uid://bgmdaj6qk6ska" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/back_milk.png" id="4_hb0nh"]
 [ext_resource type="Texture2D" uid="uid://cdhsj4i7oyelx" path="res://assets/art/characters/Sabor_sang_Panahon_Characters and Sprites/left_milk.png" id="5_kpg3j"]
-[ext_resource type="Script" path="res://game/characters/npcs/shared/ambient_npc_dialogue.gd" id="6_dialogue"]
+[ext_resource type="Script" path="res://game/characters/npcs/citizens/milk_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7u4qh"]
 radius = 1.35
@@ -17,12 +17,12 @@ height = 9.0
 
 [node name="npc_milk" type="Node3D" unique_id=1142351024]
 script = ExtResource("6_dialogue")
-npc_display_name = "Milk Vendor"
-opening_line = "Fresh milk! Cold enough to make your teeth file a complaint."
-player_reply = "That sounds less like advertising and more like a warning."
-closing_line = "Honesty builds loyal customers. So does always having change for a hundred."
-repeat_lines = Array[String](["Today it is milk. Yesterday someone asked if I sold phone chargers. I almost said yes.", "Cold milk, warm day, exact change. That is my whole business philosophy."])
-restored_line = "So the forgotten dish was Batchoy? Good. Finally, a mystery that does not end with someone asking me for condensed milk."
+npc_display_name = "Milk"
+opening_line = "Mrrrow."
+player_reply = "You are shaped like a pandesal."
+closing_line = "Mrrp."
+repeat_lines = Array[String](["Mrrrow.", "Mrrp."])
+restored_line = "Mrrrow."
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

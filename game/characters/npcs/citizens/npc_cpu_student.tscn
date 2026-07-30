@@ -23,6 +23,9 @@ player_reply = "Should I find you an outlet?"
 closing_line = "No time. I must spend the remaining one percent checking if it is still one percent."
 repeat_lines = Array[String](["It says one percent, but I believe in us.", "My charger is at home, resting after a difficult morning of not being packed."])
 restored_line = "La Paz Batchoy is back? Wait—let me post that before my phone dies. Cultural preservation, speed-run edition."
+first_exchange = Array[String](["CPU Student|Ma, ara pa ko sa campus. Indi, wala ko nag-cut class—", "Jobert|Excuse me—", "CPU Student|One second. Ma, may witness ako.", "Jobert|I refuse to become academic evidence.", "CPU Student|Sorry. My mother thinks a quiet phone means a failed semester.", "Jobert|Mine would assume I lost the charger.", "CPU Student|Worse. I forgot lunch.", "Jobert|Same. I am chasing a recipe before eating.", "CPU Student|Very student of you. Turn hunger into a project so it feels responsible."])
+repeat_exchange = Array[String](["CPU Student|If my mother calls again, tell her fieldwork has no closing time.", "Jobert|What fieldwork?", "CPU Student|I will decide after I know which class needs an excuse."])
+restored_exchange = Array[String](["CPU Student|So all that running was for La Paz Batchoy? That is academically defensible.", "Jobert|I did not miss lunch. I delayed it dramatically.", "CPU Student|Use that wording in your report. It sounds intentional."])
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1012973699]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

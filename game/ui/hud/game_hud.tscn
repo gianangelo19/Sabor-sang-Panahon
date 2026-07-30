@@ -100,6 +100,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="TopLeftPanel" type="PanelContainer" parent="HUDRoot"]
+visible = false
 layout_mode = 1
 anchors_preset = 0
 offset_left = 18.0
@@ -156,7 +157,7 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.91, 0.72, 1)
-text = "0/4 collected"
+text = "0/7 collected"
 horizontal_alignment = 2
 
 [node name="AMBotPanel" type="PanelContainer" parent="HUDRoot"]

@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/art/characters/npc_egg_vendor/npc_egg_vendor_front.png" id="1_front"]
 [ext_resource type="Script" uid="uid://ckdxpasqp15r5" path="res://game/characters/npcs/shared/npc_four_angle_billboard.gd" id="2_billboard"]
 [ext_resource type="Texture2D" path="res://assets/art/characters/npc_egg_vendor/npc_egg_vendor_right.png" id="3_right"]
 [ext_resource type="Texture2D" path="res://assets/art/characters/npc_egg_vendor/npc_egg_vendor_back.png" id="4_back"]
 [ext_resource type="Texture2D" path="res://assets/art/characters/npc_egg_vendor/npc_egg_vendor_left.png" id="5_left"]
+[ext_resource type="Script" path="res://game/characters/npcs/vendors/egg_vendor_dialogue.gd" id="6_dialogue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_character"]
 radius = 1.35
@@ -16,6 +17,7 @@ height = 9.0
 
 [node name="npc_egg_vendor" type="Node3D"]
 editor_description = "Four-angle billboard egg vendor NPC carrying a woven tray of white and brown eggs. Ready for market placement and future dialogue or shop wiring."
+script = ExtResource("6_dialogue")
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

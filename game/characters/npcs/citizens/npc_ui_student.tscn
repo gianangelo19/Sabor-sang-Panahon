@@ -23,6 +23,9 @@ player_reply = "Do you owe someone money?"
 closing_line = "See? Too small."
 repeat_lines = Array[String](["If you meet my classmate, I was on my way to pay. Spiritually.", "Small city rule: someone always knows your cousin, your teacher, or your unpaid balance."])
 restored_line = "The Batchoy memory is back? Good. Maybe everyone will discuss that instead of my debt."
+first_exchange = Array[String](["UI Student|If you meet my classmate, I was on my way to pay. Spiritually.", "Jobert|Physically?", "UI Student|Physically, I am waiting for the line to become less educational.", "Jobert|Small city. Someone will see you.", "UI Student|Someone always knows your cousin, your teacher, or your unpaid balance.", "Jobert|I am looking for people who remember an old dish.", "UI Student|Ask one person here and three relatives will answer."])
+repeat_exchange = Array[String](["UI Student|I moved two steps. That counts as progress."])
+restored_exchange = Array[String](["UI Student|La Paz Batchoy. My aunt heard before I did, and she is in Jaro.", "Jobert|Small-city rule?", "UI Student|News travels faster when it is edible."])
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1012973699]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

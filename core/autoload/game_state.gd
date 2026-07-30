@@ -1,14 +1,20 @@
 extends Node
 
+const ITEM_COLLECT_SOUND := preload(
+	"res://features/minigames/ending_sequence/assets/audio/sfx/sfx_collectible_pickup.wav"
+)
 const SAVE_VERSION := 1
 const DEFAULT_GAME_SCENE := "res://game/worlds/la_paz/la_paz.tscn"
 const STORY_INGREDIENT_IDS := [
 	"pork_and_liver",
 	"ginamos",
+	"fresh_herbs",
+	"seasoning",
+	"fresh_egg",
 	"crushed_chicharon",
 	"fresh_miki",
 ]
-const STORY_INGREDIENT_TOTAL := 4
+const STORY_INGREDIENT_TOTAL := 7
 const INVENTORY_SIZE := 27
 const HOTBAR_SIZE := 9
 const MAX_ITEM_STACK := 64
@@ -19,7 +25,7 @@ const ITEM_CATALOG := {
 		"display_name": "Pork and Liver",
 		"category": "Ingredient",
 		"icon": "res://features/minigames/ending_sequence/assets/collectibles/collectible_meat_set_bag.png",
-		"ambot": "A market bundle of pork belly, liver, and spleen. These cuts build the rich, savory base associated with traditional La Paz Batchoy.",
+		"ambot": "A market bundle of pork belly, liver, and spleen. When simmered together, these cuts add richness, body, and a deep savory flavor to broth.",
 	},
 	"ginamos": {
 		"display_name": "Aged Ginamos",
@@ -32,6 +38,24 @@ const ITEM_CATALOG := {
 		"category": "Ingredient",
 		"icon": "res://features/minigames/ending_sequence/assets/collectibles/collectible_chicharon_bag.png",
 		"ambot": "Crisp pork cracklings crushed into a topping. They add texture and a roasted, savory finish after the broth is served.",
+	},
+	"fresh_herbs": {
+		"display_name": "Fresh Herbs",
+		"category": "Ingredient",
+		"icon": "res://assets/art/characters/npc_herbs_vendor/npc_herbs_vendor_front.png",
+		"ambot": "Spring onion and toasted garlic selected for a bright, fragrant finish. Lola Lynn's memory places their aroma near the end of the recipe.",
+	},
+	"seasoning": {
+		"display_name": "Warm Seasoning",
+		"category": "Ingredient",
+		"icon": "res://assets/art/characters/npc_seasoning_vendor/npc_seasoning_vendor_front.png",
+		"ambot": "A measured blend led by black pepper. It rounds out the broth without covering the meat or adding more salt than the ginamos already provides.",
+	},
+	"fresh_egg": {
+		"display_name": "Fresh Egg",
+		"category": "Ingredient",
+		"icon": "res://assets/art/characters/npc_egg_vendor/npc_egg_vendor_front.png",
+		"ambot": "A carefully selected fresh egg. Added gently to hot broth, it cooks while leaving the yolk slightly soft, just as Lola Lynn remembers.",
 	},
 	"fresh_miki": {
 		"display_name": "Fresh Miki Noodles",
@@ -90,10 +114,13 @@ var clues: Array[String] = []
 var ingredients_found := 0
 var ingredients_total := STORY_INGREDIENT_TOTAL
 var collected_ingredients: Dictionary = {}
+var story_flags: Dictionary = {}
 var inventory_slots: Array[Dictionary] = []
 var selected_inventory_slot := 0
 var pending_ambot_notification: Dictionary = {}
 var completed_ambot_conversations: Array[String] = []
+var ambot_chat_history: Array[Dictionary] = []
+var ambot_asked_questions: Dictionary = {}
 var tutorial_step := 0
 var unlocked_destinations: Array[String] = []
 var completed_destinations: Array[String] = []
@@ -112,6 +139,16 @@ var final_hunt_placement_spot := ""
 var final_hunt_placement_reason := ""
 var final_hunt_used_placement_spots: Array[String] = []
 var grandma_left_for_medicine := false
+var _item_collect_audio: AudioStreamPlayer
+
+
+func _ready() -> void:
+	_item_collect_audio = AudioStreamPlayer.new()
+	_item_collect_audio.name = "ItemCollectAudio"
+	_item_collect_audio.stream = ITEM_COLLECT_SOUND
+	_item_collect_audio.bus = "SFX"
+	_item_collect_audio.volume_db = -3.0
+	add_child(_item_collect_audio)
 
 func reset() -> void:
 	_wake_up_intro_requested = false
@@ -121,10 +158,13 @@ func reset() -> void:
 	ingredients_found = 0
 	ingredients_total = STORY_INGREDIENT_TOTAL
 	collected_ingredients.clear()
+	story_flags.clear()
 	_initialize_inventory_slots()
 	selected_inventory_slot = 0
 	pending_ambot_notification.clear()
 	completed_ambot_conversations.clear()
+	ambot_chat_history.clear()
+	ambot_asked_questions.clear()
 	tutorial_step = 0
 	unlocked_destinations.clear()
 	completed_destinations.clear()
@@ -257,8 +297,62 @@ func add_inventory_item(item_id: String, display_name: String = "", quantity: in
 
 	if remaining != quantity:
 		inventory_changed.emit()
+		_play_item_collect_sound()
 		_request_autosave()
 	return remaining == 0
+
+
+func _play_item_collect_sound() -> void:
+	if _item_collect_audio == null or not is_instance_valid(_item_collect_audio):
+		return
+	_item_collect_audio.stop()
+	_item_collect_audio.pitch_scale = randf_range(0.98, 1.02)
+	_item_collect_audio.play()
+
+func has_inventory_item(item_id: String, quantity: int = 1) -> bool:
+	if item_id.is_empty() or quantity <= 0:
+		return false
+	var found := 0
+	for slot: Dictionary in inventory_slots:
+		if str(slot.get("item_id", "")) == item_id:
+			found += int(slot.get("quantity", 0))
+			if found >= quantity:
+				return true
+	return false
+
+func remove_inventory_item(item_id: String, quantity: int = 1) -> bool:
+	if not has_inventory_item(item_id, quantity):
+		return false
+	var remaining := quantity
+	for index in range(inventory_slots.size()):
+		var slot: Dictionary = inventory_slots[index]
+		if str(slot.get("item_id", "")) != item_id:
+			continue
+		var amount := mini(remaining, int(slot.get("quantity", 0)))
+		var next_quantity := int(slot.get("quantity", 0)) - amount
+		if next_quantity <= 0:
+			inventory_slots[index] = {}
+		else:
+			slot["quantity"] = next_quantity
+			inventory_slots[index] = slot
+		remaining -= amount
+		if remaining <= 0:
+			break
+	inventory_changed.emit()
+	_request_autosave()
+	return true
+
+func set_story_flag(flag_id: String, enabled := true) -> void:
+	if flag_id.is_empty():
+		return
+	if enabled:
+		story_flags[flag_id] = true
+	else:
+		story_flags.erase(flag_id)
+	_request_autosave()
+
+func has_story_flag(flag_id: String) -> bool:
+	return bool(story_flags.get(flag_id, false))
 
 func get_inventory_slot(slot_index: int) -> Dictionary:
 	if slot_index < 0 or slot_index >= inventory_slots.size():
@@ -327,7 +421,7 @@ func begin_physical_evidence_search() -> void:
 	if not has_all_story_ingredients() or clues.has(SIGN_REVEALED_CLUE):
 		return
 	set_objective(PHYSICAL_EVIDENCE_OBJECTIVE)
-	set_ambot_status("4/4 ingredients collected - search the La Paz house")
+	set_ambot_status("7/7 ingredients collected - search the La Paz house")
 
 func _count_story_ingredients() -> int:
 	var count := 0
@@ -362,6 +456,66 @@ func complete_ambot_conversation(situation_id: String) -> void:
 	if situation_id != "" and not completed_ambot_conversations.has(situation_id):
 		completed_ambot_conversations.append(situation_id)
 		_request_autosave()
+
+
+func append_ambot_chat_message(
+	speaker: String,
+	message: String,
+	from_player: bool,
+	situation_id: String,
+	message_kind: String,
+) -> void:
+	if speaker.is_empty() or message.is_empty():
+		return
+	ambot_chat_history.append({
+		"speaker": speaker,
+		"message": message,
+		"from_player": from_player,
+		"situation_id": situation_id,
+		"kind": message_kind,
+	})
+	_request_autosave()
+
+
+func get_ambot_chat_history() -> Array[Dictionary]:
+	var history: Array[Dictionary] = []
+	for entry: Dictionary in ambot_chat_history:
+		history.append(entry.duplicate(true))
+	return history
+
+
+func has_ambot_chat_entry(situation_id: String, message_kind: String) -> bool:
+	for entry: Dictionary in ambot_chat_history:
+		if (
+			str(entry.get("situation_id", "")) == situation_id
+			and str(entry.get("kind", "")) == message_kind
+		):
+			return true
+	return false
+
+
+func record_ambot_question(situation_id: String, question_index: int) -> void:
+	if situation_id.is_empty() or question_index < 0:
+		return
+	var asked := get_ambot_asked_questions(situation_id)
+	if asked.has(question_index):
+		return
+	asked.append(question_index)
+	ambot_asked_questions[situation_id] = asked
+	_request_autosave()
+
+
+func get_ambot_asked_questions(situation_id: String) -> Array[int]:
+	var asked: Array[int] = []
+	var stored: Variant = ambot_asked_questions.get(situation_id, [])
+	if not stored is Array:
+		return asked
+	for value: Variant in stored:
+		var question_index := int(value)
+		if question_index >= 0 and not asked.has(question_index):
+			asked.append(question_index)
+	return asked
+
 
 func set_tutorial_step(step: int) -> void:
 	tutorial_step = maxi(step, 0)
@@ -463,11 +617,14 @@ func save_game(scene_path: String = "") -> bool:
 		"ambot_status": ambot_status,
 		"clues": clues,
 		"ingredients": collected_ingredients,
+		"story_flags": story_flags,
 		"inventory": inventory_slots,
 		"selected_inventory_slot": selected_inventory_slot,
 		"ingredients_total": ingredients_total,
 		"pending_notification": pending_ambot_notification,
 		"completed_ambot_conversations": completed_ambot_conversations,
+		"ambot_chat_history": ambot_chat_history,
+		"ambot_asked_questions": ambot_asked_questions,
 		"tutorial_step": tutorial_step,
 		"unlocked_destinations": unlocked_destinations,
 		"completed_destinations": completed_destinations,
@@ -506,6 +663,7 @@ func load_game() -> String:
 	ambot_status = str(parsed.get("ambot_status", "Offline"))
 	clues.assign(parsed.get("clues", []))
 	collected_ingredients = parsed.get("ingredients", {}).duplicate(true)
+	story_flags = parsed.get("story_flags", {}).duplicate(true)
 	_load_inventory(parsed.get("inventory", []))
 	selected_inventory_slot = clampi(
 		int(parsed.get("selected_inventory_slot", 0)),
@@ -519,6 +677,25 @@ func load_game() -> String:
 	ingredients_total = STORY_INGREDIENT_TOTAL
 	pending_ambot_notification = parsed.get("pending_notification", {}).duplicate(true)
 	completed_ambot_conversations.assign(parsed.get("completed_ambot_conversations", []))
+	ambot_chat_history.clear()
+	var loaded_chat_history: Variant = parsed.get("ambot_chat_history", [])
+	if loaded_chat_history is Array:
+		for raw_entry: Variant in loaded_chat_history:
+			if not raw_entry is Dictionary:
+				continue
+			var entry := (raw_entry as Dictionary).duplicate(true)
+			if (
+				str(entry.get("speaker", "")).is_empty()
+				or str(entry.get("message", "")).is_empty()
+			):
+				continue
+			ambot_chat_history.append(entry)
+	var loaded_asked_questions: Variant = parsed.get("ambot_asked_questions", {})
+	ambot_asked_questions = (
+		loaded_asked_questions.duplicate(true)
+		if loaded_asked_questions is Dictionary
+		else {}
+	)
 	tutorial_step = int(parsed.get("tutorial_step", 0))
 	unlocked_destinations.assign(parsed.get("unlocked_destinations", []))
 	completed_destinations.assign(parsed.get("completed_destinations", []))
@@ -539,7 +716,7 @@ func load_game() -> String:
 	grandma_left_for_medicine = bool(parsed.get("grandma_left_for_medicine", legacy_grandma_left))
 	if has_all_story_ingredients() and not clues.has(SIGN_REVEALED_CLUE):
 		current_objective = PHYSICAL_EVIDENCE_OBJECTIVE
-		ambot_status = "4/4 ingredients collected - search the La Paz house"
+		ambot_status = "7/7 ingredients collected - search the La Paz house"
 	pending_player_transform = parsed.get("player", {}).duplicate(true)
 	autosave_enabled = true
 	_emit_loaded_state()

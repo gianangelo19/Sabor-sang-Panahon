@@ -23,6 +23,9 @@ player_reply = "You sound upset."
 closing_line = "I am carrying snacks. I will recover."
 repeat_lines = Array[String](["Never trust a friend who says 'last stop' while looking at a menu.", "I came here for notes. I am leaving with banana cue and no notes."])
 restored_line = "La Paz Batchoy? Add one more stop. I have learned nothing and regret nothing."
+first_exchange = Array[String](["San Ag Student|I came here for notes. I am leaving with banana cue and no notes.", "Jobert|That sounds like a successful field trip.", "San Ag Student|It was supposed to be group study.", "Jobert|Where is the group?", "San Ag Student|\"Last stop,\" they said while reading the menu.", "Jobert|Never trust a hungry classmate with directions.", "San Ag Student|I am learning that education has many forms."])
+repeat_exchange = Array[String](["San Ag Student|If they ask, I am still gathering primary sources.", "Jobert|From the banana cue?", "San Ag Student|It has layers."])
+restored_exchange = Array[String](["San Ag Student|So the mystery was La Paz Batchoy. That explains why everyone gave food answers to history questions.", "Jobert|Did you finally get the notes?", "San Ag Student|No, but I can describe the neighborhood accurately."])
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1012973699]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

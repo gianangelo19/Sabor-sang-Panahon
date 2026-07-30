@@ -56,7 +56,7 @@ func _run() -> void:
 		_check(dialogue.portrait.texture.resource_path.ends_with("2main_character_asking.png"), "Player lines use the player's asking portrait")
 		_check(dialogue.npc_portrait.visible, "Two-person dialogue shows the NPC portrait")
 		_check(dialogue.npc_portrait.texture.resource_path.ends_with("npc_grandma_front.png"), "Grandma portrait stays on the right")
-		_check(dialogue.dialogue_lines.size() == 13, "The complete two-person conversation is present")
+		_check(dialogue.dialogue_lines.size() == 17, "The complete V3 two-person conversation is present")
 		_check(dialogue._is_typing, "Dialogue begins with the typewriter reveal active")
 		_check(dialogue._typing_audio_player.stream.resource_path.ends_with("dialogue_type_click.wav"), "Dialogue uses the subtle typing click")
 		_check(dialogue._typing_audio_player.volume_db == 3.0, "Dialogue typing is mixed slightly louder")
@@ -64,7 +64,7 @@ func _run() -> void:
 		dialogue._on_continue_pressed()
 		_check(dialogue.current_line == 0 and dialogue.dialogue_text.visible_characters == -1, "Continue first reveals the full current line")
 		dialogue._on_continue_pressed()
-		_check(dialogue.speaker_name.text == "Grandma", "Speaker switches to Grandma")
+		_check(dialogue.speaker_name.text == "Lola Lynn", "Speaker switches to Lola Lynn")
 		_check(dialogue.npc_bubble.visible, "Grandma's line appears in the NPC speech bubble")
 		_check(not dialogue.player_thought.visible, "The thought panel hides while Grandma speaks")
 		_check(not dialogue.continue_btn.visible, "NPC dialogue does not ask for player input")
@@ -85,8 +85,8 @@ func _run() -> void:
 		)
 		dialogue._unhandled_input(interact_event)
 		_check(
-			dialogue.current_line == 2 and dialogue.player_thought.visible,
-			"A second F skips the completed NPC line",
+			dialogue.current_line == 2 and dialogue.npc_bubble.visible,
+			"A second F advances to Lola Lynn's next line",
 		)
 
 		for line_index in range(2, dialogue.dialogue_lines.size()):
@@ -95,7 +95,7 @@ func _run() -> void:
 		await process_frame
 
 	_check(player.can_move and player.mouse_captured, "Player controls restore after dialogue")
-	_check(game_state.clues.has("Grandma remembers soft noodles, tender meat, a salty taste, and a crisp topping."), "Grandma's four-part testimony is recorded as a clue")
+	_check(game_state.clues.has("Lola Lynn remembers seven sensory clues: miki, meat, salty depth, crisp topping, egg, herbs, and seasoning."), "Lola Lynn's seven-part testimony is recorded as a clue")
 	_check(game_state.current_objective == "Ask the people of La Paz about Grandma's memories.", "Objective advances after Grandma's testimony")
 	_check(game_state.is_destination_completed("grandma_house"), "Talking to Grandma completes her destination")
 	_check(game_state.is_destination_unlocked("market_vendor_1"), "Grandma unlocks the first market vendor")

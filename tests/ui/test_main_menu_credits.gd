@@ -32,7 +32,30 @@ func _run() -> void:
 	var menu_column := menu.get_node("MenuColumn") as VBoxContainer
 	var continue_button := menu.get_node("%ContinueButton") as Button
 	var footer := menu.get_node("Footer") as Label
+	var background := menu.get_node("Background") as TextureRect
+	var title_logo := menu.get_node("TitleLogo") as TextureRect
+	var ai_disclaimer := menu.get_node("AiAssetDisclaimer") as RichTextLabel
 
+	_check(
+		background.texture.resource_path == "res://assets/art/images/main_menu_bg_v2.png",
+		"Main menu uses the background with the old baked-in title removed",
+	)
+	_check(title_logo.texture is AtlasTexture, "Updated title logo is displayed as a separate UI layer")
+	if title_logo.texture is AtlasTexture:
+		var title_atlas := title_logo.texture as AtlasTexture
+		_check(
+			title_atlas.atlas.resource_path
+			== "res://assets/art/images/title_sabor_sang_panahon_v2.png",
+			"Title layer uses the supplied updated logo",
+		)
+	_check(
+		ai_disclaimer.text.contains(
+			"DISCLAIMER[/color]: SOME OF THE GAME ASSETS ARE AI GENERATED"
+		)
+			and ai_disclaimer.text.contains("[color=#ef4d43]DISCLAIMER[/color]")
+			and ai_disclaimer.text.begins_with("[right]"),
+		"AI asset disclaimer is right-aligned with its heading in red",
+	)
 	_check(credits_button != null and credits_button.text == "CREDITS", "Main menu has a Credits button")
 	_check(credits_overlay != null and not credits_overlay.visible, "Credits start closed")
 	var continue_was_visible := continue_button.visible

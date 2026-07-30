@@ -23,6 +23,9 @@ player_reply = "At least it looked confident."
 closing_line = "It believed in itself. The seasoning did not."
 repeat_lines = Array[String](["My instructor said, 'Cook from the heart.' Mine apparently needs salt.", "Garnish cannot save a dish, but it can make the failure photogenic."])
 restored_line = "La Paz Batchoy... that is what our instructor means when she says food needs memory, not just garnish."
+first_exchange = Array[String](["Hospitality Student|Our practical exam had one instruction: balance the flavor.", "Jobert|How did that go?", "Hospitality Student|I achieved three different kinds of salty.", "Jobert|Ambitious.", "Hospitality Student|I knew every step. I just did not know when to stop.", "Jobert|I am rebuilding one of Lola Lynn's dishes. Everyone remembers a different detail.", "Hospitality Student|That is the part recipes leave out. Technique tells you how; people tell you why.", "Jobert|You should put that in your reflection paper.", "Hospitality Student|After the grades are posted. I am not giving my instructor free material."])
+repeat_exchange = Array[String](["Hospitality Student|My instructor said, \"Cook from the heart.\" Mine apparently needs a measuring spoon."])
+restored_exchange = Array[String](["Hospitality Student|La Paz Batchoy. Now I understand: the bowl tastes like the place because the whole neighborhood helped make it.", "Jobert|That sounds ready for submission.", "Hospitality Student|Already submitted. I cited the vendors and removed the part about my salty sauce."])
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1012973699]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

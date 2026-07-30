@@ -10,6 +10,7 @@ const STITCH := Color("f0c879")
 const INK := Color("2b180f")
 const CREAM := Color("fff0c7")
 const SELECTED := Color("ffd36a")
+const HOTBAR_UNLOCK_TUTORIAL_STEP := 5
 
 var backpack_open := false
 var phone_ui: Control
@@ -36,6 +37,7 @@ func _ready() -> void:
 	_build_interface()
 	GameState.inventory_changed.connect(_refresh_inventory)
 	GameState.selected_inventory_slot_changed.connect(_on_selected_slot_changed)
+	GameState.tutorial_step_changed.connect(_on_tutorial_step_changed)
 	phone_ui = get_parent().get_node_or_null("PhoneUI") as Control
 	if phone_ui != null and phone_ui.has_signal("open_state_changed"):
 		phone_ui.open_state_changed.connect(_on_phone_open_state_changed)
@@ -47,6 +49,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if (
 		get_tree().paused
 		or backpack_open
+		or not _is_hotbar_unlocked()
 		or (phone_ui != null and bool(phone_ui.get("phone_open")))
 	):
 		return
@@ -243,11 +246,26 @@ func _refresh_inventory() -> void:
 		slot.refresh()
 	for slot in backpack_slots:
 		slot.refresh()
+	_update_hotbar_visibility()
 	_refresh_selected_item()
 
 
 func _on_selected_slot_changed(_slot_index: int) -> void:
 	_refresh_inventory()
+
+
+func _on_tutorial_step_changed(_step: int) -> void:
+	_update_hotbar_visibility()
+	_refresh_selected_item()
+
+
+func _is_hotbar_unlocked() -> bool:
+	return GameState.tutorial_step >= HOTBAR_UNLOCK_TUTORIAL_STEP
+
+
+func _update_hotbar_visibility() -> void:
+	if hotbar_panel != null:
+		hotbar_panel.visible = not backpack_open and _is_hotbar_unlocked()
 
 
 func _refresh_selected_item() -> void:
@@ -259,7 +277,11 @@ func _refresh_selected_item() -> void:
 	var texture := load(icon_path) as Texture2D if not icon_path.is_empty() else null
 	held_icon.texture = prepare_item_texture(texture)
 	held_icon.tooltip_text = display_name
-	held_root.visible = not backpack_open and not item_id.is_empty()
+	held_root.visible = (
+		_is_hotbar_unlocked()
+		and not backpack_open
+		and not item_id.is_empty()
+	)
 	for slot in hotbar_slots:
 		style_inventory_slot(slot, slot.slot_index)
 	for slot in backpack_slots:
@@ -321,7 +343,7 @@ func inventory_item_hover_changed(
 func _on_phone_open_state_changed(is_open: bool) -> void:
 	backpack_open = is_open
 	backpack_panel.visible = backpack_open
-	hotbar_panel.visible = not backpack_open
+	_update_hotbar_visibility()
 	if not backpack_open:
 		_hovered_item_slot = -1
 		_drag_item_id = ""

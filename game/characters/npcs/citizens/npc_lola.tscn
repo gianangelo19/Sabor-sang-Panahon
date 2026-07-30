@@ -23,6 +23,9 @@ player_reply = "I was hoping they looked mysterious."
 closing_line = "No. Hungry, maybe. Eat something and try again."
 repeat_lines = Array[String](["Your grandma and I used to trade recipes. Mostly we traded complaints about everyone else's recipes.", "Do not rush so much, apo. Even soup needs time before it becomes worth remembering."])
 restored_line = "La Paz Batchoy. Ay, there you are. Some memories return through the tongue before the heart admits it missed them."
+first_exchange = Array[String](["Lola Nena|Jobert, ari ka naman di?", "Lola Nena|You have Lola Lynn's worried eyebrows.", "Jobert|I was hoping they looked mysterious.", "Lola Nena|Gutom, maybe? You should eat first."])
+repeat_exchange = Array[String](["Lola Nena|Indi magdali, apo. Even soup needs time."])
+restored_exchange = Array[String](["Lola Nena|La Paz Batchoy. Amo gid na! The tongue remembered first."])
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1991093464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)

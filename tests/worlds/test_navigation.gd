@@ -31,7 +31,7 @@ func _run() -> void:
 	_check(game_state.active_destination == "grandma_house", "Grandma's house is selected on arrival")
 	_check(not game_state.has_seen_active_destination_in_maps(), "Beacon stays hidden until Maps is opened")
 	_check(game_state.current_objective == "Visit Grandma at her old house.", "Arrival objective points to Grandma")
-	_check(game_state.has_ambot_notification(), "Arrival sends the Maps notification")
+	_check(game_state.has_ambot_notification(), "Arrival sends the destination notification")
 
 	var player := MockPlayer.new()
 	player.name = "ProtoController"
@@ -69,6 +69,10 @@ func _run() -> void:
 	_check(market_marker.destination_id == "market_vendor_1", "First market vendor has a stable destination ID")
 	_check(market_marker_2.destination_id == "market_vendor_2", "Second market vendor has a stable destination ID")
 	_check(tindero_marker.destination_id == "tindero", "Tindero has a stable destination ID")
+	_check(market_marker.display_name == "Ate Telyn", "Meat-vendor marker uses Ate Telyn's name")
+	_check(market_marker_2.display_name == "Kuya Boy", "Ginamos-vendor marker uses Kuya Boy's name")
+	_check(chicharon_marker.display_name == "Nong Andy", "Chicharon-vendor marker uses Nong Andy's name")
+	_check(tindero_marker.display_name == "Tito Bobet", "Miki-vendor marker uses Tito Bobet's name")
 	_check(market_marker.position.is_equal_approx(market_vendor_1.position), "First market beacon targets its NPC")
 	_check(market_marker_2.position.is_equal_approx(market_vendor_2.position), "Second market beacon targets its NPC")
 	_check(chicharon_marker.position.is_equal_approx(chicharon_vendor.position), "Chicharon beacon targets its NPC")

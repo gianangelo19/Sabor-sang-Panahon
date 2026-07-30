@@ -23,6 +23,9 @@ player_reply = "What side are you on?"
 closing_line = "Yes."
 repeat_lines = Array[String](["A good debate changes minds. A good meal makes everyone stop talking. Higher success rate.", "My opponent brought citations. I brought an appetite. The judges remain divided."])
 restored_line = "La Paz Batchoy settles the debate: breakfast, lunch, dinner, and emergency morale."
+first_exchange = Array[String](["Campus Debater|Resolved: lunch is more urgent than attendance.", "Jobert|Strong position. Weak evidence.", "Campus Debater|My stomach is a hostile witness.", "Jobert|I am asking people what they remember about an old dish.", "Campus Debater|Memory is admissible if cross-examined with snacks.", "Jobert|You have confused debate with merienda.", "Campus Debater|I prefer \"multidisciplinary.\""])
+repeat_exchange = Array[String](["Campus Debater|My opponent brought citations. I brought an appetite. The judges remain divided."])
+restored_exchange = Array[String](["Campus Debater|I concede. La Paz Batchoy is the stronger closing argument.", "Jobert|Because of evidence?", "Campus Debater|Because no one argues while the bowl is full."])
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1012973699]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3767514, 0)
