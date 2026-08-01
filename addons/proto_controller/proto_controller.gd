@@ -65,6 +65,7 @@ var current_interactable : Node = null
 var head_bob_time : float = 0.0
 var initial_head_pos : float = 0.0
 var audio_walk : AudioStreamPlayer
+var _hud_visible := true
 
 ## IMPORTANT REFERENCES
 @onready var head: Node3D = $Head
@@ -81,6 +82,9 @@ func _ready() -> void:
 	interact_ray.target_position = Vector3(0, 0, -interact_distance)
 	interact_ray.enabled = true
 	interact_prompt.visible = false
+	if not SettingsManager.hud_visibility_changed.is_connected(_on_hud_visibility_changed):
+		SettingsManager.hud_visibility_changed.connect(_on_hud_visibility_changed)
+	_on_hud_visibility_changed(SettingsManager.is_hud_visible())
 	if GameState.has_method("apply_saved_player_transform"):
 		GameState.call_deferred("apply_saved_player_transform", self)
 	
@@ -174,7 +178,7 @@ func _physics_process(delta: float) -> void:
 
 func update_interaction_prompt() -> void:
 	current_interactable = null
-	if not can_move or not is_processing_unhandled_input():
+	if not _hud_visible or not can_move or not is_processing_unhandled_input():
 		interact_prompt.visible = false
 		return
 
@@ -196,6 +200,12 @@ func update_interaction_prompt() -> void:
 			interact_prompt.text = "Press F to interact"
 		interact_prompt.visible = true
 	else:
+		interact_prompt.visible = false
+
+
+func _on_hud_visibility_changed(should_show: bool) -> void:
+	_hud_visible = should_show
+	if not should_show and interact_prompt != null:
 		interact_prompt.visible = false
 
 

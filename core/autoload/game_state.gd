@@ -15,6 +15,7 @@ const STORY_INGREDIENT_IDS := [
 	"fresh_miki",
 ]
 const STORY_INGREDIENT_TOTAL := 7
+const MAX_TIME_OF_DAY_STAGE := 8
 const INVENTORY_SIZE := 27
 const HOTBAR_SIZE := 9
 const MAX_ITEM_STACK := 64
@@ -96,6 +97,7 @@ signal ambot_status_changed(status: String)
 signal phone_notification_received(notification: Dictionary)
 signal ambot_availability_changed(available: bool)
 signal tutorial_step_changed(step: int)
+signal time_of_day_changed(stage: int)
 signal destination_unlocked(destination_id: String)
 signal destination_selected(destination_id: String)
 signal destination_completed(destination_id: String)
@@ -122,6 +124,7 @@ var completed_ambot_conversations: Array[String] = []
 var ambot_chat_history: Array[Dictionary] = []
 var ambot_asked_questions: Dictionary = {}
 var tutorial_step := 0
+var time_of_day_stage := 0
 var unlocked_destinations: Array[String] = []
 var completed_destinations: Array[String] = []
 var active_destination := ""
@@ -166,6 +169,7 @@ func reset() -> void:
 	ambot_chat_history.clear()
 	ambot_asked_questions.clear()
 	tutorial_step = 0
+	time_of_day_stage = 0
 	unlocked_destinations.clear()
 	completed_destinations.clear()
 	active_destination = ""
@@ -186,6 +190,7 @@ func reset() -> void:
 	selected_inventory_slot_changed.emit(selected_inventory_slot)
 	ambot_availability_changed.emit(false)
 	tutorial_step_changed.emit(tutorial_step)
+	time_of_day_changed.emit(time_of_day_stage)
 	navigation_changed.emit()
 
 func begin_final_hunt(duration: float = 30.0) -> void:
@@ -522,6 +527,15 @@ func set_tutorial_step(step: int) -> void:
 	tutorial_step_changed.emit(tutorial_step)
 	_request_autosave()
 
+func advance_time_of_day(stage: int) -> bool:
+	var next_stage := clampi(stage, 0, MAX_TIME_OF_DAY_STAGE)
+	if next_stage <= time_of_day_stage:
+		return false
+	time_of_day_stage = next_stage
+	time_of_day_changed.emit(time_of_day_stage)
+	_request_autosave()
+	return true
+
 func unlock_destination(destination_id: String) -> bool:
 	if destination_id.is_empty() or unlocked_destinations.has(destination_id):
 		return false
@@ -626,6 +640,7 @@ func save_game(scene_path: String = "") -> bool:
 		"ambot_chat_history": ambot_chat_history,
 		"ambot_asked_questions": ambot_asked_questions,
 		"tutorial_step": tutorial_step,
+		"time_of_day_stage": time_of_day_stage,
 		"unlocked_destinations": unlocked_destinations,
 		"completed_destinations": completed_destinations,
 		"active_destination": active_destination,
@@ -708,6 +723,11 @@ func load_game() -> String:
 	final_hunt_placement_spot = str(parsed.get("final_hunt_placement_spot", ""))
 	final_hunt_placement_reason = str(parsed.get("final_hunt_placement_reason", ""))
 	final_hunt_used_placement_spots.assign(parsed.get("final_hunt_used_placement_spots", []))
+	time_of_day_stage = clampi(
+		int(parsed.get("time_of_day_stage", _infer_time_of_day_stage())),
+		0,
+		MAX_TIME_OF_DAY_STAGE,
+	)
 	var legacy_grandma_left := (
 		completed_destinations.has("market_vendor_1")
 		and not clues.has("Batchoy Bowl artifact recovered.")
@@ -771,6 +791,7 @@ func _emit_loaded_state() -> void:
 	selected_inventory_slot_changed.emit(selected_inventory_slot)
 	ambot_availability_changed.emit(not pending_ambot_notification.is_empty())
 	tutorial_step_changed.emit(tutorial_step)
+	time_of_day_changed.emit(time_of_day_stage)
 	navigation_changed.emit()
 	if not final_hunt_placement_source.is_empty():
 		final_hunt_placement_decided.emit(final_hunt_placement_source, final_hunt_placement_spot)
@@ -780,3 +801,28 @@ func _emit_loaded_state() -> void:
 		final_hunt_time_changed.emit(final_hunt_time_remaining)
 	elif final_hunt_succeeded:
 		final_hunt_finished.emit(true)
+
+func _infer_time_of_day_stage() -> int:
+	if (
+		final_hunt_succeeded
+		or has_inventory_item("batchoy_bowl")
+		or clues.has("Batchoy Bowl artifact recovered.")
+		or clues.has("La Paz Batchoy served to Grandma.")
+	):
+		return 8
+	var destination_stages := {
+		"market_vendor_1": 1,
+		"market_vendor_2": 2,
+		"herbs_vendor": 3,
+		"seasoning_vendor": 4,
+		"egg_vendor": 5,
+		"chicharon_vendor": 6,
+		"tindero": 7,
+	}
+	var inferred_stage := 0
+	for destination_id: String in completed_destinations:
+		inferred_stage = maxi(
+			inferred_stage,
+			int(destination_stages.get(destination_id, 0)),
+		)
+	return inferred_stage

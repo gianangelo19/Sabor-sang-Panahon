@@ -1,8 +1,11 @@
 extends Node3D
 
 const ARTIFACT_SCENE := preload("res://game/props/artifacts/batchoy_bowl/batchoy_bowl_artifact.tscn")
-const FINAL_ENDING_SCENE := preload(
-	"res://features/minigames/final_ending/scenes/final_ending_scene.tscn"
+const MINIGAME_SESSION_SCRIPT := preload(
+	"res://features/minigames/shared/scripts/minigame_session.gd"
+)
+const ARTIFACT_MINIGAME_PLACEHOLDER := preload(
+	"res://game/ui/minigames/vendor_minigame_placeholder.tscn"
 )
 const ARTIFACT_DISCOVERY_POPUP_SCENE := preload("res://game/ui/artifact/artifact_discovery_popup.tscn")
 const POST_RECOVERY_CHOICE_SCENE := preload("res://game/ui/artifact/post_recovery_choice.tscn")
@@ -12,6 +15,8 @@ const SIGN_REVEALED_CLUE := "Teb's Old La Paz Batchoyan signage revealed."
 const ARTIFACT_RECOVERED_CLUE := "Batchoy Bowl artifact recovered."
 const DISH_RESTORED_CLUE := "The forgotten dish is La Paz Batchoy."
 const BATCHOY_SERVED_CLUE := "La Paz Batchoy served to Grandma."
+const GAME_ON_REWARD_PENDING_FLAG := "game_on_artifact_reward_pending"
+const GAME_ON_REWARD_CLAIMED_FLAG := "game_on_artifact_reward_claimed"
 
 @export var hunt_duration := 30.0
 @export var minimum_player_distance := 7.0
@@ -27,7 +32,10 @@ var _player_locked := false
 var _grandma: Node3D
 var _last_spot_id := ""
 var _hunt_clock_player: AudioStreamPlayer
-var _final_ending: Node2D
+var _artifact_minigame_session: CanvasLayer
+var _game_on_reward_screen
+var _reward_requires_auth := false
+var _reward_reconnect_pending := false
 
 
 func _ready() -> void:
@@ -42,9 +50,15 @@ func _ready() -> void:
 	_grandma = get_parent().get_node_or_null("npc_grandma") as Node3D
 	if GameState.clues.has(ARTIFACT_RECOVERED_CLUE):
 		_set_grandma_present(true)
+		if GameState.has_story_flag(GAME_ON_REWARD_PENDING_FLAG):
+			call_deferred("_resume_pending_game_on_reward")
 		return
 	if GameState.final_hunt_active or GameState.clues.has(SIGN_REVEALED_CLUE):
 		call_deferred("start_hunt", GameState.final_hunt_time_remaining)
+
+
+func _exit_tree() -> void:
+	_cleanup_game_on_reward()
 
 
 func _process(delta: float) -> void:
@@ -182,16 +196,59 @@ func _on_artifact_recovered(_recovered_artifact: Node3D) -> void:
 		return
 	_active = false
 	_stop_hunt_clock()
+	_lock_player()
+	_start_artifact_minigame()
+
+
+func _start_artifact_minigame() -> void:
+	if (
+		_artifact_minigame_session != null
+		and is_instance_valid(_artifact_minigame_session)
+	):
+		return
+	_artifact_minigame_session = MINIGAME_SESSION_SCRIPT.new()
+	_artifact_minigame_session.name = "ArtifactRecoveryMinigameSession"
+	var session_parent: Node = get_tree().current_scene
+	if session_parent == null:
+		session_parent = get_tree().root
+	session_parent.add_child(_artifact_minigame_session)
+	_artifact_minigame_session.minigame_won.connect(_on_artifact_minigame_won)
+	_artifact_minigame_session.dismissed.connect(_on_artifact_minigame_dismissed)
+	_artifact_minigame_session.start(
+		ARTIFACT_MINIGAME_PLACEHOLDER,
+		{
+			"title": "Restore the Old Batchoy Bowl",
+			"instructions": "Complete the final memory challenge to preserve the recovered bowl.",
+			"reward": "Old Batchoy Bowl artifact",
+			"time_of_day_stage": 8,
+		},
+	)
+
+
+func _on_artifact_minigame_won() -> void:
+	_artifact_minigame_session = null
 	GameState.add_clue(ARTIFACT_RECOVERED_CLUE)
 	GameState.add_clue(DISH_RESTORED_CLUE)
+	GameState.add_clue(BATCHOY_SERVED_CLUE)
 	GameState.add_inventory_item("batchoy_bowl", "Old Batchoy Bowl")
 	GameState.complete_final_hunt(true)
-	GameState.set_objective("Serve the restored La Paz Batchoy to Grandma.")
+	GameState.set_objective("Memory restored. Grandma remembers La Paz Batchoy.")
 	GameState.set_ambot_status("Cultural memory restored: La Paz Batchoy")
 	GameState.set_grandma_left_for_medicine(false)
+	GameState.set_story_flag(GAME_ON_REWARD_PENDING_FLAG)
 	_set_grandma_present(true)
-	_lock_player()
-	_show_final_ending()
+	_show_artifact_discovery_popup()
+
+
+func _on_artifact_minigame_dismissed() -> void:
+	_artifact_minigame_session = null
+	if _artifact != null and is_instance_valid(_artifact):
+		if _artifact.has_method("reset_recovery"):
+			_artifact.call("reset_recovery")
+	_active = _artifact != null and is_instance_valid(_artifact)
+	if _active:
+		_start_hunt_clock()
+	_restore_player()
 
 
 func _timeout_hunt() -> void:
@@ -206,31 +263,114 @@ func _timeout_hunt() -> void:
 	GameState.set_ambot_status("Cultural Echo search interrupted")
 
 
-func _show_final_ending() -> void:
-	if _final_ending != null and is_instance_valid(_final_ending):
-		return
-	_final_ending = FINAL_ENDING_SCENE.instantiate()
-	get_tree().root.add_child(_final_ending)
-	_final_ending.ending_finished.connect(_on_final_ending_finished)
-
-
-func _on_final_ending_finished() -> void:
-	if _final_ending != null and is_instance_valid(_final_ending):
-		_final_ending.queue_free()
-	_final_ending = null
-	GameState.add_clue(BATCHOY_SERVED_CLUE)
-	GameState.set_objective("Memory restored. Grandma remembers La Paz Batchoy.")
-	_show_artifact_discovery_popup()
-
-
 func _show_artifact_discovery_popup() -> void:
-	var popup := ARTIFACT_DISCOVERY_POPUP_SCENE.instantiate()
-	get_tree().root.add_child(popup)
-	popup.dismissed.connect(_on_artifact_discovery_dismissed)
+	_show_game_on_reward()
 
 
-func _on_artifact_discovery_dismissed() -> void:
+func _resume_pending_game_on_reward() -> void:
+	_lock_player()
+	_show_game_on_reward()
+
+
+func _show_game_on_reward() -> void:
+	if (
+		_game_on_reward_screen != null
+		and is_instance_valid(_game_on_reward_screen)
+	):
+		return
+	_lock_player()
+	_game_on_reward_screen = ARTIFACT_DISCOVERY_POPUP_SCENE.instantiate()
+	get_tree().root.add_child(_game_on_reward_screen)
+	_game_on_reward_screen.retry_requested.connect(_on_game_on_retry_requested)
+	_game_on_reward_screen.continue_requested.connect(_on_game_on_continue_requested)
+	var game_on := get_node(^"/root/GameOnPortal") as GameOnConnect
+	if not game_on.artifact_unlocked.is_connected(_on_game_on_artifact_unlocked):
+		game_on.artifact_unlocked.connect(_on_game_on_artifact_unlocked)
+	if not game_on.artifact_unlock_failed.is_connected(_on_game_on_artifact_failed):
+		game_on.artifact_unlock_failed.connect(_on_game_on_artifact_failed)
+	if not game_on.authorization_status_changed.is_connected(_on_reward_authorization_changed):
+		game_on.authorization_status_changed.connect(_on_reward_authorization_changed)
+	_request_game_on_unlock()
+
+
+func _request_game_on_unlock() -> void:
+	if _game_on_reward_screen == null:
+		return
+	_reward_requires_auth = false
+	_game_on_reward_screen.show_loading()
+	var game_on := get_node(^"/root/GameOnPortal") as GameOnConnect
+	game_on.unlock_artifact()
+
+
+func _on_game_on_artifact_unlocked(
+	artifact_data: Dictionary,
+	is_new_unlock: bool,
+) -> void:
+	_reward_reconnect_pending = false
+	GameState.set_story_flag(GAME_ON_REWARD_PENDING_FLAG, false)
+	GameState.set_story_flag(GAME_ON_REWARD_CLAIMED_FLAG)
+	if _game_on_reward_screen != null:
+		_game_on_reward_screen.show_artifact(artifact_data, is_new_unlock)
+
+
+func _on_game_on_artifact_failed(message: String, requires_auth: bool) -> void:
+	_reward_reconnect_pending = false
+	_reward_requires_auth = requires_auth
+	if _game_on_reward_screen != null:
+		_game_on_reward_screen.show_error(message, requires_auth)
+
+
+func _on_game_on_retry_requested() -> void:
+	if _game_on_reward_screen == null:
+		return
+	if not _reward_requires_auth:
+		_request_game_on_unlock()
+		return
+	_reward_reconnect_pending = true
+	_game_on_reward_screen.show_loading("Opening GameOn sign-in...")
+	var game_on := get_node(^"/root/GameOnPortal") as GameOnConnect
+	game_on.connect_account()
+
+
+func _on_reward_authorization_changed(status: String) -> void:
+	if not _reward_reconnect_pending or _game_on_reward_screen == null:
+		return
+	match status:
+		"connecting":
+			_game_on_reward_screen.show_loading("Opening GameOn sign-in...")
+		"pending":
+			_game_on_reward_screen.show_loading("Waiting for GameOn sign-in...")
+		"authorized":
+			_reward_reconnect_pending = false
+			_request_game_on_unlock()
+		"expired", "error":
+			_reward_reconnect_pending = false
+			_reward_requires_auth = true
+			_game_on_reward_screen.show_error(
+				"GameOn authentication was not completed.",
+				true,
+			)
+
+
+func _on_game_on_continue_requested() -> void:
+	GameState.set_story_flag(GAME_ON_REWARD_PENDING_FLAG, false)
+	_cleanup_game_on_reward()
 	_show_post_recovery_choice()
+
+
+func _cleanup_game_on_reward() -> void:
+	var game_on := get_node_or_null(^"/root/GameOnPortal") as GameOnConnect
+	if game_on != null:
+		if game_on.artifact_unlocked.is_connected(_on_game_on_artifact_unlocked):
+			game_on.artifact_unlocked.disconnect(_on_game_on_artifact_unlocked)
+		if game_on.artifact_unlock_failed.is_connected(_on_game_on_artifact_failed):
+			game_on.artifact_unlock_failed.disconnect(_on_game_on_artifact_failed)
+		if game_on.authorization_status_changed.is_connected(_on_reward_authorization_changed):
+			game_on.authorization_status_changed.disconnect(_on_reward_authorization_changed)
+	if _game_on_reward_screen != null and is_instance_valid(_game_on_reward_screen):
+		_game_on_reward_screen.queue_free()
+	_game_on_reward_screen = null
+	_reward_reconnect_pending = false
 
 
 func _show_post_recovery_choice() -> void:
@@ -247,6 +387,7 @@ func _on_continue_exploring_requested() -> void:
 
 func _on_recovery_main_menu_requested() -> void:
 	GameState.save_game()
+	_cleanup_game_on_reward()
 	_clear_artifact()
 	get_tree().paused = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

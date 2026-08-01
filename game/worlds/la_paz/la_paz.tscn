@@ -90,6 +90,7 @@
 [ext_resource type="PackedScene" path="res://game/props/environment/vandalism/layered_marker_tag_decal.tscn" id="90_oaskg"]
 [ext_resource type="Script" uid="uid://bbfmecv10icnm" path="res://core/navigation/navigation_destination.gd" id="91_navigation"]
 [ext_resource type="PackedScene" path="res://game/ui/hud/game_hud.tscn" id="hud_phone"]
+[ext_resource type="Script" uid="uid://bsklut6xslsim" path="res://game/worlds/la_paz/time_of_day_controller.gd" id="time_of_day_controller"]
 [ext_resource type="Script" uid="uid://bdubpo54wcesl" path="res://game/worlds/la_paz/apartment/wake_up.gd" id="wakeup_script"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_y5vev"]
@@ -251,6 +252,9 @@ shadow_opacity = 0.62
 shadow_blur = 1.5
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 90.0
+
+[node name="TimeOfDayController" type="Node" parent="." unique_id=1300786846]
+script = ExtResource("time_of_day_controller")
 
 [node name="ground" type="Node3D" parent="." unique_id=1400869878]
 
@@ -2665,7 +2669,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -30.
 transform = Transform3D(0.9, 0, 5.364418e-08, 0, 0.9, 0, -5.364418e-08, 0, 0.9, -7.8479805, 0.5000001, 20.984632)
 
 [node name="CrankHandleItem" parent="." unique_id=117112517 instance=ExtResource("84_6hbrg")]
-transform = Transform3D(0.2782299, 0, 0, 0, 0.2782299, 0, 0, 0, 0.2782299, -6.0610003, 0.59271836, -22.786875)
+transform = Transform3D(0.2782299, 0, 0, 0, 0.2782299, 0, 0, 0, 0.2782299, -4.526232, 0.59271836, -23.634619)
 
 [node name="InvisibleBorder7" parent="." unique_id=966043382 instance=ExtResource("79_mdmqi")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -38.945232, 0.7778237, 40.878574)

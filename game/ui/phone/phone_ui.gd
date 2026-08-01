@@ -218,12 +218,10 @@ var ambot_chat_stack: VBoxContainer
 var ambot_autoscroll_pending := false
 var ambot_autoscroll_generation := 0
 var dialogue_hud_hidden := false
+var _hud_visible := true
 var dialogue_notification_tween: Tween
 var notification_bounce_timer: Timer
 var notification_bounce_tween: Tween
-var objective_notification_unread := false
-var objective_notification_commit_pending := false
-var objective_notification_generation := 0
 var unread_notification_count := 0
 var ambot_notification_badge: Label
 
@@ -567,7 +565,11 @@ func close_phone() -> void:
 	phone_open = false
 	dim.visible = false
 	phone_frame.visible = false
-	notification_banner.visible = _has_unified_notification() and not dialogue_hud_hidden
+	notification_banner.visible = (
+		_hud_visible
+		and _has_unified_notification()
+		and not dialogue_hud_hidden
+	)
 	Input.set_mouse_mode(previous_mouse_mode)
 	open_state_changed.emit(false)
 
@@ -597,7 +599,7 @@ func set_dialogue_hud_hidden(hidden: bool, duration: float = 0.24) -> void:
 		)
 		return
 
-	if phone_open or not _has_unified_notification():
+	if not _hud_visible or phone_open or not _has_unified_notification():
 		notification_banner.visible = false
 		notification_banner.modulate.a = 1.0
 		_reset_notification_bounce()
@@ -613,6 +615,19 @@ func set_dialogue_hud_hidden(hidden: bool, duration: float = 0.24) -> void:
 		1.0,
 		maxf(duration, 0.0),
 	)
+
+func set_hud_visible(should_show: bool) -> void:
+	_hud_visible = should_show
+	if not should_show:
+		notification_banner.visible = false
+		_reset_notification_bounce()
+		return
+	notification_banner.visible = (
+		not phone_open
+		and not dialogue_hud_hidden
+		and _has_unified_notification()
+	)
+	notification_banner.modulate.a = 1.0
 
 func analyze_inventory_item(item_id: String) -> void:
 	if item_id.is_empty():
@@ -1323,44 +1338,19 @@ func _cancel_ambot_typing() -> void:
 			player.stop()
 
 func _on_notification_received(_notification: Dictionary, play_sound := true) -> void:
-	if objective_notification_commit_pending:
-		objective_notification_generation += 1
-		objective_notification_commit_pending = false
 	_register_unread_notification()
 	_show_unified_notification(play_sound)
-
-func show_objective_notification(play_sound := false) -> void:
-	objective_notification_unread = true
-	if not (GameState.has_ambot_notification() and unread_notification_count > 0):
-		objective_notification_generation += 1
-		objective_notification_commit_pending = true
-		_commit_objective_notification.call_deferred(
-			objective_notification_generation
-		)
-	_show_unified_notification(play_sound)
-
-func _commit_objective_notification(generation: int) -> void:
-	if (
-		not objective_notification_commit_pending
-		or generation != objective_notification_generation
-	):
-		return
-	objective_notification_commit_pending = false
-	_register_unread_notification()
 
 func _register_unread_notification() -> void:
 	unread_notification_count = mini(unread_notification_count + 1, 999)
 	_refresh_ambot_notification_badge()
 
 func _clear_unread_notifications() -> void:
-	objective_notification_generation += 1
-	objective_notification_commit_pending = false
-	objective_notification_unread = false
 	unread_notification_count = 0
 	_refresh_ambot_notification_badge()
 
 func _unread_badge_count() -> int:
-	return unread_notification_count + (1 if objective_notification_commit_pending else 0)
+	return unread_notification_count
 
 func _refresh_ambot_notification_badge() -> void:
 	if (
@@ -1379,7 +1369,11 @@ func _show_unified_notification(play_sound: bool) -> void:
 	notification_toast.text = UNIFIED_NOTIFICATION_TEXT
 	notification_toast.visible = true
 	notification_banner.text = UNIFIED_NOTIFICATION_TEXT
-	notification_banner.visible = not phone_open and not dialogue_hud_hidden
+	notification_banner.visible = (
+		_hud_visible
+		and not phone_open
+		and not dialogue_hud_hidden
+	)
 	notification_banner.modulate.a = 1.0
 	_layout_notification_banner()
 	if notification_bounce_timer:
@@ -1388,14 +1382,15 @@ func _show_unified_notification(play_sound: bool) -> void:
 		_play_sfx(notification_player)
 
 func _has_unified_notification() -> bool:
-	return (
-		_unread_badge_count() > 0
-		or objective_notification_unread
-		or GameState.has_ambot_notification()
-	)
+	return _unread_badge_count() > 0 or GameState.has_ambot_notification()
 
 func _bounce_notification_banner() -> void:
-	if not notification_banner.visible or phone_open or dialogue_hud_hidden:
+	if (
+		not _hud_visible
+		or not notification_banner.visible
+		or phone_open
+		or dialogue_hud_hidden
+	):
 		return
 	_play_sfx(notification_bounce_player)
 	if notification_bounce_tween != null and notification_bounce_tween.is_valid():

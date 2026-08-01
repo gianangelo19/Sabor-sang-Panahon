@@ -27,6 +27,16 @@ cast_shadow = 0
 gi_mode = 2
 mesh = SubResource("QuadMesh_prop")
 
+[node name="EveningLamp" type="OmniLight3D" parent="." groups=["time_of_day_streetlight"]]
+position = Vector3(0, 11.2, 0.2)
+visible = false
+light_color = Color(1, 0.72, 0.42, 1)
+light_energy = 0.0
+light_indirect_energy = 0.25
+shadow_enabled = false
+omni_range = 18.0
+omni_attenuation = 1.6
+
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]

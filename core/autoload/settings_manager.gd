@@ -1,5 +1,7 @@
 extends Node
 
+signal hud_visibility_changed(visible: bool)
+
 const SETTINGS_FILE_PATH = "user://settings.cfg"
 const UI_BUTTON_SOUND := preload("res://assets/audio/retro_filipino_pack/menu_button_press.wav")
 const DIALOGUE_CONTINUE_SOUND := preload("res://assets/audio/retro_filipino_pack/dialogue_continue.wav")
@@ -49,16 +51,20 @@ func load_settings():
 		config.set_value("Audio", "SFX", 1.0)
 		config.set_value("Graphics", "Quality", "Balanced")
 		config.set_value("Graphics", "FPSLimit", 60)
+		config.set_value("Interface", "HUDVisible", true)
 		save_settings()
 	else:
-		var added_graphics_defaults := false
+		var added_defaults := false
 		if not config.has_section_key("Graphics", "Quality"):
 			config.set_value("Graphics", "Quality", "Balanced")
-			added_graphics_defaults = true
+			added_defaults = true
 		if not config.has_section_key("Graphics", "FPSLimit"):
 			config.set_value("Graphics", "FPSLimit", 60)
-			added_graphics_defaults = true
-		if added_graphics_defaults:
+			added_defaults = true
+		if not config.has_section_key("Interface", "HUDVisible"):
+			config.set_value("Interface", "HUDVisible", true)
+			added_defaults = true
+		if added_defaults:
 			save_settings()
 	
 	set_bus_volume(master_bus_index, config.get_value("Audio", "Master", 1.0))
@@ -92,6 +98,16 @@ func set_fps_limit(limit: int) -> void:
 	Engine.max_fps = limit
 	save_settings()
 
+func set_hud_visible(visible: bool) -> void:
+	var changed := visible != is_hud_visible()
+	config.set_value("Interface", "HUDVisible", visible)
+	save_settings()
+	if changed:
+		hud_visibility_changed.emit(visible)
+
+func is_hud_visible() -> bool:
+	return bool(config.get_value("Interface", "HUDVisible", true))
+
 func apply_graphics_settings() -> void:
 	var quality: String = config.get_value("Graphics", "Quality", "Balanced")
 	var render_scale := 0.75
@@ -108,7 +124,7 @@ func show_settings_menu(parent: Node):
 	popup.title = "Settings"
 	popup.process_mode = Node.PROCESS_MODE_ALWAYS
 	popup.initial_position = Window.WINDOW_INITIAL_POSITION_CENTER_PRIMARY_SCREEN
-	popup.size = Vector2(420, 560)
+	popup.size = Vector2(420, 620)
 	popup.exclusive = true
 	popup.transient = true
 	
@@ -125,10 +141,10 @@ func show_settings_menu(parent: Node):
 	var vbox = VBoxContainer.new()
 	vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
 	# Add some margins
-	vbox.add_theme_constant_override("separation", 15)
+	vbox.add_theme_constant_override("separation", 12)
 	var margin = MarginContainer.new()
-	margin.add_theme_constant_override("margin_top", 20)
-	margin.add_theme_constant_override("margin_bottom", 20)
+	margin.add_theme_constant_override("margin_top", 16)
+	margin.add_theme_constant_override("margin_bottom", 16)
 	margin.add_theme_constant_override("margin_left", 20)
 	margin.add_theme_constant_override("margin_right", 20)
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -238,6 +254,23 @@ func show_settings_menu(parent: Node):
 	fps_box.add_child(fps_label)
 	fps_box.add_child(fps_picker)
 	vbox.add_child(fps_box)
+
+	var interface_title = Label.new()
+	interface_title.text = "INTERFACE"
+	interface_title.add_theme_color_override("font_color", Color("f9b05b"))
+	interface_title.add_theme_font_size_override("font_size", 18)
+	vbox.add_child(interface_title)
+
+	var hud_toggle = CheckButton.new()
+	hud_toggle.name = "HUDVisibilityToggle"
+	hud_toggle.text = "Show Gameplay HUD"
+	hud_toggle.tooltip_text = "Show prompts, notifications, navigation, and quick-access HUD elements"
+	hud_toggle.button_pressed = is_hud_visible()
+	hud_toggle.toggled.connect(func(enabled: bool):
+		play_ui_button_sound()
+		set_hud_visible(enabled)
+	)
+	vbox.add_child(hud_toggle)
 	
 	var spacer = Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL

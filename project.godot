@@ -35,6 +35,7 @@ enabled=PackedStringArray("res://addons/game_on/plugin.cfg")
 [game_on]
 
 game_id="b806524a-5cc5-41d9-9696-417683c6254c"
+api_url="https://gameonportal.ph"
 
 [gui]
 

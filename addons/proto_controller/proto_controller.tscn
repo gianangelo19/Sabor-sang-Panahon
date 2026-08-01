@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bu51hnjr4m8bu" path="res://addons/proto_controller/proto_controller.gd" id="1_ucva2"]
 [ext_resource type="Shader" uid="uid://wnky1h2vbj86" path="res://addons/proto_controller/overlay.gdshader" id="2_wr06p"]
+[ext_resource type="PackedScene" path="res://core/effects/global_floating_pixels.tscn" id="3_floating_pixels"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
 albedo_color = Color(0.91806, 0.575202, 0.222449, 1)
@@ -72,6 +73,8 @@ transform = Transform3D(1, 0, 0, 0, 1.1111112, 0, 0, 0, 1, 0, 0.07437968, 0)
 [node name="InteractRay" type="RayCast3D" parent="Head/Camera3D" unique_id=171521967]
 target_position = Vector3(0, 0, -2.5)
 collide_with_areas = true
+
+[node name="GlobalFloatingPixels" parent="Head/Camera3D" instance=ExtResource("3_floating_pixels")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Head" unique_id=2023067070]
 extra_cull_margin = 16384.0

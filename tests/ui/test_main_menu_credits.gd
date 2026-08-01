@@ -63,7 +63,7 @@ func _run() -> void:
 	await process_frame
 	_check(
 		menu_column.position.y + menu_column.size.y <= footer.position.y,
-		"All five menu buttons fit above the footer when Continue is available",
+		"All authenticated menu actions fit above the footer when Continue is available",
 	)
 	continue_button.visible = continue_was_visible
 

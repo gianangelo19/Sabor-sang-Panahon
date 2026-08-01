@@ -1,6 +1,5 @@
 extends CanvasLayer
 
-const FIRST_STORY_CLUE := "Damaged newspaper"
 const PAUSE_OVERLAY_LAYER := 500
 const MAIN_MENU_SCENE := preload("res://game/ui/menus/main_menu.tscn")
 const TUTORIAL_WAITING_FOR_WAKE_UP := 0
@@ -24,6 +23,7 @@ const KEY_F := preload("res://assets/art/images/ui/key_prompts/key_f.png")
 const KEY_E := preload("res://assets/art/images/ui/key_prompts/key_e.png")
 
 @onready var objective_label: Label = %ObjectiveValue
+@onready var hud_root: Control = $HUDRoot
 @onready var objective_panel: PanelContainer = $HUDRoot/TopLeftPanel
 @onready var clue_label: Label = %ClueValue
 @onready var ingredient_label: Label = %IngredientValue
@@ -33,6 +33,7 @@ const KEY_E := preload("res://assets/art/images/ui/key_prompts/key_e.png")
 @onready var resume_button: Button = %ResumeButton
 @onready var phone_ui: Control = $PhoneUI
 @onready var inventory_ui: Control = $InventoryUI
+@onready var navigation_beacon: Control = $NavigationBeacon
 @onready var hint_bar: PanelContainer = $HUDRoot/HintBar
 @onready var hint_text: Label = %HintText
 @onready var primary_key: TextureRect = %PrimaryKey
@@ -74,6 +75,9 @@ func _ready() -> void:
 	GameState.final_hunt_finished.connect(_on_final_hunt_finished)
 	GameState.final_hunt_placement_decided.connect(_on_final_hunt_placement_decided)
 	phone_ui.open_state_changed.connect(_on_inventory_open_state_changed)
+	if not SettingsManager.hud_visibility_changed.is_connected(_on_hud_visibility_changed):
+		SettingsManager.hud_visibility_changed.connect(_on_hud_visibility_changed)
+	_on_hud_visibility_changed(SettingsManager.is_hud_visible())
 	_on_tutorial_step_changed(GameState.tutorial_step)
 	_on_inventory_open_state_changed(phone_ui.phone_open)
 	final_hunt_result.visible = false
@@ -82,6 +86,14 @@ func _ready() -> void:
 		_on_final_hunt_started(GameState.final_hunt_time_remaining)
 	else:
 		final_hunt_panel.visible = false
+
+func _on_hud_visibility_changed(should_show: bool) -> void:
+	hud_root.visible = should_show
+	navigation_beacon.visible = should_show
+	if inventory_ui.has_method("set_hud_visible"):
+		inventory_ui.set_hud_visible(should_show)
+	if phone_ui.has_method("set_hud_visible"):
+		phone_ui.set_hud_visible(should_show)
 
 func _on_inventory_open_state_changed(is_open: bool) -> void:
 	if is_open:
@@ -226,11 +238,6 @@ func _on_quit_button_pressed() -> void:
 
 func _on_objective_changed(objective: String) -> void:
 	objective_label.text = objective
-	if (
-		GameState.clues.has(FIRST_STORY_CLUE)
-		and phone_ui.has_method("show_objective_notification")
-	):
-		phone_ui.show_objective_notification()
 
 func _on_clue_added(_clue: String) -> void:
 	_update_objective_panel_visibility()
@@ -295,9 +302,8 @@ func _update_clue_count() -> void:
 	clue_label.text = "%d recorded" % GameState.clues.size()
 
 func _update_objective_panel_visibility() -> void:
-	# Objectives and AMBot updates now share the phone's single notification
-	# banner. Keep the full objective in GameState for progression and menus,
-	# but do not duplicate it in a second on-screen panel.
+	# Keep the full objective in GameState for progression and menus without
+	# duplicating it in a second on-screen panel.
 	objective_panel.visible = false
 
 func begin_apartment_tutorial() -> void:

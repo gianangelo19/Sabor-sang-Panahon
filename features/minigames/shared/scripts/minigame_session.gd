@@ -37,6 +37,12 @@ func _input(event: InputEvent) -> void:
 func start(scene: PackedScene, context: Dictionary = {}) -> void:
 	_minigame_scene = scene
 	_minigame_context = context
+	if _minigame_scene != null and _minigame_context.has("time_of_day_stage"):
+		var game_state := get_tree().root.get_node_or_null("GameState")
+		if game_state != null:
+			game_state.advance_time_of_day(
+				int(_minigame_context.get("time_of_day_stage", 0))
+			)
 	layer = GAMEPLAY_LAYER
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	_mute_global_music()

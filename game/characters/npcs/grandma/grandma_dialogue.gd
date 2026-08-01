@@ -1,6 +1,9 @@
 extends Node3D
 
 const DIALOGUE_SCENE := preload("res://game/ui/dialogue/dialogue_ui.tscn")
+const TALK_INDICATOR_SCENE := preload(
+	"res://game/characters/npcs/shared/npc_talk_indicator.tscn"
+)
 const GRANDMA_PORTRAIT := preload("res://assets/art/characters/npc_grandma/npc_grandma_front.png")
 const PLAYER_PORTRAIT := preload("res://assets/art/characters/2main_character_asking.png")
 const ARTIFACT_RECOVERED_CLUE := "Batchoy Bowl artifact recovered."
@@ -44,6 +47,20 @@ var _dialogue_active := false
 var _conversation_completed := false
 var _player: Node = null
 var _player_was_movable := true
+
+
+func _enter_tree() -> void:
+	_install_talk_indicator.call_deferred()
+
+
+func _install_talk_indicator() -> void:
+	if not is_inside_tree() or get_node_or_null("TalkIndicator") != null:
+		return
+	add_child(TALK_INDICATOR_SCENE.instantiate())
+
+
+func can_show_talk_indicator() -> bool:
+	return not _dialogue_active and _should_be_present()
 
 
 func _ready() -> void:

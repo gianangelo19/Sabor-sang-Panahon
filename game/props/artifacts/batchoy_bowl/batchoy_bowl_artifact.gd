@@ -66,6 +66,11 @@ func set_active(should_be_active: bool) -> void:
 		artifact_clue.stop()
 
 
+func reset_recovery() -> void:
+	_recovered = false
+	set_active(true)
+
+
 func _loop_audio(player: AudioStreamPlayer3D) -> void:
 	if player == null:
 		return

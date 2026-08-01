@@ -3,6 +3,8 @@ extends Control
 
 signal authorized
 
+const MAIN_MENU_SCENE := "res://game/ui/menus/main_menu.tscn"
+
 @onready var _status_label: Label = %StatusLabel
 @onready var _connect_button: Button = %ConnectButton
 @onready var _back_button: Button = %BackButton
@@ -26,7 +28,7 @@ func _on_connect_pressed() -> void:
 
 
 func _on_back_pressed() -> void:
-	get_tree().change_scene_to_file("res://main_menu.tscn")
+	get_tree().change_scene_to_file(MAIN_MENU_SCENE)
 
 
 func _on_authorization_status_changed(status: String) -> void:
@@ -34,16 +36,19 @@ func _on_authorization_status_changed(status: String) -> void:
 	if status == "authorized":
 		authorized.emit()
 		await get_tree().create_timer(1.5).timeout
-		get_tree().change_scene_to_file("res://main_menu.tscn")
+		get_tree().change_scene_to_file(MAIN_MENU_SCENE)
 
 
 func _update_ui_for_status(status: String) -> void:
 	match status:
 		"idle":
 			_connect_button.disabled = false
+			_connect_button.visible = true
+			_connect_button.text = "Connect GameOn Account"
 			_status_label.text = "Press Connect to begin"
 		"connecting":
 			_connect_button.disabled = true
+			_connect_button.text = "Connecting..."
 			_status_label.text = "Opening sign-in page..."
 		"pending":
 			_connect_button.disabled = true
@@ -54,7 +59,11 @@ func _update_ui_for_status(status: String) -> void:
 			_status_label.text = "Welcome! Authentication successful."
 		"expired":
 			_connect_button.disabled = false
+			_connect_button.visible = true
+			_connect_button.text = "Connect GameOn Account"
 			_status_label.text = "Session expired. Press Connect again."
 		"error":
 			_connect_button.disabled = false
+			_connect_button.visible = true
+			_connect_button.text = "Connect GameOn Account"
 			_status_label.text = "Connection error. Try again."

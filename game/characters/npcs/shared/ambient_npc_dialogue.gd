@@ -1,6 +1,9 @@
 extends Node3D
 
 const DIALOGUE_SCENE := preload("res://game/ui/dialogue/dialogue_ui.tscn")
+const TALK_INDICATOR_SCENE := preload(
+	"res://game/characters/npcs/shared/npc_talk_indicator.tscn"
+)
 const BATCHOY_SERVED_CLUE := "La Paz Batchoy served to Grandma."
 
 @export var npc_display_name := "Local"
@@ -17,6 +20,20 @@ var _dialogue_active := false
 var _conversation_count := 0
 var _player: Node = null
 var _player_was_movable := true
+
+
+func _enter_tree() -> void:
+	_install_talk_indicator.call_deferred()
+
+
+func _install_talk_indicator() -> void:
+	if not is_inside_tree() or get_node_or_null("TalkIndicator") != null:
+		return
+	add_child(TALK_INDICATOR_SCENE.instantiate())
+
+
+func can_show_talk_indicator() -> bool:
+	return not _dialogue_active
 
 
 func get_interaction_text() -> String:

@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pixels"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 0.84, 0.62, 0.62)
+billboard_mode = 1
+billboard_keep_scale = true
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_pixel"]
+material = SubResource("StandardMaterial3D_pixels")
+size = Vector2(0.07, 0.07)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pixels"]
+emission_shape = 3
+emission_box_extents = Vector3(11, 6, 12)
+direction = Vector3(0, 1, 0)
+spread = 35.0
+gravity = Vector3(0, 0.006, 0)
+initial_velocity_min = 0.025
+initial_velocity_max = 0.08
+scale_min = 0.55
+scale_max = 1.65
+color = Color(1, 0.88, 0.72, 0.72)
+
+[node name="GlobalFloatingPixels" type="GPUParticles3D"]
+position = Vector3(0, 0, -10)
+emitting = true
+amount = 96
+lifetime = 12.0
+preprocess = 12.0
+randomness = 0.65
+visibility_aabb = AABB(-14, -8, -16, 28, 16, 32)
+local_coords = false
+fixed_fps = 30
+interpolate = true
+fract_delta = true
+process_material = SubResource("ParticleProcessMaterial_pixels")
+draw_pass_1 = SubResource("QuadMesh_pixel")

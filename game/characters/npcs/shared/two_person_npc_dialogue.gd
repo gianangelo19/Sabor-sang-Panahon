@@ -1,9 +1,21 @@
 extends Node3D
 
 const DIALOGUE_SCENE := preload("res://game/ui/dialogue/dialogue_ui.tscn")
+const TALK_INDICATOR_SCENE := preload(
+	"res://game/characters/npcs/shared/npc_talk_indicator.tscn"
+)
 const PLAYER_PORTRAIT := preload("res://assets/art/characters/2main_character_asking.png")
 const MINIGAME_SESSION_SCRIPT := preload("res://features/minigames/shared/scripts/minigame_session.gd")
 const MINIGAME_PLACEHOLDER_SCENE := preload("res://game/ui/minigames/vendor_minigame_placeholder.tscn")
+const TIME_OF_DAY_STAGE_BY_DESTINATION := {
+	"market_vendor_1": 1,
+	"market_vendor_2": 2,
+	"herbs_vendor": 3,
+	"seasoning_vendor": 4,
+	"egg_vendor": 5,
+	"chicharon_vendor": 6,
+	"tindero": 7,
+}
 
 var npc_display_name := "NPC"
 var npc_portrait: Texture2D
@@ -26,6 +38,20 @@ var _minigame_completed := false
 var _player: Node = null
 var _player_was_movable := true
 var _minigame_session: CanvasLayer = null
+
+
+func _enter_tree() -> void:
+	_install_talk_indicator.call_deferred()
+
+
+func _install_talk_indicator() -> void:
+	if not is_inside_tree() or get_node_or_null("TalkIndicator") != null:
+		return
+	add_child(TALK_INDICATOR_SCENE.instantiate())
+
+
+func can_show_talk_indicator() -> bool:
+	return not _dialogue_active and _is_story_available()
 
 
 func get_interaction_text() -> String:
@@ -144,6 +170,9 @@ func _start_minigame() -> void:
 			"title": minigame_title,
 			"instructions": minigame_instructions,
 			"reward": reward_name,
+			"time_of_day_stage": int(
+				TIME_OF_DAY_STAGE_BY_DESTINATION.get(destination_id, 0)
+			),
 		}
 	)
 

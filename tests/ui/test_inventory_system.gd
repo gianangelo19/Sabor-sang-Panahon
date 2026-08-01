@@ -116,7 +116,7 @@ func _run() -> void:
 		phone.notification_banner.visible
 		and phone.notification_banner.text == "You have a new notification!"
 		and phone.notification_banner.icon != null,
-		"Objective and AMBot updates use one generic icon notification",
+		"The AMBot update uses the generic icon notification",
 	)
 
 	var dialogue := (

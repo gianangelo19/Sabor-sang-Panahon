@@ -18,36 +18,42 @@ const VENDOR_ROUTE := [
 		"reward": "pork_and_liver",
 		"destination": "market_vendor_1",
 		"next": "market_vendor_2",
+		"time_stage": 1,
 	},
 	{
 		"scene": "res://game/characters/npcs/vendors/npc_market_vendor_2.tscn",
 		"reward": "ginamos",
 		"destination": "market_vendor_2",
 		"next": "herbs_vendor",
+		"time_stage": 2,
 	},
 	{
 		"scene": "res://game/characters/npcs/vendors/npc_herbs_vendor.tscn",
 		"reward": "fresh_herbs",
 		"destination": "herbs_vendor",
 		"next": "seasoning_vendor",
+		"time_stage": 3,
 	},
 	{
 		"scene": "res://game/characters/npcs/vendors/npc_seasoning_vendor.tscn",
 		"reward": "seasoning",
 		"destination": "seasoning_vendor",
 		"next": "egg_vendor",
+		"time_stage": 4,
 	},
 	{
 		"scene": "res://game/characters/npcs/vendors/npc_egg_vendor.tscn",
 		"reward": "fresh_egg",
 		"destination": "egg_vendor",
 		"next": "chicharon_vendor",
+		"time_stage": 5,
 	},
 	{
 		"scene": "res://game/characters/npcs/vendors/npc_chicharon_vendor.tscn",
 		"reward": "crushed_chicharon",
 		"destination": "chicharon_vendor",
 		"next": "tindero",
+		"time_stage": 6,
 	},
 ]
 
@@ -109,7 +115,7 @@ func _run() -> void:
 			_check(player.can_move, "Missing jar returns control to the player")
 			game_state.add_inventory_item("empty_aged_jar", "Empty Jar")
 
-		await _run_vendor_to_reward(vendor, str(route.reward))
+		await _run_vendor_to_reward(vendor, str(route.reward), int(route.time_stage))
 		_check(
 			game_state.is_destination_completed(str(route.destination)),
 			str(route.destination) + " completes",
@@ -146,7 +152,7 @@ func _run() -> void:
 	crank.interact()
 	_check(game_state.has_inventory_item("crank_handle"), "The placed crank enters the inventory")
 
-	await _run_vendor_to_reward(tindero, "fresh_miki")
+	await _run_vendor_to_reward(tindero, "fresh_miki", 7)
 	_check(
 		game_state.current_objective != "Find the fat cat near 6-Eleven to retrieve the stolen crank.",
 		"Collecting fresh miki clears the crank-search objective",
@@ -194,10 +200,14 @@ func _verify_vendor_locked_before_grandma() -> void:
 	vendor.queue_free()
 
 
-func _run_vendor_to_reward(vendor: Node, reward_id: String) -> void:
+func _run_vendor_to_reward(vendor: Node, reward_id: String, expected_stage: int) -> void:
 	await _run_conversation(vendor)
 	var minigame := root.find_child("VendorMinigamePlaceholder", true, false)
 	_check(minigame != null, vendor.npc_display_name + " opens a temporary minigame placeholder")
+	_check(
+		root.get_node("GameState").time_of_day_stage == expected_stage,
+		vendor.npc_display_name + " advances time on the first minigame launch",
+	)
 	_check(not root.get_node("GameState").has_ingredient(reward_id), "Placeholder does not award early")
 	if minigame != null:
 		minigame.get_node("Panel/Stack/ContinueButton").pressed.emit()

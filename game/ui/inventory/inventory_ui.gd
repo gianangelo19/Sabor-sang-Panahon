@@ -29,6 +29,7 @@ var _prepared_texture_cache: Dictionary = {}
 var _hovered_item_slot := -1
 var _scan_target_requested := false
 var _scan_target_tween: Tween
+var _hud_visible := true
 
 
 func _ready() -> void:
@@ -265,7 +266,11 @@ func _is_hotbar_unlocked() -> bool:
 
 func _update_hotbar_visibility() -> void:
 	if hotbar_panel != null:
-		hotbar_panel.visible = not backpack_open and _is_hotbar_unlocked()
+		hotbar_panel.visible = (
+			_hud_visible
+			and not backpack_open
+			and _is_hotbar_unlocked()
+		)
 
 
 func _refresh_selected_item() -> void:
@@ -278,7 +283,8 @@ func _refresh_selected_item() -> void:
 	held_icon.texture = prepare_item_texture(texture)
 	held_icon.tooltip_text = display_name
 	held_root.visible = (
-		_is_hotbar_unlocked()
+		_hud_visible
+		and _is_hotbar_unlocked()
 		and not backpack_open
 		and not item_id.is_empty()
 	)
@@ -387,6 +393,12 @@ func set_dialogue_hud_hidden(hidden: bool, duration: float = 0.24) -> void:
 		0.0 if hidden else 1.0,
 		maxf(duration, 0.0),
 	)
+
+
+func set_hud_visible(should_show: bool) -> void:
+	_hud_visible = should_show
+	_update_hotbar_visibility()
+	_refresh_selected_item()
 
 
 func _select_relative_slot(direction: int) -> void:

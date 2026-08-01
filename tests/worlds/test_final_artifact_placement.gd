@@ -1,5 +1,19 @@
 extends SceneTree
 
+const LONG_GAME_ON_DESCRIPTION := (
+	"Born in the district of La Paz in Iloilo City, La Paz Batchoy is more "
+	+ "than a noodle soup—it is a living record of the people who cooked, sold, "
+	+ "and shared it across generations. Its history is tied to the public market "
+	+ "and the meeting of culinary traditions with Ilonggo ingredients.\n\n"
+	+ "At the heart of the bowl are fresh miki noodles and deeply flavored broth, "
+	+ "traditionally enriched with pork, offal, garlic, scallions, and crushed "
+	+ "chicharon. Every batchoyan has a method of their own, while every bowl "
+	+ "carries the warmth and identity of Iloilo.\n\n"
+	+ "The recovered bowl represents this living heritage. Finding it restores "
+	+ "not only a forgotten recipe, but the stories, labor, and memories passed "
+	+ "from one generation of Ilonggos to the next."
+)
+
 var failures: Array[String] = []
 
 
@@ -64,24 +78,126 @@ func _run() -> void:
 		_check(artifact.get_node("ArtifactCulturalClue").max_distance >= 110.0, "Artifact echo reaches across the home")
 		artifact.interact()
 		await process_frame
-		var final_ending := root.find_child("FinalEndingScene", true, false)
-		_check(final_ending != null, "Recovering the bowl starts the final ending before the artifact popup")
+		var placeholder := root.find_child("VendorMinigamePlaceholder", true, false)
+		_check(placeholder != null, "Recovering the bowl starts the artifact minigame placeholder")
+		_check(game_state.time_of_day_stage == 8, "The final bowl challenge advances story time to dinner dusk")
+		_check(
+			not game_state.clues.has("Batchoy Bowl artifact recovered."),
+			"Starting the artifact challenge does not award the bowl early",
+		)
+		_check(
+			root.find_child("FinalEndingScene", true, false) == null,
+			"The artifact placeholder replaces the former final ending scene",
+		)
 		var popup := root.find_child("ArtifactDiscoveryPopup", true, false)
-		_check(popup == null, "The cultural artifact popup waits for the final ending")
-		if final_ending:
-			final_ending.ending_finished.emit()
+		_check(popup == null, "The cultural artifact popup waits for challenge completion")
+		if placeholder:
+			placeholder.get_node("Panel/Stack/ReturnButton").pressed.emit()
+			await process_frame
+		_check(artifact.active and artifact.visible, "Dismissing the challenge restores the bowl")
+		_check(game_state.final_hunt_active, "Dismissing the challenge resumes the active hunt")
+		artifact.interact()
+		await process_frame
+		placeholder = root.find_child("VendorMinigamePlaceholder", true, false)
+		_check(placeholder != null, "The restored bowl can launch the challenge again")
+		_check(game_state.time_of_day_stage == 8, "Retrying the final challenge does not advance time again")
+		if placeholder:
+			placeholder.get_node("Panel/Stack/ContinueButton").pressed.emit()
 			await process_frame
 		popup = root.find_child("ArtifactDiscoveryPopup", true, false)
-		_check(popup != null, "Finishing the ending opens the cultural artifact popup")
+		_check(popup != null, "Completing the challenge opens the cultural artifact popup")
+		_check(
+			game_state.clues.has("Batchoy Bowl artifact recovered."),
+			"Completing the challenge records the recovered bowl",
+		)
 		if popup:
-			var fact_text := popup.find_child("FactText", true, false) as Label
-			var bowl_image := popup.find_child("BowlImage", true, false) as TextureRect
-			_check(fact_text != null and fact_text.text.contains("La Paz district of Iloilo City"), "The popup includes a La Paz Batchoy fact")
-			_check(bowl_image != null and bowl_image.texture.resource_path.ends_with("batchoy_bowl_artifact.png"), "The popup displays the recovered bowl")
-			popup._dismiss()
-			await process_frame
+			var game_on_reward = popup
+			var bowl_image := game_on_reward.bowl_image as TextureRect
+			_check(
+				bowl_image.texture.resource_path.ends_with("batchoy_bowl_artifact.png"),
+				"The styled GameOn popup retains the recovered bowl artwork",
+			)
+			_check(
+				root.find_child("ArtifactSuccess", true, false) == null,
+				"The ending does not use the default GameOn reward screen",
+			)
+			if game_on_reward:
+				_check(
+					game_on_reward.retry_button.visible
+					and game_on_reward.retry_button.text == "RECONNECT & RETRY",
+					"An expired GameOn session offers reconnect and retry",
+				)
+				game_on_reward._dismiss()
+				await process_frame
+				_check(
+					not game_state.has_story_flag("game_on_artifact_reward_pending"),
+					"Continuing without GameOn clears the saved retry prompt",
+				)
+				var skipped_reward_choice := root.find_child(
+					"PostRecoveryChoice",
+					true,
+					false,
+				)
+				_check(
+					skipped_reward_choice != null,
+					"Continuing without GameOn preserves the normal recovery choice",
+				)
+				if skipped_reward_choice:
+					skipped_reward_choice._choose_continue()
+					await process_frame
+				game_state.set_story_flag("game_on_artifact_reward_pending")
+				director._show_game_on_reward()
+				await process_frame
+				game_on_reward = root.find_child(
+					"ArtifactDiscoveryPopup",
+					true,
+					false,
+				)
+				director._on_game_on_artifact_unlocked(
+					{
+						"success": true,
+						"artifact": {
+							"name": "Old Batchoy Bowl",
+							"description": LONG_GAME_ON_DESCRIPTION,
+						},
+					},
+					true,
+				)
+				_check(
+					game_on_reward.artifact_title.text == "OLD BATCHOY BOWL"
+					and game_on_reward.description_text.text
+					== LONG_GAME_ON_DESCRIPTION,
+					"The local popup uses the GameOn artifact name and description",
+				)
+				await process_frame
+				var reward_panel := game_on_reward.get_node(
+					"Overlay/Center/Panel"
+				) as PanelContainer
+				var description_scroll := (
+					game_on_reward.description_scroll
+					as ScrollContainer
+				)
+				_check(
+					reward_panel.size.y <= 600.0
+					and game_on_reward.continue_button.visible
+					and game_on_reward.continue_button.get_global_rect().end.y
+					<= reward_panel.get_global_rect().end.y + 0.5,
+					"Long GameOn text keeps the Continue button inside the fixed card",
+				)
+				_check(
+					game_on_reward.description_text.size.y
+					> description_scroll.size.y,
+					"Long GameOn descriptions remain readable in a scroll region",
+				)
+				_check(
+					game_state.has_story_flag("game_on_artifact_reward_claimed")
+					and not game_state.has_story_flag("game_on_artifact_reward_pending"),
+					"A confirmed GameOn reward clears its saved pending state",
+				)
+				game_on_reward._dismiss()
+				await process_frame
 			var recovery_choice := root.find_child("PostRecoveryChoice", true, false)
-			_check(recovery_choice != null, "Dismissing the artifact popup asks whether to explore or return to the menu")
+			_check(recovery_choice != null, "Closing the GameOn result preserves the post-recovery choice")
 			if recovery_choice:
 				_check(recovery_choice.has_signal("main_menu_requested"), "The recovery choice offers a main-menu route")
 				_check(recovery_choice.has_signal("continue_exploring"), "The recovery choice offers continued exploration")

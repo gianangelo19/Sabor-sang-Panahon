@@ -14,20 +14,22 @@ func get_interaction_text() -> String:
 	if not GameState.has_story_flag(FRIDGE_FLAG):
 		return ""
 	if GameState.clues.has(NEWSPAPER_CLUE):
-		return "Press F to inspect the opened box"
+		return ""
 	return "Press F to open the box"
 
 
 func should_hide_interaction_prompt() -> bool:
-	# The package is completely inactive until the fridge conversation is done.
-	return not GameState.has_story_flag(FRIDGE_FLAG)
+	# The package is inactive before the fridge conversation and after completion.
+	return (
+		not GameState.has_story_flag(FRIDGE_FLAG)
+		or GameState.clues.has(NEWSPAPER_CLUE)
+	)
 
 
 func interact() -> void:
 	if not GameState.has_story_flag(FRIDGE_FLAG):
 		return
 	if GameState.clues.has(NEWSPAPER_CLUE):
-		print("The opened box held the damaged newspaper that pointed toward La Paz.")
 		return
 	if _session != null and is_instance_valid(_session):
 		return

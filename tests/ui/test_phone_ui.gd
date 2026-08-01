@@ -103,7 +103,13 @@ func _run() -> void:
 	_check(not game_state.has_ambot_notification(), "Casual chat does not create story information")
 	phone.show_home()
 
-	phone.show_objective_notification()
+	game_state.set_objective("Objective changes do not impersonate AMBot messages.")
+	await process_frame
+	_check(
+		phone.unread_notification_count == 0
+		and not phone.notification_banner.visible,
+		"Objective changes do not create an AMBot notification",
+	)
 	game_state.push_ambot_notification(
 		"newspaper_scan",
 		"Damaged article detected",
@@ -118,7 +124,7 @@ func _run() -> void:
 	_check(game_state.has_ambot_notification(), "Story API delivers new AMBot information")
 	_check(
 		phone.unread_notification_count == 2,
-		"Paired objective and AMBot updates count once while a second update increments the total",
+		"Each authored AMBot update increments the unread total",
 	)
 	_check(phone.notification_banner.visible, "Notification appears while phone is put away")
 	_check(

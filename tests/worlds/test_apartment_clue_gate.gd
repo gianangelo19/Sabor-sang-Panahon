@@ -63,17 +63,25 @@ func _run() -> void:
 		_check(fridge_dialogue.dialogue_lines.size() == 4, "The fridge carries the full V3 food-search exchange")
 		await _finish_dialogue(fridge_dialogue)
 	_check(game_state.has_story_flag("apartment_fridge_checked"), "Finishing the fridge dialogue unlocks the package")
+	_check(
+		not game_state.has_ambot_notification()
+		and not phone.notification_banner.visible,
+		"The new box objective does not create an empty AMBot notification",
+	)
 
 	box.interact()
 	await process_frame
 	var minigame := root.find_child("VendorMinigamePlaceholder", true, false)
 	_check(minigame != null, "Interacting with the table box launches the temporary placeholder")
+	_check(game_state.time_of_day_stage == 0, "The apartment box does not advance story time")
 	_check(not game_state.clues.has("Damaged newspaper"), "Opening the placeholder does not award the clue early")
 	if minigame != null:
 		_check(minigame.title_label.text == "Open the Keepsake Box", "The box placeholder identifies the skipped challenge")
 		minigame.get_node("Panel/Stack/ContinueButton").pressed.emit()
 	await process_frame
 	_check(game_state.clues.has("Damaged newspaper"), "Continuing past the placeholder records the newspaper clue")
+	_check(box.get_interaction_text().is_empty(), "The opened package no longer advertises another interaction")
+	_check(box.should_hide_interaction_prompt(), "The opened package keeps its interaction prompt hidden")
 	_check(
 		root.find_child("dialogue_ui", true, false) == null,
 		"The box does not repeat dialogue owned by the eventual keepsake minigame",
@@ -83,7 +91,7 @@ func _run() -> void:
 	_check(
 		phone.notification_banner.visible
 		and phone.notification_banner.text == "You have a new notification!",
-		"Objective and AMBot updates share one generic notification",
+		"The authored AMBot update displays one generic notification",
 	)
 	_check(not door._is_story_locked(), "Finding the newspaper unlocks the apartment door")
 	_check(door.get_interaction_text() == "Press F to open apartment door", "Unlocked door restores its normal prompt")

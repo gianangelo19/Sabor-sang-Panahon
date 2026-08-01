@@ -9,6 +9,9 @@ func _initialize() -> void:
 
 func _run() -> void:
 	var game_state := root.get_node("GameState")
+	var game_on := root.get_node("GameOnPortal") as GameOnConnect
+	var original_authorized := game_on.is_authorized
+	game_on.is_authorized = false
 	var original_save_path: String = game_state.save_file_path
 	var original_autosave: bool = game_state.autosave_enabled
 	var test_save_path := "user://codex_menu_test_save.json"
@@ -22,7 +25,12 @@ func _run() -> void:
 	root.add_child(no_save_menu)
 	await process_frame
 	var no_save_buttons := _visible_button_texts(no_save_menu.get_node("MenuColumn"))
-	_check(no_save_buttons == ["NEW GAME", "SETTINGS", "QUIT"], "Main Menu hides Continue when no save exists")
+	_check(
+		no_save_buttons
+		== ["CONNECT GAMEON", "NEW GAME", "SETTINGS", "CREDITS", "QUIT"],
+		"Main Menu requires GameOn while hiding Continue when no save exists",
+	)
+	_check(no_save_menu.start_button.disabled, "New Game is disabled before GameOn authentication")
 	no_save_menu.queue_free()
 	await process_frame
 
@@ -35,6 +43,7 @@ func _run() -> void:
 	game_state.select_destination("grandma_house")
 	game_state.set_grandma_left_for_medicine(true)
 	game_state.record_final_hunt_placement("procedural", "KitchenCorner", "Test procedural placement audit")
+	game_state.advance_time_of_day(4)
 	_check(game_state.save_game("res://game/worlds/la_paz/la_paz.tscn"), "Game state saves successfully")
 	_check(game_state.has_save_game(), "Saved game is detected")
 
@@ -48,13 +57,30 @@ func _run() -> void:
 	_check(game_state.final_hunt_placement_source == "procedural", "Continue restores the placement source")
 	_check(game_state.final_hunt_placement_spot == "KitchenCorner", "Continue restores the placement audit marker")
 	_check(game_state.final_hunt_used_placement_spots.has("KitchenCorner"), "Continue restores the no-repeat placement history")
+	_check(game_state.time_of_day_stage == 4, "Continue restores the exact time-of-day stage")
 
 	var menu := menu_scene.instantiate()
 	root.add_child(menu)
 	await process_frame
 	var menu_buttons := _visible_button_texts(menu.get_node("MenuColumn"))
-	_check(menu_buttons == ["NEW GAME", "CONTINUE", "SETTINGS", "QUIT"], "Main Menu has the required four actions")
-	_check(not menu.continue_button.disabled, "Continue is enabled when a save exists")
+	_check(
+		menu_buttons
+		== [
+			"CONNECT GAMEON",
+			"NEW GAME",
+			"CONTINUE",
+			"SETTINGS",
+			"CREDITS",
+			"QUIT",
+		],
+		"Main Menu exposes GameOn authentication before gameplay actions",
+	)
+	_check(menu.continue_button.disabled, "Continue is gated before GameOn authentication")
+	game_on.is_authorized = true
+	menu._refresh_game_on_gate()
+	_check(not menu.start_button.disabled, "New Game is enabled after GameOn authentication")
+	_check(not menu.continue_button.disabled, "Continue is enabled after GameOn authentication")
+	_check(not menu.game_on_button.visible, "The connect action hides after GameOn authentication")
 	game_state.request_wake_up_intro()
 	game_state.load_game()
 	_check(not game_state.consume_wake_up_intro(), "Continue clears any stale wake-up request")
@@ -116,6 +142,7 @@ func _run() -> void:
 	_remove_test_save(test_save_path)
 	game_state.save_file_path = original_save_path
 	game_state.autosave_enabled = original_autosave
+	game_on.is_authorized = original_authorized
 	_finish()
 
 
