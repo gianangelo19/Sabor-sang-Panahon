@@ -1,426 +1,182 @@
 extends Node2D
 
-const RING_TEXTURE: Texture2D = preload(
-	"res://features/minigames/chicharon_beat/assets/gameplay/takeout_indicator_ring.png"
+## Round-wide timing display. The green layer fills from left to right while
+## one reusable needle texture is duplicated for every chicharon in the batch.
+
+const PANEL_TEXTURE: Texture2D = preload(
+	"res://features/minigames/chicharon_beat/assets/gameplay/take_out_indicator_panel.png"
+)
+const GREEN_TEXTURE: Texture2D = preload(
+	"res://features/minigames/chicharon_beat/assets/gameplay/take_out_indicator_green.png"
+)
+const FRAME_TEXTURE: Texture2D = preload(
+	"res://features/minigames/chicharon_beat/assets/gameplay/take_out_indicator_frame.png"
+)
+const NEEDLE_TEXTURE: Texture2D = preload(
+	"res://features/minigames/chicharon_beat/assets/gameplay/take_out_indicator_needle.png"
 )
 
-const ARROW_TEXTURE: Texture2D = preload(
-	"res://features/minigames/chicharon_beat/assets/gameplay/takeout_indicator_arrow.png"
-)
+const CANVAS_SIZE := Vector2(414.0, 177.0)
+const TRACK_LEFT := 18.0
+const TRACK_RIGHT := 396.0
 
-const PULSE_TEXTURE: Texture2D = preload(
-	"res://features/minigames/chicharon_beat/assets/gameplay/beat_pulse_circle.png"
-)
+@export_range(0.01, 0.20, 0.005) var perfect_window := 0.065
 
-@export_category("Indicator Layout")
-
-# Moves Ring, Arrow, and BeatPulse together.
-# Positive X moves the complete takeout UI to the right.
-@export var indicator_group_offset: Vector2 = Vector2(19.0, 0.0)
-
-@export var ring_scale: Vector2 = Vector2(0.12, 0.12)
-@export var arrow_scale: Vector2 = Vector2(0.09, 0.09)
-@export var pulse_scale: Vector2 = Vector2(0.15, 0.15)
-
-@export var arrow_offset: Vector2 = Vector2(0.0, -88.0)
-@export var arrow_bob_distance: float = 7.0
-@export var arrow_bob_speed: float = 4.5
-
-@export_category("Timing Feedback")
-
-@export var near_perfect_progress: float = 0.66
-@export var perfect_start_progress: float = 0.78
-
-@export var idle_ring_alpha: float = 0.40
-@export var active_ring_alpha: float = 0.72
-@export var perfect_ring_alpha: float = 1.0
-
-@export var beat_pulse_strength: float = 0.22
-@export var perfect_pulse_strength: float = 0.38
-
-@export_category("Result Flash")
-
-@export var result_flash_duration: float = 0.28
-
-var ring_sprite: Sprite2D = null
-var arrow_sprite: Sprite2D = null
-var pulse_sprite: Sprite2D = null
-
-var bpm: float = 120.0
-var beat_timer: float = 0.0
-
-var current_progress: float = 0.0
-var current_cook_state: String = "none"
-var has_target: bool = false
-
-var result_flash_timer: float = 0.0
-var result_flash_type: String = ""
+var panel_sprite: Sprite2D
+var green_sprite: Sprite2D
+var frame_sprite: Sprite2D
+var needle_sprites: Array[Sprite2D] = []
+var needle_positions: Array[float] = []
+var resolved_needles: Dictionary = {}
+var elapsed := 0.0
+var duration := 1.0
+var running := false
 
 
 func _ready() -> void:
-	_build_indicator_sprites()
-	_apply_idle_state()
+	_build_layers()
+	set_process(true)
 
 
 func _process(delta: float) -> void:
-	beat_timer += delta
-
-	if result_flash_timer > 0.0:
-		result_flash_timer -= delta
-		_update_result_flash()
-		_update_arrow(delta)
+	if not running:
 		return
-
-	_update_arrow(delta)
-	_update_timing_visuals()
-
-
-func get_takeout_center_global_position() -> Vector2:
-	# Exact visible center of the ring and beat pulse.
-	return to_global(
-		indicator_group_offset
-	)
+	elapsed = minf(elapsed + delta, duration)
+	_update_green_crop()
+	_update_needles()
+	if elapsed >= duration:
+		running = false
 
 
-func set_bpm(
-	new_bpm: float
-) -> void:
-	bpm = maxf(new_bpm, 1.0)
+func configure_round(new_positions: Array, new_duration: float) -> void:
+	needle_positions.clear()
+	resolved_needles.clear()
+	for value: Variant in new_positions:
+		needle_positions.append(clampf(float(value), 0.0, 1.0))
+	duration = maxf(new_duration, 0.01)
+	elapsed = 0.0
+	running = false
+	_rebuild_needles()
+	_update_green_crop()
+	_update_needles()
+	visible = true
 
 
-func set_target_timing(
-	progress: float,
-	cook_state_name: String
-) -> void:
-	current_progress = clampf(
-		progress,
-		0.0,
-		1.0
-	)
-
-	current_cook_state = (
-		cook_state_name
-	)
-
-	has_target = true
+func start_sweep() -> void:
+	elapsed = 0.0
+	running = true
+	_update_green_crop()
+	_update_needles()
 
 
-func clear_target_timing() -> void:
-	has_target = false
-	current_progress = 0.0
-	current_cook_state = "none"
+func stop_sweep() -> void:
+	running = false
 
 
-func flash_result(
-	result_type: String
-) -> void:
-	result_flash_type = result_type
-	result_flash_timer = (
-		result_flash_duration
-	)
-
-	if pulse_sprite != null:
-		pulse_sprite.visible = true
+func reset_indicator() -> void:
+	running = false
+	elapsed = 0.0
+	needle_positions.clear()
+	resolved_needles.clear()
+	_rebuild_needles()
+	_update_green_crop()
 
 
-func _build_indicator_sprites() -> void:
-	for child in get_children():
-		if child is Sprite2D:
-			child.queue_free()
-
-	pulse_sprite = Sprite2D.new()
-	pulse_sprite.name = "BeatPulse"
-	pulse_sprite.texture = PULSE_TEXTURE
-	pulse_sprite.position = indicator_group_offset
-	pulse_sprite.scale = pulse_scale
-	pulse_sprite.z_index = -1
-	add_child(pulse_sprite)
-
-	ring_sprite = Sprite2D.new()
-	ring_sprite.name = "Ring"
-	ring_sprite.texture = RING_TEXTURE
-	ring_sprite.position = indicator_group_offset
-	ring_sprite.scale = ring_scale
-	ring_sprite.z_index = 0
-	add_child(ring_sprite)
-
-	arrow_sprite = Sprite2D.new()
-	arrow_sprite.name = "Arrow"
-	arrow_sprite.texture = ARROW_TEXTURE
-	arrow_sprite.position = (
-		indicator_group_offset
-		+ arrow_offset
-	)
-	arrow_sprite.scale = arrow_scale
-	arrow_sprite.z_index = 1
-	add_child(arrow_sprite)
+func get_progress() -> float:
+	return clampf(elapsed / maxf(duration, 0.01), 0.0, 1.0)
 
 
-func _update_arrow(
-	_delta: float
-) -> void:
-	if arrow_sprite == null:
+func get_elapsed_time() -> float:
+	return elapsed
+
+
+func get_perfect_window() -> float:
+	return perfect_window
+
+
+func flash_result(result_type: String, needle_index := -1) -> void:
+	if needle_index < 0 or needle_index >= needle_sprites.size():
 		return
-
-	var bob: float = sin(
-		Time.get_ticks_msec()
-		/ 1000.0
-		* arrow_bob_speed
-	) * arrow_bob_distance
-
-	arrow_sprite.position = (
-		indicator_group_offset
-		+ arrow_offset
-		+ Vector2(0.0, bob)
-	)
-
-
-func _update_timing_visuals() -> void:
-	if (
-		ring_sprite == null
-		or pulse_sprite == null
-	):
-		return
-
-	if not has_target:
-		_apply_idle_state()
-		return
-
-	var seconds_per_beat: float = (
-		60.0 / maxf(bpm, 1.0)
-	)
-
-	var beat_phase: float = fmod(
-		beat_timer,
-		seconds_per_beat
-	) / seconds_per_beat
-
-	var beat_hit: float = pow(
-		1.0 - beat_phase,
-		4.0
-	)
-
-	match current_cook_state:
+	var needle := needle_sprites[needle_index]
+	var flash_color := Color("ffd95a")
+	match result_type:
 		"perfect":
-			ring_sprite.modulate = Color(
-				1.15,
-				1.08,
-				0.70,
-				perfect_ring_alpha
-			)
-
-			var perfect_scale_boost: float = (
-				1.0
-				+ beat_hit
-				* perfect_pulse_strength
-			)
-
-			ring_sprite.scale = (
-				ring_scale
-				* perfect_scale_boost
-			)
-
-			pulse_sprite.visible = true
-			pulse_sprite.modulate = Color(
-				1.0,
-				0.92,
-				0.48,
-				0.72
-			)
-
-			pulse_sprite.scale = (
-				pulse_scale
-				* (
-					0.84
-					+ beat_hit * 0.42
-				)
-			)
-
+			flash_color = Color("fff19a")
 		"burnt":
-			ring_sprite.modulate = Color(
-				1.0,
-				0.32,
-				0.18,
-				1.0
-			)
-
-			ring_sprite.scale = (
-				ring_scale
-				* (
-					1.0
-					+ beat_hit * 0.12
-				)
-			)
-
-			pulse_sprite.visible = true
-			pulse_sprite.modulate = Color(
-				1.0,
-				0.18,
-				0.08,
-				0.55
-			)
-
-			pulse_sprite.scale = (
-				pulse_scale
-				* (
-					0.90
-					+ beat_hit * 0.20
-				)
-			)
-
-		_:
-			var is_near_perfect: bool = (
-				current_progress
-				>= near_perfect_progress
-			)
-
-			ring_sprite.modulate = Color(
-				1.0,
-				0.88,
-				0.28,
-				active_ring_alpha
-			)
-
-			if is_near_perfect:
-				var pulse_amount: float = (
-					1.0
-					+ beat_hit
-					* beat_pulse_strength
-				)
-
-				ring_sprite.scale = (
-					ring_scale
-					* pulse_amount
-				)
-
-				pulse_sprite.visible = true
-				pulse_sprite.modulate = Color(
-					1.0,
-					0.82,
-					0.22,
-					0.48
-				)
-
-				pulse_sprite.scale = (
-					pulse_scale
-					* (
-						0.88
-						+ beat_hit * 0.30
-					)
-				)
-
-			else:
-				ring_sprite.scale = (
-					ring_scale
-				)
-
-				pulse_sprite.visible = false
+			flash_color = Color("ff4a2d")
+		"raw", "slightly_cooked":
+			flash_color = Color("ff9c5a")
+	needle.modulate = flash_color
+	var tween := create_tween()
+	tween.tween_property(needle, "scale", Vector2(1.22, 1.22), 0.08)
+	tween.tween_property(needle, "scale", Vector2.ONE, 0.12)
+	tween.parallel().tween_property(needle, "modulate", Color.WHITE, 0.12)
 
 
-func _update_result_flash() -> void:
-	if (
-		ring_sprite == null
-		or pulse_sprite == null
-	):
+func mark_resolved(needle_index: int) -> void:
+	if needle_index < 0 or needle_index >= needle_sprites.size():
 		return
+	resolved_needles[needle_index] = true
+	needle_sprites[needle_index].modulate = Color(0.55, 0.55, 0.55, 0.45)
 
-	var flash_progress: float = (
-		1.0
-		- (
-			result_flash_timer
-			/ maxf(
-				result_flash_duration,
-				0.01
-			)
+
+func _build_layers() -> void:
+	for child: Node in get_children():
+		child.queue_free()
+
+	panel_sprite = _make_sprite("Panel", PANEL_TEXTURE, 0)
+	green_sprite = _make_sprite("GreenFill", GREEN_TEXTURE, 1)
+	green_sprite.centered = false
+	green_sprite.position = -CANVAS_SIZE * 0.5
+	green_sprite.region_enabled = true
+	frame_sprite = _make_sprite("Frame", FRAME_TEXTURE, 2)
+	_rebuild_needles()
+	_update_green_crop()
+
+
+func _make_sprite(node_name: String, texture: Texture2D, layer: int) -> Sprite2D:
+	var sprite := Sprite2D.new()
+	sprite.name = node_name
+	sprite.texture = texture
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.z_index = layer
+	add_child(sprite)
+	return sprite
+
+
+func _rebuild_needles() -> void:
+	for needle: Sprite2D in needle_sprites:
+		if is_instance_valid(needle):
+			needle.queue_free()
+	needle_sprites.clear()
+
+	for index: int in range(needle_positions.size()):
+		var needle := _make_sprite(
+			"Needle%d" % (index + 1),
+			NEEDLE_TEXTURE,
+			3
 		)
-	)
-
-	var pulse_amount: float = sin(
-		flash_progress * PI
-	)
-
-	match result_flash_type:
-		"perfect":
-			ring_sprite.modulate = Color(
-				1.25,
-				1.16,
-				0.62,
-				1.0
-			)
-
-			pulse_sprite.modulate = Color(
-				1.0,
-				0.95,
-				0.52,
-				0.90
-			)
-
-		"burnt":
-			ring_sprite.modulate = Color(
-				1.0,
-				0.20,
-				0.08,
-				1.0
-			)
-
-			pulse_sprite.modulate = Color(
-				1.0,
-				0.12,
-				0.04,
-				0.82
-			)
-
-		_:
-			ring_sprite.modulate = Color(
-				1.0,
-				0.48,
-				0.22,
-				1.0
-			)
-
-			pulse_sprite.modulate = Color(
-				1.0,
-				0.36,
-				0.12,
-				0.72
-			)
-
-	ring_sprite.scale = (
-		ring_scale
-		* (
-			1.0
-			+ pulse_amount * 0.24
-		)
-	)
-
-	pulse_sprite.visible = true
-	pulse_sprite.scale = (
-		pulse_scale
-		* (
-			0.80
-			+ pulse_amount * 0.62
-		)
-	)
+		needle_sprites.append(needle)
 
 
-func _apply_idle_state() -> void:
-	if ring_sprite != null:
-		ring_sprite.modulate = Color(
-			1.0,
-			0.84,
-			0.24,
-			idle_ring_alpha
-		)
+func _update_green_crop() -> void:
+	if green_sprite == null:
+		return
+	var crop_width := CANVAS_SIZE.x * get_progress()
+	green_sprite.region_rect = Rect2(0.0, 0.0, crop_width, CANVAS_SIZE.y)
+	green_sprite.visible = crop_width > 0.5
 
-		ring_sprite.scale = ring_scale
 
-	if pulse_sprite != null:
-		pulse_sprite.visible = false
-
-	if arrow_sprite != null:
-		arrow_sprite.modulate = Color(
-			1.0,
-			1.0,
-			1.0,
-			0.82
-		)
+func _update_needles() -> void:
+	var progress := get_progress()
+	for index: int in range(needle_sprites.size()):
+		var needle := needle_sprites[index]
+		var target := needle_positions[index]
+		var target_x := lerpf(TRACK_LEFT, TRACK_RIGHT, target)
+		needle.position = Vector2(target_x - CANVAS_SIZE.x * 0.5, 5.0)
+		if resolved_needles.has(index):
+			needle.modulate = Color(0.55, 0.55, 0.55, 0.45)
+		elif absf(progress - target) <= perfect_window:
+			needle.modulate = Color("fff19a")
+		else:
+			needle.modulate = Color.WHITE

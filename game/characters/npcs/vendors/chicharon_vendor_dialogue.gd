@@ -1,6 +1,9 @@
 extends "res://game/characters/npcs/shared/two_person_npc_dialogue.gd"
 
 const VENDOR_PORTRAIT := preload("res://assets/art/characters/npc_chicharon_vendor/npc_chicharon_vendor_front.png")
+const MINIGAME_SCENE := preload(
+	"res://features/minigames/chicharon_beat/scenes/chicharon_beat.tscn"
+)
 
 
 func _ready() -> void:
@@ -8,6 +11,7 @@ func _ready() -> void:
 	npc_portrait = VENDOR_PORTRAIT
 	minigame_title = "Fry the Chicharon"
 	minigame_instructions = "Follow the rhythm and lift enough pieces from the oil at perfect crispness."
+	minigame_scene = MINIGAME_SCENE
 	reward_id = "crushed_chicharon"
 	reward_name = "Crushed chicharon"
 	destination_id = "chicharon_vendor"

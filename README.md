@@ -31,7 +31,12 @@ Do not run the executable from inside the ZIP. Extract it first. The release is 
 | Phone | `P` |
 | Pause / Settings | `Esc` |
 
-Minigames are temporarily represented by placeholder screens. Select **Continue Story** on a placeholder to receive its story reward and proceed through the main game.
+The story uses seven installed minigames: Box Unboxing, Snatch Battle,
+Guinamos Jar Pick, Egg Sorting, Chicharon Beat, Miki Noodle Crank, and the
+final Batchoy Cooking sequence. Each challenge starts with its instruction and
+countdown flow, uses the shared failure/retry and collectible-ending screens,
+and returns its result to the story. The herbs and seasoning stops are
+dialogue-only rewards and advance through the same vendor reward pipeline.
 
 ## Run from source
 

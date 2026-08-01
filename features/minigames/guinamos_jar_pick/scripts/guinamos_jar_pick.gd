@@ -25,15 +25,15 @@ const INTRODUCTION_SCENE: PackedScene = preload(
 
 
 const CURSOR_NORMAL_PATH: String = (
-	"res://features/minigames/box_unboxing/assets/ui/cursor_normal.png"
+	"res://features/minigames/shared/cursors/assets/cursor_normal.png"
 )
 
 const CURSOR_GRAB_PATH: String = (
-	"res://features/minigames/box_unboxing/assets/ui/cursor_grab.png"
+	"res://features/minigames/shared/cursors/assets/cursor_grab.png"
 )
 
 const CURSOR_DRAGGING_PATH: String = (
-	"res://features/minigames/box_unboxing/assets/ui/cursor_dragging.png"
+	"res://features/minigames/shared/cursors/assets/cursor_dragging.png"
 )
 
 const MUSIC_PATH: String = (
@@ -153,7 +153,7 @@ var hint_font := preload(
 )
 
 var grayscale_shader := preload(
-	"res://features/minigames/guinamos_jar_pick/assets/shaders/grayscale.gdshader"
+	"res://features/minigames/guinamos_jar_pick/shaders/grayscale.gdshader"
 )
 
 var ending_sequence: Node = null
@@ -207,6 +207,11 @@ var hint_typewriter_active: bool = false
 var hint_typewriter_full_text: String = ""
 var hint_typewriter_visible_characters: int = 0
 var hint_typewriter_accumulator: float = 0.0
+var vendor_dialogue: SharedDialogue = null
+var first_hint_dialogue_played: bool = false
+var repeated_hint_dialogue_played: bool = false
+var three_hints_dialogue_played: bool = false
+var low_score_dialogue_played: bool = false
 
 
 func _ready() -> void:
@@ -240,14 +245,7 @@ func _ready() -> void:
 
 	update_score_label()
 
-	_ensure_ending_sequence()
-	_connect_ending_sequence()
-
-	_ensure_fail_screen()
-	_connect_fail_screen()
-
-	_ensure_introduction()
-	_connect_introduction()
+	_setup_vendor_dialogue()
 
 	selected_pointer.visible = true
 	selected_pointer.centered = true
@@ -294,7 +292,7 @@ func _ready() -> void:
 	print("========================================")
 	print("")
 
-	_start_guinamos_introduction()
+	_start_guinamos_gameplay()
 
 
 func _process(delta: float) -> void:
@@ -457,6 +455,31 @@ func _gameplay_has_stopped() -> bool:
 		or ending_started
 		or fail_screen_started
 	)
+
+
+func _setup_vendor_dialogue() -> void:
+	var dialogue_scene: PackedScene = load(
+		"res://features/minigames/shared/dialogue/shared_dialogue.tscn"
+	)
+	if dialogue_scene == null:
+		return
+	vendor_dialogue = dialogue_scene.instantiate() as SharedDialogue
+	# Timed vendor hints are informative only: they never capture normal
+	# inspection clicks or keyboard controls.
+	vendor_dialogue.accept_mouse_click = false
+	vendor_dialogue.accept_ui_accept = false
+	# Match the established Unboxing placement: portrait at the lower-left,
+	# with the speech bubble aligned directly to its right.
+	vendor_dialogue.screen_margin = Vector2(12, 10)
+	vendor_dialogue.portrait_size = Vector2(142, 142)
+	vendor_dialogue.bubble_overlap = 19.0
+	vendor_dialogue.bubble_vertical_offset = 4.0
+	add_child(vendor_dialogue)
+
+
+func _vendor_hint(text: String, expression: String, duration := 4.5) -> void:
+	if vendor_dialogue != null:
+		vendor_dialogue.say(text, expression, duration, "vendor_guinamos")
 
 
 # =========================================================
@@ -700,6 +723,11 @@ func _start_guinamos_gameplay() -> void:
 	_apply_jar_selection_visuals(true)
 	_start_background_audio()
 	_update_hover_and_cursor()
+	_vendor_hint(
+		"Choose the properly aged guinamos. Inspect carefully: every extra hint after the third costs score.",
+		"neutral",
+		6.0
+	)
 
 	print("")
 	print("========================================")
@@ -731,6 +759,10 @@ func _prepare_guinamos_start_state(
 		score = 100
 		wrong_guesses = 0
 		score_warning_played = false
+		first_hint_dialogue_played = false
+		repeated_hint_dialogue_played = false
+		three_hints_dialogue_played = false
+		low_score_dialogue_played = false
 
 		hints_used.clear()
 
@@ -1164,7 +1196,13 @@ func _on_fail_exit_requested() -> void:
 func _start_success_ending() -> void:
 	if _gameplay_has_stopped():
 		return
-
+	ending_started = true
+	_disable_gameplay_for_ending()
+	_vendor_hint(
+		"Correct. You read the jars with care—the aged guinamos is the right choice.",
+		"happy",
+		5.0
+	)
 	if ending_sequence == null:
 		_ensure_ending_sequence()
 		_connect_ending_sequence()
@@ -1213,7 +1251,7 @@ func _start_success_ending() -> void:
 	print("========================================")
 	print("")
 
-	await get_tree().create_timer(0.45, false).timeout
+	await get_tree().create_timer(0.45).timeout
 
 	if not is_inside_tree():
 		return
@@ -1673,6 +1711,27 @@ func show_hint(sense_name: String) -> void:
 	if was_new_hint:
 		hints_used[jar_id][sense_name] = true
 		apply_hint_score_penalty()
+		if not first_hint_dialogue_played:
+			first_hint_dialogue_played = true
+			_vendor_hint(
+				"Good. Compare that clue with another jar before you make a choice.",
+				"happy"
+			)
+		if (
+			get_total_unique_hints_used() >= 3
+			and not three_hints_dialogue_played
+		):
+			three_hints_dialogue_played = true
+			_vendor_hint(
+				"You have inspected a lot already. More hints will lower your score, so compare what you know.",
+				"concerned"
+			)
+	elif not repeated_hint_dialogue_played:
+		repeated_hint_dialogue_played = true
+		_vendor_hint(
+			"You already checked that sense on this jar. It will not tell you anything new.",
+			"angry"
+		)
 
 	if sense_name == "sight":
 		reveal_selected_jar_color()
@@ -1797,6 +1856,11 @@ func _on_select_button_pressed() -> void:
 	)
 
 	_start_hint_typewriter(regret_dialogue)
+	_vendor_hint(
+		"Wait—this jar had clues that did not fit. You still have one chance to inspect and compare.",
+		"concerned",
+		5.0
+	)
 
 	if wrong_guesses >= max_wrong_guesses:
 		_start_failure_for_jar(selected_jar)
@@ -2505,6 +2569,12 @@ func _change_score(amount: int) -> void:
 				SFX_SCORE_WARNING,
 				sfx_volume_db
 			)
+			if not low_score_dialogue_played:
+				low_score_dialogue_played = true
+				_vendor_hint(
+					"Careful. Your score is low now—use only the clues that truly help your decision.",
+					"surprised"
+				)
 
 
 func _animate_score_penalty() -> void:

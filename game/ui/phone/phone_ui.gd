@@ -21,10 +21,10 @@ const SELECT_APP_SOUND := preload("res://assets/audio/retro_filipino_pack/select
 const NOTIFICATION_SOUND := preload("res://assets/audio/retro_filipino_pack/completed_task.wav")
 const CLOCK_SOUND := preload("res://assets/audio/clock_sound.mp3")
 const AMBOT_TEXT_TICK_1 := preload(
-	"res://features/minigames/box_unboxing/assets/audio/ui/sfx_text_tick_01.wav"
+	"res://assets/audio/ui/phone_text_tick_01.wav"
 )
 const AMBOT_TEXT_TICK_2 := preload(
-	"res://features/minigames/box_unboxing/assets/audio/ui/sfx_text_tick_02.wav"
+	"res://assets/audio/ui/phone_text_tick_02.wav"
 )
 const NOTIFICATION_BOUNCE_SOUND := preload(
 	"res://features/minigames/box_unboxing/assets/audio/ui/sfx_ui_hover.wav"

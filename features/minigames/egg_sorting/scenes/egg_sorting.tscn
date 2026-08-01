@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cumvcxncwh3s2"]
+
+[ext_resource type="Script" uid="uid://brndjnqny1o1c" path="res://features/minigames/egg_sorting/scripts/egg_sorting.gd" id="1_script"]
+[ext_resource type="Script" path="res://features/minigames/shared/instructions/minigame_instruction_dialogue.gd" id="2_instruction"]
+[ext_resource type="Script" path="res://features/minigames/shared/collectibles/collectible_ending_trigger.gd" id="3_collectible"]
+[ext_resource type="Texture2D" path="res://features/minigames/ending_sequence/assets/collectibles/collectible_egg.png" id="4_collectible_texture"]
+
+[node name="EggSorting" type="Node2D" unique_id=624598590]
+script = ExtResource("1_script")
+
+[node name="InstructionDialogue" type="Node" parent="."]
+script = ExtResource("2_instruction")
+minigame_id = "egg_sorting"
+
+[node name="CollectibleEnding" type="Node" parent="."]
+script = ExtResource("3_collectible")
+collectible_texture = ExtResource("4_collectible_texture")
+completion_signal = "minigame_completed"

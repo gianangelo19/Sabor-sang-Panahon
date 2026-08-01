@@ -30,7 +30,7 @@ func _input(event: InputEvent) -> void:
 	if hud == null or not hud.has_method("toggle_pause"):
 		return
 	hud.toggle_pause()
-	_owns_pause = get_tree().paused
+	_owns_pause = bool(hud.pause_menu.visible)
 	get_viewport().set_input_as_handled()
 
 
@@ -55,9 +55,11 @@ func _exit_tree() -> void:
 	if _owns_pause:
 		var hud := get_tree().root.find_child("GameHUD", true, false)
 		if hud != null and hud.has_method("close_pause"):
-			hud.close_pause()
-		elif get_tree().paused:
-			get_tree().paused = false
+			hud.close_pause(false)
+	# An instruction, failure, or collectible overlay can own the paused state.
+	# Once its session is gone there must not be a stale pause left on the world.
+	if get_tree().paused:
+		get_tree().paused = false
 	_restore_global_music()
 
 
@@ -65,13 +67,6 @@ func _on_tree_node_added(node: Node) -> void:
 	if node == self or not is_ancestor_of(node):
 		return
 	_attenuate_minigame_audio(node)
-	call_deferred("_set_minigame_node_pausable", node)
-
-
-func _set_minigame_node_pausable(node: Node) -> void:
-	if not is_instance_valid(node) or not is_ancestor_of(node):
-		return
-	node.process_mode = Node.PROCESS_MODE_PAUSABLE
 
 
 func _attenuate_minigame_audio(node: Node) -> void:
@@ -138,28 +133,22 @@ func _start_fresh_instance() -> void:
 	# gameplay root must still obey the pause state instead of inheriting ALWAYS.
 	_minigame.process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_child(_minigame)
-	_force_minigame_tree_pausable(_minigame)
-	if _minigame.has_method("configure_placeholder"):
-		_minigame.call("configure_placeholder", _minigame_context)
 	_connect_first_available(
-		[&"minigame_finished", &"minigame_completed"],
+		[
+			&"minigame_finished",
+			&"minigame_completed",
+			&"cooking_sequence_completed",
+		],
 		_on_minigame_completed
 	)
 	_connect_first_available(
-		[&"minigame_failed"],
+		[&"minigame_failed", &"cooking_sequence_cancelled"],
 		_on_minigame_failed
 	)
 	_connect_first_available(
 		[&"minigame_retry_requested"],
 		_on_minigame_retry_requested
 	)
-
-
-func _force_minigame_tree_pausable(node: Node) -> void:
-	node.process_mode = Node.PROCESS_MODE_PAUSABLE
-	for child in node.get_children():
-		_force_minigame_tree_pausable(child)
-
 
 func _connect_first_available(signal_names: Array[StringName], callback: Callable) -> void:
 	for signal_name in signal_names:

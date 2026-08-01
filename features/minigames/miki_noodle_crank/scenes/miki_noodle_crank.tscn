@@ -1,45 +1,33 @@
-[gd_scene format=3 uid="uid://olyhv4mfchx8"]
+[gd_scene load_steps=7 format=3 uid="uid://olyhv4mfchx8"]
 
 [ext_resource type="Texture2D" uid="uid://htoc5m2w3xw5" path="res://features/minigames/miki_noodle_crank/assets/background/background_stall.png" id="1_l56fy"]
-[ext_resource type="Texture2D" uid="uid://cyys0dl1mitpi" path="res://features/minigames/miki_noodle_crank/assets/sprites/progress_bar_frame_canvas.png" id="2_g4r2d"]
-[ext_resource type="Texture2D" uid="uid://dw8ehgm50u3o7" path="res://features/minigames/miki_noodle_crank/assets/sprites/progress_bar_fill.png" id="3_cfkix"]
-[ext_resource type="Shader" uid="uid://bakff3any5wd4" path="res://features/minigames/chicharon_beat/scripts/miki_noodle_crank.gdshader" id="3_jd86o"]
 [ext_resource type="Texture2D" uid="uid://0fi0id55ttas" path="res://features/minigames/miki_noodle_crank/assets/sprites/machine_body_canvas.png" id="3_xkotu"]
-[ext_resource type="Texture2D" uid="uid://dqebe4nl324tq" path="res://features/minigames/miki_noodle_crank/assets/sprites/tension_meter_frame_canvas.png" id="4_3wkd3"]
 [ext_resource type="Texture2D" uid="uid://eix3cj5nkgfj" path="res://features/minigames/miki_noodle_crank/assets/sprites/crank_handle.png" id="4_g4r2d"]
 [ext_resource type="Script" uid="uid://bg5d6w8nommqa" path="res://features/minigames/miki_noodle_crank/scripts/miki_noodle_crank.gd" id="4_xkotu"]
 [ext_resource type="Texture2D" uid="uid://bwjdgcfkf8kq2" path="res://features/minigames/miki_noodle_crank/assets/sprites/miki_noodles_output.png" id="6_epq20"]
-[ext_resource type="Texture2D" uid="uid://c5al2wriptiwr" path="res://features/minigames/miki_noodle_crank/assets/sprites/needle_canvas.png" id="7_3wkd3"]
-[ext_resource type="Texture2D" uid="uid://bief0oxnpxkt7" path="res://features/minigames/miki_noodle_crank/assets/sprites/sweet_spot_zone.png" id="7_c5nop"]
 [ext_resource type="Texture2D" uid="uid://ci0v1jiav0m0g" path="res://features/minigames/miki_noodle_crank/assets/sprites/machine_body_canvas_2.png" id="8_8iwms"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jd86o"]
-shader = ExtResource("3_jd86o")
-shader_parameter/progress = 0.0
-shader_parameter/reveal_start_x = 0.25
-shader_parameter/reveal_end_x = 0.75
+[ext_resource type="Script" path="res://features/minigames/shared/instructions/minigame_instruction_dialogue.gd" id="9_instruction"]
+[ext_resource type="Script" path="res://features/minigames/shared/collectibles/collectible_ending_trigger.gd" id="10_collectible"]
+[ext_resource type="Texture2D" path="res://features/minigames/ending_sequence/assets/collectibles/collectible_miki_noodles_bag.png" id="11_collectible_texture"]
 
 [node name="MikiNoodleCrank" type="Node2D" unique_id=777026311]
 script = ExtResource("4_xkotu")
+
+[node name="InstructionDialogue" type="Node" parent="."]
+script = ExtResource("9_instruction")
+minigame_id = "miki_noodle_crank"
+parent_start_method = "start_after_instructions"
+
+[node name="CollectibleEnding" type="Node" parent="."]
+script = ExtResource("10_collectible")
+collectible_texture = ExtResource("11_collectible_texture")
+completion_signal = "minigame_finished"
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1025768833]
 z_index = 1
 position = Vector2(576, 324)
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("1_l56fy")
-
-[node name="ProgressBarFill" type="Sprite2D" parent="." unique_id=1965902628]
-z_index = 5
-material = SubResource("ShaderMaterial_jd86o")
-position = Vector2(576, 324)
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("3_cfkix")
-
-[node name="ProgressBarFrame" type="Sprite2D" parent="." unique_id=1708072424]
-z_index = 6
-position = Vector2(576, 328)
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("2_g4r2d")
 
 [node name="NoodlesOutput" type="Sprite2D" parent="." unique_id=1545683767]
 show_behind_parent = true
@@ -70,27 +58,3 @@ position = Vector2(772, 368)
 position = Vector2(-250, -36)
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("4_g4r2d")
-
-[node name="TensionMeter" type="Sprite2D" parent="." unique_id=1102651154]
-z_index = 4
-position = Vector2(576, 324)
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("4_3wkd3")
-
-[node name="SweetSpotZone" type="Sprite2D" parent="." unique_id=1662179819]
-z_index = 5
-position = Vector2(576, 324)
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("7_c5nop")
-
-[node name="Needle" type="Sprite2D" parent="." unique_id=895966345]
-z_index = 6
-position = Vector2(576, 324)
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("7_3wkd3")
-
-[node name="FeedbackLabel" type="Label" parent="." unique_id=1816108249]
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=73742125]

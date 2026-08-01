@@ -33,7 +33,7 @@ func _run() -> void:
 	var miki := MIKI_SCENE.instantiate()
 	root.add_child(miki)
 	await process_frame
-	var original_music_volume: float = miki.music_volume_db
+	var original_music_volume: float = miki.music_player.volume_db
 	_check(
 		miki.music_player != null and miki.music_player.bus == &"Master",
 		"Miki minigame music bypasses the muted global Music bus"
@@ -48,7 +48,7 @@ func _run() -> void:
 	var quiet_miki: Node = quiet_session.get_minigame()
 	_check(
 		is_equal_approx(
-			quiet_miki.music_volume_db,
+			quiet_miki.music_player.volume_db,
 			original_music_volume - quiet_session.MINIGAME_AUDIO_REDUCTION_DB
 		),
 		"Shared minigame sessions lower authored audio levels"

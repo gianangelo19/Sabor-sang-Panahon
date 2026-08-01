@@ -4,8 +4,8 @@ const ARTIFACT_SCENE := preload("res://game/props/artifacts/batchoy_bowl/batchoy
 const MINIGAME_SESSION_SCRIPT := preload(
 	"res://features/minigames/shared/scripts/minigame_session.gd"
 )
-const ARTIFACT_MINIGAME_PLACEHOLDER := preload(
-	"res://game/ui/minigames/vendor_minigame_placeholder.tscn"
+const ARTIFACT_MINIGAME_SCENE := preload(
+	"res://features/minigames/final_cooking/scenes/final_cooking.tscn"
 )
 const ARTIFACT_DISCOVERY_POPUP_SCENE := preload("res://game/ui/artifact/artifact_discovery_popup.tscn")
 const POST_RECOVERY_CHOICE_SCENE := preload("res://game/ui/artifact/post_recovery_choice.tscn")
@@ -215,7 +215,7 @@ func _start_artifact_minigame() -> void:
 	_artifact_minigame_session.minigame_won.connect(_on_artifact_minigame_won)
 	_artifact_minigame_session.dismissed.connect(_on_artifact_minigame_dismissed)
 	_artifact_minigame_session.start(
-		ARTIFACT_MINIGAME_PLACEHOLDER,
+		ARTIFACT_MINIGAME_SCENE,
 		{
 			"title": "Restore the Old Batchoy Bowl",
 			"instructions": "Complete the final memory challenge to preserve the recovered bowl.",

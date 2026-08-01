@@ -1,0 +1,111 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://features/minigames/shared/dialogue/shared_dialogue.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://features/minigames/shared/dialogue/assets/speech_bubble.png" id="2_bubble"]
+[ext_resource type="FontFile" path="res://features/minigames/shared/fonts/VCR_OSD_MONO_1.001.ttf" id="3_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_choice_panel"]
+bg_color = Color(0.105, 0.06, 0.025, 0.96)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.82, 0.49, 0.18, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 24.0
+content_margin_top = 18.0
+content_margin_right = 24.0
+content_margin_bottom = 18.0
+
+[node name="SharedDialogue" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_script")
+
+[node name="Bubble" type="NinePatchRect" parent="."]
+visible = false
+z_index = 3
+custom_minimum_size = Vector2(375, 108)
+layout_mode = 0
+offset_right = 375.0
+offset_bottom = 108.0
+mouse_filter = 2
+texture = ExtResource("2_bubble")
+patch_margin_left = 52
+patch_margin_top = 16
+patch_margin_right = 20
+patch_margin_bottom = 28
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+texture_filter = 1
+texture_scale = 1.0
+
+[node name="Text" type="Label" parent="Bubble"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 45.0
+offset_top = 9.0
+offset_right = -18.0
+offset_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.145, 0.075, 0.035, 1)
+theme_override_colors/font_shadow_color = Color(1, 0.82, 0.48, 0.35)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 20
+text = "Dialogue"
+vertical_alignment = 1
+autowrap_mode = 2
+max_lines_visible = 3
+
+[node name="ChoiceOverlay" type="Control" parent="."]
+visible = false
+z_index = 1
+layout_mode = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Dim" type="ColorRect" parent="ChoiceOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0, 0, 0, 0.72)
+
+[node name="ChoicePanel" type="PanelContainer" parent="ChoiceOverlay"]
+custom_minimum_size = Vector2(520, 150)
+layout_mode = 0
+offset_right = 520.0
+offset_bottom = 150.0
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleBox_choice_panel")
+
+[node name="Choices" type="VBoxContainer" parent="ChoiceOverlay/ChoicePanel"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/separation = 2
+
+[node name="Portrait" type="TextureRect" parent="."]
+z_index = 2
+custom_minimum_size = Vector2(142, 142)
+layout_mode = 0
+offset_right = 142.0
+offset_bottom = 142.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+texture_filter = 1

@@ -843,7 +843,7 @@ func _start_instruction_music() -> void:
 
 	instruction_music_tween = create_tween()
 	instruction_music_tween.set_pause_mode(
-		Tween.TWEEN_PAUSE_STOP
+		Tween.TWEEN_PAUSE_PROCESS
 	)
 
 	instruction_music_tween.tween_property(
@@ -874,7 +874,7 @@ func _fade_out_instruction_music() -> void:
 
 	instruction_music_tween = create_tween()
 	instruction_music_tween.set_pause_mode(
-		Tween.TWEEN_PAUSE_STOP
+		Tween.TWEEN_PAUSE_PROCESS
 	)
 
 	instruction_music_tween.tween_property(
@@ -1167,8 +1167,7 @@ func start_introduction(minigame_id: String) -> void:
 
 	if opening_black_hold > 0.0:
 		await get_tree().create_timer(
-			opening_black_hold,
-			false,
+			opening_black_hold
 		).timeout
 
 	if current_state != IntroductionState.OPENING:
@@ -1478,8 +1477,7 @@ func _begin_countdown() -> void:
 
 		if countdown_between_numbers > 0.0:
 			await get_tree().create_timer(
-				countdown_between_numbers,
-				false,
+				countdown_between_numbers
 			).timeout
 
 	if current_state != IntroductionState.COUNTDOWN:
@@ -1570,8 +1568,7 @@ func _play_countdown_number(
 		return
 
 	await get_tree().create_timer(
-		countdown_number_hold_time,
-		false,
+		countdown_number_hold_time
 	).timeout
 
 	if current_state != IntroductionState.COUNTDOWN:

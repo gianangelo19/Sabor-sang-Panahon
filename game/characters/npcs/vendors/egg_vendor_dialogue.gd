@@ -1,13 +1,17 @@
 extends "res://game/characters/npcs/shared/two_person_npc_dialogue.gd"
 
 const VENDOR_PORTRAIT := preload("res://assets/art/characters/npc_egg_vendor/npc_egg_vendor_front.png")
+const MINIGAME_SCENE := preload(
+	"res://features/minigames/egg_sorting/scenes/egg_sorting.tscn"
+)
 
 
 func _ready() -> void:
 	npc_display_name = "Nang Cora"
 	npc_portrait = VENDOR_PORTRAIT
 	minigame_title = "Sort the Fresh Eggs"
-	minigame_instructions = "Placeholder: inspect the shells and choose the freshest eggs for Lola Lynn's bowl."
+	minigame_instructions = "Inspect every egg and place only the fresh, uncracked eggs in the basket."
+	minigame_scene = MINIGAME_SCENE
 	reward_id = "fresh_egg"
 	reward_name = "Fresh egg"
 	destination_id = "egg_vendor"

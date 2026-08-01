@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-const PAUSE_OVERLAY_LAYER := 500
+const PAUSE_OVERLAY_LAYER := 1000
 const MAIN_MENU_SCENE := preload("res://game/ui/menus/main_menu.tscn")
 const TUTORIAL_WAITING_FOR_WAKE_UP := 0
 const TUTORIAL_MOVEMENT := 1
@@ -55,6 +55,7 @@ var tutorial_jump_used := false
 var _tutorial_tween: Tween
 var _normal_canvas_layer := 0
 var _mouse_mode_before_pause := Input.MOUSE_MODE_CAPTURED
+var _pause_was_active_before_menu := false
 var _main_menu_transitioning := false
 var _inventory_hud_hidden := false
 var _ambot_panel_was_visible := false
@@ -169,8 +170,8 @@ func _sync_from_state() -> void:
 	_update_clue_count()
 
 func _toggle_pause() -> void:
-	var should_pause := not get_tree().paused
-	if should_pause:
+	if not pause_menu.visible:
+		_pause_was_active_before_menu = get_tree().paused
 		_mouse_mode_before_pause = Input.mouse_mode
 		pause_menu.visible = true
 		layer = PAUSE_OVERLAY_LAYER
@@ -178,25 +179,25 @@ func _toggle_pause() -> void:
 		resume_button.grab_focus()
 		get_tree().paused = true
 	else:
-		get_tree().paused = false
-		pause_menu.visible = false
-		layer = _normal_canvas_layer
-		Input.set_mouse_mode(_mouse_mode_before_pause)
+		close_pause()
 
 
 func toggle_pause() -> void:
 	_toggle_pause()
 
 
-func close_pause() -> void:
-	get_tree().paused = false
+func close_pause(restore_previous_pause := true) -> void:
+	get_tree().paused = (
+		_pause_was_active_before_menu if restore_previous_pause else false
+	)
 	pause_menu.visible = false
 	layer = _normal_canvas_layer
 	Input.set_mouse_mode(_mouse_mode_before_pause)
+	_pause_was_active_before_menu = false
 
 func _on_resume_button_pressed() -> void:
-	if get_tree().paused:
-		_toggle_pause()
+	if pause_menu.visible:
+		close_pause()
 
 func _on_main_menu_button_pressed() -> void:
 	if _main_menu_transitioning:

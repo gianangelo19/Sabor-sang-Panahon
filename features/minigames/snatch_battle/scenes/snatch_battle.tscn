@@ -1,10 +1,24 @@
-[gd_scene format=3 uid="uid://del3bq0rrye8r"]
+[gd_scene load_steps=4 format=3 uid="uid://del3bq0rrye8r"]
 
 [ext_resource type="Script" uid="uid://cui8wc0iex2q4" path="res://features/minigames/snatch_battle/scripts/snatch_battle.gd" id="1_hdxiu"]
 [ext_resource type="Texture2D" uid="uid://8h2xg8jfmxky" path="res://features/minigames/snatch_battle/assets/background/snatch_table_background_metal.png" id="2_saotr"]
+[ext_resource type="PackedScene" path="res://features/minigames/shared/dialogue/shared_dialogue.tscn" id="3_dialogue"]
+[ext_resource type="Script" path="res://features/minigames/shared/instructions/minigame_instruction_dialogue.gd" id="4_instruction"]
+[ext_resource type="Script" path="res://features/minigames/shared/collectibles/collectible_ending_trigger.gd" id="5_collectible"]
+[ext_resource type="Texture2D" path="res://features/minigames/ending_sequence/assets/collectibles/collectible_meat_set_bag.png" id="6_collectible_texture"]
 
 [node name="SnatchBattle" type="Node2D" unique_id=699175308]
 script = ExtResource("1_hdxiu")
+
+[node name="InstructionDialogue" type="Node" parent="."]
+script = ExtResource("4_instruction")
+minigame_id = "snatch_battle"
+parent_start_method = "_start_game_without_introduction"
+
+[node name="CollectibleEnding" type="Node" parent="."]
+script = ExtResource("5_collectible")
+collectible_texture = ExtResource("6_collectible_texture")
+completion_signal = "minigame_completed"
 
 [node name="Background" type="Sprite2D" parent="." unique_id=393198985]
 position = Vector2(576, 324)
@@ -13,28 +27,4 @@ texture = ExtResource("2_saotr")
 
 [node name="ActiveItems" type="Node2D" parent="." unique_id=2037782397]
 
-[node name="SpawnPoints" type="Node2D" parent="." unique_id=1248097012]
-
-[node name="SpawnPoint1" type="Marker2D" parent="SpawnPoints" unique_id=1258007573]
-position = Vector2(896, 491)
-
-[node name="SpawnPoint2" type="Marker2D" parent="SpawnPoints" unique_id=1510769653]
-position = Vector2(841, 239)
-
-[node name="SpawnPoint3" type="Marker2D" parent="SpawnPoints" unique_id=556032159]
-position = Vector2(748, 343)
-
-[node name="SpawnPoint4" type="Marker2D" parent="SpawnPoints" unique_id=2124339096]
-position = Vector2(594, 481)
-
-[node name="SpawnPoint5" type="Marker2D" parent="SpawnPoints" unique_id=1411819170]
-position = Vector2(286, 448)
-
-[node name="SpawnPoint6" type="Marker2D" parent="SpawnPoints" unique_id=1604932931]
-position = Vector2(497, 371)
-
-[node name="SpawnPoint7" type="Marker2D" parent="SpawnPoints" unique_id=668590863]
-position = Vector2(517, 218)
-
-[node name="SpawnPoint8" type="Marker2D" parent="SpawnPoints" unique_id=1355224831]
-position = Vector2(249, 231)
+[node name="SharedDialogue" parent="." instance=ExtResource("3_dialogue")]

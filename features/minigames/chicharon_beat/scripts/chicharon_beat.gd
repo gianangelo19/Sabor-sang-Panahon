@@ -4,1689 +4,738 @@ signal minigame_finished
 signal minigame_failed(score: int)
 signal minigame_retry_requested
 
-enum MiniRoundPhase {
-	THROWING_BATCH,
-	TAKING_OUT,
+enum RoundPhase {
+	WAITING,
+	ACTIVE,
 	ROUND_END,
-	GAME_OVER
+	GAME_OVER,
 }
 
-const ENDING_SCENE: PackedScene = preload(
-	"res://features/minigames/ending_sequence/scenes/collectible_ending_scene.tscn"
+const CHICHARON_SCENE: PackedScene = preload(
+	"res://features/minigames/chicharon_beat/scenes/chicharon_piece.tscn"
 )
-
-const ENDING_COLLECTIBLE: Texture2D = preload(
-	"res://features/minigames/ending_sequence/assets/collectibles/collectible_chicharon_bag.png"
+const VCR_FONT: Font = preload(
+	"res://features/minigames/shared/fonts/VCR_OSD_MONO_1.001.ttf"
 )
-
 const FAIL_SCREEN_SCENE: PackedScene = preload(
 	"res://features/minigames/fail_screen/scenes/minigame_fail_screen.tscn"
 )
 
-const INTRODUCTION_SCENE: PackedScene = preload(
-	"res://features/minigames/introduction/scenes/minigame_introduction.tscn"
+const PERFORMANCE_PANEL: Texture2D = preload(
+	"res://features/minigames/chicharon_beat/assets/ui/chicharon_performance_panel.png"
 )
-
-
-const VCR_FONT_PATH: String = (
-	"res://features/minigames/shared/fonts/VCR_OSD_MONO_1.001.ttf"
+const ROUND_PANEL: Texture2D = preload(
+	"res://features/minigames/chicharon_beat/assets/ui/chicharon_round_panel.png"
 )
-
-const CHICHARON_SCENE_SEARCH_ROOT: String = (
-	"res://features/minigames/chicharon_beat"
+const ROUND_COMPLETE: Texture2D = preload(
+	"res://features/minigames/chicharon_beat/assets/ui/chicharon_round_complete.png"
 )
-
-const CHICHARON_SCENE_COMMON_PATHS: Array[String] = [
-	"res://features/minigames/chicharon_beat/scenes/chicharon.tscn",
-	"res://features/minigames/chicharon_beat/scenes/chicharon_piece.tscn",
-	"res://features/minigames/chicharon_beat/chicharon.tscn",
-	"res://features/minigames/chicharon_beat/chicharon_piece.tscn"
-]
-
-# =========================================================
-# VISUAL POLISH ASSETS
-# =========================================================
-
-const OIL_SPLASH_BIG: Texture2D = preload(
-	"res://features/minigames/chicharon_beat/assets/effects/oil_splash_big.png"
+const COMBO_COUNTER: Texture2D = preload(
+	"res://features/minigames/chicharon_beat/assets/ui/chicharon_combo_counter.png"
 )
 
 const PERFECT_POPUP: Texture2D = preload(
 	"res://features/minigames/chicharon_beat/assets/feedback/perfect_text_popup.png"
 )
-
 const TOO_RAW_POPUP: Texture2D = preload(
 	"res://features/minigames/chicharon_beat/assets/feedback/too_raw_text_popup.png"
 )
-
 const UNDERCOOKED_POPUP: Texture2D = preload(
 	"res://features/minigames/chicharon_beat/assets/feedback/undercooked_text_popup.png"
 )
-
 const BURNT_POPUP: Texture2D = preload(
 	"res://features/minigames/chicharon_beat/assets/feedback/burnt_text_popup.png"
 )
-
-const TONGS_BACK_TEXTURE: Texture2D = preload(
+const TONGS_BACK: Texture2D = preload(
 	"res://features/minigames/chicharon_beat/assets/tongs/tongs_back.png"
 )
-
-const TONGS_FRONT_TEXTURE: Texture2D = preload(
+const TONGS_FRONT: Texture2D = preload(
 	"res://features/minigames/chicharon_beat/assets/tongs/tongs_front.png"
 )
 
-const CHICHARON_UI_PANEL_TEXTURE: Texture2D = preload(
-	"res://features/minigames/chicharon_beat/assets/ui/chicharon_ui_panel.png"
-)
-
-const ROUND_BANNER_TEXTURE: Texture2D = preload(
-	"res://features/minigames/chicharon_beat/assets/ui/round_banner.png"
-)
-
-const COMBO_BADGE_TEXTURE: Texture2D = preload(
-	"res://features/minigames/chicharon_beat/assets/ui/combo_badge.png"
-)
-
-const WARNING_PANEL_TEXTURE: Texture2D = preload(
-	"res://features/minigames/chicharon_beat/assets/ui/warning_panel.png"
-)
-
-# =========================================================
-# AUDIO ASSETS
-# =========================================================
-
-const BGM_CHICHARON: AudioStream = preload(
+const BGM: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/music/bgm_chicharon_beat_loop.ogg"
 )
-
-const AMB_FRYING_OIL: AudioStream = preload(
+const AMBIENCE: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/ambience/amb_frying_oil_loop.ogg"
 )
-
-const SFX_OIL_SPLASH_BIG: AudioStream = preload(
-	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_oil_splash_big.wav"
-)
-
-const SFX_TAKEOUT_PERFECT_01: AudioStream = preload(
+const SFX_PERFECT_1: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_takeout_perfect_01.wav"
 )
-
-const SFX_TAKEOUT_PERFECT_02: AudioStream = preload(
+const SFX_PERFECT_2: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_takeout_perfect_02.wav"
 )
-
-const SFX_TAKEOUT_RAW: AudioStream = preload(
+const SFX_RAW: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_takeout_raw.wav"
 )
-
-const SFX_TAKEOUT_UNDERCOOKED: AudioStream = preload(
+const SFX_UNDERCOOKED: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_takeout_undercooked.wav"
 )
-
 const SFX_TONGS_SNAP: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_tongs_snap.wav"
 )
-
 const SFX_TONGS_GRAB: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_tongs_grab.wav"
 )
-
 const SFX_TONGS_MISS: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_tongs_miss.wav"
 )
-
 const SFX_COMBO_UP: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_combo_up.wav"
 )
-
 const SFX_COMBO_BREAK: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_combo_break.wav"
 )
-
 const SFX_ROUND_START: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_round_start.wav"
 )
-
 const SFX_ROUND_COMPLETE: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_round_complete.wav"
 )
-
-const SFX_WARNING_NEAR_FAIL: AudioStream = preload(
+const SFX_WARNING: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_warning_near_fail.wav"
 )
-
-const SFX_SUCCESS_TRANSITION: AudioStream = preload(
+const SFX_SUCCESS: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_success_transition.wav"
 )
-
-const SFX_FAILURE_TRANSITION: AudioStream = preload(
+const SFX_FAILURE: AudioStream = preload(
 	"res://features/minigames/chicharon_beat/assets/audio/sfx/sfx_failure_transition.wav"
 )
 
-const SFX_COUNTDOWN_READY: AudioStream = preload(
-	"res://features/minigames/chicharon_beat/assets/audio/ui/sfx_countdown_ready.wav"
-)
+const VIEWPORT_SIZE := Vector2(1152.0, 648.0)
+const HUD_CANVAS_LAYER := 90
+const PERFORMANCE_ORIGIN := Vector2(8.0, 8.0)
+const ROUND_ORIGIN := Vector2(369.0, 4.0)
+const COMBO_ORIGIN := Vector2(940.0, 42.0)
+const TAKEOUT_CENTER := Vector2(576.0, 287.0)
 
-@export_category("Chicharon")
-@export var chicharon_scene: PackedScene
+const ROUND_LINES := [
+	{
+		"text": "Good start. Keep your eyes on the needles; the next batch is quicker.",
+		"expression": "happy",
+	},
+	{
+		"text": "Nice rhythm. The pieces will come closer together now.",
+		"expression": "happy",
+	},
+	{
+		"text": "Halfway through. Stay calm when two needles are close.",
+		"expression": "concerned",
+	},
+	{
+		"text": "One batch left. Watch the bar and do not rush the tongs.",
+		"expression": "concerned",
+	},
+]
 
-@export_category("Timing")
-@export var bpm: float = 250.0
-@export var travel_beats: float = 12.0
-@export var throw_duration: float = 0.55
-@export var post_throw_input_delay: float = 0.30
+const RESULT_LINES := {
+	"wasted_raw": {
+		"text": "Too soon. Let the green reach the needle before taking it out.",
+		"expression": "concerned",
+	},
+	"wasted_slightly": {
+		"text": "Almost there, but it still needed a little more time in the oil.",
+		"expression": "concerned",
+	},
+	"burnt": {
+		"text": "Too late! Once the green reaches a needle, take that piece out.",
+		"expression": "angry",
+	},
+}
 
-@export_category("Takeout Judgement")
+@export_category("Round Timing")
+@export var bpm := 250.0
+@export var travel_beats := 12.0
+@export var throw_duration := 0.55
+@export var end_padding := 0.70
+@export var perfect_window_seconds := 0.42
+@export var raw_early_seconds := 0.75
 
-# The visible center of the takeout ring is the real PERFECT zone.
-# A chicharon inside this radius is always judged as PERFECT.
-@export var perfect_takeout_radius: float = 58.0
+@export_category("Goals")
+@export var required_collected := 18
+@export var fail_wasted := 7
 
-# Prevents SPACE from grabbing a completely unrelated raw piece
-# from the other side of the pot after the centered piece has left.
-@export var takeout_input_radius: float = 180.0
-
-# Used only for early presses outside the perfect radius.
-# The piece's own progress decides whether the miss is raw or
-# undercooked.
-@export_range(0.0, 1.0, 0.01) var raw_takeout_progress_end: float = 0.35
-
-@export_category("Visual Polish")
-
-@export var popup_scale: Vector2 = Vector2(0.22, 0.22)
-@export var popup_offset: Vector2 = Vector2(0.0, -95.0)
-@export var popup_rise_distance: float = 48.0
-
-@export var big_splash_scale: Vector2 = Vector2(0.16, 0.16)
-@export var big_splash_offset: Vector2 = Vector2(0.0, 8.0)
-
-@export var tongs_scale: Vector2 = Vector2(0.20, 0.20)
-@export var tongs_rest_offset: Vector2 = Vector2(165.0, -145.0)
-@export var tongs_take_offset: Vector2 = Vector2(34.0, -40.0)
-@export var tongs_rotation_degrees: float = -43.0
-@export var tongs_strike_duration: float = 0.09
-@export var tongs_retract_duration: float = 0.16
-
-@export var ui_panel_position: Vector2 = Vector2(118.0, 150.0)
-@export var ui_panel_scale: Vector2 = Vector2(0.18, 0.18)
-
-@export var round_banner_position: Vector2 = Vector2(575.0, 48.0)
-@export var round_banner_scale: Vector2 = Vector2(0.20, 0.20)
-
-@export_category("HUD Label Layout")
-
-@export var hud_label_font_size: int = 16
-@export var round_label_font_size: int = 18
-@export var feedback_label_font_size: int = 20
-
-@export var hud_label_size: Vector2 = Vector2(160.0, 42.0)
-
-@export var collected_label_offset: Vector2 = Vector2(-80.0, -105.0)
-@export var wasted_label_offset: Vector2 = Vector2(-80.0, -63.0)
-@export var combo_label_offset: Vector2 = Vector2(-80.0, -22.0)
-@export var score_label_offset: Vector2 = Vector2(-80.0, 23.0)
-
-@export var round_label_offset: Vector2 = Vector2(-185.0, -20.0)
-@export var round_label_size: Vector2 = Vector2(370.0, 40.0)
-
-@export var combo_badge_position: Vector2 = Vector2(1000.0, 145.0)
-@export var combo_badge_scale: Vector2 = Vector2(0.13, 0.13)
-
-@export var warning_panel_position: Vector2 = Vector2(575.0, 115.0)
-@export var warning_panel_scale: Vector2 = Vector2(0.24, 0.24)
-
-@export_category("Chicharon Audio")
-
-@export var music_volume_db: float = -18.0
-@export var ambience_volume_db: float = -17.0
-@export var sfx_volume_db: float = -4.0
-@export var ui_sfx_volume_db: float = -7.0
-@export var audio_one_shot_player_count: int = 12
-
-@export_category("Ending Sequence")
-@export var ending_collectible_scale: Vector2 = Vector2(0.6, 0.6)
-
-# Keep enabled while testing.
-# Press T to immediately force the success ending.
-@export var ending_test_key_enabled: bool = true
-
-@export_category("Fail Screen")
-
-# Press F to immediately test the fail screen.
-@export var fail_test_key_enabled: bool = true
+@export_category("Visuals")
+@export var popup_scale := Vector2(0.22, 0.22)
+@export var tongs_scale := Vector2(0.20, 0.20)
+@export var tongs_rotation_degrees := -43.0
 
 @onready var chicharon_container: Node2D = $ChicharonContainer
 @onready var throw_start_point: Marker2D = $ThrowStartPoint
 @onready var spawn_point: Marker2D = $SpawnPoint
 @onready var takeout_point: Marker2D = $TakeOutPoint
 @onready var takeout_indicator: Node2D = $TakeOutIndicator
-
+@onready var ui: CanvasLayer = $UI
 @onready var round_label: Label = $UI/RoundLabel
 @onready var collected_label: Label = $UI/CollectedLabel
 @onready var wasted_label: Label = $UI/WastedLabel
-@onready var combo_label: Label = $UI/ComboLabel
+@onready var highest_combo_label: Label = $UI/ComboLabel
 @onready var feedback_label: Label = $UI/FeedbackLabel
-
-var music_player: AudioStreamPlayer = null
-var ambience_player: AudioStreamPlayer = null
-var one_shot_players: Array[AudioStreamPlayer] = []
-
-var tongs_root: Node2D = null
-var tongs_back: Sprite2D = null
-var tongs_front: Sprite2D = null
-var tongs_busy: bool = false
-
-var ui_panel_sprite: Sprite2D = null
-var round_banner_sprite: Sprite2D = null
-var combo_badge_sprite: Sprite2D = null
-var warning_panel_sprite: Sprite2D = null
-var warning_label: Label = null
-var score_label: Label = null
-
-var feedback_tween: Tween = null
-var combo_tween: Tween = null
-var warning_tween: Tween = null
-
-var warning_was_active: bool = false
-var last_warning_wasted: int = -1
-
-var phase: MiniRoundPhase = MiniRoundPhase.THROWING_BATCH
+@onready var dialogue: SharedDialogue = $SharedDialogue
 
 var round_defs: Array[Dictionary] = [
-	{"name": "Round 1", "difficulty": "easy"},
-	{"name": "Round 2", "difficulty": "medium"},
-	{"name": "Round 3", "difficulty": "medium"},
-	{"name": "Round 4", "difficulty": "hard"},
-	{"name": "Round 5", "difficulty": "hard"}
+	{"difficulty": "easy"},
+	{"difficulty": "medium"},
+	{"difficulty": "medium"},
+	{"difficulty": "hard"},
+	{"difficulty": "hard"},
 ]
-
-# These are beat gaps between throws.
-# Chicharon count = pattern size + 1.
-var easy_patterns: Array = [
-	[3, 3, 3],
-	[3, 4, 3],
-	[4, 3, 3]
-]
-
+var easy_patterns: Array = [[3, 3, 3], [3, 4, 3], [4, 3, 3]]
 var medium_patterns: Array = [
-	[3, 2, 3, 2],
-	[2, 3, 2, 3],
-	[3, 3, 2, 2],
-	[2, 3, 3, 2],
-	[3, 2, 2, 3],
-	[2, 2, 3, 3]
+	[3, 2, 3, 2], [2, 3, 2, 3], [3, 3, 2, 2],
+	[2, 3, 3, 2], [3, 2, 2, 3], [2, 2, 3, 3],
 ]
-
 var hard_patterns: Array = [
-	[2, 2, 2, 2],
-	[2, 2, 3, 2],
-	[2, 3, 2, 2],
-	[3, 2, 2, 2],
-	[2, 2, 2, 3],
-	[2, 3, 2, 3]
+	[2, 2, 2, 2], [2, 2, 3, 2], [2, 3, 2, 2],
+	[3, 2, 2, 2], [2, 2, 2, 3], [2, 3, 2, 3],
 ]
 
-var current_round_index: int = 0
+var phase := RoundPhase.WAITING
+var current_round_index := 0
 var current_pattern: Array = []
-
 var round_pieces: Array[Node] = []
-var removed_this_round: int = 0
+var piece_indices: Dictionary = {}
+var target_times: Array[float] = []
+var resolved_indices: Dictionary = {}
+var expected_pieces := 0
+var removed_this_round := 0
 
-var collected: int = 0
-var wasted: int = 0
-var combo: int = 0
-var score: int = 0
+var collected := 0
+var wasted := 0
+var combo := 0
+var highest_combo := 0
+var score := 0
 
-var total_chicharons: int = 24
-var required_collected: int = 18
-var fail_wasted: int = 7
+var gameplay_active := false
+var dialogue_paused := false
+var dialogue_is_blocking := false
+var dialogue_context := ""
+var trial_active := false
+var trial_result := ""
+var waiting_for_round_continue := false
+var countdown_active := false
+var result_dialogue_seen: Dictionary = {}
+var warning_level_shown := 0
+var result_emitted := false
+var tongs_busy := false
 
-var ending_sequence: Node = null
-var ending_started: bool = false
-
-var fail_screen: Node = null
-var fail_screen_started: bool = false
-
-var introduction: Node = null
-var introduction_started: bool = false
-var gameplay_started: bool = false
-
-var result_emitted: bool = false
-
-var resolved_chicharon_scene_path: String = ""
+var score_label: Label
+var difficulty_label: Label
+var combo_counter_label: Label
+var performance_sprite: Sprite2D
+var round_panel_sprite: Sprite2D
+var round_complete_sprite: Sprite2D
+var round_complete_layer: CanvasLayer
+var round_complete_root: Control
+var combo_counter_sprite: Sprite2D
+var tongs_root: Node2D
+var music_player: AudioStreamPlayer
+var ambience_player: AudioStreamPlayer
+var fail_screen: Node
 
 
 func _ready() -> void:
 	randomize()
-
-	_resolve_chicharon_scene()
-
+	SharedCursor.install()
+	# The shared minigame session renders gameplay on CanvasLayer 80. Keep the
+	# performance HUD above it and below SharedDialogue on layer 100.
+	ui.layer = HUD_CANVAS_LAYER
+	_setup_hud()
+	_setup_tongs()
 	_setup_audio()
-	_setup_polish_visuals()
-
-	# Do not let the rhythm game start until the shared
-	# introduction slideshow and countdown have finished.
-	gameplay_started = false
-	introduction_started = false
-
-	_ensure_ending_sequence()
-	_connect_ending_sequence()
-
-	_ensure_fail_screen()
-	_connect_fail_screen()
-
-	_ensure_introduction()
-	_connect_introduction()
-
-	if takeout_indicator != null:
-		takeout_indicator.global_position = (
-			takeout_point.global_position
-		)
-		takeout_indicator.visible = false
-
-	clear_remaining_chicharon()
-	_reset_gameplay_values()
-	update_ui()
-
-	feedback_label.text = "Get ready!"
-	feedback_label.modulate = Color.WHITE
-
-	print("")
-	print("========================================")
-	print("CHICHARON BEAT READY")
-	print("========================================")
-	print("Introduction found: ", introduction != null)
-	print("Ending node found: ", ending_sequence != null)
-	print("Fail screen found: ", fail_screen != null)
-
-	if introduction != null:
-		print(
-			"Introduction has start_introduction(): ",
-			introduction.has_method("start_introduction")
-		)
-		print(
-			"Introduction has start_requested: ",
-			introduction.has_signal("start_requested")
-		)
-		print(
-			"Introduction has countdown_finished: ",
-			introduction.has_signal("countdown_finished")
-		)
-
-	if ending_sequence != null:
-		print(
-			"Ending has start_ending(): ",
-			ending_sequence.has_method("start_ending")
-		)
-		print(
-			"Ending has ending_finished signal: ",
-			ending_sequence.has_signal("ending_finished")
-		)
-
-	print(
-		"Chicharon collectible loaded: ",
-		ENDING_COLLECTIBLE != null
-	)
-
-	if fail_screen != null:
-		print(
-			"Fail screen has start_fail_screen(): ",
-			fail_screen.has_method("start_fail_screen")
-		)
-		print(
-			"Fail screen has retry_requested: ",
-			fail_screen.has_signal("retry_requested")
-		)
-		print(
-			"Fail screen has exit_requested: ",
-			fail_screen.has_signal("exit_requested")
-		)
-
-	print("Press T to test the success ending after countdown.")
-	print("Press F to test the fail screen after countdown.")
-	print("========================================")
-	print("")
-
-	_start_chicharon_introduction()
-
-
-func _resolve_chicharon_scene() -> bool:
-	if (
-		chicharon_scene != null
-		and _is_valid_chicharon_scene(
-			chicharon_scene
-		)
-	):
-		resolved_chicharon_scene_path = (
-			chicharon_scene.resource_path
-		)
-
-		print(
-			"DEBUG CHICHARON: Using assigned piece scene: ",
-			resolved_chicharon_scene_path
-		)
-
-		return true
-
-	chicharon_scene = null
-	resolved_chicharon_scene_path = ""
-
-	for candidate_path in CHICHARON_SCENE_COMMON_PATHS:
-		if not ResourceLoader.exists(candidate_path):
-			continue
-
-		var candidate_resource: Resource = load(
-			candidate_path
-		)
-
-		if not candidate_resource is PackedScene:
-			continue
-
-		var candidate_scene: PackedScene = (
-			candidate_resource as PackedScene
-		)
-
-		if not _is_valid_chicharon_scene(
-			candidate_scene
-		):
-			continue
-
-		chicharon_scene = candidate_scene
-		resolved_chicharon_scene_path = candidate_path
-
-		print(
-			"DEBUG CHICHARON: Auto-loaded piece scene: ",
-			resolved_chicharon_scene_path
-		)
-
-		return true
-
-	var discovered_paths: Array[String] = []
-
-	_collect_scene_paths_recursive(
-		CHICHARON_SCENE_SEARCH_ROOT,
-		discovered_paths
-	)
-
-	discovered_paths.sort()
-
-	for candidate_path in discovered_paths:
-		if candidate_path == scene_file_path:
-			continue
-
-		if not ResourceLoader.exists(candidate_path):
-			continue
-
-		var candidate_resource: Resource = load(
-			candidate_path
-		)
-
-		if not candidate_resource is PackedScene:
-			continue
-
-		var candidate_scene: PackedScene = (
-			candidate_resource as PackedScene
-		)
-
-		if not _is_valid_chicharon_scene(
-			candidate_scene
-		):
-			continue
-
-		chicharon_scene = candidate_scene
-		resolved_chicharon_scene_path = candidate_path
-
-		print(
-			"DEBUG CHICHARON: Found piece scene automatically: ",
-			resolved_chicharon_scene_path
-		)
-
-		return true
-
-	push_error(
-		"CHICHARON: Could not find the individual "
-		+ "Chicharon PackedScene. The scene must have a "
-		+ "root script with setup_for_batch(), the removed "
-		+ "signal, and a direct Sprite2D child."
-	)
-
-	return false
-
-
-func _is_valid_chicharon_scene(
-	packed_scene: PackedScene
-) -> bool:
-	if packed_scene == null:
-		return false
-
-	var test_piece: Node = packed_scene.instantiate()
-
-	if test_piece == null:
-		return false
-
-	var valid_piece: bool = (
-		test_piece.has_method("setup_for_batch")
-		and test_piece.has_signal("removed")
-		and test_piece.get_node_or_null("Sprite2D") != null
-	)
-
-	test_piece.free()
-
-	return valid_piece
-
-
-func _collect_scene_paths_recursive(
-	directory_path: String,
-	output_paths: Array[String]
-) -> void:
-	var directory: DirAccess = DirAccess.open(
-		directory_path
-	)
-
-	if directory == null:
-		return
-
-	directory.list_dir_begin()
-
-	var entry_name: String = directory.get_next()
-
-	while not entry_name.is_empty():
-		var entry_path: String = (
-			directory_path.path_join(entry_name)
-		)
-
-		if directory.current_is_dir():
-			if not entry_name.begins_with("."):
-				_collect_scene_paths_recursive(
-					entry_path,
-					output_paths
-				)
-
-		elif entry_name.to_lower().ends_with(".tscn"):
-			output_paths.append(entry_path)
-
-		entry_name = directory.get_next()
-
-	directory.list_dir_end()
-
-func _process(_delta: float) -> void:
-	if takeout_indicator == null:
-		return
-
-	if (
-		not gameplay_started
-		or phase != MiniRoundPhase.TAKING_OUT
-		or _gameplay_has_stopped()
-	):
-		if takeout_indicator.has_method("clear_target_timing"):
-			takeout_indicator.call("clear_target_timing")
-		return
-
-	var target: Node = get_current_input_target()
-
-	if target == null:
-		if takeout_indicator.has_method("clear_target_timing"):
-			takeout_indicator.call("clear_target_timing")
-		return
-
-	var progress: float = 0.0
-	var cook_state_name: String = "raw"
-
-	if target.has_method("get_float_progress"):
-		progress = float(
-			target.call("get_float_progress")
-		)
-
-	if target.has_method("get_cook_state_name"):
-		cook_state_name = str(
-			target.call("get_cook_state_name")
-		)
-
-	if takeout_indicator.has_method("set_target_timing"):
-		takeout_indicator.call(
-			"set_target_timing",
-			progress,
-			cook_state_name
-		)
+	_setup_fail_screen()
+	dialogue.dialogue_started.connect(_on_dialogue_started)
+	dialogue.dialogue_finished.connect(_on_dialogue_finished)
+	takeout_indicator.position = TAKEOUT_CENTER
+	takeout_indicator.visible = false
+	feedback_label.visible = false
+	_reset_game()
 
 
 func _input(event: InputEvent) -> void:
-	# The introduction owns all input until the countdown ends.
-	# Its arrows and Start button are mouse-only.
-	if not gameplay_started:
+	if dialogue_is_blocking or not gameplay_active:
+		return
+	if waiting_for_round_continue:
+		var continue_pressed := event.is_action_pressed("ui_accept")
+		if event is InputEventMouseButton:
+			continue_pressed = (
+				event.button_index == MOUSE_BUTTON_LEFT
+				and event.pressed
+			)
+		if continue_pressed:
+			_start_round_countdown()
+			get_viewport().set_input_as_handled()
+		return
+	if phase != RoundPhase.ACTIVE or tongs_busy:
 		return
 
-	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_F:
-			print("DEBUG CHICHARON INPUT: F detected.")
-		elif event.keycode == KEY_T:
-			print("DEBUG CHICHARON INPUT: T detected.")
-
-	if event is InputEventKey:
-		if (
-			ending_test_key_enabled
-			and event.keycode == KEY_T
+	var take_pressed := event.is_action_pressed("ui_accept")
+	if event is InputEventMouseButton:
+		take_pressed = (
+			event.button_index == MOUSE_BUTTON_LEFT
 			and event.pressed
-			and not event.echo
-		):
-			if not _gameplay_has_stopped():
-				print(
-					"DEBUG CHICHARON: T pressed. "
-					+ "Forcing success ending."
-				)
-
-				end_game(true)
-				get_viewport().set_input_as_handled()
-
-			return
-
-		if (
-			fail_test_key_enabled
-			and event.keycode == KEY_F
-			and event.pressed
-			and not event.echo
-		):
-			if not _gameplay_has_stopped():
-				print(
-					"DEBUG CHICHARON: F pressed. "
-					+ "Forcing fail screen."
-				)
-
-				end_game(false, "too_many_wasted")
-				get_viewport().set_input_as_handled()
-
-			return
-
-	if _gameplay_has_stopped():
-		return
-
-	if event.is_action_pressed("ui_accept"):
-		try_take_chicharon()
+		)
+	if take_pressed:
+		_try_take_chicharon()
 		get_viewport().set_input_as_handled()
 
 
-func _gameplay_has_stopped() -> bool:
-	return (
-		not gameplay_started
-		or phase == MiniRoundPhase.GAME_OVER
-		or ending_started
-		or fail_screen_started
-	)
+func _reset_game() -> void:
+	_clear_pieces()
+	phase = RoundPhase.WAITING
+	current_round_index = 0
+	current_pattern.clear()
+	target_times.clear()
+	resolved_indices.clear()
+	expected_pieces = 0
+	removed_this_round = 0
+	collected = 0
+	wasted = 0
+	combo = 0
+	highest_combo = 0
+	score = 0
+	gameplay_active = false
+	dialogue_paused = false
+	dialogue_is_blocking = false
+	dialogue_context = ""
+	trial_active = false
+	trial_result = ""
+	waiting_for_round_continue = false
+	countdown_active = false
+	result_dialogue_seen.clear()
+	warning_level_shown = 0
+	result_emitted = false
+	tongs_busy = false
+	takeout_indicator.call("reset_indicator")
+	takeout_indicator.visible = false
+	round_complete_root.visible = false
+	_hide_tongs()
+	_update_ui()
 
 
-func start_round() -> void:
-	if not gameplay_started:
-		return
+func _begin_gameplay() -> void:
+	gameplay_active = true
+	phase = RoundPhase.WAITING
+	_start_audio()
+	_start_trial_run()
 
-	if ending_started:
-		return
 
-	if phase == MiniRoundPhase.GAME_OVER:
-		return
-
-	if current_round_index >= round_defs.size():
-		end_game(collected >= required_collected)
-		return
-
-	phase = MiniRoundPhase.THROWING_BATCH
-
+func _start_trial_run() -> void:
+	trial_active = true
+	trial_result = ""
+	phase = RoundPhase.ACTIVE
 	round_pieces.clear()
+	piece_indices.clear()
+	resolved_indices.clear()
+	target_times.clear()
+	removed_this_round = 0
+	expected_pieces = 1
+
+	var seconds_per_beat := 60.0 / maxf(bpm, 1.0)
+	var float_duration := travel_beats * seconds_per_beat
+	var target_time := throw_duration + float_duration
+	var trial_duration := target_time + end_padding
+	target_times.append(target_time)
+	takeout_indicator.call(
+		"configure_round", [target_time / trial_duration], trial_duration
+	)
+	takeout_indicator.visible = true
+	takeout_indicator.call("start_sweep")
+	round_label.text = "TRIAL RUN"
+	difficulty_label.text = "PRACTICE"
+	_play_sound(SFX_ROUND_START, -6.0)
+	_spawn_piece(0, float_duration)
+
+
+func _finish_trial_run(result: String) -> void:
+	if not trial_active:
+		return
+	trial_active = false
+	trial_result = result
+	phase = RoundPhase.WAITING
+	takeout_indicator.call("stop_sweep")
+	var text := "You felt the timing. Now follow every needle in the real batches."
+	var expression := "concerned"
+	if result == "collected":
+		text = "That's it! Now keep that rhythm through the real batches."
+		expression = "happy"
+	_prepare_round_continue(text, expression)
+
+
+func _prepare_round_continue(vendor_text: String, expression: String) -> void:
+	phase = RoundPhase.WAITING
+	waiting_for_round_continue = true
+	countdown_active = false
+	takeout_indicator.call("stop_sweep")
+	takeout_indicator.visible = false
+	round_label.text = "ROUND %d / %d" % [
+		current_round_index + 1,
+		round_defs.size(),
+	]
+	difficulty_label.text = "CLICK / SPACE"
+	_show_vendor_line(vendor_text, expression, "passive")
+
+
+func _start_round_countdown() -> void:
+	if not waiting_for_round_continue or countdown_active:
+		return
+	waiting_for_round_continue = false
+	countdown_active = true
+	phase = RoundPhase.WAITING
+	for count: int in [3, 2, 1]:
+		round_label.text = str(count)
+		difficulty_label.text = "GET READY"
+		_play_sound(
+			SFX_ROUND_START,
+			-6.0,
+			0.88 + float(3 - count) * 0.08
+		)
+		await get_tree().create_timer(0.42).timeout
+		if phase == RoundPhase.GAME_OVER:
+			countdown_active = false
+			return
+	countdown_active = false
+	_start_round()
+
+
+func _start_round() -> void:
+	if not gameplay_active or current_round_index >= round_defs.size():
+		return
+	phase = RoundPhase.ACTIVE
+	round_pieces.clear()
+	piece_indices.clear()
+	resolved_indices.clear()
+	target_times.clear()
 	removed_this_round = 0
 
-	var round_data: Dictionary = round_defs[current_round_index]
-	var difficulty: String = str(round_data["difficulty"])
-	var round_name: String = str(round_data["name"])
+	var difficulty := str(round_defs[current_round_index]["difficulty"])
+	current_pattern = _choose_pattern(difficulty)
+	var seconds_per_beat := 60.0 / maxf(bpm, 1.0)
+	var float_duration := travel_beats * seconds_per_beat
+	var spawn_offsets: Array[float] = [0.0]
+	var running_offset := 0.0
+	for gap: Variant in current_pattern:
+		running_offset += float(gap) * seconds_per_beat
+		spawn_offsets.append(running_offset)
 
-	current_pattern = choose_pattern(difficulty)
+	for spawn_offset: float in spawn_offsets:
+		target_times.append(spawn_offset + throw_duration + float_duration)
+	expected_pieces = target_times.size()
+	var round_duration := target_times[-1] + end_padding
+	var normalized_targets: Array[float] = []
+	for target_time: float in target_times:
+		normalized_targets.append(target_time / round_duration)
 
-	show_feedback(
-		round_name
-		+ " - "
-		+ difficulty.capitalize()
+	takeout_indicator.call(
+		"configure_round", normalized_targets, round_duration
 	)
+	takeout_indicator.visible = true
+	takeout_indicator.call("start_sweep")
+	_update_ui()
+	_spawn_round_pieces(spawn_offsets, float_duration)
 
-	_play_one_shot(
-		SFX_ROUND_START,
-		ui_sfx_volume_db,
-		1.0
+
+func _spawn_round_pieces(
+	spawn_offsets: Array[float],
+	float_duration: float
+) -> void:
+	var previous_offset := 0.0
+	for index: int in range(spawn_offsets.size()):
+		var wait_duration := spawn_offsets[index] - previous_offset
+		if wait_duration > 0.0:
+			await _wait_active_seconds(wait_duration)
+		if phase != RoundPhase.ACTIVE or not gameplay_active:
+			return
+		_spawn_piece(index, float_duration)
+		previous_offset = spawn_offsets[index]
+
+
+func _wait_active_seconds(seconds: float) -> void:
+	var remaining := seconds
+	while remaining > 0.0 and phase == RoundPhase.ACTIVE:
+		await get_tree().process_frame
+		if not dialogue_paused:
+			remaining -= get_process_delta_time()
+
+
+func _spawn_piece(index: int, float_duration: float) -> void:
+	var piece := CHICHARON_SCENE.instantiate()
+	chicharon_container.add_child(piece)
+	var land_position := spawn_point.global_position + Vector2(
+		0.0, randf_range(-10.0, 10.0)
 	)
-
-	_pulse_round_banner()
-
-	update_ui()
-
-	throw_batch()
-
-func choose_pattern(difficulty: String) -> Array:
-	var patterns: Array = []
-
-	if difficulty == "easy":
-		patterns = easy_patterns
-	elif difficulty == "medium":
-		patterns = medium_patterns
-	else:
-		patterns = hard_patterns
-
-	var index: int = randi() % patterns.size()
-	var chosen_pattern: Array = patterns[index] as Array
-
-	return chosen_pattern.duplicate()
-
-
-func throw_batch() -> void:
-	if not gameplay_started:
-		return
-
-	if ending_started:
-		return
-
-	if phase == MiniRoundPhase.GAME_OVER:
-		return
-
-	if (
-		chicharon_scene == null
-		or not _is_valid_chicharon_scene(
-			chicharon_scene
-		)
-	):
-		if not _resolve_chicharon_scene():
-			show_feedback(
-				"Chicharon scene missing!"
-			)
-			return
-
-	var seconds_per_beat: float = 60.0 / bpm
-	var piece_float_duration: float = (
-		travel_beats * seconds_per_beat
+	piece.call(
+		"setup_for_batch",
+		throw_start_point.global_position,
+		land_position,
+		takeout_point.global_position,
+		float_duration,
+		throw_duration
 	)
-
-	# Pattern is the gaps between throws.
-	# So 3 gaps = 4 chicharons, 4 gaps = 5 chicharons.
-	var batch_count: int = current_pattern.size() + 1
-
-	for index in range(batch_count):
-		if ending_started:
-			return
-
-		if phase == MiniRoundPhase.GAME_OVER:
-			return
-
-		var piece: Node = chicharon_scene.instantiate()
-
-		if piece == null:
-			push_error(
-				"CHICHARON: Failed to instantiate piece from: "
-				+ resolved_chicharon_scene_path
-			)
-			return
-
-		if not piece.has_method("setup_for_batch"):
-			push_error(
-				"CHICHARON: Spawned scene is not a valid "
-				+ "Chicharon piece. Missing setup_for_batch()."
-			)
-			piece.free()
-			return
-
-		chicharon_container.add_child(piece)
-
-		print(
-			"DEBUG CHICHARON: Spawned piece ",
-			index + 1,
-			" / ",
-			batch_count,
-			" from ",
-			resolved_chicharon_scene_path
-		)
-
-		# Keep X the same so all chicharons travel
-		# the same distance and speed.
-		# Only Y changes slightly so they are not stacked.
-		var land_offset: Vector2 = Vector2(
-			0.0,
-			randf_range(-10.0, 10.0)
-		)
-
-		var land_position: Vector2 = (
-			spawn_point.global_position
-			+ land_offset
-		)
-
-		piece.call(
-			"setup_for_batch",
-			throw_start_point.global_position,
-			land_position,
-			takeout_point.global_position,
-			piece_float_duration,
-			throw_duration
-		)
-
-		var removed_callable: Callable = Callable(
-			self,
-			"_on_chicharon_removed"
-		).bind(piece)
-
-		if piece.has_signal("removed"):
-			piece.connect(
-				"removed",
-				removed_callable
-			)
-		else:
-			push_warning(
-				"Spawned chicharon is missing "
-				+ "the removed signal."
-			)
-
-		round_pieces.append(piece)
-
-		if index < current_pattern.size():
-			var gap_beats: float = float(
-				current_pattern[index]
-			)
-
-			var wait_time: float = (
-				gap_beats * seconds_per_beat
-			)
-
-			await get_tree().create_timer(
-				wait_time,
-				false,
-			).timeout
-
-			if ending_started:
-				return
-
-			if phase == MiniRoundPhase.GAME_OVER:
-				return
-
-	# Wait until the last chicharon has landed
-	# before input begins.
-	await get_tree().create_timer(
-		throw_duration + post_throw_input_delay,
-		false,
-	).timeout
-
-	if ending_started:
-		return
-
-	if phase == MiniRoundPhase.GAME_OVER:
-		return
-
-	start_takeout_phase()
+	piece.connect(
+		"removed",
+		Callable(self, "_on_chicharon_removed").bind(piece)
+	)
+	round_pieces.append(piece)
+	piece_indices[piece.get_instance_id()] = index
 
 
-func start_takeout_phase() -> void:
-	if not gameplay_started:
-		return
-
-	if ending_started:
-		return
-
-	if phase == MiniRoundPhase.GAME_OVER:
-		return
-
-	phase = MiniRoundPhase.TAKING_OUT
-	show_feedback("Take them out!")
-
-
-func _get_takeout_center_position() -> Vector2:
-	if (
-		takeout_indicator != null
-		and takeout_indicator.has_method(
-			"get_takeout_center_global_position"
-		)
-	):
-		return Vector2(
-			takeout_indicator.call(
-				"get_takeout_center_global_position"
-			)
-		)
-
-	return takeout_point.global_position
-
-
-func try_take_chicharon() -> void:
-	if not gameplay_started:
-		return
-
-	if ending_started:
-		return
-
-	if tongs_busy:
-		return
-
-	if phase != MiniRoundPhase.TAKING_OUT:
-		show_feedback("Wait for the batch!")
-		return
-
-	var target: Node = get_current_input_target()
-
+func _try_take_chicharon() -> void:
+	var target := _get_input_target()
 	if target == null:
-		show_feedback("Wait!")
-
+		_play_sound(SFX_TONGS_MISS, -5.0)
 		if combo > 0:
 			combo = 0
-
-			_play_one_shot(
-				SFX_COMBO_BREAK,
-				sfx_volume_db,
-				1.0
-			)
-
-			_pulse_combo_badge()
-
-		update_ui()
-
-		if takeout_indicator.has_method("flash_result"):
-			takeout_indicator.call(
-				"flash_result",
-				"miss"
-			)
-
+			_play_sound(SFX_COMBO_BREAK, -5.0)
+			_update_ui()
 		return
 
-	# Judge immediately on the exact frame SPACE was pressed.
-	# The tong animation must never be allowed to change a
-	# PERFECT press into BURNT or RAW.
-	var take_result: String = (
-		_get_takeout_result(target)
-	)
-
-	# Freeze the selected chicharon immediately so it cannot keep
-	# cooking during the short tong strike animation.
-	if target.has_method("lock_for_takeout"):
-		var locked: bool = bool(
-			target.call("lock_for_takeout")
-		)
-
-		if not locked:
-			return
-
-	_animate_tongs_and_take(
-		target,
-		take_result
-	)
+	var piece_id := target.get_instance_id()
+	var needle_index := int(piece_indices.get(piece_id, -1))
+	if needle_index < 0 or needle_index >= target_times.size():
+		return
+	var result := _judge_takeout(target_times[needle_index])
+	if not bool(target.call("lock_for_takeout")):
+		return
+	_animate_tongs_and_resolve(target, result, needle_index)
 
 
-func _get_takeout_result(
-	target: Node
-) -> String:
-	var target_2d: Node2D = target as Node2D
-
-	if target_2d == null:
-		return "raw"
-
-	var takeout_center: Vector2 = (
-		_get_takeout_center_position()
-	)
-
-	var distance_to_center: float = (
-		target_2d.global_position.distance_to(
-			takeout_center
-		)
-	)
-
-	# The ring center is authoritative.
-	# Inside the ring's perfect radius = PERFECT.
-	if distance_to_center <= perfect_takeout_radius:
-		return "perfect"
-
-	var progress: float = 0.0
-
-	if target.has_method("get_float_progress"):
-		progress = float(
-			target.call("get_float_progress")
-		)
-
-	if progress < raw_takeout_progress_end:
-		return "raw"
-
-	return "slightly_cooked"
-
-func get_current_input_target() -> Node:
-	var best_piece: Node = null
-	var best_distance: float = INF
-
-	for piece in round_pieces:
+func _get_input_target() -> Node:
+	var best_piece: Node
+	var best_difference := INF
+	var elapsed := float(takeout_indicator.call("get_elapsed_time"))
+	for piece: Node in round_pieces:
 		if not is_instance_valid(piece):
 			continue
-
-		if not piece.has_method("is_active_for_input"):
+		if not bool(piece.call("is_active_for_input")):
 			continue
-
-		var is_active: bool = bool(
-			piece.call("is_active_for_input")
-		)
-
-		if not is_active:
+		var index := int(piece_indices.get(piece.get_instance_id(), -1))
+		if index < 0 or resolved_indices.has(index):
 			continue
-
-		var piece_2d: Node2D = piece as Node2D
-
-		if piece_2d == null:
-			continue
-
-		var distance: float = (
-			piece_2d.global_position.distance_to(
-				_get_takeout_center_position()
-			)
-		)
-
-		# Do not select raw pieces that are still far across the pot.
-		# This prevents the old problem where the centered piece burnt
-		# and SPACE immediately targeted the next raw piece instead.
-		if distance > takeout_input_radius:
-			continue
-
-		if distance < best_distance:
-			best_distance = distance
+		var difference := absf(target_times[index] - elapsed)
+		if difference < best_difference:
+			best_difference = difference
 			best_piece = piece
-
 	return best_piece
 
-func _on_chicharon_removed(
-	reason: String,
-	piece: Node
+
+func _judge_takeout(target_time: float) -> String:
+	var elapsed := float(takeout_indicator.call("get_elapsed_time"))
+	var difference := elapsed - target_time
+	if absf(difference) <= perfect_window_seconds:
+		return "perfect"
+	if difference < -raw_early_seconds:
+		return "raw"
+	if difference < 0.0:
+		return "slightly_cooked"
+	return "burnt"
+
+
+func _animate_tongs_and_resolve(
+	target: Node,
+	result: String,
+	needle_index: int
 ) -> void:
-	if not gameplay_started:
+	tongs_busy = true
+	_play_sound(SFX_TONGS_SNAP, -4.0)
+	var target_2d := target as Node2D
+	var target_position := target_2d.global_position
+	tongs_root.global_position = target_position + Vector2(150.0, -125.0)
+	tongs_root.visible = true
+	var strike := create_tween()
+	strike.tween_property(
+		tongs_root,
+		"global_position",
+		target_position + Vector2(25.0, -30.0),
+		0.09
+	)
+	await strike.finished
+	if not is_instance_valid(target):
+		_hide_tongs()
+		tongs_busy = false
 		return
 
-	if ending_started:
-		return
+	takeout_indicator.call("flash_result", result, needle_index)
+	resolved_indices[needle_index] = true
+	_show_result_popup(result, target_position)
+	_play_result_sound(result)
+	target.call("resolve_take_result", result)
 
-	if phase == MiniRoundPhase.GAME_OVER:
-		return
+	var retract := create_tween()
+	retract.tween_property(
+		tongs_root,
+		"global_position",
+		target_position + Vector2(165.0, -145.0),
+		0.16
+	)
+	await retract.finished
+	_hide_tongs()
+	tongs_busy = false
 
+
+func _on_chicharon_removed(reason: String, piece: Node) -> void:
+	var piece_id := piece.get_instance_id()
+	var needle_index := int(piece_indices.get(piece_id, -1))
+	var was_manually_resolved := resolved_indices.has(needle_index)
+	if reason == "burnt" and not was_manually_resolved:
+		var burnt_piece := piece as Node2D
+		if burnt_piece != null:
+			_show_result_popup("burnt", burnt_piece.global_position)
+		if needle_index >= 0:
+			takeout_indicator.call(
+				"flash_result", "burnt", needle_index
+			)
+	if needle_index >= 0:
+		resolved_indices[needle_index] = true
+		takeout_indicator.call("mark_resolved", needle_index)
 	removed_this_round += 1
+	if trial_active:
+		_finish_trial_run(reason)
+		return
+	var previous_combo := combo
 
-	var previous_combo: int = combo
-
-	if reason == "collected":
-		collected += 1
-		combo += 1
-		score += 300 + combo * 10
-
-		_play_one_shot(
-			SFX_COMBO_UP,
-			sfx_volume_db - 3.0,
-			1.0 + minf(float(combo - 1) * 0.04, 0.20)
-		)
-
-		_pulse_combo_badge()
-
-	elif reason == "wasted_raw":
-		wasted += 1
-		combo = 0
-		score = maxi(score - 50, 0)
-
-	elif reason == "wasted_slightly":
-		wasted += 1
-		combo = 0
-		score = maxi(score - 25, 0)
-
-	elif reason == "burnt":
-		wasted += 1
-		combo = 0
+	match reason:
+		"collected":
+			collected += 1
+			combo += 1
+			highest_combo = maxi(highest_combo, combo)
+			score += 300 + combo * 10
+			_play_sound(SFX_COMBO_UP, -7.0, 1.0 + minf(combo * 0.03, 0.18))
+		"wasted_raw":
+			wasted += 1
+			combo = 0
+			score = maxi(score - 50, 0)
+		"wasted_slightly":
+			wasted += 1
+			combo = 0
+			score = maxi(score - 25, 0)
+		"burnt":
+			wasted += 1
+			combo = 0
 
 	if previous_combo > 0 and combo == 0:
-		_play_one_shot(
-			SFX_COMBO_BREAK,
-			sfx_volume_db,
-			1.0
-		)
-
-		_pulse_combo_badge()
-
-	update_ui()
-	_update_warning_ui()
+		_play_sound(SFX_COMBO_BREAK, -5.0)
+	_update_ui()
 
 	if wasted >= fail_wasted:
-		end_game(false, "too_many_wasted")
+		_end_game(false, "too_many_wasted")
 		return
-
-	if removed_this_round >= round_pieces.size():
-		finish_round()
-
-func finish_round() -> void:
-	if not gameplay_started:
+	if removed_this_round >= expected_pieces:
+		_finish_round()
 		return
+	_show_result_or_warning_dialogue(reason)
 
-	if ending_started:
+
+func _show_result_or_warning_dialogue(reason: String) -> void:
+	if wasted >= 6 and warning_level_shown < 6:
+		warning_level_shown = 6
+		_play_sound(SFX_WARNING, -4.0)
+		_show_vendor_line(
+			"One more mistake and this entire batch is ruined!",
+			"super_angry",
+			"warning"
+		)
 		return
-
-	if phase == MiniRoundPhase.GAME_OVER:
+	if wasted >= 5 and warning_level_shown < 5:
+		warning_level_shown = 5
+		_play_sound(SFX_WARNING, -4.0)
+		_show_vendor_line(
+			"Five pieces wasted already. You only have two chances left.",
+			"angry",
+			"warning"
+		)
 		return
+	if reason == "collected" and combo == 3 and not result_dialogue_seen.has("combo"):
+		result_dialogue_seen["combo"] = true
+		_show_vendor_line("That's the rhythm! Keep following the needles.", "happy", "feedback")
+		return
+	if RESULT_LINES.has(reason) and not result_dialogue_seen.has(reason):
+		result_dialogue_seen[reason] = true
+		var line: Dictionary = RESULT_LINES[reason]
+		_show_vendor_line(str(line["text"]), str(line["expression"]), "feedback")
 
-	phase = MiniRoundPhase.ROUND_END
 
-	_play_one_shot(
-		SFX_ROUND_COMPLETE,
-		sfx_volume_db,
-		1.0
-	)
+func _finish_round() -> void:
+	if phase != RoundPhase.ACTIVE:
+		return
+	phase = RoundPhase.ROUND_END
+	takeout_indicator.call("stop_sweep")
+	round_complete_root.visible = true
+	_play_sound(SFX_ROUND_COMPLETE, -4.0)
+	_finish_round_sequence(current_round_index)
+
+
+func _finish_round_sequence(completed_round_index: int) -> void:
+	await get_tree().create_timer(1.15).timeout
+	if phase != RoundPhase.ROUND_END:
+		return
+	round_complete_root.visible = false
+
+	if completed_round_index >= round_defs.size() - 1:
+		if collected >= required_collected:
+			_end_game(true)
+		else:
+			_end_game(false, "not_enough_collected")
+		return
 
 	current_round_index += 1
-
-	if current_round_index >= round_defs.size():
-		end_game(collected >= required_collected)
-		return
-
-	show_feedback("Next batch...")
-
-	await get_tree().create_timer(1.2, false).timeout
-
-	if ending_started:
-		return
-
-	if phase == MiniRoundPhase.GAME_OVER:
-		return
-
-	start_round()
-
-func end_game(
-	success: bool,
-	failure_type: String = "not_enough_collected"
-) -> void:
-	if ending_started or fail_screen_started:
-		return
-
-	if phase == MiniRoundPhase.GAME_OVER:
-		return
-
-	phase = MiniRoundPhase.GAME_OVER
-	clear_remaining_chicharon()
-	_hide_tongs()
-	_fade_out_game_audio()
-
-	if success:
-		_play_one_shot(
-			SFX_SUCCESS_TRANSITION,
-			sfx_volume_db,
-			1.0
-		)
-		show_feedback("Success! Enough chicharon!")
-		update_ui()
-
-		print("")
-		print("========================================")
-		print("CHICHARON BEAT SUCCESS")
-		print("Collected: ", collected)
-		print("Wasted: ", wasted)
-		print("Score: ", score)
-		print("========================================")
-		print("")
-
-		_start_success_ending()
-		return
-
-	_play_one_shot(
-		SFX_FAILURE_TRANSITION,
-		sfx_volume_db,
-		1.0
+	var line: Dictionary = ROUND_LINES[completed_round_index]
+	_prepare_round_continue(
+		str(line["text"]),
+		str(line["expression"])
 	)
 
-	show_feedback("Failed! Vendor got angry!")
-	update_ui()
 
-	print("")
-	print("========================================")
-	print("CHICHARON BEAT FAILED")
-	print("Failure type: ", failure_type)
-	print("Collected: ", collected)
-	print("Wasted: ", wasted)
-	print("Score: ", score)
-	print("========================================")
-	print("")
-
-	_start_failure_screen(failure_type)
-
-
-func _start_failure_screen(failure_type: String) -> void:
-	if fail_screen_started or ending_started:
+func _end_game(success: bool, failure_type := "not_enough_collected") -> void:
+	if phase == RoundPhase.GAME_OVER:
 		return
-
-	if fail_screen == null:
-		_ensure_fail_screen()
-		_connect_fail_screen()
-
-	if fail_screen == null:
-		push_error(
-			"Cannot start the Chicharon fail screen "
-			+ "because it is missing."
+	phase = RoundPhase.GAME_OVER
+	gameplay_active = false
+	waiting_for_round_continue = false
+	countdown_active = false
+	takeout_indicator.call("stop_sweep")
+	_clear_pieces()
+	_hide_tongs()
+	_stop_audio()
+	if success:
+		_play_sound(SFX_SUCCESS, -4.0)
+		_show_vendor_line(
+			"Excellent work! Crisp, golden, and barely a piece wasted.",
+			"happy",
+			"success"
 		)
 		return
 
-	if not fail_screen.has_method("start_fail_screen"):
-		push_error(
-			"Chicharon fail screen is missing "
-			+ "start_fail_screen()."
-		)
-		return
-
-	fail_screen_started = true
-	phase = MiniRoundPhase.GAME_OVER
-	clear_remaining_chicharon()
-
-	var dialogue: String
-	var reason: String
-
+	_play_sound(SFX_FAILURE, -4.0)
+	var fail_dialogue := "There isn't enough good chicharon for the order. We have to start again."
+	var fail_reason := "You did not collect enough good chicharon for the order."
 	if failure_type == "too_many_wasted":
-		dialogue = (
-			"Why are you wasting so much food? "
-			+ "This whole batch is ruined! "
-			+ "Be more careful next time."
-		)
-		reason = "Too much chicharon was wasted."
-	else:
-		dialogue = (
-			"That's not enough chicharon for the order. "
-			+ "Get a new batch and try again."
-		)
-		reason = (
-			"Not enough properly cooked chicharon "
-			+ "was collected."
-		)
-
-	print("DEBUG CHICHARON: Starting shared fail screen.")
-
+		fail_dialogue = "That's enough! Too much chicharon was wasted. This batch is ruined."
+		fail_reason = "Too many pieces of chicharon were wasted."
 	fail_screen.call(
 		"start_fail_screen",
-		dialogue,
-		reason,
+		fail_dialogue,
+		fail_reason,
 		score,
 		true
 	)
 
 
-# =========================================================
-# SHARED INTRODUCTION
-# =========================================================
-
-func _ensure_introduction() -> void:
-	var existing_node: Node = get_node_or_null(
-		"MinigameIntroduction"
-	)
-
-	if existing_node != null:
-		var has_required_structure: bool = (
-			existing_node.get_node_or_null("Root") != null
-			and existing_node.get_node_or_null(
-				"Root/BlackBackground"
-			) != null
-			and existing_node.get_node_or_null(
-				"Root/SlideImage"
-			) != null
-			and existing_node.get_node_or_null(
-				"Root/LeftArrowGroup"
-			) != null
-			and existing_node.get_node_or_null(
-				"Root/RightArrowGroup"
-			) != null
-			and existing_node.get_node_or_null(
-				"Root/StartButtonGroup"
-			) != null
-			and existing_node.get_node_or_null(
-				"Root/CountdownLayer"
-			) != null
-		)
-
-		var has_required_script: bool = (
-			existing_node.has_method("start_introduction")
-			and existing_node.has_signal("start_requested")
-			and existing_node.has_signal("countdown_finished")
-		)
-
-		if has_required_structure and has_required_script:
-			introduction = existing_node
-			introduction.set("auto_start_for_testing", false)
-
-			print(
-				"DEBUG CHICHARON: Existing introduction is valid."
-			)
-			return
-
-		print(
-			"DEBUG CHICHARON: Existing introduction is "
-			+ "incomplete. Replacing it."
-		)
-
-		remove_child(existing_node)
-		existing_node.queue_free()
-
-	if INTRODUCTION_SCENE == null:
-		push_error(
-			"CHICHARON: Introduction scene could not be loaded."
-		)
-		return
-
-	var new_introduction: Node = INTRODUCTION_SCENE.instantiate()
-
-	if new_introduction == null:
-		push_error(
-			"CHICHARON: Introduction could not be instantiated."
-		)
-		return
-
-	new_introduction.name = "MinigameIntroduction"
-
-	# Set this before add_child(), because the introduction's
-	# _ready() runs as soon as it enters the scene tree.
-	new_introduction.set("auto_start_for_testing", false)
-
-	add_child(new_introduction)
-	introduction = new_introduction
-
-	print(
-		"DEBUG CHICHARON: Introduction instantiated automatically."
-	)
-
-
-func _connect_introduction() -> void:
-	if introduction == null:
-		push_error("CHICHARON: Introduction is missing.")
-		return
-
-	if not introduction.has_signal("start_requested"):
-		push_error(
-			"CHICHARON: Introduction is missing start_requested."
-		)
-		return
-
-	if not introduction.has_signal("countdown_finished"):
-		push_error(
-			"CHICHARON: Introduction is missing "
-			+ "countdown_finished."
-		)
-		return
-
-	var start_callable: Callable = Callable(
-		self,
-		"_on_introduction_start_requested"
-	)
-
-	var countdown_callable: Callable = Callable(
-		self,
-		"_on_introduction_countdown_finished"
-	)
-
-	if not introduction.is_connected(
-		"start_requested",
-		start_callable
-	):
-		introduction.connect(
-			"start_requested",
-			start_callable
-		)
-
-	if not introduction.is_connected(
-		"countdown_finished",
-		countdown_callable
-	):
-		introduction.connect(
-			"countdown_finished",
-			countdown_callable
-		)
-
-	print("DEBUG CHICHARON: Introduction signals connected.")
-
-
-func _start_chicharon_introduction() -> void:
-	if introduction_started:
-		return
-
-	if introduction == null:
-		push_error(
-			"CHICHARON: Cannot start introduction because it is missing."
-		)
-		_start_chicharon_gameplay()
-		return
-
-	if not introduction.has_method("start_introduction"):
-		push_error(
-			"CHICHARON: Introduction is missing start_introduction()."
-		)
-		_start_chicharon_gameplay()
-		return
-
-	introduction_started = true
-	gameplay_started = false
-
-	clear_remaining_chicharon()
-	_reset_gameplay_values()
-	update_ui()
-
-	if takeout_indicator != null:
-		takeout_indicator.visible = false
-
-	feedback_label.text = "Get ready!"
-	feedback_label.modulate = Color.WHITE
-
-	print("")
-	print("========================================")
-	print("CHICHARON INTRODUCTION STARTING")
-	print("Introduction ID: chicharon_beat")
-	print("========================================")
-	print("")
-
-	introduction.call(
-		"start_introduction",
-		"chicharon_beat"
-	)
-
-
-func _on_introduction_start_requested() -> void:
-	print("")
-	print("========================================")
-	print("CHICHARON START BUTTON PRESSED")
-	print("Showing the game behind the countdown.")
-	print("Gameplay remains locked until 1 disappears.")
-	print("========================================")
-	print("")
-
-	# The minigame scene already exists underneath the
-	# introduction. Reveal its normal indicator and UI while
-	# keeping all rhythm input and round logic disabled.
-	if takeout_indicator != null:
-		takeout_indicator.visible = true
-
-	update_ui()
-	feedback_label.text = "Get ready!"
-	feedback_label.modulate = Color.WHITE
-
-
-func _on_introduction_countdown_finished() -> void:
-	_play_one_shot(
-		SFX_COUNTDOWN_READY,
-		ui_sfx_volume_db,
-		1.0
-	)
-
-	print("")
-	print("========================================")
-	print("CHICHARON COUNTDOWN FINISHED")
-	print("Starting the first batch now.")
-	print("========================================")
-	print("")
-
-	_start_chicharon_gameplay()
-
-
-func _start_chicharon_gameplay() -> void:
-	if gameplay_started:
-		return
-
-	clear_remaining_chicharon()
-	_reset_gameplay_values()
-
-	gameplay_started = true
-	phase = MiniRoundPhase.THROWING_BATCH
-
-	_start_game_audio()
-
-	if (
-		takeout_indicator != null
-		and takeout_indicator.has_method("set_bpm")
-	):
-		takeout_indicator.call(
-			"set_bpm",
-			bpm
-		)
-
-	if takeout_indicator != null:
-		takeout_indicator.visible = true
-		takeout_indicator.global_position = (
-			takeout_point.global_position
-		)
-
-	update_ui()
-	show_feedback("Get ready!")
-
-	print("")
-	print("========================================")
-	print("CHICHARON BEAT GAMEPLAY STARTED")
-	print("Round: 1 / 5")
-	print("Required collected: ", required_collected)
-	print("Waste failure limit: ", fail_wasted)
-	print("========================================")
-	print("")
-
-	# Start on the next frame so the introduction can finish
-	# hiding its CanvasLayer before the first throw begins.
-	call_deferred("start_round")
-
-
-func _reset_gameplay_values() -> void:
-	phase = MiniRoundPhase.THROWING_BATCH
-
-	current_round_index = 0
-	current_pattern.clear()
-
-	round_pieces.clear()
-	removed_this_round = 0
-
-	collected = 0
-	wasted = 0
-	combo = 0
-	score = 0
-
-	ending_started = false
-	fail_screen_started = false
-	result_emitted = false
-
-	tongs_busy = false
-	warning_was_active = false
-	last_warning_wasted = -1
-
-	_hide_tongs()
-	_update_warning_ui()
-
-
-func _ensure_fail_screen() -> void:
-	var existing_node: Node = get_node_or_null(
-		"MinigameFailScreen"
-	)
-
-	if existing_node != null:
-		var existing_is_valid: bool = (
-			existing_node.has_method("start_fail_screen")
-			and existing_node.has_signal("retry_requested")
-			and existing_node.has_signal("exit_requested")
-		)
-
-		if existing_is_valid:
-			fail_screen = existing_node
-			print(
-				"DEBUG CHICHARON: "
-				+ "Existing fail screen is valid."
-			)
-			return
-
-		print(
-			"DEBUG CHICHARON: Removing incorrect "
-			+ "MinigameFailScreen node."
-		)
-
-		remove_child(existing_node)
-		existing_node.queue_free()
-
-	if FAIL_SCREEN_SCENE == null:
-		push_error(
-			"Chicharon fail-screen PackedScene "
-			+ "could not be loaded."
-		)
-		return
-
-	var new_fail_screen: Node = FAIL_SCREEN_SCENE.instantiate()
-
-	if new_fail_screen == null:
-		push_error(
-			"Chicharon fail screen could not "
-			+ "be instantiated."
-		)
-		return
-
-	new_fail_screen.name = "MinigameFailScreen"
-	add_child(new_fail_screen)
-	fail_screen = new_fail_screen
-
-	print(
-		"DEBUG CHICHARON: Fail screen "
-		+ "instantiated automatically."
-	)
-
-
-func _connect_fail_screen() -> void:
-	if fail_screen == null:
-		push_error("Chicharon fail screen is missing.")
-		return
-
-	if not fail_screen.has_signal("retry_requested"):
-		push_error(
-			"Chicharon fail screen is missing "
-			+ "retry_requested."
-		)
-		return
-
-	if not fail_screen.has_signal("exit_requested"):
-		push_error(
-			"Chicharon fail screen is missing "
-			+ "exit_requested."
-		)
-		return
-
-	var retry_callable: Callable = Callable(
-		self,
-		"_on_fail_retry_requested"
-	)
-
-	var exit_callable: Callable = Callable(
-		self,
-		"_on_fail_exit_requested"
-	)
-
-	if not fail_screen.is_connected(
+func _setup_fail_screen() -> void:
+	fail_screen = FAIL_SCREEN_SCENE.instantiate()
+	fail_screen.name = "MinigameFailScreen"
+	add_child(fail_screen)
+	fail_screen.connect(
 		"retry_requested",
-		retry_callable
-	):
-		fail_screen.connect(
-			"retry_requested",
-			retry_callable
-		)
-
-	if not fail_screen.is_connected(
+		Callable(self, "_on_fail_retry_requested")
+	)
+	fail_screen.connect(
 		"exit_requested",
-		exit_callable
-	):
-		fail_screen.connect(
-			"exit_requested",
-			exit_callable
-		)
-
-	print("DEBUG CHICHARON: Fail-screen signals connected.")
+		Callable(self, "_on_fail_exit_requested")
+	)
 
 
 func _on_fail_retry_requested() -> void:
-	print("DEBUG CHICHARON: Retry requested.")
 	if get_tree().current_scene == self:
 		get_tree().reload_current_scene()
 	else:
@@ -1696,1083 +745,286 @@ func _on_fail_retry_requested() -> void:
 func _on_fail_exit_requested() -> void:
 	if result_emitted:
 		return
-
 	result_emitted = true
-
-	print("")
-	print("========================================")
-	print("DEBUG CHICHARON: EXIT AFTER FAILURE")
-	print("Final score: ", score)
-	print("========================================")
-	print("")
-
 	minigame_failed.emit(score)
 
 
-func clear_remaining_chicharon() -> void:
-	for piece in round_pieces:
+func _show_vendor_line(text: String, expression: String, context: String) -> void:
+	dialogue_context = context
+	var auto_hide := -1.0
+	if context in ["passive", "feedback", "warning"]:
+		auto_hide = 2.8
+	dialogue.say(text, expression, auto_hide, "vendor_chicharon")
+
+
+func _on_dialogue_started() -> void:
+	dialogue_is_blocking = not dialogue_context in [
+		"passive", "feedback", "warning"
+	]
+	dialogue_paused = dialogue_is_blocking
+	if dialogue_is_blocking:
+		_set_gameplay_processing(false)
+
+
+func _on_dialogue_finished() -> void:
+	var context := dialogue_context
+	dialogue_context = ""
+	var was_blocking := dialogue_is_blocking
+	dialogue_is_blocking = false
+	match context:
+		"intro":
+			_set_gameplay_processing(true)
+			dialogue_paused = false
+			_begin_gameplay()
+		"success":
+			dialogue_paused = false
+			if not result_emitted:
+				result_emitted = true
+				$CollectibleEnding.play()
+		"fail":
+			dialogue_paused = false
+			_on_fail_exit_requested()
+		_:
+			if was_blocking:
+				_set_gameplay_processing(true)
+				dialogue_paused = false
+
+
+func _set_gameplay_processing(enabled: bool) -> void:
+	var mode := Node.PROCESS_MODE_INHERIT if enabled else Node.PROCESS_MODE_DISABLED
+	takeout_indicator.process_mode = mode
+	for piece: Node in round_pieces:
 		if is_instance_valid(piece):
-			piece.queue_free()
-
-	round_pieces.clear()
-
-	for child in chicharon_container.get_children():
-		if is_instance_valid(child):
-			child.queue_free()
+			piece.process_mode = mode
 
 
-func _ensure_ending_sequence() -> void:
-	var existing_node: Node = get_node_or_null(
-		"CollectibleEndingScene"
+func _choose_pattern(difficulty: String) -> Array:
+	var patterns := easy_patterns
+	if difficulty == "medium":
+		patterns = medium_patterns
+	elif difficulty == "hard":
+		patterns = hard_patterns
+	return (patterns.pick_random() as Array).duplicate()
+
+
+func _update_ui() -> void:
+	var shown_round := mini(current_round_index + 1, round_defs.size())
+	var difficulty := str(round_defs[mini(current_round_index, round_defs.size() - 1)]["difficulty"])
+	round_label.text = "ROUND %d / %d" % [shown_round, round_defs.size()]
+	difficulty_label.text = difficulty.to_upper()
+	collected_label.text = "%d / %d" % [collected, required_collected]
+	wasted_label.text = "%d / %d" % [wasted, fail_wasted]
+	highest_combo_label.text = "x%d" % highest_combo
+	score_label.text = str(score)
+	combo_counter_label.text = "x%d" % combo
+	combo_counter_sprite.visible = combo > 0
+	combo_counter_label.visible = combo > 0
+
+
+func _setup_hud() -> void:
+	performance_sprite = _add_ui_sprite(
+		"PerformancePanel", PERFORMANCE_PANEL,
+		PERFORMANCE_ORIGIN + Vector2(146.5, 175.0), 0
+	)
+	round_panel_sprite = _add_ui_sprite(
+		"RoundPanel", ROUND_PANEL,
+		ROUND_ORIGIN + Vector2(207.0, 88.5), 0
+	)
+	_setup_round_complete_overlay()
+	combo_counter_sprite = _add_ui_sprite(
+		"ComboCounter", COMBO_COUNTER,
+		COMBO_ORIGIN + Vector2(86.0, 86.0), 0
 	)
 
-	if existing_node != null:
-		var existing_scene_is_valid: bool = (
-			existing_node.has_method("start_ending")
-			and existing_node.has_signal("ending_finished")
-		)
+	_configure_label(collected_label, PERFORMANCE_ORIGIN + Vector2(164.2, 45.1), Vector2(94.0, 27.6), 18)
+	_configure_label(wasted_label, PERFORMANCE_ORIGIN + Vector2(164.2, 91.0), Vector2(94.0, 27.6), 18)
+	_configure_label(highest_combo_label, PERFORMANCE_ORIGIN + Vector2(164.2, 137.0), Vector2(94.0, 27.6), 18)
 
-		if existing_scene_is_valid:
-			ending_sequence = existing_node
+	score_label = Label.new()
+	score_label.name = "ScoreValue"
+	ui.add_child(score_label)
+	_configure_label(score_label, PERFORMANCE_ORIGIN + Vector2(164.2, 183.1), Vector2(94.0, 27.6), 18)
 
-			print(
-				"DEBUG CHICHARON: "
-				+ "Existing ending scene is valid."
-			)
+	_configure_label(round_label, ROUND_ORIGIN + Vector2(39.9, 49.6), Vector2(332.7, 75.7), 38)
+	round_label.add_theme_constant_override("outline_size", 1)
+	round_label.add_theme_color_override("font_outline_color", Color("2b160a"))
+	difficulty_label = Label.new()
+	difficulty_label.name = "DifficultyValue"
+	ui.add_child(difficulty_label)
+	_configure_label(difficulty_label, ROUND_ORIGIN + Vector2(73.4, 139.5), Vector2(275.2, 27.6), 17)
 
-			return
-
-		print(
-			"DEBUG CHICHARON: Removing incorrect "
-			+ "CollectibleEndingScene node."
-		)
-
-		remove_child(existing_node)
-		existing_node.queue_free()
-
-	if ENDING_SCENE == null:
-		push_error(
-			"Chicharon ending PackedScene "
-			+ "could not be loaded."
-		)
-
-		return
-
-	var new_ending_scene: Node = (
-		ENDING_SCENE.instantiate()
-	)
-
-	if new_ending_scene == null:
-		push_error(
-			"Chicharon ending scene "
-			+ "could not be instantiated."
-		)
-
-		return
-
-	new_ending_scene.name = "CollectibleEndingScene"
-	add_child(new_ending_scene)
-
-	ending_sequence = new_ending_scene
-
-	print(
-		"DEBUG CHICHARON: Ending scene "
-		+ "instantiated automatically."
-	)
+	combo_counter_label = Label.new()
+	combo_counter_label.name = "ComboCounterValue"
+	ui.add_child(combo_counter_label)
+	_configure_label(combo_counter_label, COMBO_ORIGIN + Vector2(43.1, 67.7), Vector2(85.8, 51.6), 34)
+	combo_counter_label.add_theme_constant_override("outline_size", 1)
+	combo_counter_label.add_theme_color_override("font_outline_color", Color("2b160a"))
 
 
-func _connect_ending_sequence() -> void:
-	if ending_sequence == null:
-		push_error(
-			"Chicharon ending sequence is missing."
-		)
-
-		return
-
-	if not ending_sequence.has_method("start_ending"):
-		push_error(
-			"Chicharon ending scene is missing "
-			+ "start_ending()."
-		)
-
-		return
-
-	if not ending_sequence.has_signal("ending_finished"):
-		push_error(
-			"Chicharon ending scene is missing "
-			+ "ending_finished."
-		)
-
-		return
-
-	var finished_callable: Callable = Callable(
-		self,
-		"_on_ending_sequence_finished"
-	)
-
-	if not ending_sequence.is_connected(
-		"ending_finished",
-		finished_callable
-	):
-		ending_sequence.connect(
-			"ending_finished",
-			finished_callable
-		)
-
-		print(
-			"DEBUG CHICHARON: ending_finished "
-			+ "signal connected."
-		)
+func _setup_round_complete_overlay() -> void:
+	round_complete_layer = CanvasLayer.new()
+	round_complete_layer.name = "RoundCompleteLayer"
+	round_complete_layer.layer = 150
+	add_child(round_complete_layer)
+	round_complete_root = Control.new()
+	round_complete_root.name = "Root"
+	round_complete_root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	round_complete_layer.add_child(round_complete_root)
+	var dim := ColorRect.new()
+	dim.name = "DimBackground"
+	dim.position = Vector2.ZERO
+	dim.size = VIEWPORT_SIZE
+	dim.color = Color(0.0, 0.0, 0.0, 0.76)
+	dim.mouse_filter = Control.MOUSE_FILTER_STOP
+	dim.z_index = 0
+	round_complete_root.add_child(dim)
+	round_complete_sprite = Sprite2D.new()
+	round_complete_sprite.name = "RoundComplete"
+	round_complete_sprite.texture = ROUND_COMPLETE
+	round_complete_sprite.position = VIEWPORT_SIZE * 0.5
+	round_complete_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	round_complete_sprite.z_index = 1
+	round_complete_root.add_child(round_complete_sprite)
+	round_complete_root.visible = false
 
 
-func _start_success_ending() -> void:
-	if ending_started or fail_screen_started:
-		return
-
-	if ending_sequence == null:
-		_ensure_ending_sequence()
-		_connect_ending_sequence()
-
-	if ending_sequence == null:
-		push_error(
-			"Cannot start the Chicharon ending "
-			+ "because the ending scene is missing."
-		)
-		return
-
-	if not ending_sequence.has_method("start_ending"):
-		push_error(
-			"Cannot start the Chicharon ending "
-			+ "because start_ending() is missing."
-		)
-		return
-
-	if ENDING_COLLECTIBLE == null:
-		push_error(
-			"Chicharon ending collectible "
-			+ "texture is missing."
-		)
-		return
-
-	ending_started = true
-	phase = MiniRoundPhase.GAME_OVER
-
-	clear_remaining_chicharon()
-
-	print("")
-	print("========================================")
-	print("DEBUG CHICHARON: STARTING SUCCESS ENDING")
-	print("========================================")
-	print("")
-
-	ending_sequence.call(
-		"start_ending",
-		ENDING_COLLECTIBLE,
-		ending_collectible_scale
-	)
+func _add_ui_sprite(
+	node_name: String,
+	texture: Texture2D,
+	position: Vector2,
+	z_layer: int
+) -> Sprite2D:
+	var sprite := Sprite2D.new()
+	sprite.name = node_name
+	sprite.texture = texture
+	sprite.position = position
+	sprite.z_index = z_layer
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	ui.add_child(sprite)
+	return sprite
 
 
-func _on_ending_sequence_finished() -> void:
-	if result_emitted:
-		return
-
-	result_emitted = true
-
-	print("")
-	print("========================================")
-	print("DEBUG CHICHARON: ENDING COMPLETED")
-	print("Final score: ", score)
-	print("========================================")
-	print("")
-
-	minigame_finished.emit()
-
-
-func update_ui() -> void:
-	var round_data_index: int = mini(
-		current_round_index,
-		round_defs.size() - 1
-	)
-
-	var difficulty: String = str(
-		round_defs[round_data_index]["difficulty"]
-	)
-
-	round_label.text = (
-		"ROUND "
-		+ str(mini(current_round_index + 1, 5))
-		+ " / 5  -  "
-		+ difficulty.to_upper()
-	)
-
-	collected_label.text = (
-		"COLLECTED\n"
-		+ str(collected)
-		+ " / "
-		+ str(required_collected)
-	)
-
-	wasted_label.text = (
-		"WASTED\n"
-		+ str(wasted)
-		+ " / "
-		+ str(fail_wasted)
-	)
-
-	combo_label.text = (
-		"COMBO\n"
-		+ "x"
-		+ str(combo)
-	)
-
-	if score_label != null:
-		score_label.text = (
-			"SCORE\n"
-			+ str(score)
-		)
-
-	if combo_badge_sprite != null:
-		combo_badge_sprite.visible = combo > 0
-
-func show_feedback(message: String) -> void:
-	feedback_label.text = message
-	feedback_label.modulate.a = 1.0
-
-	if (
-		feedback_tween != null
-		and feedback_tween.is_valid()
-	):
-		feedback_tween.kill()
-
-	feedback_tween = create_tween()
-
-	feedback_tween.tween_interval(0.20)
-
-	feedback_tween.tween_property(
-		feedback_label,
-		"modulate:a",
-		0.0,
-		0.80
-	)
-
-
-# =========================================================
-# CHICHARON VISUAL POLISH
-# =========================================================
-
-func _setup_polish_visuals() -> void:
-	_setup_tongs()
-	_setup_ui_polish()
-
-	if (
-		takeout_indicator != null
-		and takeout_indicator.has_method("set_bpm")
-	):
-		takeout_indicator.call(
-			"set_bpm",
-			bpm
-		)
+func _configure_label(
+	label: Label,
+	position: Vector2,
+	size: Vector2,
+	font_size: int
+) -> void:
+	label.position = position
+	label.size = size
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_override("font", VCR_FONT)
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", Color("f5ddb0"))
+	label.add_theme_color_override("font_shadow_color", Color("241209"))
+	label.add_theme_constant_override("shadow_offset_x", 2)
+	label.add_theme_constant_override("shadow_offset_y", 2)
+	label.z_index = 10
 
 
 func _setup_tongs() -> void:
 	tongs_root = Node2D.new()
 	tongs_root.name = "RuntimeTongs"
-	tongs_root.z_index = 20
+	tongs_root.z_index = 60
 	add_child(tongs_root)
-
-	tongs_back = Sprite2D.new()
-	tongs_back.name = "TongsBack"
-	tongs_back.texture = TONGS_BACK_TEXTURE
-	tongs_back.z_index = 0
-	tongs_root.add_child(tongs_back)
-
-	tongs_front = Sprite2D.new()
-	tongs_front.name = "TongsFront"
-	tongs_front.texture = TONGS_FRONT_TEXTURE
-	tongs_front.z_index = 2
-	tongs_root.add_child(tongs_front)
-
+	var back := Sprite2D.new()
+	back.texture = TONGS_BACK
+	back.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	tongs_root.add_child(back)
+	var front := Sprite2D.new()
+	front.texture = TONGS_FRONT
+	front.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	front.z_index = 2
+	tongs_root.add_child(front)
 	tongs_root.scale = tongs_scale
 	tongs_root.rotation_degrees = tongs_rotation_degrees
-
 	_hide_tongs()
-
-
-func _setup_ui_polish() -> void:
-	var ui_node: Node = get_node_or_null("UI")
-
-	if ui_node == null:
-		push_warning(
-			"CHICHARON: UI node is missing. "
-			+ "Polish frames were not created."
-		)
-
-		return
-
-	ui_panel_sprite = Sprite2D.new()
-	ui_panel_sprite.name = "RuntimeChicharonUIPanel"
-	ui_panel_sprite.texture = CHICHARON_UI_PANEL_TEXTURE
-	ui_panel_sprite.position = ui_panel_position
-	ui_panel_sprite.scale = ui_panel_scale
-	ui_panel_sprite.z_index = -20
-	ui_node.add_child(ui_panel_sprite)
-
-	round_banner_sprite = Sprite2D.new()
-	round_banner_sprite.name = "RuntimeRoundBanner"
-	round_banner_sprite.texture = ROUND_BANNER_TEXTURE
-	round_banner_sprite.position = round_banner_position
-	round_banner_sprite.scale = round_banner_scale
-	round_banner_sprite.z_index = -20
-	ui_node.add_child(round_banner_sprite)
-
-	combo_badge_sprite = Sprite2D.new()
-	combo_badge_sprite.name = "RuntimeComboBadge"
-	combo_badge_sprite.texture = COMBO_BADGE_TEXTURE
-	combo_badge_sprite.position = combo_badge_position
-	combo_badge_sprite.scale = combo_badge_scale
-	combo_badge_sprite.z_index = -20
-	combo_badge_sprite.visible = false
-	ui_node.add_child(combo_badge_sprite)
-
-	warning_panel_sprite = Sprite2D.new()
-	warning_panel_sprite.name = "RuntimeWarningPanel"
-	warning_panel_sprite.texture = WARNING_PANEL_TEXTURE
-	warning_panel_sprite.position = warning_panel_position
-	warning_panel_sprite.scale = warning_panel_scale
-	warning_panel_sprite.z_index = 40
-	warning_panel_sprite.visible = false
-	ui_node.add_child(warning_panel_sprite)
-
-	# -----------------------------------------------------
-	# HUD LABELS
-	# -----------------------------------------------------
-
-	_configure_hud_label(
-		collected_label,
-		ui_panel_position + collected_label_offset,
-		hud_label_size,
-		hud_label_font_size
-	)
-
-	_configure_hud_label(
-		wasted_label,
-		ui_panel_position + wasted_label_offset,
-		hud_label_size,
-		hud_label_font_size
-	)
-
-	_configure_hud_label(
-		combo_label,
-		ui_panel_position + combo_label_offset,
-		hud_label_size,
-		hud_label_font_size
-	)
-
-	score_label = Label.new()
-	score_label.name = "RuntimeScoreLabel"
-
-	_configure_hud_label(
-		score_label,
-		ui_panel_position + score_label_offset,
-		hud_label_size,
-		hud_label_font_size
-	)
-
-	ui_node.add_child(score_label)
-
-	_configure_hud_label(
-		round_label,
-		round_banner_position + round_label_offset,
-		round_label_size,
-		round_label_font_size
-	)
-
-	round_label.horizontal_alignment = (
-		HORIZONTAL_ALIGNMENT_CENTER
-	)
-
-	round_label.vertical_alignment = (
-		VERTICAL_ALIGNMENT_CENTER
-	)
-
-	# Feedback keeps its scene position but uses the shared VCR font.
-	_apply_vcr_font_to_label(
-		feedback_label,
-		feedback_label_font_size
-	)
-
-	feedback_label.z_index = 30
-
-	# -----------------------------------------------------
-	# WARNING LABEL
-	# -----------------------------------------------------
-
-	warning_label = Label.new()
-	warning_label.name = "RuntimeWarningLabel"
-	warning_label.text = (
-		"CAREFUL! TOO MUCH IS BEING WASTED!"
-	)
-	warning_label.horizontal_alignment = (
-		HORIZONTAL_ALIGNMENT_CENTER
-	)
-	warning_label.vertical_alignment = (
-		VERTICAL_ALIGNMENT_CENTER
-	)
-	warning_label.position = (
-		warning_panel_position
-		+ Vector2(-250.0, -20.0)
-	)
-	warning_label.size = Vector2(500.0, 70.0)
-	warning_label.z_index = 41
-	warning_label.visible = false
-
-	_apply_vcr_font_to_label(
-		warning_label,
-		20
-	)
-
-	warning_label.add_theme_color_override(
-		"font_color",
-		Color(1.0, 0.88, 0.55, 1.0)
-	)
-
-	ui_node.add_child(warning_label)
-
-
-func _configure_hud_label(
-	label: Label,
-	new_position: Vector2,
-	new_size: Vector2,
-	font_size: int
-) -> void:
-	if label == null:
-		return
-
-	label.position = new_position
-	label.size = new_size
-
-	label.horizontal_alignment = (
-		HORIZONTAL_ALIGNMENT_CENTER
-	)
-
-	label.vertical_alignment = (
-		VERTICAL_ALIGNMENT_CENTER
-	)
-
-	label.autowrap_mode = (
-		TextServer.AUTOWRAP_OFF
-	)
-
-	label.z_index = 10
-
-	_apply_vcr_font_to_label(
-		label,
-		font_size
-	)
-
-
-func _apply_vcr_font_to_label(
-	label: Label,
-	font_size: int
-) -> void:
-	if label == null:
-		return
-
-	var vcr_font: Font = (
-		load(VCR_FONT_PATH) as Font
-	)
-
-	if vcr_font != null:
-		label.add_theme_font_override(
-			"font",
-			vcr_font
-		)
-
-	label.add_theme_font_size_override(
-		"font_size",
-		font_size
-	)
-
-	label.add_theme_color_override(
-		"font_color",
-		Color(0.97, 0.90, 0.73, 1.0)
-	)
-
-	label.add_theme_color_override(
-		"font_shadow_color",
-		Color(0.08, 0.04, 0.02, 1.0)
-	)
-
-	label.add_theme_constant_override(
-		"shadow_offset_x",
-		2
-	)
-
-	label.add_theme_constant_override(
-		"shadow_offset_y",
-		2
-	)
-
-func _animate_tongs_and_take(
-	target: Node,
-	take_result: String
-) -> void:
-	if tongs_busy:
-		return
-
-	if not is_instance_valid(target):
-		return
-
-	tongs_busy = true
-
-	var target_2d: Node2D = target as Node2D
-
-	if target_2d != null:
-		target_2d.z_index = 21
-
-	var takeout_center: Vector2 = (
-		_get_takeout_center_position()
-	)
-
-	tongs_root.global_position = (
-		takeout_center
-		+ tongs_rest_offset
-	)
-
-	tongs_root.scale = tongs_scale
-	tongs_root.rotation_degrees = (
-		tongs_rotation_degrees
-	)
-	tongs_root.visible = true
-
-	_play_one_shot(
-		SFX_TONGS_SNAP,
-		sfx_volume_db,
-		1.0
-	)
-
-	var strike_tween: Tween = create_tween()
-
-	strike_tween.tween_property(
-		tongs_root,
-		"global_position",
-		takeout_center
-		+ tongs_take_offset,
-		tongs_strike_duration
-	).set_trans(
-		Tween.TRANS_QUAD
-	).set_ease(
-		Tween.EASE_OUT
-	)
-
-	await strike_tween.finished
-
-	if not is_instance_valid(target):
-		_hide_tongs()
-		tongs_busy = false
-		return
-
-	# Feedback and gameplay resolution use the SAME result that was
-	# captured on the input frame.
-	_show_take_result(
-		take_result
-	)
-
-	if take_result == "burnt":
-		_play_one_shot(
-			SFX_TONGS_MISS,
-			sfx_volume_db,
-			1.0
-		)
-	else:
-		_play_one_shot(
-			SFX_TONGS_GRAB,
-			sfx_volume_db - 2.0,
-			1.0
-		)
-
-	if target.has_method("resolve_take_result"):
-		target.call(
-			"resolve_take_result",
-			take_result
-		)
-
-	elif target.has_method("try_take"):
-		# Compatibility fallback for an older piece script.
-		target.call("try_take")
-
-	var retract_tween: Tween = create_tween()
-
-	retract_tween.tween_property(
-		tongs_root,
-		"global_position",
-		takeout_center
-		+ tongs_rest_offset,
-		tongs_retract_duration
-	).set_trans(
-		Tween.TRANS_QUAD
-	).set_ease(
-		Tween.EASE_IN
-	)
-
-	await retract_tween.finished
-
-	_hide_tongs()
-	tongs_busy = false
-
-func _show_take_result(
-	cook_state_name: String
-) -> void:
-	match cook_state_name:
-		"perfect":
-			_spawn_feedback_popup(
-				PERFECT_POPUP
-			)
-
-			_spawn_big_oil_splash()
-
-			var perfect_stream: AudioStream = (
-				SFX_TAKEOUT_PERFECT_01
-				if randi() % 2 == 0
-				else SFX_TAKEOUT_PERFECT_02
-			)
-
-			_play_one_shot(
-				perfect_stream,
-				sfx_volume_db,
-				1.0
-			)
-
-			if takeout_indicator.has_method("flash_result"):
-				takeout_indicator.call(
-					"flash_result",
-					"perfect"
-				)
-
-		"slightly_cooked":
-			_spawn_feedback_popup(
-				UNDERCOOKED_POPUP
-			)
-
-			_play_one_shot(
-				SFX_TAKEOUT_UNDERCOOKED,
-				sfx_volume_db,
-				1.0
-			)
-
-			if takeout_indicator.has_method("flash_result"):
-				takeout_indicator.call(
-					"flash_result",
-					"miss"
-				)
-
-		"burnt":
-			_spawn_feedback_popup(
-				BURNT_POPUP
-			)
-
-			if takeout_indicator.has_method("flash_result"):
-				takeout_indicator.call(
-					"flash_result",
-					"burnt"
-				)
-
-		_:
-			_spawn_feedback_popup(
-				TOO_RAW_POPUP
-			)
-
-			_play_one_shot(
-				SFX_TAKEOUT_RAW,
-				sfx_volume_db,
-				1.0
-			)
-
-			if takeout_indicator.has_method("flash_result"):
-				takeout_indicator.call(
-					"flash_result",
-					"miss"
-				)
-
-
-func _spawn_feedback_popup(
-	texture: Texture2D
-) -> void:
-	if texture == null:
-		return
-
-	var popup: Sprite2D = Sprite2D.new()
-
-	popup.texture = texture
-	popup.global_position = (
-		_get_takeout_center_position()
-		+ popup_offset
-	)
-	popup.scale = popup_scale * 0.70
-	popup.modulate = Color.WHITE
-	popup.z_index = 100
-
-	add_child(popup)
-
-	var target_position: Vector2 = (
-		popup.global_position
-		+ Vector2(
-			0.0,
-			-popup_rise_distance
-		)
-	)
-
-	var tween: Tween = create_tween()
-
-	tween.tween_property(
-		popup,
-		"scale",
-		popup_scale * 1.10,
-		0.10
-	).set_trans(
-		Tween.TRANS_BACK
-	).set_ease(
-		Tween.EASE_OUT
-	)
-
-	tween.tween_property(
-		popup,
-		"scale",
-		popup_scale,
-		0.07
-	)
-
-	tween.set_parallel(true)
-
-	tween.tween_property(
-		popup,
-		"global_position",
-		target_position,
-		0.45
-	)
-
-	tween.tween_property(
-		popup,
-		"modulate:a",
-		0.0,
-		0.45
-	).set_delay(
-		0.12
-	)
-
-	await tween.finished
-
-	if is_instance_valid(popup):
-		popup.queue_free()
-
-
-func _spawn_big_oil_splash() -> void:
-	var splash: Sprite2D = Sprite2D.new()
-
-	splash.texture = OIL_SPLASH_BIG
-	splash.global_position = (
-		_get_takeout_center_position()
-		+ big_splash_offset
-	)
-	splash.scale = big_splash_scale * 0.50
-	splash.modulate = Color.WHITE
-	splash.z_index = 19
-
-	add_child(splash)
-
-	_play_one_shot(
-		SFX_OIL_SPLASH_BIG,
-		sfx_volume_db - 2.0,
-		1.0
-	)
-
-	var tween: Tween = create_tween()
-
-	tween.set_parallel(true)
-
-	tween.tween_property(
-		splash,
-		"scale",
-		big_splash_scale * 1.10,
-		0.24
-	).set_trans(
-		Tween.TRANS_BACK
-	).set_ease(
-		Tween.EASE_OUT
-	)
-
-	tween.tween_property(
-		splash,
-		"modulate:a",
-		0.0,
-		0.32
-	).set_delay(
-		0.08
-	)
-
-	await tween.finished
-
-	if is_instance_valid(splash):
-		splash.queue_free()
 
 
 func _hide_tongs() -> void:
-	if tongs_root == null:
-		return
-
-	tongs_root.visible = false
+	if tongs_root != null:
+		tongs_root.visible = false
 
 
-func _pulse_round_banner() -> void:
-	if round_banner_sprite == null:
-		return
-
-	round_banner_sprite.scale = (
-		round_banner_scale * 0.92
-	)
-
-	var tween: Tween = create_tween()
-
-	tween.tween_property(
-		round_banner_sprite,
-		"scale",
-		round_banner_scale * 1.06,
-		0.12
-	).set_trans(
-		Tween.TRANS_BACK
-	).set_ease(
-		Tween.EASE_OUT
-	)
-
-	tween.tween_property(
-		round_banner_sprite,
-		"scale",
-		round_banner_scale,
-		0.10
-	)
+func _show_result_popup(result: String, position: Vector2) -> void:
+	var texture := TOO_RAW_POPUP
+	match result:
+		"perfect":
+			texture = PERFECT_POPUP
+		"slightly_cooked":
+			texture = UNDERCOOKED_POPUP
+		"burnt":
+			texture = BURNT_POPUP
+	var popup := Sprite2D.new()
+	popup.name = "%sFeedbackPopup" % result.capitalize().replace(" ", "")
+	popup.texture = texture
+	popup.position = position + Vector2(0.0, -85.0)
+	popup.scale = popup_scale * 0.8
+	popup.z_index = 70
+	popup.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	add_child(popup)
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(popup, "position:y", popup.position.y - 42.0, 0.55)
+	tween.tween_property(popup, "scale", popup_scale, 0.12)
+	tween.tween_property(popup, "modulate:a", 0.0, 0.25).set_delay(0.45)
+	tween.finished.connect(popup.queue_free)
 
 
-func _pulse_combo_badge() -> void:
-	if combo_badge_sprite == null:
-		return
+func _play_result_sound(result: String) -> void:
+	match result:
+		"perfect":
+			_play_sound(SFX_PERFECT_1 if randf() < 0.5 else SFX_PERFECT_2, -4.0)
+		"slightly_cooked":
+			_play_sound(SFX_UNDERCOOKED, -4.0)
+		"raw":
+			_play_sound(SFX_RAW, -4.0)
+		"burnt":
+			_play_sound(SFX_TONGS_MISS, -4.0)
+	_play_sound(SFX_TONGS_GRAB, -7.0)
 
-	combo_badge_sprite.visible = combo > 0
-
-	if (
-		combo_tween != null
-		and combo_tween.is_valid()
-	):
-		combo_tween.kill()
-
-	combo_badge_sprite.scale = combo_badge_scale
-
-	combo_tween = create_tween()
-
-	combo_tween.tween_property(
-		combo_badge_sprite,
-		"scale",
-		combo_badge_scale * 1.25,
-		0.09
-	).set_trans(
-		Tween.TRANS_BACK
-	).set_ease(
-		Tween.EASE_OUT
-	)
-
-	combo_tween.tween_property(
-		combo_badge_sprite,
-		"scale",
-		combo_badge_scale * 0.95,
-		0.06
-	)
-
-	combo_tween.tween_property(
-		combo_badge_sprite,
-		"scale",
-		combo_badge_scale,
-		0.06
-	)
-
-
-func _update_warning_ui() -> void:
-	if (
-		warning_panel_sprite == null
-		or warning_label == null
-	):
-		return
-
-	var warning_active: bool = (
-		wasted >= 5
-		and wasted < fail_wasted
-	)
-
-	warning_panel_sprite.visible = warning_active
-	warning_label.visible = warning_active
-
-	if not warning_active:
-		warning_was_active = false
-		return
-
-	if (
-		not warning_was_active
-		or last_warning_wasted != wasted
-	):
-		_play_one_shot(
-			SFX_WARNING_NEAR_FAIL,
-			sfx_volume_db,
-			1.0
-		)
-
-	warning_was_active = true
-	last_warning_wasted = wasted
-
-	if (
-		warning_tween != null
-		and warning_tween.is_valid()
-	):
-		warning_tween.kill()
-
-	var pulse_strength: float = (
-		1.12
-		if wasted >= 6
-		else 1.06
-	)
-
-	warning_panel_sprite.scale = warning_panel_scale
-
-	warning_tween = create_tween()
-	warning_tween.set_loops(2)
-
-	warning_tween.tween_property(
-		warning_panel_sprite,
-		"scale",
-		warning_panel_scale * pulse_strength,
-		0.12
-	)
-
-	warning_tween.tween_property(
-		warning_panel_sprite,
-		"scale",
-		warning_panel_scale,
-		0.12
-	)
-
-
-# =========================================================
-# CHICHARON AUDIO
-# =========================================================
 
 func _setup_audio() -> void:
 	music_player = AudioStreamPlayer.new()
-	music_player.name = "RuntimeMusicPlayer"
-	music_player.stream = BGM_CHICHARON
-
-	if music_player.stream is AudioStreamOggVorbis:
-		(
-			music_player.stream
-			as AudioStreamOggVorbis
-		).loop = true
-
-	music_player.volume_db = music_volume_db
+	music_player.name = "Music"
+	music_player.stream = BGM
+	music_player.volume_db = -18.0
 	add_child(music_player)
-
 	ambience_player = AudioStreamPlayer.new()
-	ambience_player.name = "RuntimeAmbiencePlayer"
-	ambience_player.stream = AMB_FRYING_OIL
-
-	if ambience_player.stream is AudioStreamOggVorbis:
-		(
-			ambience_player.stream
-			as AudioStreamOggVorbis
-		).loop = true
-
-	ambience_player.volume_db = ambience_volume_db
+	ambience_player.name = "FryingAmbience"
+	ambience_player.stream = AMBIENCE
+	ambience_player.volume_db = -17.0
 	add_child(ambience_player)
 
-	one_shot_players.clear()
 
-	for index in range(
-		maxi(
-			audio_one_shot_player_count,
-			1
-		)
-	):
-		var player: AudioStreamPlayer = (
-			AudioStreamPlayer.new()
-		)
-
-		player.name = (
-			"RuntimeOneShot"
-			+ str(index + 1)
-		)
-
-		add_child(player)
-
-		one_shot_players.append(player)
+func _start_audio() -> void:
+	if not music_player.playing:
+		music_player.play()
+	if not ambience_player.playing:
+		ambience_player.play()
 
 
-func _start_game_audio() -> void:
-	if music_player != null:
-		music_player.volume_db = music_volume_db
-
-		if not music_player.playing:
-			music_player.play()
-
-	if ambience_player != null:
-		ambience_player.volume_db = ambience_volume_db
-
-		if not ambience_player.playing:
-			ambience_player.play()
+func _stop_audio() -> void:
+	music_player.stop()
+	ambience_player.stop()
 
 
-func _fade_out_game_audio() -> void:
-	for player in [
-		music_player,
-		ambience_player
-	]:
-		if player == null:
-			continue
-
-		if not player.playing:
-			continue
-
-		var tween: Tween = create_tween()
-
-		tween.tween_property(
-			player,
-			"volume_db",
-			-60.0,
-			0.80
-		)
-
-		tween.tween_callback(
-			Callable(
-				player,
-				"stop"
-			)
-		)
-
-
-func _play_one_shot(
-	stream: AudioStream,
-	volume_db: float,
-	pitch_scale: float = 1.0
-) -> void:
+func _play_sound(stream: AudioStream, volume_db := -4.0, pitch := 1.0) -> void:
 	if stream == null:
 		return
+	var player := AudioStreamPlayer.new()
+	player.stream = stream
+	player.volume_db = volume_db
+	player.pitch_scale = pitch
+	add_child(player)
+	player.finished.connect(player.queue_free)
+	player.play()
 
-	var selected_player: AudioStreamPlayer = null
 
-	for player in one_shot_players:
-		if not player.playing:
-			selected_player = player
-			break
-
-	if selected_player == null:
-		selected_player = one_shot_players[0]
-
-	selected_player.stop()
-	selected_player.stream = stream
-	selected_player.volume_db = volume_db
-	selected_player.pitch_scale = pitch_scale
-	selected_player.play()
+func _clear_pieces() -> void:
+	for child: Node in chicharon_container.get_children():
+		if is_instance_valid(child):
+			child.queue_free()
+	round_pieces.clear()
+	piece_indices.clear()

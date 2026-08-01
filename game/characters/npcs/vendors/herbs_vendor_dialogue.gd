@@ -7,7 +7,8 @@ func _ready() -> void:
 	npc_display_name = "Ate Mila"
 	npc_portrait = VENDOR_PORTRAIT
 	minigame_title = "Bundle the Fresh Herbs"
-	minigame_instructions = "Placeholder: choose fragrant spring onion and toasted garlic for the bowl."
+	minigame_instructions = "Choose fragrant spring onion and toasted garlic for the bowl."
+	dialogue_only_reward = true
 	reward_id = "fresh_herbs"
 	reward_name = "Fresh herbs"
 	destination_id = "herbs_vendor"

@@ -559,7 +559,7 @@ func _start_ending_music() -> void:
 
 	ending_music_tween = create_tween()
 	ending_music_tween.set_pause_mode(
-		Tween.TWEEN_PAUSE_STOP
+		Tween.TWEEN_PAUSE_PROCESS
 	)
 
 	ending_music_tween.tween_property(
@@ -590,7 +590,7 @@ func _fade_out_ending_music() -> void:
 
 	ending_music_tween = create_tween()
 	ending_music_tween.set_pause_mode(
-		Tween.TWEEN_PAUSE_STOP
+		Tween.TWEEN_PAUSE_PROCESS
 	)
 
 	ending_music_tween.tween_property(
@@ -1722,8 +1722,7 @@ func _fade_screen_to_black() -> void:
 
 	if ending_finished_signal_delay > 0.0:
 		await get_tree().create_timer(
-			ending_finished_signal_delay,
-			false,
+			ending_finished_signal_delay
 		).timeout
 
 	ending_finished.emit()

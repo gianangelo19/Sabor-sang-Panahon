@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2yeu7xe8kney"]
+
+[ext_resource type="Script" uid="uid://cf2ymelaeu7np" path="res://features/minigames/final_cooking/scripts/final_cooking.gd" id="1_final_cooking"]
+[ext_resource type="Script" path="res://features/minigames/shared/instructions/minigame_instruction_dialogue.gd" id="2_instruction"]
+[ext_resource type="Script" path="res://features/minigames/shared/collectibles/collectible_ending_trigger.gd" id="3_collectible"]
+[ext_resource type="Texture2D" path="res://features/minigames/ending_sequence/assets/collectibles/collectible_batchoy.png" id="4_collectible_texture"]
+
+[node name="FinalCooking" type="Control" unique_id=946522769]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_final_cooking")
+
+[node name="InstructionDialogue" type="Node" parent="."]
+script = ExtResource("2_instruction")
+minigame_id = "final_cooking"
+parent_start_method = "start_after_instructions"
+
+[node name="CollectibleEnding" type="Node" parent="."]
+script = ExtResource("3_collectible")
+collectible_texture = ExtResource("4_collectible_texture")
+completion_signal = "cooking_sequence_completed"

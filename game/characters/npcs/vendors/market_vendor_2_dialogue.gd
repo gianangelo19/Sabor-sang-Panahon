@@ -1,6 +1,9 @@
 extends "res://game/characters/npcs/shared/two_person_npc_dialogue.gd"
 
 const VENDOR_PORTRAIT := preload("res://assets/art/characters/npc_market_vendor2/npc_market_vendor2_front.png")
+const MINIGAME_SCENE := preload(
+	"res://features/minigames/guinamos_jar_pick/scenes/guinamos_jar_pick.tscn"
+)
 
 
 func _ready() -> void:
@@ -8,6 +11,7 @@ func _ready() -> void:
 	npc_portrait = VENDOR_PORTRAIT
 	minigame_title = "Choose the Right Ginamos"
 	minigame_instructions = "Inspect the five jars through your senses and identify the best-aged ginamos."
+	minigame_scene = MINIGAME_SCENE
 	reward_id = "ginamos"
 	reward_name = "Ginamos (shrimp paste)"
 	destination_id = "market_vendor_2"

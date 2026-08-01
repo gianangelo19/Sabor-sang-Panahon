@@ -19,6 +19,20 @@ func _run() -> void:
 		"Inventory starts empty",
 	)
 
+	var expected_ingredient_icons := {
+		"fresh_herbs": "green_onions_uncut.png",
+		"seasoning": "scene3_black_pepper_shaker.png",
+		"fresh_egg": "collectible_egg.png",
+	}
+	for item_id: String in expected_ingredient_icons:
+		var icon_path := str(game_state.get_item_definition(item_id).get("icon", ""))
+		_check(
+			icon_path.ends_with(str(expected_ingredient_icons[item_id]))
+				and not icon_path.contains("/characters/")
+				and load(icon_path) is Texture2D,
+			"%s uses its ingredient artwork in the inventory" % item_id,
+		)
+
 	_check(
 		game_state.collect_ingredient("pork_and_liver", "Pork and Liver"),
 		"Collected ingredients enter story state",

@@ -1,7 +1,7 @@
-[gd_scene format=3 uid="uid://cl7b2vbtnee33"]
+[gd_scene load_steps=10 format=3 uid="uid://cl7b2vbtnee33"]
 
 [ext_resource type="Texture2D" uid="uid://bodd1fah5vcsy" path="res://features/minigames/guinamos_jar_pick/assets/background/guinamos_background_shelf.png" id="1_7767b"]
-[ext_resource type="Script" uid="uid://dghvxnxmyvpuc" path="res://features/minigames/guinamos_jar_pick/scripts/guinamos_jar_pick.gd" id="1_kektq"]
+[ext_resource type="Script" path="res://features/minigames/guinamos_jar_pick/scripts/guinamos_jar_pick.gd" id="1_kektq"]
 [ext_resource type="Texture2D" uid="uid://cubnujp3trcjn" path="res://features/minigames/guinamos_jar_pick/assets/ui/guinamos_score_frame.png" id="2_kektq"]
 [ext_resource type="Texture2D" uid="uid://csl8ghumdik1r" path="res://features/minigames/guinamos_jar_pick/assets/ui/guinamos_selected_pointer.png" id="3_js4kv"]
 [ext_resource type="Texture2D" uid="uid://m5rj6rth5v5" path="res://features/minigames/guinamos_jar_pick/assets/background/guinamos_table.png" id="4_youuw"]
@@ -9,9 +9,14 @@
 [ext_resource type="Texture2D" uid="uid://cefo0nhypwgo" path="res://features/minigames/guinamos_jar_pick/assets/ui/guinamos_paper_dialogue_box.png" id="6_fqmk7"]
 [ext_resource type="Texture2D" uid="uid://csvnh3epvv7p4" path="res://features/minigames/guinamos_jar_pick/assets/ui/guinamos_button_back.png" id="8_youuw"]
 [ext_resource type="Texture2D" uid="uid://dj61ltc8gs5b5" path="res://features/minigames/guinamos_jar_pick/assets/ui/guinamos_button_select.png" id="9_r3m02"]
+[ext_resource type="Script" path="res://features/minigames/shared/instructions/minigame_instruction_dialogue.gd" id="10_instruction"]
 
 [node name="GuinamosJarPick" type="Node2D" unique_id=989192837]
 script = ExtResource("1_kektq")
+
+[node name="InstructionDialogue" type="Node" parent="."]
+script = ExtResource("10_instruction")
+minigame_id = "guinamos_jar_pick"
 
 [node name="Background" type="Sprite2D" parent="." unique_id=334468486]
 position = Vector2(576, 324)

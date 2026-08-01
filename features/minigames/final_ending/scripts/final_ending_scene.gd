@@ -444,7 +444,7 @@ func _start_typewriter(target_label: Label, text: String) -> void:
 		if i % 3 == 0 and character != " " and character != "\n":
 			_play_type_tick()
 
-		await get_tree().create_timer(TYPE_SPEED, false).timeout
+		await get_tree().create_timer(TYPE_SPEED).timeout
 
 	is_typing = false
 	current_full_text = ""

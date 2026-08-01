@@ -19,6 +19,8 @@ const VENDOR_ROUTE := [
 		"destination": "market_vendor_1",
 		"next": "market_vendor_2",
 		"time_stage": 1,
+		"root_name": "SnatchBattle",
+		"success_signal": "minigame_completed",
 	},
 	{
 		"scene": "res://game/characters/npcs/vendors/npc_market_vendor_2.tscn",
@@ -26,6 +28,9 @@ const VENDOR_ROUTE := [
 		"destination": "market_vendor_2",
 		"next": "herbs_vendor",
 		"time_stage": 2,
+		"root_name": "GuinamosJarPick",
+		"success_signal": "minigame_completed",
+		"score_signal": true,
 	},
 	{
 		"scene": "res://game/characters/npcs/vendors/npc_herbs_vendor.tscn",
@@ -33,6 +38,7 @@ const VENDOR_ROUTE := [
 		"destination": "herbs_vendor",
 		"next": "seasoning_vendor",
 		"time_stage": 3,
+		"dialogue_only": true,
 	},
 	{
 		"scene": "res://game/characters/npcs/vendors/npc_seasoning_vendor.tscn",
@@ -40,6 +46,7 @@ const VENDOR_ROUTE := [
 		"destination": "seasoning_vendor",
 		"next": "egg_vendor",
 		"time_stage": 4,
+		"dialogue_only": true,
 	},
 	{
 		"scene": "res://game/characters/npcs/vendors/npc_egg_vendor.tscn",
@@ -47,6 +54,8 @@ const VENDOR_ROUTE := [
 		"destination": "egg_vendor",
 		"next": "chicharon_vendor",
 		"time_stage": 5,
+		"root_name": "EggSorting",
+		"success_signal": "minigame_completed",
 	},
 	{
 		"scene": "res://game/characters/npcs/vendors/npc_chicharon_vendor.tscn",
@@ -54,6 +63,8 @@ const VENDOR_ROUTE := [
 		"destination": "chicharon_vendor",
 		"next": "tindero",
 		"time_stage": 6,
+		"root_name": "ChicharonBeat",
+		"success_signal": "minigame_finished",
 	},
 ]
 
@@ -115,7 +126,7 @@ func _run() -> void:
 			_check(player.can_move, "Missing jar returns control to the player")
 			game_state.add_inventory_item("empty_aged_jar", "Empty Jar")
 
-		await _run_vendor_to_reward(vendor, str(route.reward), int(route.time_stage))
+		await _run_vendor_to_reward(vendor, route)
 		_check(
 			game_state.is_destination_completed(str(route.destination)),
 			str(route.destination) + " completes",
@@ -131,7 +142,7 @@ func _run() -> void:
 	await _run_conversation(tindero)
 	_check(
 		game_state.has_story_flag("miki_crank_requested"),
-		"Tito Bobet starts the missing-crank placeholder route",
+		"Tito Bobet starts the missing-crank route",
 	)
 	_check(
 		game_state.current_objective
@@ -152,7 +163,15 @@ func _run() -> void:
 	crank.interact()
 	_check(game_state.has_inventory_item("crank_handle"), "The placed crank enters the inventory")
 
-	await _run_vendor_to_reward(tindero, "fresh_miki", 7)
+	await _run_vendor_to_reward(
+		tindero,
+		{
+			"reward": "fresh_miki",
+			"time_stage": 7,
+			"root_name": "MikiNoodleCrank",
+			"success_signal": "minigame_finished",
+		},
+	)
 	_check(
 		game_state.current_objective != "Find the fat cat near 6-Eleven to retrieve the stolen crank.",
 		"Collecting fresh miki clears the crank-search objective",
@@ -200,23 +219,54 @@ func _verify_vendor_locked_before_grandma() -> void:
 	vendor.queue_free()
 
 
-func _run_vendor_to_reward(vendor: Node, reward_id: String, expected_stage: int) -> void:
+func _run_vendor_to_reward(vendor: Node, route: Dictionary) -> void:
+	var reward_id := str(route.reward)
+	var expected_stage := int(route.time_stage)
+	var dialogue_only := bool(route.get("dialogue_only", false))
 	await _run_conversation(vendor)
-	var minigame := root.find_child("VendorMinigamePlaceholder", true, false)
-	_check(minigame != null, vendor.npc_display_name + " opens a temporary minigame placeholder")
+	if dialogue_only:
+		await process_frame
 	_check(
 		root.get_node("GameState").time_of_day_stage == expected_stage,
-		vendor.npc_display_name + " advances time on the first minigame launch",
+		vendor.npc_display_name + " advances time once when its challenge starts",
 	)
-	_check(not root.get_node("GameState").has_ingredient(reward_id), "Placeholder does not award early")
-	if minigame != null:
-		minigame.get_node("Panel/Stack/ContinueButton").pressed.emit()
+	var session := root.find_child("VendorMinigameSession", true, false)
+	if dialogue_only:
+		_check(session == null, vendor.npc_display_name + " never creates a minigame session")
+	else:
+		_check(session != null, vendor.npc_display_name + " opens the installed minigame")
+		_check(
+			not root.get_node("GameState").has_ingredient(reward_id),
+			vendor.npc_display_name + " does not award before minigame completion",
+		)
+		var minigame: Node = session.get_minigame() if session != null else null
+		_check(
+			minigame != null and minigame.name == str(route.root_name),
+			vendor.npc_display_name + " launches " + str(route.root_name),
+		)
+		if minigame != null:
+			if bool(route.get("score_signal", false)):
+				minigame.emit_signal(StringName(route.success_signal), 100)
+			else:
+				minigame.emit_signal(StringName(route.success_signal))
 		await process_frame
 	var reward_dialogue := root.find_child("dialogue_ui", true, false)
+	_check(reward_dialogue != null, vendor.npc_display_name + " plays its reward conversation")
 	if reward_dialogue != null:
 		await _finish_dialogue(reward_dialogue)
 	_check(root.get_node("GameState").has_ingredient(reward_id), vendor.npc_display_name + " awards " + reward_id)
 	_check(player.can_move and player.mouse_captured, vendor.npc_display_name + " restores player controls")
+	if dialogue_only:
+		var completed_stage: int = root.get_node("GameState").time_of_day_stage
+		await _run_conversation(vendor)
+		_check(
+			root.get_node("GameState").time_of_day_stage == completed_stage,
+			vendor.npc_display_name + " cannot advance time twice on repeat dialogue",
+		)
+		_check(
+			root.find_child("VendorMinigameSession", true, false) == null,
+			vendor.npc_display_name + " remains dialogue-only after completion",
+		)
 
 
 func _run_conversation(npc: Node) -> void:

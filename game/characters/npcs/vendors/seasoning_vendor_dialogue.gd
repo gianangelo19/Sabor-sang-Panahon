@@ -7,7 +7,8 @@ func _ready() -> void:
 	npc_display_name = "Kuya Jun"
 	npc_portrait = VENDOR_PORTRAIT
 	minigame_title = "Measure the Seasoning"
-	minigame_instructions = "Placeholder: balance black pepper and seasoning without hiding the meat."
+	minigame_instructions = "Balance black pepper and seasoning without hiding the meat."
+	dialogue_only_reward = true
 	reward_id = "seasoning"
 	reward_name = "Warm seasoning"
 	destination_id = "seasoning_vendor"

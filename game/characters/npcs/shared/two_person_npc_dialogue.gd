@@ -6,7 +6,6 @@ const TALK_INDICATOR_SCENE := preload(
 )
 const PLAYER_PORTRAIT := preload("res://assets/art/characters/2main_character_asking.png")
 const MINIGAME_SESSION_SCRIPT := preload("res://features/minigames/shared/scripts/minigame_session.gd")
-const MINIGAME_PLACEHOLDER_SCENE := preload("res://game/ui/minigames/vendor_minigame_placeholder.tscn")
 const TIME_OF_DAY_STAGE_BY_DESTINATION := {
 	"market_vendor_1": 1,
 	"market_vendor_2": 2,
@@ -26,7 +25,8 @@ var minigame_instructions := "Complete the vendor's challenge."
 var reward_id := "ingredient"
 var reward_name := "Ingredient"
 var destination_id := ""
-var minigame_scene: PackedScene = MINIGAME_PLACEHOLDER_SCENE
+var minigame_scene: PackedScene
+var dialogue_only_reward := false
 var required_item_id := ""
 var required_item_name := ""
 var consume_required_item := false
@@ -74,7 +74,7 @@ func interact() -> void:
 		and not _minigame_completed
 		and required_item_id.is_empty()
 	):
-		_start_minigame()
+		_start_challenge()
 		return
 	if not _conversation_completed:
 		_handle_first_conversation_started()
@@ -146,9 +146,26 @@ func _on_dialogue_finished() -> void:
 		_restore_player()
 		return
 	if not _minigame_completed:
-		_start_minigame()
+		_start_challenge()
 		return
 	_restore_player()
+
+
+func _start_challenge() -> void:
+	if dialogue_only_reward:
+		_complete_dialogue_only_reward()
+		return
+	_start_minigame()
+
+
+func _complete_dialogue_only_reward() -> void:
+	# Let the completed conversation leave the tree before creating the reward
+	# conversation, so both dialogue instances never compete for ownership.
+	await get_tree().process_frame
+	GameState.advance_time_of_day(
+		int(TIME_OF_DAY_STAGE_BY_DESTINATION.get(destination_id, 0))
+	)
+	_on_minigame_won()
 
 
 func _start_minigame() -> void:

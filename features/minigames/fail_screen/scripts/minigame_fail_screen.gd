@@ -794,7 +794,7 @@ func _start_fail_music() -> void:
 
 	fail_music_tween = create_tween()
 	fail_music_tween.set_pause_mode(
-		Tween.TWEEN_PAUSE_STOP
+		Tween.TWEEN_PAUSE_PROCESS
 	)
 
 	fail_music_tween.tween_property(
@@ -827,7 +827,7 @@ func _fade_out_fail_music(
 
 	fail_music_tween = create_tween()
 	fail_music_tween.set_pause_mode(
-		Tween.TWEEN_PAUSE_STOP
+		Tween.TWEEN_PAUSE_PROCESS
 	)
 
 	fail_music_tween.tween_property(
@@ -1311,8 +1311,7 @@ func _show_dialogue_instantly() -> void:
 
 	if continue_prompt_delay > 0.0:
 		await get_tree().create_timer(
-			continue_prompt_delay,
-			false,
+			continue_prompt_delay
 		).timeout
 
 	if current_state != FailState.SHOWING_DIALOGUE:
@@ -1557,8 +1556,7 @@ func _wait_result_reveal_gap() -> void:
 		return
 
 	await get_tree().create_timer(
-		result_reveal_gap,
-		false,
+		result_reveal_gap
 	).timeout
 
 
@@ -1593,8 +1591,7 @@ func _on_retry_button_pressed() -> void:
 
 	if retry_signal_delay > 0.0:
 		await get_tree().create_timer(
-			retry_signal_delay,
-			false,
+			retry_signal_delay
 		).timeout
 
 	retry_requested.emit()
@@ -1631,8 +1628,7 @@ func _on_exit_button_pressed() -> void:
 
 	if exit_signal_delay > 0.0:
 		await get_tree().create_timer(
-			exit_signal_delay,
-			false,
+			exit_signal_delay
 		).timeout
 
 	exit_requested.emit()

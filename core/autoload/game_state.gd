@@ -43,19 +43,19 @@ const ITEM_CATALOG := {
 	"fresh_herbs": {
 		"display_name": "Fresh Herbs",
 		"category": "Ingredient",
-		"icon": "res://assets/art/characters/npc_herbs_vendor/npc_herbs_vendor_front.png",
+		"icon": "res://features/minigames/final_cooking/assets/ingredients/cutting/board/raw/green_onions_uncut.png",
 		"ambot": "Spring onion and toasted garlic selected for a bright, fragrant finish. Lola Lynn's memory places their aroma near the end of the recipe.",
 	},
 	"seasoning": {
 		"display_name": "Warm Seasoning",
 		"category": "Ingredient",
-		"icon": "res://assets/art/characters/npc_seasoning_vendor/npc_seasoning_vendor_front.png",
+		"icon": "res://features/minigames/final_cooking/assets/ingredients/season_broth/containers/scene3_black_pepper_shaker.png",
 		"ambot": "A measured blend led by black pepper. It rounds out the broth without covering the meat or adding more salt than the ginamos already provides.",
 	},
 	"fresh_egg": {
 		"display_name": "Fresh Egg",
 		"category": "Ingredient",
-		"icon": "res://assets/art/characters/npc_egg_vendor/npc_egg_vendor_front.png",
+		"icon": "res://features/minigames/ending_sequence/assets/collectibles/collectible_egg.png",
 		"ambot": "A carefully selected fresh egg. Added gently to hot broth, it cooks while leaving the yolk slightly soft, just as Lola Lynn remembers.",
 	},
 	"fresh_miki": {

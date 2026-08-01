@@ -78,8 +78,12 @@ func _run() -> void:
 		_check(artifact.get_node("ArtifactCulturalClue").max_distance >= 110.0, "Artifact echo reaches across the home")
 		artifact.interact()
 		await process_frame
-		var placeholder := root.find_child("VendorMinigamePlaceholder", true, false)
-		_check(placeholder != null, "Recovering the bowl starts the artifact minigame placeholder")
+		var session := root.find_child("ArtifactRecoveryMinigameSession", true, false)
+		var final_cooking: Node = session.get_minigame() if session != null else null
+		_check(
+			final_cooking != null and final_cooking.name == "FinalCooking",
+			"Recovering the bowl starts the final cooking sequence",
+		)
 		_check(game_state.time_of_day_stage == 8, "The final bowl challenge advances story time to dinner dusk")
 		_check(
 			not game_state.clues.has("Batchoy Bowl artifact recovered."),
@@ -87,22 +91,23 @@ func _run() -> void:
 		)
 		_check(
 			root.find_child("FinalEndingScene", true, false) == null,
-			"The artifact placeholder replaces the former final ending scene",
+			"Final cooking remains inside the artifact hunt flow",
 		)
 		var popup := root.find_child("ArtifactDiscoveryPopup", true, false)
 		_check(popup == null, "The cultural artifact popup waits for challenge completion")
-		if placeholder:
-			placeholder.get_node("Panel/Stack/ReturnButton").pressed.emit()
+		if final_cooking:
+			final_cooking.cooking_sequence_cancelled.emit()
 			await process_frame
 		_check(artifact.active and artifact.visible, "Dismissing the challenge restores the bowl")
 		_check(game_state.final_hunt_active, "Dismissing the challenge resumes the active hunt")
 		artifact.interact()
 		await process_frame
-		placeholder = root.find_child("VendorMinigamePlaceholder", true, false)
-		_check(placeholder != null, "The restored bowl can launch the challenge again")
+		session = root.find_child("ArtifactRecoveryMinigameSession", true, false)
+		final_cooking = session.get_minigame() if session != null else null
+		_check(final_cooking != null, "The restored bowl can launch final cooking again")
 		_check(game_state.time_of_day_stage == 8, "Retrying the final challenge does not advance time again")
-		if placeholder:
-			placeholder.get_node("Panel/Stack/ContinueButton").pressed.emit()
+		if final_cooking:
+			final_cooking.cooking_sequence_completed.emit()
 			await process_frame
 		popup = root.find_child("ArtifactDiscoveryPopup", true, false)
 		_check(popup != null, "Completing the challenge opens the cultural artifact popup")

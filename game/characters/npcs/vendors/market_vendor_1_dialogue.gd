@@ -1,6 +1,9 @@
 extends "res://game/characters/npcs/shared/two_person_npc_dialogue.gd"
 
 const VENDOR_PORTRAIT := preload("res://assets/art/characters/npc_market_vendor/npc_market_vendor_front.png")
+const MINIGAME_SCENE := preload(
+	"res://features/minigames/snatch_battle/scenes/snatch_battle.tscn"
+)
 
 
 func _ready() -> void:
@@ -8,6 +11,7 @@ func _ready() -> void:
 	npc_portrait = VENDOR_PORTRAIT
 	minigame_title = "Find the Right Meat Cuts"
 	minigame_instructions = "Claim the required cuts before the other customers and reject spoiled meat."
+	minigame_scene = MINIGAME_SCENE
 	reward_id = "pork_and_liver"
 	reward_name = "Meat"
 	destination_id = "market_vendor_1"

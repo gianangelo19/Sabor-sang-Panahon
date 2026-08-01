@@ -52,7 +52,7 @@ func _run() -> void:
 	box.interact()
 	await process_frame
 	_check(
-		root.find_child("VendorMinigamePlaceholder", true, false) == null,
+		root.find_child("BoxMinigameSession", true, false) == null,
 		"The disabled package cannot launch before the fridge dialogue",
 	)
 	fridge.interact()
@@ -71,15 +71,18 @@ func _run() -> void:
 
 	box.interact()
 	await process_frame
-	var minigame := root.find_child("VendorMinigamePlaceholder", true, false)
-	_check(minigame != null, "Interacting with the table box launches the temporary placeholder")
+	var session := root.find_child("BoxMinigameSession", true, false)
+	var minigame: Node = session.get_minigame() if session != null else null
+	_check(
+		minigame != null and minigame.name == "BoxUnboxing",
+		"Interacting with the table box launches Box Unboxing",
+	)
 	_check(game_state.time_of_day_stage == 0, "The apartment box does not advance story time")
-	_check(not game_state.clues.has("Damaged newspaper"), "Opening the placeholder does not award the clue early")
+	_check(not game_state.clues.has("Damaged newspaper"), "Starting Box Unboxing does not award the clue early")
 	if minigame != null:
-		_check(minigame.title_label.text == "Open the Keepsake Box", "The box placeholder identifies the skipped challenge")
-		minigame.get_node("Panel/Stack/ContinueButton").pressed.emit()
+		minigame.minigame_finished.emit()
 	await process_frame
-	_check(game_state.clues.has("Damaged newspaper"), "Continuing past the placeholder records the newspaper clue")
+	_check(game_state.clues.has("Damaged newspaper"), "Completing Box Unboxing records the newspaper clue")
 	_check(box.get_interaction_text().is_empty(), "The opened package no longer advertises another interaction")
 	_check(box.should_hide_interaction_prompt(), "The opened package keeps its interaction prompt hidden")
 	_check(

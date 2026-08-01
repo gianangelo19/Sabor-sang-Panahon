@@ -1,6 +1,9 @@
 extends "res://game/characters/npcs/shared/two_person_npc_dialogue.gd"
 
 const TINDERO_PORTRAIT := preload("res://assets/art/characters/npc_tindero/npc_tindero_front.png")
+const MINIGAME_SCENE := preload(
+	"res://features/minigames/miki_noodle_crank/scenes/miki_noodle_crank.tscn"
+)
 
 
 func _ready() -> void:
@@ -8,6 +11,7 @@ func _ready() -> void:
 	npc_portrait = TINDERO_PORTRAIT
 	minigame_title = "Crank the Miki Noodles"
 	minigame_instructions = "Keep the machine's tension in the safe zone until the noodle batch is complete."
+	minigame_scene = MINIGAME_SCENE
 	reward_id = "fresh_miki"
 	reward_name = "Fresh miki noodles"
 	destination_id = "tindero"

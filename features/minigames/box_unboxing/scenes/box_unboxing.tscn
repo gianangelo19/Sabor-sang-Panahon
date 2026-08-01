@@ -1,10 +1,13 @@
-[gd_scene format=3 uid="uid://bsi0papgw3v0e"]
+[gd_scene load_steps=11 format=3 uid="uid://bsi0papgw3v0e"]
 
 [ext_resource type="Texture2D" uid="uid://dw2bpwasl64mo" path="res://features/minigames/box_unboxing/assets/background/unboxing_background.png" id="1_11lg5"]
 [ext_resource type="Script" uid="uid://cv5j7kqt2x7od" path="res://features/minigames/box_unboxing/scripts/box_unboxing.gd" id="1_pif2a"]
 [ext_resource type="Texture2D" uid="uid://gq3gdqnxd2tp" path="res://features/minigames/box_unboxing/assets/sprites/box_closed.png" id="2_pif2a"]
 [ext_resource type="Texture2D" uid="uid://bi2who64ugvpv" path="res://features/minigames/box_unboxing/assets/sprites/box_open.png" id="3_mvk7m"]
-[ext_resource type="PackedScene" uid="uid://givejeljetuv" path="res://features/minigames/ending_sequence/scenes/collectible_ending_scene.tscn" id="5_mvk7m"]
+[ext_resource type="PackedScene" path="res://features/minigames/shared/dialogue/shared_dialogue.tscn" id="4_dialogue"]
+[ext_resource type="Script" path="res://features/minigames/shared/instructions/minigame_instruction_dialogue.gd" id="5_instruction"]
+[ext_resource type="Script" path="res://features/minigames/shared/collectibles/collectible_ending_trigger.gd" id="6_collectible"]
+[ext_resource type="Texture2D" path="res://features/minigames/ending_sequence/assets/collectibles/collectible_newspaper_clue.png" id="7_collectible_texture"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h5jel"]
 size = Vector2(430, 458)
@@ -23,6 +26,16 @@ size = Vector2(192, 494)
 
 [node name="BoxUnboxing" type="Node2D" unique_id=764758124]
 script = ExtResource("1_pif2a")
+
+[node name="InstructionDialogue" type="Node" parent="."]
+script = ExtResource("5_instruction")
+minigame_id = "box_unboxing"
+parent_start_method = "_start_gameplay"
+
+[node name="CollectibleEnding" type="Node" parent="."]
+script = ExtResource("6_collectible")
+collectible_texture = ExtResource("7_collectible_texture")
+completion_signal = "minigame_finished"
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1048803270]
 position = Vector2(576, 324)
@@ -72,28 +85,16 @@ shape = SubResource("RectangleShape2D_nokft")
 position = Vector2(894, 318)
 shape = SubResource("RectangleShape2D_bej10")
 
-[node name="FinishLabel" type="Label" parent="." unique_id=2008507200]
-offset_right = 40.0
-offset_bottom = 23.0
-
 [node name="BoxContents" type="Node2D" parent="." unique_id=2387530]
 
 [node name="CloseupLayer" type="CanvasLayer" parent="." unique_id=1518827910]
+layer = 80
 
 [node name="DimOverlay" type="ColorRect" parent="CloseupLayer" unique_id=522739845]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
 
 [node name="CloseupSprite" type="Sprite2D" parent="CloseupLayer" unique_id=126327760]
 
-[node name="DialogueBox" type="Sprite2D" parent="CloseupLayer" unique_id=1025257205]
-
-[node name="DialogueText" type="Label" parent="CloseupLayer" unique_id=1207892407]
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="ContinueLabel" type="Label" parent="CloseupLayer" unique_id=58050349]
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="CollectibleEndingScene2" parent="." unique_id=1606977658 instance=ExtResource("5_mvk7m")]
+[node name="SharedDialogue" parent="." instance=ExtResource("4_dialogue")]
