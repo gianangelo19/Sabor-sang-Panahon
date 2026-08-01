@@ -23,7 +23,10 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_previous_mouse_mode = Input.mouse_mode
 	_default_bowl_texture = bowl_image.texture
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	_ensure_cursor_visible()
+	var window := get_window()
+	if window != null and not window.focus_entered.is_connected(_ensure_cursor_visible):
+		window.focus_entered.connect(_ensure_cursor_visible)
 	retry_button.pressed.connect(_retry)
 	continue_button.pressed.connect(_dismiss)
 	show_loading()
@@ -43,6 +46,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func show_loading(message := "Contacting GameOn...") -> void:
+	_ensure_cursor_visible()
 	kicker_label.text = "CULTURAL ARTIFACT RECOVERED"
 	artifact_title.text = "THE BATCHOY BOWL"
 	description_heading.text = "CONNECTING TO GAMEON"
@@ -54,6 +58,7 @@ func show_loading(message := "Contacting GameOn...") -> void:
 
 
 func show_artifact(artifact_data: Dictionary, is_new_unlock: bool) -> void:
+	_ensure_cursor_visible()
 	var artifact := artifact_data.get("artifact", {}) as Dictionary
 	var artifact_name := str(artifact.get("name", "Old Batchoy Bowl")).strip_edges()
 	var game_on_description := str(artifact.get("description", "")).strip_edges()
@@ -83,6 +88,7 @@ func show_artifact(artifact_data: Dictionary, is_new_unlock: bool) -> void:
 
 
 func show_error(message: String, requires_auth: bool) -> void:
+	_ensure_cursor_visible()
 	kicker_label.text = "CULTURAL ARTIFACT RECOVERED"
 	artifact_title.text = "THE BATCHOY BOWL"
 	description_heading.text = "GAMEON REWARD PENDING"
@@ -98,6 +104,11 @@ func show_error(message: String, requires_auth: bool) -> void:
 
 func _reset_description_scroll() -> void:
 	description_scroll.scroll_vertical = 0
+
+
+func _ensure_cursor_visible() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
 
 func _download_thumbnail(url: String) -> void:

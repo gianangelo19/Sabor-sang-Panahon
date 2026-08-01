@@ -109,8 +109,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			disable_freefly()
 
-	if Input.is_action_just_pressed(input_interact):
+	# Use the event that reached this callback instead of polling the global
+	# just-pressed state. The global state can remain true for several events in
+	# one frame, which used to call interact() repeatedly from a single F press.
+	if can_move and event.is_action_pressed(input_interact):
 		try_interact()
+		get_viewport().set_input_as_handled()
 
 func _process(delta: float) -> void:
 	update_interaction_prompt()

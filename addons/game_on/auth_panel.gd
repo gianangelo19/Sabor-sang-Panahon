@@ -11,8 +11,12 @@ const MAIN_MENU_SCENE := "res://game/ui/menus/main_menu.tscn"
 
 
 func _ready() -> void:
+	_ensure_cursor_visible()
 	_connect_button.pressed.connect(_on_connect_pressed)
 	_back_button.pressed.connect(_on_back_pressed)
+	var window := get_window()
+	if window != null and not window.focus_entered.is_connected(_ensure_cursor_visible):
+		window.focus_entered.connect(_ensure_cursor_visible)
 
 	var game_on_connect := get_node(^"/root/GameOnPortal") as GameOnConnect
 	game_on_connect.authorization_status_changed.connect(_on_authorization_status_changed)
@@ -24,6 +28,7 @@ func _ready() -> void:
 
 
 func _on_connect_pressed() -> void:
+	_ensure_cursor_visible()
 	get_node(^"/root/GameOnPortal").connect_account()
 
 
@@ -32,6 +37,7 @@ func _on_back_pressed() -> void:
 
 
 func _on_authorization_status_changed(status: String) -> void:
+	_ensure_cursor_visible()
 	_update_ui_for_status(status)
 	if status == "authorized":
 		authorized.emit()
@@ -40,6 +46,7 @@ func _on_authorization_status_changed(status: String) -> void:
 
 
 func _update_ui_for_status(status: String) -> void:
+	_ensure_cursor_visible()
 	match status:
 		"idle":
 			_connect_button.disabled = false
@@ -67,3 +74,8 @@ func _update_ui_for_status(status: String) -> void:
 			_connect_button.visible = true
 			_connect_button.text = "Connect GameOn Account"
 			_status_label.text = "Connection error. Try again."
+
+
+func _ensure_cursor_visible() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)

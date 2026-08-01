@@ -18,7 +18,10 @@ const AssetCredits := preload("res://game/ui/menus/asset_credits.gd")
 var _music_player: AudioStreamPlayer
 
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	_ensure_cursor_visible()
+	var window := get_window()
+	if window != null and not window.focus_entered.is_connected(_ensure_cursor_visible):
+		window.focus_entered.connect(_ensure_cursor_visible)
 	start_button.text = "NEW GAME"
 	var game_on := get_node(^"/root/GameOnPortal") as GameOnConnect
 	if not game_on.authorization_status_changed.is_connected(_on_game_on_status_changed):
@@ -60,7 +63,12 @@ func _on_game_on_button_pressed() -> void:
 	get_tree().change_scene_to_file(GAME_ON_AUTH_SCENE)
 
 func _on_game_on_status_changed(_status: String) -> void:
+	_ensure_cursor_visible()
 	_refresh_game_on_gate()
+
+func _ensure_cursor_visible() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
 func _refresh_game_on_gate() -> void:
 	var authorized := _is_game_on_authorized()

@@ -235,6 +235,13 @@ func _run_vendor_to_reward(vendor: Node, route: Dictionary) -> void:
 		_check(session == null, vendor.npc_display_name + " never creates a minigame session")
 	else:
 		_check(session != null, vendor.npc_display_name + " opens the installed minigame")
+		vendor._start_minigame()
+		vendor._start_minigame()
+		await process_frame
+		_check(
+			_count_nodes_named(root, "VendorMinigameSession") == 1,
+			vendor.npc_display_name + " cannot duplicate its minigame session",
+		)
 		_check(
 			not root.get_node("GameState").has_ingredient(reward_id),
 			vendor.npc_display_name + " does not award before minigame completion",
@@ -271,11 +278,24 @@ func _run_vendor_to_reward(vendor: Node, route: Dictionary) -> void:
 
 func _run_conversation(npc: Node) -> void:
 	npc.interact()
+	npc.interact()
+	npc.interact()
 	await process_frame
 	var dialogue := root.find_child("dialogue_ui", true, false)
 	_check(dialogue != null, npc.npc_display_name + " opens dialogue")
+	_check(
+		_count_nodes_named(root, "dialogue_ui") == 1,
+		npc.npc_display_name + " cannot duplicate dialogue from repeated interaction",
+	)
 	if dialogue != null:
 		await _finish_dialogue(dialogue)
+
+
+func _count_nodes_named(node: Node, target_name: String) -> int:
+	var count := 1 if node.name == target_name else 0
+	for child: Node in node.get_children():
+		count += _count_nodes_named(child, target_name)
+	return count
 
 
 func _finish_dialogue(dialogue: Node) -> void:

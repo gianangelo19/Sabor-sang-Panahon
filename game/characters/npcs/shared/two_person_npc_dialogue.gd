@@ -38,6 +38,7 @@ var _minigame_completed := false
 var _player: Node = null
 var _player_was_movable := true
 var _minigame_session: CanvasLayer = null
+var _challenge_in_progress := false
 
 
 func _enter_tree() -> void:
@@ -51,7 +52,7 @@ func _install_talk_indicator() -> void:
 
 
 func can_show_talk_indicator() -> bool:
-	return not _dialogue_active and _is_story_available()
+	return not _dialogue_active and not _challenge_in_progress and _is_story_available()
 
 
 func get_interaction_text() -> String:
@@ -65,7 +66,7 @@ func get_interaction_text() -> String:
 
 
 func interact() -> void:
-	if _dialogue_active or not _is_story_available():
+	if _dialogue_active or _challenge_in_progress or not _is_story_available():
 		return
 	_dialogue_active = true
 	_lock_player()
@@ -152,6 +153,9 @@ func _on_dialogue_finished() -> void:
 
 
 func _start_challenge() -> void:
+	if _challenge_in_progress:
+		return
+	_challenge_in_progress = true
 	if dialogue_only_reward:
 		_complete_dialogue_only_reward()
 		return
@@ -169,8 +173,18 @@ func _complete_dialogue_only_reward() -> void:
 
 
 func _start_minigame() -> void:
+	if _minigame_session != null and is_instance_valid(_minigame_session):
+		return
 	if minigame_scene == null:
 		push_error(npc_display_name + " has no minigame scene configured.")
+		_restore_player()
+		return
+	var active_session := get_tree().get_first_node_in_group("minigame_session")
+	if active_session != null and is_instance_valid(active_session):
+		push_warning(
+			npc_display_name
+			+ " tried to launch a minigame while another session was active."
+		)
 		_restore_player()
 		return
 	_minigame_session = MINIGAME_SESSION_SCRIPT.new()
@@ -221,6 +235,7 @@ func _restore_player() -> void:
 		_player.set_process_unhandled_input(true)
 		_player.capture_mouse()
 	_dialogue_active = false
+	_challenge_in_progress = false
 
 
 func _handle_minigame_won() -> void:
