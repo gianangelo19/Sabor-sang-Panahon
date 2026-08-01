@@ -34,3 +34,4 @@ __pycache__/
 # Local Godot exports and packaged releases.
 /build/
 /dist/
+/windows/
